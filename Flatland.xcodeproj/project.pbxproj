@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6867242C7A99009861E1 /* AppDelegate.swift */; };
 		17BE686A242C7A99009861E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6869242C7A99009861E1 /* SceneDelegate.swift */; };
-		17BE686C242C7A99009861E1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE686B242C7A99009861E1 /* ViewController.swift */; };
+		17BE686C242C7A99009861E1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE686B242C7A99009861E1 /* MainView.swift */; };
 		17BE686F242C7A99009861E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17BE686D242C7A99009861E1 /* Main.storyboard */; };
 		17BE6871242C7A9C009861E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17BE6870242C7A9C009861E1 /* Assets.xcassets */; };
 		17BE6874242C7A9C009861E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17BE6872242C7A9C009861E1 /* LaunchScreen.storyboard */; };
@@ -19,11 +19,12 @@
 		17BE6864242C7A99009861E1 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17BE6867242C7A99009861E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		17BE6869242C7A99009861E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		17BE686B242C7A99009861E1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		17BE686B242C7A99009861E1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		17BE686E242C7A99009861E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		17BE6870242C7A9C009861E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		17BE6873242C7A9C009861E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		17BE6875242C7A9C009861E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		17BE687B242C7AA8009861E1 /* Flatland.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flatland.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,9 +57,10 @@
 		17BE6866242C7A99009861E1 /* Flatland */ = {
 			isa = PBXGroup;
 			children = (
+				17BE687B242C7AA8009861E1 /* Flatland.entitlements */,
 				17BE6867242C7A99009861E1 /* AppDelegate.swift */,
 				17BE6869242C7A99009861E1 /* SceneDelegate.swift */,
-				17BE686B242C7A99009861E1 /* ViewController.swift */,
+				17BE686B242C7A99009861E1 /* MainView.swift */,
 				17BE686D242C7A99009861E1 /* Main.storyboard */,
 				17BE6870242C7A9C009861E1 /* Assets.xcassets */,
 				17BE6872242C7A9C009861E1 /* LaunchScreen.storyboard */,
@@ -138,7 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17BE686C242C7A99009861E1 /* ViewController.swift in Sources */,
+				17BE686C242C7A99009861E1 /* MainView.swift in Sources */,
 				17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */,
 				17BE686A242C7A99009861E1 /* SceneDelegate.swift in Sources */,
 			);
@@ -284,6 +286,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Flatland/Flatland.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
 				INFOPLIST_FILE = Flatland/Info.plist;
@@ -293,6 +296,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Irorio.Flatland;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -302,6 +306,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Flatland/Flatland.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
 				INFOPLIST_FILE = Flatland/Info.plist;
@@ -311,6 +316,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Irorio.Flatland;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
