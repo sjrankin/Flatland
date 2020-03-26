@@ -13,6 +13,10 @@
 		17BE686F242C7A99009861E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17BE686D242C7A99009861E1 /* Main.storyboard */; };
 		17BE6871242C7A9C009861E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17BE6870242C7A9C009861E1 /* Assets.xcassets */; };
 		17BE6874242C7A9C009861E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17BE6872242C7A9C009861E1 /* LaunchScreen.storyboard */; };
+		17BE687F242CA831009861E1 /* ProgramSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE687E242CA831009861E1 /* ProgramSettings.swift */; };
+		17BE6881242CA8FB009861E1 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6880242CA8FB009861E1 /* Settings.swift */; };
+		17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6882242CC349009861E1 /* SettingsProtocol.swift */; };
+		17CC3C61242CC69900CC7F87 /* SettingsNavigationViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +29,10 @@
 		17BE6873242C7A9C009861E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		17BE6875242C7A9C009861E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17BE687B242C7AA8009861E1 /* Flatland.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flatland.entitlements; sourceTree = "<group>"; };
+		17BE687E242CA831009861E1 /* ProgramSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramSettings.swift; sourceTree = "<group>"; };
+		17BE6880242CA8FB009861E1 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		17BE6882242CC349009861E1 /* SettingsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsProtocol.swift; sourceTree = "<group>"; };
+		17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationViewer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,13 +66,17 @@
 			isa = PBXGroup;
 			children = (
 				17BE687B242C7AA8009861E1 /* Flatland.entitlements */,
+				17BE6870242C7A9C009861E1 /* Assets.xcassets */,
+				17BE6875242C7A9C009861E1 /* Info.plist */,
 				17BE6867242C7A99009861E1 /* AppDelegate.swift */,
 				17BE6869242C7A99009861E1 /* SceneDelegate.swift */,
+				17BE6880242CA8FB009861E1 /* Settings.swift */,
 				17BE686B242C7A99009861E1 /* MainView.swift */,
+				17BE6882242CC349009861E1 /* SettingsProtocol.swift */,
 				17BE686D242C7A99009861E1 /* Main.storyboard */,
-				17BE6870242C7A9C009861E1 /* Assets.xcassets */,
+				17BE687E242CA831009861E1 /* ProgramSettings.swift */,
+				17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */,
 				17BE6872242C7A9C009861E1 /* LaunchScreen.storyboard */,
-				17BE6875242C7A9C009861E1 /* Info.plist */,
 			);
 			path = Flatland;
 			sourceTree = "<group>";
@@ -140,9 +152,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */,
 				17BE686C242C7A99009861E1 /* MainView.swift in Sources */,
 				17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */,
+				17BE687F242CA831009861E1 /* ProgramSettings.swift in Sources */,
 				17BE686A242C7A99009861E1 /* SceneDelegate.swift in Sources */,
+				17BE6881242CA8FB009861E1 /* Settings.swift in Sources */,
+				17CC3C61242CC69900CC7F87 /* SettingsNavigationViewer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
