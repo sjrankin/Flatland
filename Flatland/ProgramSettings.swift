@@ -59,6 +59,11 @@ class ProgramSettings: UITableViewController
         ShowTropicsSwitch.isOn = Settings.ShowTropics()
         ShowPrimeMerdiansSwitch.isOn = Settings.ShowPrimeMeridians()
         ShowNoonMerdiansSwitch.isOn = Settings.ShowNoonMeridians()
+        ShowCitiesSwitch.isOn = Settings.ShowCities()
+        TimePicker.date = Date()
+        FreezeTimeAtSwitch.isOn = Settings.GetFreezeTime()
+        ClockSpeedSegment.selectedSegmentIndex = Settings.GetClockMultiplier()
+        EnableDebugSwitch.isOn = Settings.GetDebug()
     }
     
     @IBAction func HandleTimeLabelChanged(_ sender: Any)
@@ -165,12 +170,56 @@ class ProgramSettings: UITableViewController
         }
     }
     
+    @IBAction func HandleShowCitiesChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetShowCities(Switch.isOn)
+        }
+    }
+    
     @IBAction func HandleDonePressed(_ sender: Any)
     {
         Delegate?.SettingsDone()
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func HandleClockSpeedChanged(_ sender: Any)
+    {
+        if let Segment = sender as? UISegmentedControl
+        {
+            let Index = Segment.selectedSegmentIndex
+            Settings.SetClockMultiplier(Index)
+        }
+    }
+    
+    @IBAction func HandleFreezeTimeAtChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetFreezeTime(Switch.isOn)
+        }
+    }
+    
+    @IBAction func HandleTimePickerChanged(_ sender: Any)
+    {
+        if let Picker = sender as? UIDatePicker
+        {
+            let Date = Picker.date
+            Settings.SetDebugTime(Date)
+        }
+    }
+    
+    @IBAction func HandleEnableDebugChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetDebug(Switch.isOn)
+        }
+    }
+    
+    @IBOutlet weak var ShowCitiesSwitch: UISwitch!
+    @IBOutlet weak var EnableDebugSwitch: UISwitch!
     @IBOutlet weak var ShowNoonMerdiansSwitch: UISwitch!
     @IBOutlet weak var ShowPrimeMerdiansSwitch: UISwitch!
     @IBOutlet weak var ShowTropicsSwitch: UISwitch!
@@ -179,4 +228,7 @@ class ProgramSettings: UITableViewController
     @IBOutlet weak var SunSegment: UISegmentedControl!
     @IBOutlet weak var ImageCenterSegment: UISegmentedControl!
     @IBOutlet weak var TimeLabelSegment: UISegmentedControl!
+    @IBOutlet weak var TimePicker: UIDatePicker!
+    @IBOutlet weak var FreezeTimeAtSwitch: UISwitch!
+    @IBOutlet weak var ClockSpeedSegment: UISegmentedControl!
 }
