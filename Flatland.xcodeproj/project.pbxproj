@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		173A9261242F24D700363576 /* SunGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173A9260242F24D700363576 /* SunGenerator.swift */; };
+		173A9263242F32E100363576 /* SingleTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173A9262242F32E100363576 /* SingleTask.swift */; };
+		1746C17C242DB67D00A479DE /* CitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1746C17B242DB67D00A479DE /* CitySelectorView.swift */; };
+		1746C17E242DB6E000A479DE /* LocationEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1746C17D242DB6E000A479DE /* LocationEditor.swift */; };
 		17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6867242C7A99009861E1 /* AppDelegate.swift */; };
 		17BE686A242C7A99009861E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6869242C7A99009861E1 /* SceneDelegate.swift */; };
 		17BE686C242C7A99009861E1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE686B242C7A99009861E1 /* MainView.swift */; };
@@ -17,9 +21,15 @@
 		17BE6881242CA8FB009861E1 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6880242CA8FB009861E1 /* Settings.swift */; };
 		17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6882242CC349009861E1 /* SettingsProtocol.swift */; };
 		17CC3C61242CC69900CC7F87 /* SettingsNavigationViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */; };
+		17E180F5242F62F700310896 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F4242F62F700310896 /* City.swift */; };
+		17E180F8242F646700310896 /* Cities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F7242F646700310896 /* Cities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		173A9260242F24D700363576 /* SunGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunGenerator.swift; sourceTree = "<group>"; };
+		173A9262242F32E100363576 /* SingleTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTask.swift; sourceTree = "<group>"; };
+		1746C17B242DB67D00A479DE /* CitySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySelectorView.swift; sourceTree = "<group>"; };
+		1746C17D242DB6E000A479DE /* LocationEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditor.swift; sourceTree = "<group>"; };
 		17BE6864242C7A99009861E1 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17BE6867242C7A99009861E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		17BE6869242C7A99009861E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -33,6 +43,8 @@
 		17BE6880242CA8FB009861E1 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		17BE6882242CC349009861E1 /* SettingsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsProtocol.swift; sourceTree = "<group>"; };
 		17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationViewer.swift; sourceTree = "<group>"; };
+		17E180F4242F62F700310896 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		17E180F7242F646700310896 /* Cities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +77,7 @@
 		17BE6866242C7A99009861E1 /* Flatland */ = {
 			isa = PBXGroup;
 			children = (
+				17E180F6242F645800310896 /* Cities */,
 				17BE687B242C7AA8009861E1 /* Flatland.entitlements */,
 				17BE6870242C7A9C009861E1 /* Assets.xcassets */,
 				17BE6875242C7A9C009861E1 /* Info.plist */,
@@ -72,13 +85,26 @@
 				17BE6869242C7A99009861E1 /* SceneDelegate.swift */,
 				17BE6880242CA8FB009861E1 /* Settings.swift */,
 				17BE686B242C7A99009861E1 /* MainView.swift */,
+				173A9260242F24D700363576 /* SunGenerator.swift */,
+				173A9262242F32E100363576 /* SingleTask.swift */,
 				17BE6882242CC349009861E1 /* SettingsProtocol.swift */,
 				17BE686D242C7A99009861E1 /* Main.storyboard */,
 				17BE687E242CA831009861E1 /* ProgramSettings.swift */,
+				1746C17B242DB67D00A479DE /* CitySelectorView.swift */,
+				1746C17D242DB6E000A479DE /* LocationEditor.swift */,
 				17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */,
 				17BE6872242C7A9C009861E1 /* LaunchScreen.storyboard */,
 			);
 			path = Flatland;
+			sourceTree = "<group>";
+		};
+		17E180F6242F645800310896 /* Cities */ = {
+			isa = PBXGroup;
+			children = (
+				17E180F4242F62F700310896 /* City.swift */,
+				17E180F7242F646700310896 /* Cities.swift */,
+			);
+			path = Cities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,12 +178,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17E180F8242F646700310896 /* Cities.swift in Sources */,
 				17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */,
 				17BE686C242C7A99009861E1 /* MainView.swift in Sources */,
+				17E180F5242F62F700310896 /* City.swift in Sources */,
+				173A9263242F32E100363576 /* SingleTask.swift in Sources */,
 				17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */,
 				17BE687F242CA831009861E1 /* ProgramSettings.swift in Sources */,
+				1746C17E242DB6E000A479DE /* LocationEditor.swift in Sources */,
 				17BE686A242C7A99009861E1 /* SceneDelegate.swift in Sources */,
 				17BE6881242CA8FB009861E1 /* Settings.swift in Sources */,
+				1746C17C242DB67D00A479DE /* CitySelectorView.swift in Sources */,
+				173A9261242F24D700363576 /* SunGenerator.swift in Sources */,
 				17CC3C61242CC69900CC7F87 /* SettingsNavigationViewer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
