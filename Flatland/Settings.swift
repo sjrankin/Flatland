@@ -13,6 +13,12 @@ class Settings
 {
     public static func Initialize()
     {
+        //Always disable debug when first initializing.
+        SetDebug(false)
+        SetClockMultiplier(0)
+        SetFreezeTime(false)
+        UserDefaults.standard.set(0.0, forKey: "DebugClockTime")
+        //See if we've already initialized the defaults. If so, just return.
         if let _ = UserDefaults.standard.string(forKey: "Initialized")
         {
             return
@@ -26,7 +32,63 @@ class Settings
         SetTropics(true)
         SetPrimeMeridians(true)
         SetNoonMeridians(true)
+        SetShowCities(true)
+        SetWorldCities100(true)
+        SetAfricanCities100(false)
+        SetAsianCities100(false)
+        SetEuropeanCities100(false)
+        SetNorthAmericanCities100(false)
+        SetSouthAmericanCities100(false)
+        SetCapitalCities(true)
+        SetUserLocations(true)
     }
+    
+    // MARK: - Debug settings. Maintained only on an instance level.
+    
+    public static func SetDebug(_ NewValue: Bool)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "EnableDebug")
+    }
+    
+    public static func GetDebug() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "EnableDebug")
+    }
+    
+    public static func SetDebugTime(_ NewValue: Date)
+    {
+        let Seconds = NewValue.timeIntervalSince1970
+        UserDefaults.standard.set(Seconds, forKey: "DebugClockTime")
+    }
+    
+    public static func GetDebugTime() -> Date
+    {
+        let Raw = UserDefaults.standard.double(forKey: "DebugClockTime")
+        let Final = Date(timeIntervalSince1970: Raw)
+        return Final
+    }
+    
+    public static func SetClockMultiplier(_ NewValue: Int)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "DebugClockMultiplier")
+    }
+    
+    public static func GetClockMultiplier() -> Int
+    {
+        return UserDefaults.standard.integer(forKey: "DebugClockMultiplier")
+    }
+    
+    public static func SetFreezeTime(_ NewValue: Bool)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "DebugFreezeTime")
+    }
+    
+    public static func GetFreezeTime() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "DebugFreezeTime")
+    }
+    
+    // MARK: - General view settings.
     
     public static func GetTimeLabel() -> TimeLabels
     {
@@ -88,6 +150,8 @@ class Settings
         UserDefaults.standard.set(NewLocation.rawValue, forKey: "SunLocation")
     }
     
+    // MARK: - Grid-related settings.
+    
     public static func ShowGrid() -> Bool
     {
         return UserDefaults.standard.bool(forKey: "ShowGrid")
@@ -137,24 +201,129 @@ class Settings
     {
         UserDefaults.standard.set(Show, forKey: "ShowNoonMeridians")
     }
+    
+    // MARK: - City/location-related settings.
+    
+    public static func ShowCities() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowCities")
+    }
+    
+    public static func SetShowCities(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowCities")
+    }
+    
+    public static func ShowWorldCities100() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowWorldCities")
+    }
+    
+    public static func SetWorldCities100(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowWorldCities")
+    }
+    
+    public static func ShowAsianCities100() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowAsianCities")
+    }
+    
+    public static func SetAsianCities100(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowAsianCities")
+    }
+    
+    public static func ShowAfricanCities100() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowAfricanCities")
+    }
+    
+    public static func SetAfricanCities100(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowAfricanCities")
+    }
+    
+    public static func ShowEuropeanCities100() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowEuropeanCities")
+    }
+    
+    public static func SetEuropeanCities100(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowEuropeanCities")
+    }
+    
+    public static func ShowNorthAmericanCities100() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowNorthAmericanCities")
+    }
+    
+    public static func SetNorthAmericanCities100(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowNorthAmericanCities")
+    }
+    
+    public static func ShowSouthAmericanCities100() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowSouthAmericanCities")
+    }
+    
+    public static func SetSouthAmericanCities100(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowSouthAmericanCities")
+    }
+    
+    public static func ShowCapitalCities() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowCapitalCities")
+    }
+    
+    public static func SetCapitalCities(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowCapitalCities")
+    }
+    
+    public static func ShowUserLocations() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowUserLocations")
+    }
+    
+    public static func SetUserLocations(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowUserLocations")
+    }
 }
 
+// MARK: - Enums for some settings.
+
+/// The available time label types.
 enum TimeLabels: String, CaseIterable
 {
+    /// Do not display the time.
     case None = "None"
+    /// Time is in UTC.
     case UTC = "UTC"
+    /// Time is in current local timezone.
     case Local = "Local"
 }
 
+/// Determines whether the north pole or the south pole is at the center of the world image.
 enum ImageCenters: String, CaseIterable
 {
+    /// North pole is in the center.
     case NorthPole = "NorthPole"
+    /// South pole is in the center.
     case SouthPole = "SouthPole"
 }
 
+/// Determines the location of the sun graphic (and by implication, the time label as well).
 enum SunLocations: String, CaseIterable
 {
+    /// Do not display the sun.
     case Hidden = "NoSun"
+    /// Sun is at the top.
     case Top = "Top"
+    /// Sun is at the bottom.
     case Bottom = "Bottom"
 }
