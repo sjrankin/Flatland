@@ -14,41 +14,58 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
 {
     /// Original orientation of the image with Greenwich, England as the baseline. Since this program
     /// treats midnight as the base and the image has Greenwich at the top, we need an offset value
-    /// to make sure the image is rotated correctly.
+    /// to make sure the image is rotated correctly, depending on settings,
     let OriginalOrientation: Double = 180.0
     
+    /// Initialize the UI.
     override func viewDidLoad()
     {
         super.viewDidLoad()
         Settings.Initialize()
-        WorldViewer.image = UIImage(named: PreviousImage)
-        InitializeGrid()
-        UpdateSunLocations()
         TopView.backgroundColor = UIColor.black
-        StartTimeLabel()
+        SettingsDone()
+        Sun.VariableSunImage(Using: SunViewTop, Interval: 0.1)
+        Sun.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
     }
     
+    let Sun = SunGenerator()
+    
+    /// Get the original locations of the sun and time labels. Initialize the program based on
+    /// user settings.
     override func viewDidLayoutSubviews()
     {
-        OriginalTimeFrame = MainTimeLabel.frame
-        OriginalSunFrame = SunView.frame
+        super.viewDidLayoutSubviews()
+        OriginalTimeFrame = MainTimeLabelBottom.frame
+        OriginalSunFrame = SunViewTop.frame
     }
     
+    override func viewDidAppear(_ animated: Bool)
+    {
+        super.viewDidAppear(animated)
+        //UpdateSunLocations()
+    }
+    
+    ///  Original location of the time label.
     var OriginalTimeFrame: CGRect = CGRect.zero
+    /// Original location of the sun image.
     var OriginalSunFrame: CGRect = CGRect.zero
     
+    /// Called when the user closes the settings view controller, and when the program first starts.
     func SettingsDone()
     {
-        for Layer in GridOverlay.layer.sublayers!
+        if GridOverlay.layer.sublayers != nil
         {
-            if Layer.name == "ViewGrid"
+            for Layer in GridOverlay.layer.sublayers!
             {
-                Layer.removeFromSuperlayer()
+                if Layer.name == "ViewGrid"
+                {
+                    Layer.removeFromSuperlayer()
+                }
+                if Layer.name == "PrimeMeridian"
+                {
+                    Layer.removeFromSuperlayer()
+                }
             }
-        }
-        if Settings.ShowGrid()
-        {
-            InitializeGrid()
         }
         UpdateSunLocations()
         var ProvisionalImage = ""
@@ -65,50 +82,70 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             PreviousImage = ProvisionalImage
             WorldViewer.image = UIImage(named: PreviousImage)
         }
+        #if false
         if Settings.GetTimeLabel() == .None
         {
-            MainTimeLabel.isHidden = true
+            MainTimeLabelBottom.isHidden = true
         }
         else
         {
-            MainTimeLabel.isHidden = false
+            MainTimeLabelBottom.isHidden = false
         }
+        #endif
         PreviousPercent = -1.0
+        StartTimeLabel()
     }
     
+    var InitialSunPrint: UUID? = nil
+    
+    /// Update the location of the sun. The sun can be on top or on the bottom and swaps places
+    /// with the time label.
     func UpdateSunLocations()
     {
+        if SingleTask.NotCompleted(&InitialSunPrint)
+        {
+            print("Initial sun location: \(Settings.GetSunLocation().rawValue)")
+        }
         switch Settings.GetSunLocation()
         {
             case .Hidden:
-                SunView.isHidden = true
+                SunViewTop.isHidden = true
+                SunViewBottom.isHidden = true
             
             case .Top:
-                SunView.isHidden = false
+                SunViewTop.isHidden = false
+                SunViewBottom.isHidden = true
                 if Settings.GetTimeLabel() != .None
                 {
-                    MainTimeLabel.frame = OriginalTimeFrame
+                    MainTimeLabelBottom.isHidden = false
+                    MainTimeLabelTop.isHidden = true
                 }
-                SunView.frame = OriginalTimeFrame
             
             case .Bottom:
-                SunView.isHidden = false
+                SunViewTop.isHidden = true
+                SunViewBottom.isHidden = false
                 if Settings.GetTimeLabel() != .None
                 {
-                    MainTimeLabel.frame = CGRect(x: OriginalTimeFrame.origin.x,
-                                                 y: OriginalSunFrame.origin.y,
-                                                 width: OriginalTimeFrame.size.width,
-                                                 height: OriginalTimeFrame.size.height)
+                    MainTimeLabelBottom.isHidden = true
+                    MainTimeLabelTop.isHidden = false
                 }
-                SunView.frame = CGRect(x: SunView.frame.origin.x,
-                                       y: OriginalTimeFrame.origin.y,
-                                       width: SunView.frame.size.width,
-                                       height: SunView.frame.size.height)
         }
     }
     
-    func InitializeGrid()
+    /// Initialize/draw the grid on the Earth. Which lines are drawn depend on user settings.
+    /// - Parameter Radians: Rotational value of the prime meridians.
+    func DrawGrid(_ Radians: Double)
     {
+        if GridOverlay.layer.sublayers != nil
+        {
+            for Layer in GridOverlay.layer.sublayers!
+            {
+                if Layer.name == "PrimeMeridian"
+                {
+                    Layer.removeFromSuperlayer()
+                }
+            }
+        }
         GridOverlay.backgroundColor = UIColor.clear
         let Grid = CAShapeLayer()
         Grid.name = "ViewGrid"
@@ -124,13 +161,23 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             Lines.move(to: CGPoint(x: 0, y: CenterV))
             Lines.addLine(to: CGPoint(x: Grid.frame.size.width, y: CenterV))
         }
-        if Settings.ShowEquator()
+        
+        let MeridianLayer = CAShapeLayer()
+        MeridianLayer.fillColor = UIColor.clear.cgColor
+        MeridianLayer.strokeColor = UIColor.systemYellow.withAlphaComponent(0.5).cgColor
+        MeridianLayer.lineWidth = 1.0
+        let Meridians = UIBezierPath()
+        if Settings.ShowPrimeMeridians()
         {
-            let Equator = UIBezierPath(ovalIn: CGRect(x: CenterH / 2,
-                                                      y: CenterV / 2,
-                                                      width: CenterH,
-                                                      height: CenterV))
-            Lines.append(Equator)
+            MeridianLayer.name = "PrimeMeridian"
+            MeridianLayer.frame = GridOverlay.bounds
+            MeridianLayer.bounds = GridOverlay.bounds
+            Meridians.move(to: CGPoint(x: CenterH, y: 0))
+            Meridians.addLine(to: CGPoint(x: CenterH, y: Grid.frame.size.height))
+            Meridians.move(to: CGPoint(x: 0, y: CenterV))
+            Meridians.addLine(to: CGPoint(x: Grid.frame.size.width, y: CenterV))
+            let Rotation = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
+            MeridianLayer.transform = Rotation
         }
         if Settings.ShowTropics()
         {
@@ -146,16 +193,27 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                                                         y: CenterV - (CapricornWidth / 2.0),
                                                         width: CapricornWidth,
                                                         height: CapricornWidth))
-            Lines.append(Cancer)
-            Lines.append(Capricorn)
+            Meridians.append(Cancer)
+            Meridians.append(Capricorn)
         }
-        Grid.strokeColor = UIColor.systemYellow.withAlphaComponent(0.5).cgColor
+        if Settings.ShowEquator()
+        {
+            let Equator = UIBezierPath(ovalIn: CGRect(x: CenterH / 2,
+                                                      y: CenterV / 2,
+                                                      width: CenterH,
+                                                      height: CenterV))
+            Meridians.append(Equator)
+        }
+        MeridianLayer.path = Meridians.cgPath
+        GridOverlay.layer.addSublayer(MeridianLayer)
+        Grid.strokeColor = UIColor.black.withAlphaComponent(0.5).cgColor
         Grid.lineWidth = 1.0
         Grid.fillColor = UIColor.clear.cgColor
         Grid.path = Lines.cgPath
         GridOverlay.layer.addSublayer(Grid)
     }
     
+    /// Runs a recurrent timer to update the display once a second.
     func StartTimeLabel()
     {
         TimeTimer = Timer.scheduledTimer(timeInterval: 1.0,
@@ -166,15 +224,43 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         TimeUpdater()
     }
     
+    /// Returns the local time zone abbreviation (a three-letter indicator, not a set of words).
+    /// - Returns: The local time zone identifier if found, nil if not found.
+    func GetLocalTimeZoneID() -> String?
+    {
+        let TZID = TimeZone.current.identifier
+        for (Abbreviation, Wordy) in TimeZone.abbreviationDictionary
+        {
+            if Wordy == TZID
+            {
+                return Abbreviation
+            }
+        }
+        return nil
+    }
+    
+    /// Updates the current time (which may or may not be visible given user settings) as well as
+    /// rotates the Earth image to keep it aligned with the sun.
     @objc func TimeUpdater()
     {
         let Now = GetUTC()
         let Formatter = DateFormatter()
         Formatter.dateFormat = "HH:mm:ss"
-        let TZ = TimeZone(abbreviation: "UTC")
+        var TimeZoneAbbreviation = ""
+        if Settings.GetTimeLabel() == .UTC
+        {
+            TimeZoneAbbreviation = "UTC"
+        }
+        else
+        {
+            TimeZoneAbbreviation = GetLocalTimeZoneID() ?? "UTC"
+        }
+        let TZ = TimeZone(abbreviation: TimeZoneAbbreviation)
         Formatter.timeZone = TZ
         let Final = Formatter.string(from: Now)
-        MainTimeLabel.text = Final + " UTC"
+        let FinalText = Final + " " + TimeZoneAbbreviation
+        MainTimeLabelBottom.text = FinalText
+        MainTimeLabelTop.text = FinalText
         var Cal = Calendar(identifier: .gregorian)
         Cal.timeZone = TZ!
         let Hour = Cal.component(.hour, from: Now)
@@ -195,23 +281,44 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     var TimeTimer: Timer! = nil
     
+    /// Rotates the Earth image to the passed number of degrees where Greenwich England is 0°.
+    /// - Parameter Percent: Percent of the day, eg, if 0.25 is passed, it is 6:00 AM. This value
+    ///                      should be normalized.
     func RotateImageTo(_ Percent: Double)
     {
         if PreviousPercent == Percent
         {
             return
         }
-        PreviousPercent = Percent
+        /*
+        print("===========================================================")
+        print(" SunLocation=\(Settings.GetSunLocation().rawValue)")
+        print(" CenterMap=\(Settings.GetImageCenter().rawValue)")
+        print(" Percent=\(Percent)")
+ */
+ PreviousPercent = Percent
         let FinalOffset = Settings.GetSunLocation() == .Bottom ? 0.0 : OriginalOrientation
-        let Degrees = 360.0 * Percent - FinalOffset
+   //     print(" FinalOffset=\(FinalOffset)")
+        //Be sure to rotate the proper direction based on the map.
+        var Degrees = 360.0 * Percent - FinalOffset
+        //Degrees = Settings.GetSunLocation() == .Bottom ? 360.0 - Degrees : Degrees
+     //   print(" Degrees=\(Degrees)")
         let Radians = Degrees * Double.pi / 180.0
         let Rotation = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
         WorldViewer.layer.transform = Rotation
+        if Settings.ShowGrid()
+        {
+            DrawGrid(Radians)
+        }
+     //   print("-----------------------------------------------------------")
     }
     
     var PreviousImage: String = "WorldNorth"
+    /// Previous percent drawn. Used to prevent constant updates when an update would not result
+    /// in a visual change.
     var PreviousPercent: Double = -1.0
     
+    /// Instantiate the settings controller.
     @IBSegueAction func InstantiateSettingsNavigator(_ coder: NSCoder) -> SettingsNavigationViewer?
     {
         let Controller = SettingsNavigationViewer(coder: coder)
@@ -221,8 +328,10 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     @IBOutlet weak var SettingsButton: UIButton!
     @IBOutlet weak var GridOverlay: UIView!
-    @IBOutlet weak var SunView: UIImageView!
-    @IBOutlet weak var MainTimeLabel: UILabel!
+    @IBOutlet weak var SunViewTop: UIImageView!
+    @IBOutlet weak var SunViewBottom: UIImageView!
+    @IBOutlet weak var MainTimeLabelBottom: UILabel!
+    @IBOutlet weak var MainTimeLabelTop: UILabel!
     @IBOutlet weak var TopView: UIView!
     @IBOutlet weak var WorldViewer: UIImageView!
 }
