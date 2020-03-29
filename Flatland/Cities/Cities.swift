@@ -271,6 +271,62 @@ class Cities
         return CityList
     }
     
+    public func CitiesWithMetroPopulation() -> [City]
+    {
+        return CitiesWithMetroPopulation(In: _AllCities)
+    }
+    
+    public func CitiesWithMetroPopulation(In SourceList: [City]) -> [City]
+    {
+        var Final = [City]()
+        for SomeCity in SourceList
+        {
+            if SomeCity.MetropolitanPopulation != nil
+            {
+                Final.append(SomeCity)
+            }
+        }
+        return Final
+    }
+    
+    public func CitiesWithPopulation() -> [City]
+    {
+        return CitiesWithPopulation(In: _AllCities)
+    }
+    
+    public func CitiesWithPopulation(In SourceList: [City]) -> [City]
+    {
+        var Final = [City]()
+        for SomeCity in SourceList
+        {
+            if SomeCity.Population != nil
+            {
+                Final.append(SomeCity)
+            }
+        }
+        return Final
+    }
+    
+    public func TopNCities(N: Int, UseMetroPopulation: Bool = true) -> [City]
+    {
+        return TopNCities(In: _AllCities, N: N, UseMetroPopulation: UseMetroPopulation)
+    }
+    
+    public func TopNCities(In SourceList: [City], N: Int, UseMetroPopulation: Bool = true) -> [City]
+    {
+        var Sorted = [City]()
+        if UseMetroPopulation
+        {
+            Sorted = CitiesWithMetroPopulation(In: SourceList).sorted(by: {$0.MetropolitanPopulation! > $1.MetropolitanPopulation!})
+        }
+        else
+        {
+            Sorted = CitiesWithPopulation(In: SourceList).sorted(by: {$0.Population! > $1.Population!})
+        }
+        let FinalCount = Sorted.count - N
+        return Sorted.dropLast(FinalCount)
+    }
+    
     /// Returns a list of all cities read from the database.
     /// - Returns: List of all cities.
     public func GetAllCities() -> [City]
