@@ -54,6 +54,7 @@ class ProgramSettings: UITableViewController
             case .Bottom:
                 SunSegment.selectedSegmentIndex = 2
         }
+        ShowPolarCirclesSwitch.isOn = Settings.ShowPolarCircles()
         ShowGridSwitch.isOn = Settings.ShowGrid()
         ShowEquatorSwitch.isOn = Settings.ShowEquator()
         ShowTropicsSwitch.isOn = Settings.ShowTropics()
@@ -170,6 +171,14 @@ class ProgramSettings: UITableViewController
         }
     }
     
+    @IBAction func HandleShowPolarCirclesChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetPolarCircles(Switch.isOn)
+        }
+    }
+    
     @IBAction func HandleShowCitiesChanged(_ sender: Any)
     {
         if let Switch = sender as? UISwitch
@@ -218,6 +227,7 @@ class ProgramSettings: UITableViewController
         }
     }
     
+    @IBOutlet weak var ShowPolarCirclesSwitch: UISwitch!
     @IBOutlet weak var ShowCitiesSwitch: UISwitch!
     @IBOutlet weak var EnableDebugSwitch: UISwitch!
     @IBOutlet weak var ShowNoonMerdiansSwitch: UISwitch!
