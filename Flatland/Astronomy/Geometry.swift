@@ -161,6 +161,41 @@ class Geometry
     }
     #endif
     
+    /// Uses the spherical law of cosines to calculate the distance between two points on a
+    /// sphere (presumably a idealized Earth).
+    /// - Notes: The value returned is unitless. The caller must multiply the returned value
+    ///          by the desired number of units.
+    /// - See: [Haversine and Law of Cosines in Excel](https://notunreasonable.com/2011/09/19/latlon-distance-formula-in-excel-haversine-and-spherical-law-of-cosines/)
+    /// - See: `LawOfCosines(GeoPoint2,GeoPoint2,Radius)`
+    /// - Parameter Point1: First point.
+    /// - Parameter Point2: Second point.
+    /// - Returns: Unitless distance between the two points. The caller must multiply the
+    ///            value by whatever units are appropriate to get the final distance.
+    public static func LawOfCosines(Point1: GeoPoint2, Point2: GeoPoint2) -> Double
+    {
+        let P1Lat = Point1.Latitude * Double.pi / 180.0
+        let P2Lat = Point2.Latitude * Double.pi / 180.0
+        let P1Lon = Point1.Longitude * Double.pi / 180.0
+        let P2Lon = Point2.Longitude * Double.pi / 180.0
+        let Distance: Double = acos(sin(P1Lat) * sin(P2Lat) +
+            cos(P1Lat) * cos(P2Lat) * cos(P1Lon - P2Lon))
+        return Distance
+    }
+    
+    /// Uses the spherical law of cosines to calculate the distance between two points on a
+    /// sphere (presumably a idealized Earth).
+    /// - See: [Haversine and Law of Cosines in Excel](https://notunreasonable.com/2011/09/19/latlon-distance-formula-in-excel-haversine-and-spherical-law-of-cosines/)
+    /// - Parameter Point1: First point.
+    /// - Parameter Point2: Second point.
+    /// - Parameter Radius: The radius of the sphere upon which the two points reside, in the
+    ///                     units appropriate to the application.
+    /// - Returns: Distance between the two points.
+    public static func LawOfCosines(Point1: GeoPoint2, Point2: GeoPoint2, Radius: Double) -> Double
+    {
+        let Distance = LawOfCosines(Point1: Point1, Point2: Point2)
+        return Distance * Radius
+    }
+    
     /// Implementation of the Haversine formula to calculate great circle distances.
     /// https://www.movable-type.co.uk/scripts/latlong.html
     /// https://www.codeguru.com/cpp/cpp/algorithms/article.php/c5115/Geographic-Distance-and-Azimuth-Calculations.htm
