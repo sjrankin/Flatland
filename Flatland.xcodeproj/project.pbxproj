@@ -11,6 +11,14 @@
 		173A9263242F32E100363576 /* SingleTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173A9262242F32E100363576 /* SingleTask.swift */; };
 		1746C17C242DB67D00A479DE /* CitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1746C17B242DB67D00A479DE /* CitySelectorView.swift */; };
 		1746C17E242DB6E000A479DE /* LocationEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1746C17D242DB6E000A479DE /* LocationEditor.swift */; };
+		1792BD7E24304E56006ABD02 /* Julian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7D24304E55006ABD02 /* Julian.swift */; };
+		1792BD8024304EA7006ABD02 /* Solar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7F24304EA7006ABD02 /* Solar.swift */; };
+		1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD8124304F1A006ABD02 /* Geometry.swift */; };
+		1792BD8424304FBE006ABD02 /* GeoPoint2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD8324304FBE006ABD02 /* GeoPoint2.swift */; };
+		1792BD8624305173006ABD02 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD8524305173006ABD02 /* Utility.swift */; };
+		1792BD882430529C006ABD02 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD872430529C006ABD02 /* TimeHelper.swift */; };
+		1792BD8A2430540A006ABD02 /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD892430540A006ABD02 /* Miscellaneous.swift */; };
+		1792BD9424306EC5006ABD02 /* CitiesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD9324306EC5006ABD02 /* CitiesData.swift */; };
 		17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6867242C7A99009861E1 /* AppDelegate.swift */; };
 		17BE686A242C7A99009861E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6869242C7A99009861E1 /* SceneDelegate.swift */; };
 		17BE686C242C7A99009861E1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE686B242C7A99009861E1 /* MainView.swift */; };
@@ -30,6 +38,14 @@
 		173A9262242F32E100363576 /* SingleTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTask.swift; sourceTree = "<group>"; };
 		1746C17B242DB67D00A479DE /* CitySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySelectorView.swift; sourceTree = "<group>"; };
 		1746C17D242DB6E000A479DE /* LocationEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditor.swift; sourceTree = "<group>"; };
+		1792BD7D24304E55006ABD02 /* Julian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Julian.swift; sourceTree = "<group>"; };
+		1792BD7F24304EA7006ABD02 /* Solar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solar.swift; sourceTree = "<group>"; };
+		1792BD8124304F1A006ABD02 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
+		1792BD8324304FBE006ABD02 /* GeoPoint2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint2.swift; sourceTree = "<group>"; };
+		1792BD8524305173006ABD02 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		1792BD872430529C006ABD02 /* TimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
+		1792BD892430540A006ABD02 /* Miscellaneous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Miscellaneous.swift; sourceTree = "<group>"; };
+		1792BD9324306EC5006ABD02 /* CitiesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesData.swift; sourceTree = "<group>"; };
 		17BE6864242C7A99009861E1 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17BE6867242C7A99009861E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		17BE6869242C7A99009861E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +74,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1792BD7824304787006ABD02 /* Astronomy */ = {
+			isa = PBXGroup;
+			children = (
+				1792BD7D24304E55006ABD02 /* Julian.swift */,
+				1792BD7F24304EA7006ABD02 /* Solar.swift */,
+				1792BD8124304F1A006ABD02 /* Geometry.swift */,
+				1792BD8324304FBE006ABD02 /* GeoPoint2.swift */,
+				1792BD872430529C006ABD02 /* TimeHelper.swift */,
+				1792BD892430540A006ABD02 /* Miscellaneous.swift */,
+			);
+			path = Astronomy;
+			sourceTree = "<group>";
+		};
 		17BE685B242C7A99009861E1 = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +106,7 @@
 		17BE6866242C7A99009861E1 /* Flatland */ = {
 			isa = PBXGroup;
 			children = (
+				1792BD7824304787006ABD02 /* Astronomy */,
 				17E180F6242F645800310896 /* Cities */,
 				17BE687B242C7AA8009861E1 /* Flatland.entitlements */,
 				17BE6870242C7A9C009861E1 /* Assets.xcassets */,
@@ -88,6 +118,7 @@
 				173A9260242F24D700363576 /* SunGenerator.swift */,
 				173A9262242F32E100363576 /* SingleTask.swift */,
 				17BE6882242CC349009861E1 /* SettingsProtocol.swift */,
+				1792BD8524305173006ABD02 /* Utility.swift */,
 				17BE686D242C7A99009861E1 /* Main.storyboard */,
 				17BE687E242CA831009861E1 /* ProgramSettings.swift */,
 				1746C17B242DB67D00A479DE /* CitySelectorView.swift */,
@@ -103,6 +134,7 @@
 			children = (
 				17E180F4242F62F700310896 /* City.swift */,
 				17E180F7242F646700310896 /* Cities.swift */,
+				1792BD9324306EC5006ABD02 /* CitiesData.swift */,
 			);
 			path = Cities;
 			sourceTree = "<group>";
@@ -178,14 +210,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */,
+				1792BD882430529C006ABD02 /* TimeHelper.swift in Sources */,
 				17E180F8242F646700310896 /* Cities.swift in Sources */,
 				17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */,
 				17BE686C242C7A99009861E1 /* MainView.swift in Sources */,
 				17E180F5242F62F700310896 /* City.swift in Sources */,
+				1792BD8A2430540A006ABD02 /* Miscellaneous.swift in Sources */,
 				173A9263242F32E100363576 /* SingleTask.swift in Sources */,
+				1792BD8624305173006ABD02 /* Utility.swift in Sources */,
 				17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */,
+				1792BD8024304EA7006ABD02 /* Solar.swift in Sources */,
+				1792BD9424306EC5006ABD02 /* CitiesData.swift in Sources */,
+				1792BD8424304FBE006ABD02 /* GeoPoint2.swift in Sources */,
 				17BE687F242CA831009861E1 /* ProgramSettings.swift in Sources */,
 				1746C17E242DB6E000A479DE /* LocationEditor.swift in Sources */,
+				1792BD7E24304E56006ABD02 /* Julian.swift in Sources */,
 				17BE686A242C7A99009861E1 /* SceneDelegate.swift in Sources */,
 				17BE6881242CA8FB009861E1 /* Settings.swift in Sources */,
 				1746C17C242DB67D00A479DE /* CitySelectorView.swift in Sources */,
