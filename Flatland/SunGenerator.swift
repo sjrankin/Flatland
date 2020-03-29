@@ -53,12 +53,17 @@ class SunGenerator
     var VariableView: UIImageView? = nil
     
     /// Timer handler for the variable sun view.
+    /// - Note: If the view is currently hidden, no output is done.
     @objc func UpdateVariableSun()
     {
         OperationQueue.main.addOperation
             {
                 if let View = self.VariableView
                 {
+                    if View.isHidden
+                    {
+                        return
+                    }
                     View.image = self.SunImage(LinearStrength: true,
                                                WithRadius: self.VariableSunRadius)
                 }
