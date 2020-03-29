@@ -36,6 +36,29 @@ class City
         self.Longitude = Longitude
     }
     
+    /// Initializer.
+    /// - Parameters:
+    ///   - Name: The name of the city.
+    ///   - Country: The country where the city is.
+    ///   - IsCapital: Capital city flag.
+    ///   - Population: The population of the city or nil if not known.
+    ///   - MetroPopulation: The population of the metropolitan area or nil if not known.
+    ///   - Latitude: The latitude of the city.
+    ///   - Longitude: The longitude of the city.
+    ///   - Continent: Name of the continent of the city.
+    init(_ Name: String, _ Country: String, _ IsCapital: Bool, _ Population: Int?, _ MetroPopulation: Int?,
+         _ Latitude: Double, _ Longitude: Double, _ Continent: String)
+    {
+        self.Continent = Continents(rawValue: Continent)!
+        self.Country = Country
+        self.Name = Name
+        self.IsCapital = IsCapital
+        self.Population = Population
+        self.MetropolitanPopulation = MetroPopulation
+        self.Latitude = Latitude
+        self.Longitude = Longitude
+    }
+    
     /// City name.
     public var Name: String = ""
     
