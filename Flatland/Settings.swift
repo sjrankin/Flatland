@@ -30,6 +30,7 @@ class Settings
         SetGrid(true)
         SetEquator(true)
         SetTropics(true)
+        SetPolarCircles(true)
         SetPrimeMeridians(true)
         SetNoonMeridians(true)
         SetShowCities(true)
@@ -180,6 +181,16 @@ class Settings
     public static func SetTropics(_ Show: Bool)
     {
         UserDefaults.standard.set(Show, forKey: "ShowTropics")
+    }
+    
+    public static func ShowPolarCircles() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowPolarCircles")
+    }
+    
+    public static func SetPolarCircles(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowPolarCircles")
     }
     
     public static func ShowPrimeMeridians() -> Bool
