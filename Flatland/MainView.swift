@@ -18,8 +18,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     /// to make sure the image is rotated correctly, depending on settings,
     let OriginalOrientation: Double = 180.0
     
-    let CityDatabaseName = "Cities.db"
-    
     /// Initialize the UI.
     override func viewDidLoad()
     {
@@ -30,10 +28,18 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         SettingsDone()
         Sun.VariableSunImage(Using: SunViewTop, Interval: 0.1)
         Sun.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
-        print("Read \((CityList?.GetAllCities().count)!) cities.")
+        Top10 = CityList.TopNCities(N: 10, UseMetroPopulation: true)
+        Top10.append(City("North Pole", "No One", true, 1, 2, 90.0, 0.0, "North America"))
+        Top10.append(City("Gulf of Guinea", "No One", true, 2, 1, 0.0, 0.0, "Africa"))
+                Top10.append(City("Guinea Antipodal", "No One", true, 2, 1, 0.0, 180.0, "Asia"))
+        //for Top in Top10
+       // {
+        //    print("Name: \(Top.Name), population: \(Top.MetropolitanPopulation!)")
+       // }
     }
-    
-    var CityList: Cities? = nil
+
+    var Top10 = [City]()
+    let CityList = Cities()
     let Sun = SunGenerator()
     
     /// Get the original locations of the sun and time labels. Initialize the program based on
@@ -294,7 +300,17 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let Percent = Double(ElapsedSeconds) / Double(SecondsInDay)
         let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
         RotateImageTo(PrettyPercent)
+        if Top10.count > 0
+        {
+        if SingleTask.NotCompleted(&TestCities)
+        {
+                    let FinalOffset = Settings.GetSunLocation() == .Bottom ? 0.0 : OriginalOrientation
+            let Radial = MakeRadialTime(From: PrettyPercent, With: FinalOffset)
+             PlotCities(InCityList: Top10, RadialTime: Radial, CityListChanged: false)
+        }
+        }
     }
+    var TestCities: UUID? = nil
     
     let SecondsInDay: Int = 60 * 60 * 24
     
@@ -305,6 +321,12 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     var TimeTimer: Timer! = nil
     
+    func MakeRadialTime(From Percent: Double, With Offset: Double) -> Double
+    {
+        let Degrees = 360.0 * Percent - Offset
+        return Degrees * Double.pi / 180.0
+    }
+    
     /// Rotates the Earth image to the passed number of degrees where Greenwich England is 0°.
     /// - Parameter Percent: Percent of the day, eg, if 0.25 is passed, it is 6:00 AM. This value
     ///                      should be normalized.
@@ -314,33 +336,117 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         {
             return
         }
-        /*
-        print("===========================================================")
-        print(" SunLocation=\(Settings.GetSunLocation().rawValue)")
-        print(" CenterMap=\(Settings.GetImageCenter().rawValue)")
-        print(" Percent=\(Percent)")
- */
         PreviousPercent = Percent
         let FinalOffset = Settings.GetSunLocation() == .Bottom ? 0.0 : OriginalOrientation
-   //     print(" FinalOffset=\(FinalOffset)")
         //Be sure to rotate the proper direction based on the map.
+        #if false
         var Degrees = 360.0 * Percent - FinalOffset
         //Degrees = Settings.GetSunLocation() == .Bottom ? 360.0 - Degrees : Degrees
-     //   print(" Degrees=\(Degrees)")
         let Radians = Degrees * Double.pi / 180.0
+        #else
+        let Radians = MakeRadialTime(From: Percent, With: FinalOffset)
+        #endif
         let Rotation = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
         WorldViewer.layer.transform = Rotation
         if Settings.ShowGrid()
         {
             DrawGrid(Radians)
         }
-     //   print("-----------------------------------------------------------")
+        if Settings.ShowCities()
+        {
+            PlotCities(InCityList: Top10, RadialTime: Radians, CityListChanged: true)
+        }
     }
     
     var PreviousImage: String = "WorldNorth"
     /// Previous percent drawn. Used to prevent constant updates when an update would not result
     /// in a visual change.
     var PreviousPercent: Double = -1.0
+    
+    func PlotCities(InCityList: [City], RadialTime: Double, CityListChanged: Bool = false)
+    {
+        #if false
+        if CityListChanged
+        {
+            HideCities()
+        }
+        else
+        {
+            if let Layer = CityLayer
+            {
+                //rotate the existing layer here
+                return
+            }
+        }
+        #endif
+        if CityLayer == nil
+        {
+            CityLayer = CAShapeLayer()
+            CityLayer?.backgroundColor = UIColor.clear.cgColor
+            CityLayer?.zPosition = 10000
+            CityLayer?.name = "City Layer"
+            CityLayer?.bounds = WorldViewer.bounds
+            CityLayer?.frame = WorldViewer.bounds
+            GridOverlay.layer.addSublayer(CityLayer!)
+            //WorldViewer.layer.addSublayer(CityLayer!)
+        }
+        let Bezier = UIBezierPath()
+        for SomeCity in InCityList
+        {
+            let CityPath = PlotCity(SomeCity, Diameter: (CityLayer?.bounds.width)!)
+            Bezier.append(CityPath)
+        }
+        CityLayer?.fillColor = UIColor.red.cgColor
+        CityLayer?.strokeColor = UIColor.black.cgColor
+        CityLayer?.lineWidth = 1.0
+        CityLayer?.path = Bezier.cgPath
+        let Rotation = CATransform3DMakeRotation(CGFloat(-RadialTime), 0.0, 0.0, 1.0)
+        CityLayer?.transform = Rotation
+        //Finally, rotate the layer according to TimePercent
+    }
+    
+    /// Plot a single city.
+    /// - Note: This function assumes Greenwich is at the top, eg, 0° longitude is at the top of the image.
+    /// - Parameter PlotMe: The city whose location will be plotted.
+    /// - Parameter Diameter: The size of the plot layer, eg, the flattened Earth.
+    /// - Returns: A UIBezierPath that should be added to the layer's path.
+    func PlotCity(_ PlotMe: City, Diameter: CGFloat) -> UIBezierPath
+    {
+                let CitySize = CGSize(width: 8, height: 8)
+        if PlotMe.PlottedPoint == nil
+        {
+        let CenterX = Diameter / 2.0
+        let CenterY = Diameter / 2.0
+        let Radius = Geometry.LawOfCosines(Point1: GeoPoint2(90.0, 0.0), Point2: GeoPoint2(PlotMe.Latitude, PlotMe.Longitude),
+                                           Radius: Double(CenterX / 2))
+            print("Radius=\(Radius)")
+            let RawPoint = PolarToCartesian(Theta: PlotMe.Longitude, Radius: Double(Radius),
+                                            HOffset: Double(CenterX), VOffset: Double(CenterY))
+            PlotMe.PlottedPoint = RawPoint
+        }
+        print("Plotting \(PlotMe.Name), \(PlotMe.PlottedPoint!)")
+        let CityBezier = UIBezierPath(ovalIn: CGRect(origin: PlotMe.PlottedPoint!, size: CitySize))
+        return CityBezier
+    }
+    
+    func PolarToCartesian(Theta: Double, Radius: Double, HOffset: Double = 0.0, VOffset: Double = 0.0) -> CGPoint
+    {
+        let Radial = Theta * Double.pi / 180.0
+        let X = Radius * cos(Radial) + HOffset
+        let Y = Radius * sin(Radial) + VOffset
+        return CGPoint(x: X, y: Y)
+    }
+    
+    func HideCities()
+    {
+        if CityLayer != nil
+        {
+            CityLayer?.removeFromSuperlayer()
+            CityLayer = nil
+        }
+    }
+    
+    var CityLayer: CAShapeLayer? = nil
     
     /// Instantiate the settings controller.
     @IBSegueAction func InstantiateSettingsNavigator(_ coder: NSCoder) -> SettingsNavigationViewer?
