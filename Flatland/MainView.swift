@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreImage
+import SQLite3
 
 class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
 {
@@ -17,17 +18,22 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     /// to make sure the image is rotated correctly, depending on settings,
     let OriginalOrientation: Double = 180.0
     
+    let CityDatabaseName = "Cities.db"
+    
     /// Initialize the UI.
     override func viewDidLoad()
     {
         super.viewDidLoad()
         Settings.Initialize()
+
         TopView.backgroundColor = UIColor.black
         SettingsDone()
         Sun.VariableSunImage(Using: SunViewTop, Interval: 0.1)
         Sun.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
+        print("Read \((CityList?.GetAllCities().count)!) cities.")
     }
     
+    var CityList: Cities? = nil
     let Sun = SunGenerator()
     
     /// Get the original locations of the sun and time labels. Initialize the program based on
@@ -196,6 +202,24 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             Meridians.append(Cancer)
             Meridians.append(Capricorn)
         }
+        if Settings.ShowPolarCircles()
+        {
+            let PolarCircle: CGFloat = 66.55
+            let InnerPercent = Grid.bounds.size.width * (PolarCircle / 180.0)
+            let InnerWidth = CenterH - InnerPercent
+            let InnerCircle = UIBezierPath(ovalIn: CGRect(x: CenterH - (InnerWidth / 2.0),
+                                                          y: CenterV - (InnerWidth / 2.0),
+                                                          width: InnerWidth,
+                                                          height: InnerWidth))
+            let OuterPercent = Grid.bounds.size.width * (PolarCircle / 180.0)
+            let OuterWidth = CenterH + OuterPercent
+            let OuterCircle = UIBezierPath(ovalIn: CGRect(x: CenterH - (OuterWidth / 2.0),
+                                                          y: CenterV - (OuterWidth / 2.0),
+                                                          width: OuterWidth,
+                                                          height: OuterWidth))
+            Meridians.append(InnerCircle)
+            Meridians.append(OuterCircle)
+        }
         if Settings.ShowEquator()
         {
             let Equator = UIBezierPath(ovalIn: CGRect(x: CenterH / 2,
@@ -296,7 +320,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         print(" CenterMap=\(Settings.GetImageCenter().rawValue)")
         print(" Percent=\(Percent)")
  */
- PreviousPercent = Percent
+        PreviousPercent = Percent
         let FinalOffset = Settings.GetSunLocation() == .Bottom ? 0.0 : OriginalOrientation
    //     print(" FinalOffset=\(FinalOffset)")
         //Be sure to rotate the proper direction based on the map.
