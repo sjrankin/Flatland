@@ -13,31 +13,10 @@ import SQLite3
 /// Holds and manages the list of cities.
 class Cities
 {
-    /// Add a city to the list.
-    /// - Parameter NewCity: The city to add.
-    public func AddCity(_ NewCity: City)
+    /// Default initializer.
+    init()
     {
-        AllCities.append(NewCity)
-    }
-    
-    /// Add a city to the list.
-    /// - Parameters:
-    ///   - Continent: The continent of the city.
-    ///   - Country: The country of the city.
-    ///   - Name: The name of the city.
-    ///   - Population: The population of the city (within the city limits). If not known, nil.
-    ///   - MetroPopulation: The popultion of the metropolitan area. If not known, nil.
-    ///   - IsCapital: Capital city flag. (Countries may have more than one capital.)
-    ///   - Latitude: Latitude of the city.
-    ///   - Longitude: Longitude of the city.
-    public func AddCity(Continent: String, Country: String, Name: String,
-                        Population: Int?, MetroPopulation: Int?, IsCapital: Bool,
-                        Latitude: Double, Longitude: Double)
-    {
-        let NewCity = City(Continent: Continent, Country: Country, Name: Name,
-                           Population: Population, MetroPopulation: MetroPopulation,
-                           Latitude: Latitude, Longitude: Longitude, IsCapital: IsCapital)
-        AddCity(NewCity )
+        _AllCities = CitiesData.RawCityList
     }
     
     /// Search for a city with the passed name.
@@ -45,7 +24,7 @@ class Cities
     /// - Returns: The city's record if found, nil if not.
     public func FindCity(Name: String) -> City?
     {
-        return FindCity(In: AllCities, WithName: Name)
+        return FindCity(In: _AllCities, WithName: Name)
     }
     
     /// Search for a city with the passed name.
@@ -69,7 +48,7 @@ class Cities
     /// - Returns: All cities marked as a capital city.
     public func AllCapitalCities(DoSort: Bool = false) -> [City]
     {
-        return AllCapitalCities(In: AllCities, DoSort: DoSort)
+        return AllCapitalCities(In: _AllCities, DoSort: DoSort)
     }
     
     /// Returns all capital cities in the passed city list.
@@ -98,7 +77,7 @@ class Cities
     /// - Returns: List of all cities with a metropolitan population.
     public func AllMetroAreas(DoSort: Bool = false) -> [City]
     {
-        return AllMetroAreas(In: AllCities, DoSort: DoSort)
+        return AllMetroAreas(In: _AllCities, DoSort: DoSort)
     }
     
     /// Return a list of all cities with a metropolitan population.
@@ -128,7 +107,7 @@ class Cities
     /// - Returns: List of cities in the specified continent.
     public func CitiesIn(_ Continent: Continents, DoSort: Bool = false) -> [City]
     {
-        return CitiesIn(In: AllCities, Continent: Continent, DoSort: DoSort)
+        return CitiesIn(In: _AllCities, Continent: Continent, DoSort: DoSort)
     }
     
     /// Returns a list of all cities in the supplied continent.
@@ -160,7 +139,7 @@ class Cities
     /// - Returns: List of cities in the specified country.
     public func CitiesIn(Country: String, DoSort: Bool = false) -> [City]
     {
-        return CitiesIn(In: AllCities, Country: Country, DoSort: DoSort)
+        return CitiesIn(In: _AllCities, Country: Country, DoSort: DoSort)
     }
     
     /// Returns a list of all cities in the supplied country.
@@ -195,7 +174,7 @@ class Cities
     /// - Returns: List of cities whose population is greater than or equal to `GreaterThan`.
     public func CitiesByPopulation(GreaterThan: Int, UseMetroPopulation: Bool, DoSort: Bool = false) -> [City]
     {
-        return CitiesByPopulation(In: AllCities, GreaterThan: GreaterThan, UseMetroPopulation: UseMetroPopulation, DoSort: DoSort)
+        return CitiesByPopulation(In: _AllCities, GreaterThan: GreaterThan, UseMetroPopulation: UseMetroPopulation, DoSort: DoSort)
     }
     
     /// Return a list of cities whose population is greater than or equal to the passed value.
@@ -248,7 +227,7 @@ class Cities
     /// - Returns: List of cities whose population is less than `LessThan`.
     public func CitiesByPopulation(LessThan: Int, UseMetroPopulation: Bool, DoSort: Bool = false) -> [City]
     {
-        return CitiesByPopulation(In: AllCities, LessThan: LessThan, UseMetroPopulation: UseMetroPopulation, DoSort: DoSort)
+        return CitiesByPopulation(In: _AllCities, LessThan: LessThan, UseMetroPopulation: UseMetroPopulation, DoSort: DoSort)
     }
     
     /// Return a list of cities whose population is less than the passed value.
@@ -292,6 +271,13 @@ class Cities
         return CityList
     }
     
+    /// Returns a list of all cities read from the database.
+    /// - Returns: List of all cities.
+    public func GetAllCities() -> [City]
+    {
+        return _AllCities
+    }
+    
     /// Holds all of the cities.
-    private var AllCities = [City]()
+    private var _AllCities = [City]()
 }
