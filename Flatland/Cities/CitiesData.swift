@@ -114,7 +114,7 @@ class CitiesData
             City("Brazzaville","Congo",true,1088044,nil,-4.2634,15.2429,"Africa"),
             City("San Jose","Costa Rica",true,328195,nil,9.9281,-84.0907,"North America"),
             City("Yamoussoukro","Cote d'Ivoire",true,454929,nil,6.8276,-5.2893,"Africa"),
-            City("Abidjan","Cote d'Ivoire",false,nil,4859798,5.36,-4.0083,"AFrica"),
+            City("Abidjan","Cote d'Ivoire",false,nil,4859798,5.36,-4.0083,"Africa"),
             City("Zagreb","Croatia",true,804200,nil,45.815,15.9819,"Europe"),
             City("Havana","Cuba",true,2135498,nil,23.1136,-82.3666,"North America"),
             City("Nicosia","Cyprus",true,239277,nil,35.1856,33.3823,"Europe"),
