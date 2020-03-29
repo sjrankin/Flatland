@@ -59,6 +59,9 @@ class City
         self.Longitude = Longitude
     }
     
+    /// Convenience property that holds a base-line location of the city after it was initially plotted.
+    public var PlottedPoint: CGPoint? = nil
+    
     /// City name.
     public var Name: String = ""
     
