@@ -173,10 +173,12 @@ class Geometry
     ///            value by whatever units are appropriate to get the final distance.
     public static func LawOfCosines(Point1: GeoPoint2, Point2: GeoPoint2) -> Double
     {
+        //Convert to radians.
         let P1Lat = Point1.Latitude * Double.pi / 180.0
         let P2Lat = Point2.Latitude * Double.pi / 180.0
         let P1Lon = Point1.Longitude * Double.pi / 180.0
         let P2Lon = Point2.Longitude * Double.pi / 180.0
+        //Law of spherical cosines.
         let Distance: Double = acos(sin(P1Lat) * sin(P2Lat) +
             cos(P1Lat) * cos(P2Lat) * cos(P1Lon - P2Lon))
         return Distance
@@ -196,10 +198,25 @@ class Geometry
         return Distance * Radius
     }
     
+    /// Uses the spherical law of cosines to calculate the distance between two points on a
+    /// sphere (presumably a idealized Earth).
+    /// - See: [Haversine and Law of Cosines in Excel](https://notunreasonable.com/2011/09/19/latlon-distance-formula-in-excel-haversine-and-spherical-law-of-cosines/)
+    /// - Parameter Point1: First point.
+    /// - Parameter Point2: Second point.
+    /// - Parameter Radius: The radius of the sphere upon which the two points reside, in the
+    ///                     units appropriate to the application.
+    /// - Returns: Distance between the two points.
+    public static func LawOfCosines(Point1: CGPoint, Point2: CGPoint, Radius: Double) -> Double
+    {
+        let P1 = GeoPoint2(Double(Point1.x), Double(Point1.y))
+        let P2 = GeoPoint2(Double(Point2.x), Double(Point2.y))
+        let Distance = LawOfCosines(Point1: P1, Point2: P2, Radius: Radius)
+        return Distance
+    }
+    
     /// Implementation of the Haversine formula to calculate great circle distances.
     /// https://www.movable-type.co.uk/scripts/latlong.html
     /// https://www.codeguru.com/cpp/cpp/algorithms/article.php/c5115/Geographic-Distance-and-Azimuth-Calculations.htm
-    ///
     /// - Parameters:
     ///   - Point1: First point on surface of sphere.
     ///   - Point2: Second point on surface of sphere.
@@ -226,7 +243,6 @@ class Geometry
     /// Return the initial bearing from the start point to the end point. Uses forward azimuth to calculate bearing.
     /// https://www.movable-type.co.uk/scripts/latlong.html
     /// https://www.codeguru.com/cpp/cpp/algorithms/article.php/c5115/Geographic-Distance-and-Azimuth-Calculations.htm
-    ///
     /// - Parameters:
     ///   - Start: Start point.
     ///   - End: End point.
@@ -251,12 +267,11 @@ class Geometry
     }
     
     /// Calculate the bearing between two geographic points on the Earth using the forward azimuth formula (great circle).
-    ///
     /// - Parameters:
     ///   - Start: Starting point.
     ///   - End: Destination point.
     /// - Returns: Bearing from the Start point to the End point. (Bearing will change over the arc.)
-    public static func Bearing2(Start: GeoPoint2, End: GeoPoint2) -> Int
+    public static func Bearing2I(Start: GeoPoint2, End: GeoPoint2) -> Int
     {
         let StartLat = ToRadians(Start.Latitude)
         let StartLon = ToRadians(Start.Longitude)
@@ -281,6 +296,38 @@ class Geometry
         IAngle = IAngle + 360
         IAngle = IAngle % 360
         return IAngle
+    }
+    
+    /// Calculate the bearing between two geographic points on the Earth using the forward azimuth formula (great circle).
+    /// - Parameters:
+    ///   - Start: Starting point.
+    ///   - End: Destination point.
+    /// - Returns: Bearing from the Start point to the End point. (Bearing will change over the arc.)
+    public static func Bearing2(Start: GeoPoint2, End: GeoPoint2) -> Double
+    {
+        let StartLat = ToRadians(Start.Latitude)
+        let StartLon = ToRadians(Start.Longitude)
+        let EndLat = ToRadians(End.Latitude)
+        let EndLon = ToRadians(End.Longitude)
+        
+        if cos(EndLat) * sin(EndLon - StartLon) == 0
+        {
+            if EndLat > StartLat
+            {
+                return 0
+            }
+            else
+            {
+                return 180
+            }
+        }
+        var Angle = atan2(cos(EndLat) * sin(EndLon - StartLon),
+                          sin(EndLat) * cos(StartLat) - sin(StartLat) * cos(EndLat) * cos(EndLon - StartLon))
+        Angle = ToDegrees(Angle)
+        Angle = Angle * 1000.0
+        let IAngle = Int(Angle)
+        Angle = Double(IAngle) / 1000.0
+        return Angle
     }
     
     /// Calculate the bearing to the End point using flat map style calculations.
@@ -317,7 +364,7 @@ class Geometry
     {
         if UseGreatCircle
         {
-            return Bearing2(Start: Start, End: End)
+            return Bearing2I(Start: Start, End: End)
         }
         else
         {
