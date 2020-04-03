@@ -687,7 +687,7 @@ public class GeoPoint2
     /// - Returns: Initial bearing from this point to the passed point.
     public func Bearing(OtherPoint: GeoPoint2) -> Int
     {
-        let Angle = Geometry.Bearing2(Start: self, End: OtherPoint)
+        let Angle = Geometry.Bearing2I(Start: self, End: OtherPoint)
         return Angle
     }
 }
