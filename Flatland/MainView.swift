@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import CoreImage
-import SQLite3
 
 class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
 {
@@ -23,21 +22,46 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     {
         super.viewDidLoad()
         Settings.Initialize()
-
+        
         TopView.backgroundColor = UIColor.black
         SettingsDone()
         Sun.VariableSunImage(Using: SunViewTop, Interval: 0.1)
         Sun.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
         Top10 = CityList.TopNCities(N: 10, UseMetroPopulation: true)
+        /*
+        Top10.removeAll()
+        #if true
+        Top10.append(City("Tokyo", "Japan", true, 100, 100, 35.6804, 139.7690, "Asia"))
+        #else
         Top10.append(City("North Pole", "No One", true, 1, 2, 90.0, 0.0, "North America"))
-        Top10.append(City("Gulf of Guinea", "No One", true, 2, 1, 0.0, 0.0, "Africa"))
-                Top10.append(City("Guinea Antipodal", "No One", true, 2, 1, 0.0, 180.0, "Asia"))
-        //for Top in Top10
-       // {
-        //    print("Name: \(Top.Name), population: \(Top.MetropolitanPopulation!)")
-       // }
+        Top10.append(City("Gulf of Guinea", "No One", true, 2, 1, 0.0, -90.0, "Africa"))
+        Top10.append(City("Sahara", "No One", true, 2, 1, 45.0, -90.0, "Africa"))
+        Top10.append(City("Atlantic", "No One", true, 2, 1, -45.0, -90.0, "Africa"))
+        
+        Top10.append(City("Guinea Antipodal", "No One", true, 2, 1, 0.0, 90.0, "Asia"))
+        Top10.append(City("Sahara Antipodal", "No One", true, 2, 1, 45.0, 90.0, "Asia"))
+        Top10.append(City("Atlantic Antipodal", "No One", true, 2, 1, -45.0, 90.0, "Asia"))
+        
+        Top10.append(City("Canada", "No One", true, 2, 1, 0.0, 0.0, "North America"))
+        Top10.append(City("Mexico", "No One", true, 2, 1, 45.0, 0.0, "North America"))
+        Top10.append(City("Southeast Pacific", "No One", true, 2, 1, -45.0, 0.0, "South America"))
+        
+        Top10.append(City("Siberia", "No One", true, 2, 1, 0.0, 180.0, "Asia"))
+        Top10.append(City("Indian Ocean", "No One", true, 2, 1, 45.0, 180.0, "Asia"))
+        Top10.append(City("South Indian Ocean", "No One", true, 2, 1, -45.0, 180.0, "Asia"))
+        #endif
+        
+//        Top10.append(City("Indian Ocean", "No One", true, 2, 1, 0.0, 90.0, "Asia"))
+//        Top10.append(City("Pacific Ocean", "No One", true, 2, 1, 0.0, -90.0, "South America"))
+        let D1 = Geometry.LawOfCosines(Point1: CGPoint(x: 0.0, y: 90.0), Point2: CGPoint(x: 0.0, y: 0.0), Radius: 6371.0)
+        print("Distance from north pole to Gulf of Guinea: \(D1)km")
+         */
+        for Top in Top10
+         {
+            print("Name: \(Top.Name), population: \(Top.MetropolitanPopulation!)")
+         }
     }
-
+    
     var Top10 = [City]()
     let CityList = Cities()
     let Sun = SunGenerator()
@@ -131,7 +155,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 {
                     MainTimeLabelBottom.isHidden = false
                     MainTimeLabelTop.isHidden = true
-                }
+            }
             
             case .Bottom:
                 SunViewTop.isHidden = true
@@ -140,7 +164,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 {
                     MainTimeLabelBottom.isHidden = true
                     MainTimeLabelTop.isHidden = false
-                }
+            }
         }
     }
     
@@ -300,15 +324,17 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let Percent = Double(ElapsedSeconds) / Double(SecondsInDay)
         let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
         RotateImageTo(PrettyPercent)
+        #if true
         if Top10.count > 0
         {
-        if SingleTask.NotCompleted(&TestCities)
-        {
-                    let FinalOffset = Settings.GetSunLocation() == .Bottom ? 0.0 : OriginalOrientation
-            let Radial = MakeRadialTime(From: PrettyPercent, With: FinalOffset)
-             PlotCities(InCityList: Top10, RadialTime: Radial, CityListChanged: false)
+            if SingleTask.NotCompleted(&TestCities)
+            {
+                let FinalOffset = Settings.GetSunLocation() == .Bottom ? 0.0 : OriginalOrientation
+                let Radial = MakeRadialTime(From: PrettyPercent, With: FinalOffset)
+                PlotCities(InCityList: Top10, RadialTime: Radial, CityListChanged: false)
+            }
         }
-        }
+        #endif
     }
     var TestCities: UUID? = nil
     
@@ -388,12 +414,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             CityLayer?.bounds = WorldViewer.bounds
             CityLayer?.frame = WorldViewer.bounds
             GridOverlay.layer.addSublayer(CityLayer!)
-            //WorldViewer.layer.addSublayer(CityLayer!)
         }
         let Bezier = UIBezierPath()
         for SomeCity in InCityList
         {
-            let CityPath = PlotCity(SomeCity, Diameter: (CityLayer?.bounds.width)!)
+            let CityPath = PlotCity3(SomeCity, Diameter: (CityLayer?.bounds.width)!)
             Bezier.append(CityPath)
         }
         CityLayer?.fillColor = UIColor.red.cgColor
@@ -402,31 +427,84 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         CityLayer?.path = Bezier.cgPath
         let Rotation = CATransform3DMakeRotation(CGFloat(-RadialTime), 0.0, 0.0, 1.0)
         CityLayer?.transform = Rotation
-        //Finally, rotate the layer according to TimePercent
     }
     
-    /// Plot a single city.
-    /// - Note: This function assumes Greenwich is at the top, eg, 0° longitude is at the top of the image.
-    /// - Parameter PlotMe: The city whose location will be plotted.
-    /// - Parameter Diameter: The size of the plot layer, eg, the flattened Earth.
-    /// - Returns: A UIBezierPath that should be added to the layer's path.
-    func PlotCity(_ PlotMe: City, Diameter: CGFloat) -> UIBezierPath
+        let HalfCircumference: Double = 40075.0 / 2.0
+    
+    func PlotCity3(_ PlotMe: City, Diameter: CGFloat) -> UIBezierPath
     {
-                let CitySize = CGSize(width: 8, height: 8)
-        if PlotMe.PlottedPoint == nil
+        let Latitude = PlotMe.Latitude
+        let Longitude = PlotMe.Longitude
+        let Half = Double(Diameter / 2.0)
+        let Ratio: Double = Half / HalfCircumference
+        let CitySize: CGFloat = 10.0
+        let CityDotSize = CGSize(width: CitySize, height: CitySize)
+        let PointModifier = Double(CGFloat(Half) - (CitySize / 2.0))
+        
+        var Distance = DistanceFromNorthPole(To: GeoPoint2(Latitude, Longitude))
+        Distance = Distance * Ratio
+        var CityBearing = Bearing(Start: GeoPoint2(90.0, 0.0), End: GeoPoint2(Latitude, Longitude))
+        CityBearing = (CityBearing + 90.0).ToRadians()
+        let PointX = Distance * cos(CityBearing) + PointModifier
+        let PointY = Distance * sin(CityBearing) + PointModifier
+        let Origin = CGPoint(x: PointX, y: PointY)
+
+        let City = UIBezierPath(ovalIn: CGRect(origin: Origin, size: CityDotSize))
+     return City
+    }
+    
+    /// Calculate the bearing between two geographic points on the Earth using the forward azimuth formula (great circle).
+    /// - Parameters:
+    ///   - Start: Starting point.
+    ///   - End: Destination point.
+    /// - Returns: Bearing from the Start point to the End point. (Bearing will change over the arc.)
+    public func Bearing(Start: GeoPoint2, End: GeoPoint2) -> Double
+    {
+        let StartLat = Start.Latitude.ToRadians()
+        let StartLon = Start.Longitude.ToRadians()
+        let EndLat = End.Latitude.ToRadians()
+        let EndLon = End.Longitude.ToRadians()
+        
+        if cos(EndLat) * sin(EndLon - StartLon) == 0
         {
-        let CenterX = Diameter / 2.0
-        let CenterY = Diameter / 2.0
-        let Radius = Geometry.LawOfCosines(Point1: GeoPoint2(90.0, 0.0), Point2: GeoPoint2(PlotMe.Latitude, PlotMe.Longitude),
-                                           Radius: Double(CenterX / 2))
-            print("Radius=\(Radius)")
-            let RawPoint = PolarToCartesian(Theta: PlotMe.Longitude, Radius: Double(Radius),
-                                            HOffset: Double(CenterX), VOffset: Double(CenterY))
-            PlotMe.PlottedPoint = RawPoint
+            if EndLat > StartLat
+            {
+                return 0
+            }
+            else
+            {
+                return 180
+            }
         }
-        print("Plotting \(PlotMe.Name), \(PlotMe.PlottedPoint!)")
-        let CityBezier = UIBezierPath(ovalIn: CGRect(origin: PlotMe.PlottedPoint!, size: CitySize))
-        return CityBezier
+        var Angle = atan2(cos(EndLat) * sin(EndLon - StartLon),
+                          sin(EndLat) * cos(StartLat) - sin(StartLat) * cos(EndLat) * cos(EndLon - StartLon))
+        Angle = Angle.ToDegrees()
+        Angle = Angle * 1000.0
+        let IAngle = Int(Angle)
+        Angle = Double(IAngle) / 1000.0
+        return Angle
+    }
+    
+    func LawOfCosines(Point1: GeoPoint2, Point2: GeoPoint2) -> Double
+    {
+        let Term1 = sin(Point1.Latitude.ToRadians()) * sin(Point2.Latitude.ToRadians())
+        let Term2 = cos(Point1.Latitude.ToRadians()) * cos(Point2.Latitude.ToRadians())
+        let Term3 = cos(Point2.Longitude.ToRadians() - Point1.Longitude.ToRadians())
+        var V = acos(Term1 + (Term2 * Term3))
+        V = V * 6367.4447
+        return V
+    }
+    
+    func DistanceFromNorthPole(To: GeoPoint2) -> Double
+    {
+        return LawOfCosines(Point1: GeoPoint2(90.0, 0.0), Point2: To)
+    }
+
+    func PrettyPoint(_ Point: CGPoint) -> String
+    {
+        let X = Double(Point.x).RoundedTo(3)
+        let Y = Double(Point.y).RoundedTo(3)
+        return "(\(X),\(Y))"
     }
     
     func PolarToCartesian(Theta: Double, Radius: Double, HOffset: Double = 0.0, VOffset: Double = 0.0) -> CGPoint
@@ -466,3 +544,22 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     @IBOutlet weak var WorldViewer: UIImageView!
 }
 
+extension Double
+{
+    func RoundedTo(_ Count: Int) -> Double
+    {
+        let Multiplier = pow(10.0, Count)
+        let Value = Int(self * Double(truncating: Multiplier as NSNumber))
+        return Double(Value) / Double(truncating: Multiplier as NSNumber)
+    }
+    
+    func ToRadians() -> Double
+    {
+        return self * Double.pi / 180.0
+    }
+    
+    func ToDegrees() -> Double
+    {
+        return self * 180.0 / Double.pi
+    }
+}
