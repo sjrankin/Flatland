@@ -35,7 +35,7 @@
                                             <constraint firstAttribute="width" constant="335" id="56W-sd-Blg"/>
                                             <constraint firstAttribute="height" constant="50" id="vQM-8s-B1H"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="36"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="40"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -45,7 +45,7 @@
                                             <constraint firstAttribute="height" constant="50" id="4E3-dV-6Ws"/>
                                             <constraint firstAttribute="width" constant="335" id="Za1-oE-64E"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="36"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="40"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -223,7 +223,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xTi-Wt-q7N">
-                                                    <rect key="frame" x="493" y="8" width="199" height="32"/>
+                                                    <rect key="frame" x="493" y="8" width="199" height="32.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="199" id="sQT-Xa-dR9"/>
                                                     </constraints>
