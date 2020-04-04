@@ -11,6 +11,8 @@
 		173A9263242F32E100363576 /* SingleTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173A9262242F32E100363576 /* SingleTask.swift */; };
 		1746C17C242DB67D00A479DE /* CitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1746C17B242DB67D00A479DE /* CitySelectorView.swift */; };
 		1746C17E242DB6E000A479DE /* LocationEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1746C17D242DB6E000A479DE /* LocationEditor.swift */; };
+		176DC96C2438380300830DB1 /* LocationEditedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */; };
+		176DC96E2438390100830DB1 /* EditLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96D2438390100830DB1 /* EditLocation.swift */; };
 		1792BD7E24304E56006ABD02 /* Julian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7D24304E55006ABD02 /* Julian.swift */; };
 		1792BD8024304EA7006ABD02 /* Solar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7F24304EA7006ABD02 /* Solar.swift */; };
 		1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD8124304F1A006ABD02 /* Geometry.swift */; };
@@ -38,6 +40,8 @@
 		173A9262242F32E100363576 /* SingleTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTask.swift; sourceTree = "<group>"; };
 		1746C17B242DB67D00A479DE /* CitySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySelectorView.swift; sourceTree = "<group>"; };
 		1746C17D242DB6E000A479DE /* LocationEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditor.swift; sourceTree = "<group>"; };
+		176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditedProtocol.swift; sourceTree = "<group>"; };
+		176DC96D2438390100830DB1 /* EditLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocation.swift; sourceTree = "<group>"; };
 		1792BD7D24304E55006ABD02 /* Julian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Julian.swift; sourceTree = "<group>"; };
 		1792BD7F24304EA7006ABD02 /* Solar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solar.swift; sourceTree = "<group>"; };
 		1792BD8124304F1A006ABD02 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
@@ -123,6 +127,8 @@
 				17BE687E242CA831009861E1 /* ProgramSettings.swift */,
 				1746C17B242DB67D00A479DE /* CitySelectorView.swift */,
 				1746C17D242DB6E000A479DE /* LocationEditor.swift */,
+				176DC96D2438390100830DB1 /* EditLocation.swift */,
+				176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */,
 				17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */,
 				17BE6872242C7A9C009861E1 /* LaunchScreen.storyboard */,
 			);
@@ -219,6 +225,7 @@
 				1792BD8A2430540A006ABD02 /* Miscellaneous.swift in Sources */,
 				173A9263242F32E100363576 /* SingleTask.swift in Sources */,
 				1792BD8624305173006ABD02 /* Utility.swift in Sources */,
+				176DC96E2438390100830DB1 /* EditLocation.swift in Sources */,
 				17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */,
 				1792BD8024304EA7006ABD02 /* Solar.swift in Sources */,
 				1792BD9424306EC5006ABD02 /* CitiesData.swift in Sources */,
@@ -229,6 +236,7 @@
 				17BE686A242C7A99009861E1 /* SceneDelegate.swift in Sources */,
 				17BE6881242CA8FB009861E1 /* Settings.swift in Sources */,
 				1746C17C242DB67D00A479DE /* CitySelectorView.swift in Sources */,
+				176DC96C2438380300830DB1 /* LocationEditedProtocol.swift in Sources */,
 				173A9261242F24D700363576 /* SunGenerator.swift in Sources */,
 				17CC3C61242CC69900CC7F87 /* SettingsNavigationViewer.swift in Sources */,
 			);
