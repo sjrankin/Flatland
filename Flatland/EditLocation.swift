@@ -16,30 +16,59 @@ class EditLocation: UITableViewController, UIPickerViewDelegate, UIPickerViewDat
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        Delegate?.GetLocation(ID: &LocationID, Coordinates: &Location, Name: &LocationName, Color: &LocationColor)
+        Delegate?.GetLocation(ID: &LocationID, Coordinates: &Location, Name: &LocationName,
+                              Color: &LocationColor, Editing: &IsEditing)
         ColorPicker.layer.borderWidth = 0.5
         ColorPicker.layer.cornerRadius = 5.0
         ColorPicker.layer.borderColor = UIColor.black.cgColor
         ColorPicker.reloadAllComponents()
+        if IsEditing
+        {
+            self.title = "Edit Location"
+            NameBox.text = LocationName
+            LatitudeBox.text = "\(Location.Latitude.RoundedTo(4))"
+            LongitudeBox.text = "\(Location.Longitude.RoundedTo(4))"
+            for Index in 0 ..< ColorList.count
+            {
+                if ColorList[Index].Color == LocationColor
+                {
+                    ColorPicker.selectRow(Index, inComponent: 0, animated: true)
+                    break
+                }
+            }
+        }
+        else
+        {
+            self.title = "Add Location"
+            ColorPicker.selectRow(0, inComponent: 0, animated: true)
+            NameBox.text = ""
+            LatitudeBox.text = "0.0"
+            LongitudeBox.text = "0.0"
+            Location.Latitude = 0.0
+            Location.Longitude = 0.0
+            LocationColor = UIColor.red
+            LocationName = "unnamed"
+        }
     }
     
+    var IsEditing: Bool = false
     var LocationID: UUID = UUID()
     var Location: GeoPoint2 = GeoPoint2()
     var LocationName: String = ""
     var LocationColor: UIColor = UIColor.systemYellow
     
     let ColorList: [(Name: String, Color: UIColor)] =
-    [
-        ("Red", UIColor.red),
-        ("Green", UIColor.green),
-        ("Blue", UIColor.blue),
-        ("Cyan", UIColor.cyan),
-        ("Magenta", UIColor.magenta),
-        ("Yellow", UIColor.yellow),
-        ("Orange", UIColor.orange),
-        ("Pink", UIColor.systemPink),
-        ("Black", UIColor.black),
-        ("White", UIColor.white)
+        [
+            ("Red", UIColor.red),
+            ("Green", UIColor.green),
+            ("Blue", UIColor.blue),
+            ("Cyan", UIColor.cyan),
+            ("Magenta", UIColor.magenta),
+            ("Yellow", UIColor.yellow),
+            ("Orange", UIColor.orange),
+            ("Pink", UIColor.systemPink),
+            ("Black", UIColor.black),
+            ("White", UIColor.white)
     ]
     
     var WasCanceled = false
@@ -47,14 +76,26 @@ class EditLocation: UITableViewController, UIPickerViewDelegate, UIPickerViewDat
     @IBAction func HandleCancelPressed(_ sender: Any)
     {
         WasCanceled = true
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool)
     {
         super.viewWillDisappear(animated)
-        if !WasCanceled
+        if WasCanceled
         {
+            print("Changes cancelled")
+        }
+        else
+        {
+            if IsEditing
+            {
             Delegate?.UpdatedLocation(ID: LocationID, Coordinates: Location, Name: LocationName, Color: LocationColor)
+            }
+            else
+            {
+                Delegate?.AddedLocation(Coordinates: Location, Name: LocationName, Color: LocationColor)
+            }
         }
     }
     
@@ -79,16 +120,96 @@ class EditLocation: UITableViewController, UIPickerViewDelegate, UIPickerViewDat
         return ColorV
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print("Selected color: \(ColorList[row].Name)")
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+    {
+        LocationColor = ColorList[row].Color
     }
     
-    @IBAction func HandleLatitudeBox(_ sender: Any)
+    @IBAction func NameFinishedEditing(_ sender: Any)
     {
+        if let TextBox = sender as? UITextField
+        {
+            if var Value = TextBox.text
+            {
+                if Value.isEmpty
+                {
+                    Value = "unnamed"
+                }
+                LocationName = Value.trimmingCharacters(in: CharacterSet.whitespaces)
+            }
+        }
     }
     
-    @IBAction func HandleLongitudeBox(_ sender: Any)
+    func Validate(Latitude: Bool, Value: String?, Updated: inout Bool) -> Double
     {
+        if Value == nil
+        {
+            Updated = true
+            return 0.0
+        }
+        if let AValue = Double(Value!)
+        {
+            if Latitude
+            {
+                if AValue < -90.0
+                {
+                    Updated = true
+                    return -90.0
+                }
+                if AValue > 90.0
+                {
+                    Updated = true
+                    return 90.0
+                }
+                Updated = false
+                return AValue
+            }
+            else
+            {
+                if AValue < -180.0
+                {
+                    Updated = true
+                    return -180.0
+                }
+                if AValue > 180.0
+                {
+                    Updated = true
+                    return 180.0
+                }
+                Updated = false
+                return AValue
+            }
+        }
+        Updated = true
+        return 0.0
+    }
+    
+    @IBAction func LatitudeEditingEnded(_ sender: Any)
+    {
+        if let TextBox = sender as? UITextField
+        {
+            var WasUpdated: Bool = false
+            let Value = Validate(Latitude: true, Value: TextBox.text!, Updated: &WasUpdated)
+            if WasUpdated
+            {
+                TextBox.text = "\(Value)"
+            }
+            Location.Latitude = Value
+        }
+    }
+    
+    @IBAction func LongitudeEditingEnded(_ sender: Any)
+    {
+        if let TextBox = sender as? UITextField
+        {
+            var WasUpdated: Bool = false
+            let Value = Validate(Latitude: false, Value: TextBox.text!, Updated: &WasUpdated)
+            if WasUpdated
+            {
+                TextBox.text = "\(Value)"
+            }
+            Location.Longitude = Value
+        }
     }
     
     @IBOutlet weak var ColorPicker: UIPickerView!
@@ -126,7 +247,7 @@ class ColorView: UIView
         ColorSwatch?.layer.borderWidth = 0.5
         ColorSwatch?.layer.cornerRadius = 5.0
         self.addSubview(ColorSwatch!)
-        ColorName = UILabel(frame: CGRect(x: 50, y: 6, width: 100, height: 20))
+        ColorName = UILabel(frame: CGRect(x: 110, y: 6, width: 100, height: 20))
         self.addSubview(ColorName!)
     }
     
