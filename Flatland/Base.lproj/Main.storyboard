@@ -395,7 +395,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Cities" id="RfM-G0-LEL">
+                            <tableViewSection headerTitle="Cities/Locations" id="RfM-G0-LEL">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="Shm-m2-Bte">
                                         <rect key="frame" x="0.0" y="544" width="712" height="43.5"/>
@@ -434,8 +434,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="681" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select cities" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fon-bj-vNY">
-                                                    <rect key="frame" x="20" y="11" width="93" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select cities/locations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fon-bj-vNY">
+                                                    <rect key="frame" x="20" y="11" width="167" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -935,37 +935,6 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="739" id="MMS-zp-ZNj"/>
                                 </constraints>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="80" id="rOV-uo-Ac3">
-                                        <rect key="frame" x="0.0" y="28" width="672" height="80"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rOV-uo-Ac3" id="6T0-Iv-bso">
-                                            <rect key="frame" x="0.0" y="0.0" width="672" height="80"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location name goes here." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yr6-ya-CRo">
-                                                    <rect key="frame" x="15" y="11" width="423" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Latitude longitude go here." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZAL-tW-aSr">
-                                                    <rect key="frame" x="15" y="48" width="367" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Ya-Om-Upp">
-                                                    <rect key="frame" x="466" y="11" width="154" height="58"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </view>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                         <real key="value" value="0.5"/>
@@ -975,46 +944,50 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <outlet property="dataSource" destination="s3H-nJ-tMc" id="bfZ-l0-j87"/>
-                                    <outlet property="delegate" destination="s3H-nJ-tMc" id="uUg-6L-VT9"/>
+                                    <outlet property="dataSource" destination="s3H-nJ-tMc" id="fbr-He-01z"/>
+                                    <outlet property="delegate" destination="s3H-nJ-tMc" id="nVw-9k-bD4"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hH5-59-zcR">
-                                <rect key="frame" x="0.0" y="934" width="712" height="50"/>
-                                <items>
-                                    <barButtonItem title="Edit" id="bLd-4t-UhU">
-                                        <connections>
-                                            <action selector="HandleEditTable:" destination="s3H-nJ-tMc" id="9YV-L3-ADl"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="add" id="P7T-lQ-q83">
-                                        <connections>
-                                            <action selector="HandleAddNewLocation:" destination="s3H-nJ-tMc" id="AfV-zc-3H1"/>
-                                            <segue destination="elI-ze-hC0" kind="show" destinationCreationSelector="InstantiateLocationEditor:" id="po2-VY-UfY"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="wz3-NP-5Sm"/>
-                                    <barButtonItem systemItem="trash" id="aoN-oR-zLJ">
-                                        <connections>
-                                            <action selector="HandleDeleteLocation:" destination="s3H-nJ-tMc" id="FUQ-KU-zlE"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="CeB-WV-CkL" firstAttribute="top" secondItem="O2D-lc-nFj" secondAttribute="top" constant="17" id="7iw-TY-nOL"/>
-                            <constraint firstItem="hH5-59-zcR" firstAttribute="leading" secondItem="O2D-lc-nFj" secondAttribute="leading" id="OTw-In-HOq"/>
-                            <constraint firstItem="hH5-59-zcR" firstAttribute="bottom" secondItem="O2D-lc-nFj" secondAttribute="bottom" id="jIj-Ha-o95"/>
                             <constraint firstItem="CeB-WV-CkL" firstAttribute="leading" secondItem="o8H-gl-4KJ" secondAttribute="leadingMargin" id="sgr-D5-6gD"/>
-                            <constraint firstItem="CeB-WV-CkL" firstAttribute="centerX" secondItem="hH5-59-zcR" secondAttribute="centerX" id="vfx-iH-Qzo"/>
                             <constraint firstItem="CeB-WV-CkL" firstAttribute="trailing" secondItem="o8H-gl-4KJ" secondAttribute="trailingMargin" id="x1G-BO-m9S"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O2D-lc-nFj"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem title="Edit Table" id="bLd-4t-UhU">
+                            <connections>
+                                <action selector="HandleEditTable:" destination="s3H-nJ-tMc" id="9YV-L3-ADl"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="235-EJ-OML"/>
+                        <barButtonItem title="Add Location" id="P7T-lQ-q83">
+                            <connections>
+                                <segue destination="elI-ze-hC0" kind="show" destinationCreationSelector="InstantiateAddLocation:" id="po2-VY-UfY"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="9gg-L8-Yhw"/>
+                        <barButtonItem title="Edit Location" id="MAH-oF-isn">
+                            <connections>
+                                <segue destination="elI-ze-hC0" kind="show" destinationCreationSelector="InstantiateEditLocation:" id="rud-5z-wVa"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="4kj-rr-4Vu"/>
+                        <barButtonItem systemItem="trash" id="aoN-oR-zLJ">
+                            <connections>
+                                <action selector="HandleDeleteLocation:" destination="s3H-nJ-tMc" id="FUQ-KU-zlE"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Your Locations" id="kNH-PI-Rf0"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="AddButton" destination="P7T-lQ-q83" id="zwa-Xx-J2Z"/>
+                        <outlet property="EditLocationButton" destination="MAH-oF-isn" id="vGj-DY-Hzm"/>
+                        <outlet property="EditTableButton" destination="bLd-4t-UhU" id="1b6-kL-nwT"/>
                         <outlet property="LocationTable" destination="CeB-WV-CkL" id="H1f-1C-z9G"/>
                     </connections>
                 </viewController>
@@ -1033,60 +1006,66 @@
                         <sections>
                             <tableViewSection id="B6r-8H-GGE">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="SQV-1S-nWw">
-                                        <rect key="frame" x="0.0" y="28" width="712" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="51" id="SQV-1S-nWw">
+                                        <rect key="frame" x="0.0" y="28" width="712" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SQV-1S-nWw" id="NUb-y3-5vU">
-                                            <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SQV-1S-nWw" id="NUb-y3-5vU">
+                                            <rect key="frame" x="0.0" y="0.0" width="712" height="51"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="hhs-wl-17V">
+                                                    <rect key="frame" x="163" y="7" width="529" height="36"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="36" id="9dW-0f-8sM"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" textContentType="location"/>
+                                                    <connections>
+                                                        <action selector="NameFinishedEditing:" destination="elI-ze-hC0" eventType="editingDidEnd" id="zby-Zc-cVq"/>
+                                                    </connections>
+                                                </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="egc-kg-wf7">
-                                                    <rect key="frame" x="20" y="11" width="113" height="22"/>
+                                                    <rect key="frame" x="20" y="14" width="113" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="hhs-wl-17V">
-                                                    <rect key="frame" x="163" y="1" width="529" height="36"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" returnKeyType="done" textContentType="location"/>
-                                                </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="hhs-wl-17V" firstAttribute="top" secondItem="NUb-y3-5vU" secondAttribute="topMargin" constant="-7" id="0Mg-Qc-vno"/>
+                                                <constraint firstItem="hhs-wl-17V" firstAttribute="top" secondItem="NUb-y3-5vU" secondAttribute="topMargin" constant="-4" id="0Mg-Qc-vno"/>
                                                 <constraint firstItem="hhs-wl-17V" firstAttribute="leading" secondItem="egc-kg-wf7" secondAttribute="trailing" constant="30" id="1IZ-tj-xXH"/>
                                                 <constraint firstItem="egc-kg-wf7" firstAttribute="leading" secondItem="NUb-y3-5vU" secondAttribute="leadingMargin" id="AkP-sW-JOD"/>
                                                 <constraint firstItem="egc-kg-wf7" firstAttribute="centerY" secondItem="hhs-wl-17V" secondAttribute="centerY" id="Nc3-jX-dkP"/>
-                                                <constraint firstItem="egc-kg-wf7" firstAttribute="top" secondItem="NUb-y3-5vU" secondAttribute="topMargin" id="VhX-0q-oUR"/>
+                                                <constraint firstItem="egc-kg-wf7" firstAttribute="top" secondItem="NUb-y3-5vU" secondAttribute="topMargin" constant="3" id="VhX-0q-oUR"/>
                                                 <constraint firstItem="hhs-wl-17V" firstAttribute="trailing" secondItem="NUb-y3-5vU" secondAttribute="trailingMargin" id="dMy-tk-jSB"/>
                                                 <constraint firstItem="hhs-wl-17V" firstAttribute="centerY" secondItem="NUb-y3-5vU" secondAttribute="centerY" id="eMb-YD-e4h"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="82" id="82G-dN-JDe">
-                                        <rect key="frame" x="0.0" y="71.5" width="712" height="82"/>
+                                        <rect key="frame" x="0.0" y="79" width="712" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="82G-dN-JDe" id="kYj-DU-Kp6">
                                             <rect key="frame" x="0.0" y="0.0" width="712" height="82"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jwz-SZ-yJm">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Jwz-SZ-yJm">
                                                     <rect key="frame" x="300" y="5" width="139" height="33"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="139" id="RAU-Au-NyO"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
                                                     <connections>
-                                                        <action selector="HandleLatitudeBox:" destination="elI-ze-hC0" eventType="primaryActionTriggered" id="JWU-Iy-EpC"/>
+                                                        <action selector="LatitudeEditingEnded:" destination="elI-ze-hC0" eventType="editingDidEnd" id="z3N-JX-ddn"/>
                                                     </connections>
                                                 </textField>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HvH-pX-6e1">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="HvH-pX-6e1">
                                                     <rect key="frame" x="553" y="6" width="139" height="34"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
                                                     <connections>
-                                                        <action selector="HandleLongitudeBox:" destination="elI-ze-hC0" eventType="primaryActionTriggered" id="An5-0q-VC9"/>
+                                                        <action selector="LongitudeEditingEnded:" destination="elI-ze-hC0" eventType="editingDidEnd" id="Rsd-uu-jlb"/>
                                                     </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location coordinates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AAD-ld-0t8">
@@ -1127,7 +1106,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="136" id="mf2-9g-xHZ">
-                                        <rect key="frame" x="0.0" y="153.5" width="712" height="136"/>
+                                        <rect key="frame" x="0.0" y="161" width="712" height="136"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mf2-9g-xHZ" id="fN4-mA-4Bv">
                                             <rect key="frame" x="0.0" y="0.0" width="712" height="136"/>
@@ -1163,7 +1142,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="Htt-vl-QPd">
-                                        <rect key="frame" x="0.0" y="289.5" width="712" height="44"/>
+                                        <rect key="frame" x="0.0" y="297" width="712" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Htt-vl-QPd" id="EDR-hM-5w6">
                                             <rect key="frame" x="0.0" y="0.0" width="712" height="44"/>
@@ -1199,12 +1178,16 @@
         <!--Settings-->
         <scene sceneID="Kka-Ec-VOn">
             <objects>
-                <navigationController id="Mgd-zg-x6H" customClass="SettingsNavigationViewer" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="Mgd-zg-x6H" customClass="SettingsNavigationViewer" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Settings" id="aw4-6E-hrq"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WNP-N8-IyI">
                         <rect key="frame" x="0.0" y="0.0" width="712" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fyq-2l-ctu">
+                        <rect key="frame" x="0.0" y="934" width="712" height="50"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="Ncr-7P-tvd" kind="relationship" relationship="rootViewController" destinationCreationSelector="InstantiateChild:" id="4j4-di-SMq"/>
                     </connections>
@@ -1214,6 +1197,9 @@
             <point key="canvasLocation" x="938" y="216"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="rud-5z-wVa"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="Sun" width="160" height="160"/>
         <image name="WorldNorth" width="2048" height="2048"/>
