@@ -43,17 +43,6 @@ class ProgramSettings: UITableViewController
             case .SouthPole:
                 ImageCenterSegment.selectedSegmentIndex = 1
         }
-        switch Settings.GetSunLocation()
-        {
-            case .Hidden:
-                SunSegment.selectedSegmentIndex = 0
-            
-            case .Top:
-                SunSegment.selectedSegmentIndex = 1
-            
-            case .Bottom:
-                SunSegment.selectedSegmentIndex = 2
-        }
         ShowPolarCirclesSwitch.isOn = Settings.ShowPolarCircles()
         ShowGridSwitch.isOn = Settings.ShowGrid()
         ShowEquatorSwitch.isOn = Settings.ShowEquator()
@@ -104,29 +93,6 @@ class ProgramSettings: UITableViewController
                 
                 default:
                     Settings.SetImageCenter(.NorthPole)
-            }
-        }
-    }
-    
-    
-    @IBAction func HandleSunLocationChanged(_ sender: Any)
-    {
-        if let Segment = sender as? UISegmentedControl
-        {
-            let Index = Segment.selectedSegmentIndex
-            switch Index
-            {
-                case 0:
-                    Settings.SetSunLocation(.Hidden)
-                
-                case 1:
-                    Settings.SetSunLocation(.Top)
-                
-                case 2:
-                    Settings.SetSunLocation(.Bottom)
-                
-                default:
-                    Settings.SetSunLocation(.Top)
             }
         }
     }
@@ -235,7 +201,6 @@ class ProgramSettings: UITableViewController
     @IBOutlet weak var ShowTropicsSwitch: UISwitch!
     @IBOutlet weak var ShowEquatorSwitch: UISwitch!
     @IBOutlet weak var ShowGridSwitch: UISwitch!
-    @IBOutlet weak var SunSegment: UISegmentedControl!
     @IBOutlet weak var ImageCenterSegment: UISegmentedControl!
     @IBOutlet weak var TimeLabelSegment: UISegmentedControl!
     @IBOutlet weak var TimePicker: UIDatePicker!
