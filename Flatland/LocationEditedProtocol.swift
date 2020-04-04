@@ -11,6 +11,8 @@ import UIKit
 
 protocol LocationEdited: class
 {
-    func GetLocation(ID: inout UUID, Coordinates: inout GeoPoint2, Name: inout String, Color: inout UIColor)
+    func GetLocation(ID: inout UUID, Coordinates: inout GeoPoint2, Name: inout String, Color: inout UIColor,
+                     Editing: inout Bool)
     func UpdatedLocation(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: UIColor)
+    func AddedLocation(Coordinates: GeoPoint2, Name: String, Color: UIColor)
 }
