@@ -27,42 +27,14 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         SettingsDone()
         Sun.VariableSunImage(Using: SunViewTop, Interval: 0.1)
         Sun.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
-        Top10 = CityList.TopNCities(N: 10, UseMetroPopulation: true)
-        /*
-        Top10.removeAll()
-        #if true
-        Top10.append(City("Tokyo", "Japan", true, 100, 100, 35.6804, 139.7690, "Asia"))
-        #else
-        Top10.append(City("North Pole", "No One", true, 1, 2, 90.0, 0.0, "North America"))
-        Top10.append(City("Gulf of Guinea", "No One", true, 2, 1, 0.0, -90.0, "Africa"))
-        Top10.append(City("Sahara", "No One", true, 2, 1, 45.0, -90.0, "Africa"))
-        Top10.append(City("Atlantic", "No One", true, 2, 1, -45.0, -90.0, "Africa"))
-        
-        Top10.append(City("Guinea Antipodal", "No One", true, 2, 1, 0.0, 90.0, "Asia"))
-        Top10.append(City("Sahara Antipodal", "No One", true, 2, 1, 45.0, 90.0, "Asia"))
-        Top10.append(City("Atlantic Antipodal", "No One", true, 2, 1, -45.0, 90.0, "Asia"))
-        
-        Top10.append(City("Canada", "No One", true, 2, 1, 0.0, 0.0, "North America"))
-        Top10.append(City("Mexico", "No One", true, 2, 1, 45.0, 0.0, "North America"))
-        Top10.append(City("Southeast Pacific", "No One", true, 2, 1, -45.0, 0.0, "South America"))
-        
-        Top10.append(City("Siberia", "No One", true, 2, 1, 0.0, 180.0, "Asia"))
-        Top10.append(City("Indian Ocean", "No One", true, 2, 1, 45.0, 180.0, "Asia"))
-        Top10.append(City("South Indian Ocean", "No One", true, 2, 1, -45.0, 180.0, "Asia"))
-        #endif
-        
-//        Top10.append(City("Indian Ocean", "No One", true, 2, 1, 0.0, 90.0, "Asia"))
-//        Top10.append(City("Pacific Ocean", "No One", true, 2, 1, 0.0, -90.0, "South America"))
-        let D1 = Geometry.LawOfCosines(Point1: CGPoint(x: 0.0, y: 90.0), Point2: CGPoint(x: 0.0, y: 0.0), Radius: 6371.0)
-        print("Distance from north pole to Gulf of Guinea: \(D1)km")
-         */
-        for Top in Top10
+        CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        for Top in CityTestList
          {
             print("Name: \(Top.Name), population: \(Top.MetropolitanPopulation!)")
          }
     }
     
-    var Top10 = [City]()
+    var CityTestList = [City]()
     let CityList = Cities()
     let Sun = SunGenerator()
     
@@ -325,13 +297,13 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
         RotateImageTo(PrettyPercent)
         #if true
-        if Top10.count > 0
+        if CityTestList.count > 0
         {
             if SingleTask.NotCompleted(&TestCities)
             {
                 let FinalOffset = Settings.GetSunLocation() == .Bottom ? 0.0 : OriginalOrientation
                 let Radial = MakeRadialTime(From: PrettyPercent, With: FinalOffset)
-                PlotCities(InCityList: Top10, RadialTime: Radial, CityListChanged: false)
+                PlotCities(InCityList: CityTestList, RadialTime: Radial, CityListChanged: false)
             }
         }
         #endif
@@ -365,13 +337,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         PreviousPercent = Percent
         let FinalOffset = Settings.GetSunLocation() == .Bottom ? 0.0 : OriginalOrientation
         //Be sure to rotate the proper direction based on the map.
-        #if false
-        var Degrees = 360.0 * Percent - FinalOffset
-        //Degrees = Settings.GetSunLocation() == .Bottom ? 360.0 - Degrees : Degrees
-        let Radians = Degrees * Double.pi / 180.0
-        #else
         let Radians = MakeRadialTime(From: Percent, With: FinalOffset)
-        #endif
         let Rotation = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
         WorldViewer.layer.transform = Rotation
         if Settings.ShowGrid()
@@ -380,9 +346,37 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
         if Settings.ShowCities()
         {
-            PlotCities(InCityList: Top10, RadialTime: Radians, CityListChanged: true)
+            PlotCities(InCityList: CityTestList, RadialTime: Radians, CityListChanged: true)
+        }
+        PlotDayLight()
+    }
+    
+    func PlotDayLight()
+    {
+        let DQ = DispatchQueue(label: "SunlightQueue", qos: .utility)
+        DQ.async
+            {
+            self.GetSunlightPoints()
         }
     }
+    
+    let DaylightGridSize = 1.3
+    
+    func GetSunlightPoints()
+    {
+        LightList.removeAll()
+        for Lon in stride(from: -179, to: 180, by: DaylightGridSize)
+        {
+            for Lat in stride(from: -90, to: 90, by: DaylightGridSize)
+            {
+                let Location = GeoPoint2(Double(Lat), Double(Lon))
+                let SunVisible = Solar.CalculateSunVisibility(Where: Location)
+                LightList.append((Latitude: Double(Lat), Longitude: Double(Lon), SunVisible: SunVisible))
+            }
+        }
+    }
+    
+    var LightList = [(Latitude: Double, Longitude: Double, SunVisible: Bool)]()
     
     var PreviousImage: String = "WorldNorth"
     /// Previous percent drawn. Used to prevent constant updates when an update would not result
