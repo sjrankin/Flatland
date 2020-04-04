@@ -9,7 +9,8 @@
 import Foundation
 import UIKit
 
-class LocationEditor: UIViewController, UITableViewDelegate, UITableViewDataSource
+class LocationEditor: UIViewController, UITableViewDelegate, UITableViewDataSource,
+    LocationEdited
 {
     override func viewDidLoad()
     {
@@ -37,6 +38,22 @@ class LocationEditor: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func HandleDeleteLocation(_ sender: Any)
     {
+    }
+    
+    func UpdatedLocation(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: UIColor)
+    {
+    }
+    
+    func GetLocation(ID: inout UUID, Coordinates: inout GeoPoint2, Name: inout String, Color: inout UIColor)
+    {
+        
+    }
+    
+    @IBSegueAction func InstantiateLocationEditor(_ coder: NSCoder) -> EditLocation?
+    {
+        let Controller = EditLocation(coder: coder)
+        Controller?.Delegate = self
+        return Controller
     }
     
     @IBOutlet weak var LocationTable: UITableView!
