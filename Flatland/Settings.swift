@@ -42,6 +42,7 @@ class Settings
         SetSouthAmericanCities100(false)
         SetCapitalCities(true)
         SetUserLocations(true)
+        SetLocations([])
     }
     
     // MARK: - Debug settings. Maintained only on an instance level.
@@ -87,6 +88,144 @@ class Settings
     public static func GetFreezeTime() -> Bool
     {
         return UserDefaults.standard.bool(forKey: "DebugFreezeTime")
+    }
+    
+    // MARK: - Location list settings.
+    
+    public static func SetLocations(_ List: [(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: UIColor)])
+    {
+        if List.count == 0
+        {
+            UserDefaults.standard.set("", forKey: "UserLocations")
+            return
+        }
+        print("Setting locations: \(List)")
+        var LocationList = ""
+        for (ID, Location, Name, Color) in List
+        {
+            var Item = ID.uuidString + ","
+            Item.append("\(Location.Latitude),\(Location.Longitude),")
+            Item.append("\(Name),")
+            var ColorName = ""
+            switch Color
+            {
+                case UIColor.black:
+                ColorName = "Black"
+                
+                case UIColor.white:
+                ColorName = "White"
+                
+                case UIColor.cyan:
+                ColorName = "Cyan"
+                
+                case UIColor.magenta:
+                ColorName = "Magenta"
+                
+                case UIColor.yellow:
+                ColorName = "Yellow"
+                
+                case UIColor.red:
+                ColorName = "Red"
+                
+                case UIColor.green:
+                ColorName = "Green"
+                
+                case UIColor.blue:
+                ColorName = "Blue"
+                
+                case UIColor.orange:
+                ColorName = "Orange"
+                
+                case UIColor.systemPink:
+                ColorName = "Pink"
+                
+                default:
+                ColorName = "Red"
+            }
+            Item.append("\(ColorName);")
+            LocationList.append(Item)
+        }
+        UserDefaults.standard.set(LocationList, forKey: "UserLocations")
+    }
+    
+    public static func GetLocations() -> [(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: UIColor)]
+    {
+                    var Results = [(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: UIColor)]()
+        if let Raw = UserDefaults.standard.string(forKey: "UserLocations")
+        {
+            print("Raw locations: \(Raw)")
+            let Locations = Raw.split(separator: ";", omittingEmptySubsequences: true)
+            for Where in Locations
+            {
+                var ID: UUID = UUID()
+                var Lat: Double = 0.0
+                var Lon: Double = 0.0
+                var Name: String = ""
+                var Color: UIColor = UIColor.red
+                let Raw = String(Where)
+                let Parts = Raw.split(separator: ",", omittingEmptySubsequences: true)
+                if Parts.count == 5
+                {
+                    for Index in 0 ..< Parts.count
+                    {
+                        let Part = String(Parts[Index]).trimmingCharacters(in: CharacterSet.whitespaces)
+                        switch Index
+                        {
+                            case 0:
+                            ID = UUID(uuidString: Part)!
+                            
+                            case 1:
+                            Lat = Double(Part)!
+                            
+                            case 2:
+                            Lon = Double(Part)!
+                            
+                            case 3:
+                                Name = Part
+                            
+                            case 4:
+                                switch Part
+                            {
+                                case "Red":
+                                    Color = UIColor.red
+                                
+                                case "Green":
+                                    Color = UIColor.green
+                                
+                                case "Blue":
+                                    Color = UIColor.blue
+                                
+                                case "Cyan":
+                                    Color = UIColor.cyan
+                                
+                                case "Magenta":
+                                    Color = UIColor.magenta
+                                
+                                case "Yellow":
+                                    Color = UIColor.yellow
+                                
+                                case "Orange":
+                                    Color = UIColor.orange
+                                
+                                case "Pink":
+                                    Color = UIColor.systemPink
+                                
+                                default:
+                                    Color = UIColor.red
+                            }
+                            default:
+                            break
+                        }
+                    }
+                }
+                Results.append((ID: ID, GeoPoint2(Lat, Lon), Name: Name, Color: Color))
+            }
+        }
+        else
+        {
+            return []
+        }
+        return Results
     }
     
     // MARK: - General view settings.
