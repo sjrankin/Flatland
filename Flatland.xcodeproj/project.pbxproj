@@ -11,6 +11,7 @@
 		173A9263242F32E100363576 /* SingleTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173A9262242F32E100363576 /* SingleTask.swift */; };
 		1746C17C242DB67D00A479DE /* CitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1746C17B242DB67D00A479DE /* CitySelectorView.swift */; };
 		1746C17E242DB6E000A479DE /* LocationEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1746C17D242DB6E000A479DE /* LocationEditor.swift */; };
+		17633B56243858BB0021600D /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17633B55243858BB0021600D /* LocationCell.swift */; };
 		176DC96C2438380300830DB1 /* LocationEditedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */; };
 		176DC96E2438390100830DB1 /* EditLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96D2438390100830DB1 /* EditLocation.swift */; };
 		1792BD7E24304E56006ABD02 /* Julian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7D24304E55006ABD02 /* Julian.swift */; };
@@ -40,6 +41,7 @@
 		173A9262242F32E100363576 /* SingleTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTask.swift; sourceTree = "<group>"; };
 		1746C17B242DB67D00A479DE /* CitySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySelectorView.swift; sourceTree = "<group>"; };
 		1746C17D242DB6E000A479DE /* LocationEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditor.swift; sourceTree = "<group>"; };
+		17633B55243858BB0021600D /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditedProtocol.swift; sourceTree = "<group>"; };
 		176DC96D2438390100830DB1 /* EditLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocation.swift; sourceTree = "<group>"; };
 		1792BD7D24304E55006ABD02 /* Julian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Julian.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				1746C17B242DB67D00A479DE /* CitySelectorView.swift */,
 				1746C17D242DB6E000A479DE /* LocationEditor.swift */,
 				176DC96D2438390100830DB1 /* EditLocation.swift */,
+				17633B55243858BB0021600D /* LocationCell.swift */,
 				176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */,
 				17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */,
 				17BE6872242C7A9C009861E1 /* LaunchScreen.storyboard */,
@@ -222,6 +225,7 @@
 				17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */,
 				17BE686C242C7A99009861E1 /* MainView.swift in Sources */,
 				17E180F5242F62F700310896 /* City.swift in Sources */,
+				17633B56243858BB0021600D /* LocationCell.swift in Sources */,
 				1792BD8A2430540A006ABD02 /* Miscellaneous.swift in Sources */,
 				173A9263242F32E100363576 /* SingleTask.swift in Sources */,
 				1792BD8624305173006ABD02 /* Utility.swift in Sources */,
