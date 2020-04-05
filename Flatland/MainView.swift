@@ -25,18 +25,53 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         
         TopView.backgroundColor = UIColor.black
         SettingsDone()
-        Sun.VariableSunImage(Using: SunViewTop, Interval: 0.1)
-        Sun.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
+        TopSun.VariableSunImage(Using: SunViewTop, Interval: 0.1)
+        BottomSun.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
         for Top in CityTestList
          {
             print("Name: \(Top.Name), population: \(Top.MetropolitanPopulation!)")
          }
+        SunlightTimer = Timer.scheduledTimer(timeInterval: 30.0,
+                                             target: self,
+                                             selector: #selector(UpdateDaylight),
+                                             userInfo: nil,
+                                             repeats: true)
     }
+    
+    @objc func UpdateDaylight()
+    {
+        let DQ = DispatchQueue(label: "SunlightQueue", qos: .utility)
+        DQ.async
+            {
+                self.GetSunlightPoints()
+        }
+    }
+    
+    let DaylightGridSize = 1.3
+    
+    func GetSunlightPoints()
+    {
+        LightList.removeAll()
+        for Lon in stride(from: -179, to: 180, by: DaylightGridSize)
+        {
+            for Lat in stride(from: -90, to: 90, by: DaylightGridSize)
+            {
+                let Location = GeoPoint2(Double(Lat), Double(Lon))
+                let SunVisible = Solar.CalculateSunVisibility(Where: Location)
+                LightList.append((Latitude: Double(Lat), Longitude: Double(Lon), SunVisible: SunVisible))
+            }
+        }
+    }
+    
+    var LightList = [(Latitude: Double, Longitude: Double, SunVisible: Bool)]()
+    
+    var SunlightTimer: Timer? = nil
     
     var CityTestList = [City]()
     let CityList = Cities()
-    let Sun = SunGenerator()
+    let BottomSun = SunGenerator()
+    let TopSun = SunGenerator()
     
     /// Get the original locations of the sun and time labels. Initialize the program based on
     /// user settings.
@@ -90,16 +125,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             PreviousImage = ProvisionalImage
             WorldViewer.image = UIImage(named: PreviousImage)
         }
-        #if false
-        if Settings.GetTimeLabel() == .None
-        {
-            MainTimeLabelBottom.isHidden = true
-        }
-        else
-        {
-            MainTimeLabelBottom.isHidden = false
-        }
-        #endif
         PreviousPercent = -1.0
         StartTimeLabel()
     }
@@ -110,133 +135,36 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     /// with the time label.
     func UpdateSunLocations()
     {
-        if SingleTask.NotCompleted(&InitialSunPrint)
+        if Settings.GetImageCenter() == .NorthPole
         {
-            print("Initial sun location: \(Settings.GetSunLocation().rawValue)")
-        }
-        switch Settings.GetSunLocation()
-        {
-            case .Hidden:
-                SunViewTop.isHidden = true
-                SunViewBottom.isHidden = true
-            
-            case .Top:
-                SunViewTop.isHidden = false
-                SunViewBottom.isHidden = true
-                if Settings.GetTimeLabel() != .None
-                {
-                    MainTimeLabelBottom.isHidden = false
-                    MainTimeLabelTop.isHidden = true
-            }
-            
-            case .Bottom:
-                SunViewTop.isHidden = true
-                SunViewBottom.isHidden = false
-                if Settings.GetTimeLabel() != .None
-                {
-                    MainTimeLabelBottom.isHidden = true
-                    MainTimeLabelTop.isHidden = false
-            }
-        }
-    }
-    
-    /// Initialize/draw the grid on the Earth. Which lines are drawn depend on user settings.
-    /// - Parameter Radians: Rotational value of the prime meridians.
-    func DrawGrid(_ Radians: Double)
-    {
-        if GridOverlay.layer.sublayers != nil
-        {
-            for Layer in GridOverlay.layer.sublayers!
+            SunViewTop.isHidden = true
+            SunViewBottom.isHidden = false
+            if Settings.GetTimeLabel() == .None
             {
-                if Layer.name == "PrimeMeridian"
-                {
-                    Layer.removeFromSuperlayer()
-                }
+                MainTimeLabelTop.isHidden = true
+                MainTimeLabelBottom.isHidden = true
+            }
+            else
+            {
+                MainTimeLabelTop.isHidden = false
+                MainTimeLabelBottom.isHidden = true
             }
         }
-        GridOverlay.backgroundColor = UIColor.clear
-        let Grid = CAShapeLayer()
-        Grid.name = "ViewGrid"
-        Grid.bounds = GridOverlay.frame
-        Grid.frame = GridOverlay.frame
-        let Lines = UIBezierPath()
-        let CenterH = Grid.bounds.size.width / 2.0
-        let CenterV = Grid.bounds.size.height / 2.0
-        if Settings.ShowNoonMeridians()
+        else
         {
-            Lines.move(to: CGPoint(x: CenterH, y: 0))
-            Lines.addLine(to: CGPoint(x: CenterH, y: Grid.frame.size.height))
-            Lines.move(to: CGPoint(x: 0, y: CenterV))
-            Lines.addLine(to: CGPoint(x: Grid.frame.size.width, y: CenterV))
+            SunViewTop.isHidden = false
+            SunViewBottom.isHidden = true
+            if Settings.GetTimeLabel() == .None
+            {
+                MainTimeLabelTop.isHidden = true
+                MainTimeLabelBottom.isHidden = true
+            }
+            else
+            {
+                MainTimeLabelBottom.isHidden = false
+                MainTimeLabelTop.isHidden = true
+            }
         }
-        
-        let MeridianLayer = CAShapeLayer()
-        MeridianLayer.fillColor = UIColor.clear.cgColor
-        MeridianLayer.strokeColor = UIColor.systemYellow.withAlphaComponent(0.5).cgColor
-        MeridianLayer.lineWidth = 1.0
-        let Meridians = UIBezierPath()
-        if Settings.ShowPrimeMeridians()
-        {
-            MeridianLayer.name = "PrimeMeridian"
-            MeridianLayer.frame = GridOverlay.bounds
-            MeridianLayer.bounds = GridOverlay.bounds
-            Meridians.move(to: CGPoint(x: CenterH, y: 0))
-            Meridians.addLine(to: CGPoint(x: CenterH, y: Grid.frame.size.height))
-            Meridians.move(to: CGPoint(x: 0, y: CenterV))
-            Meridians.addLine(to: CGPoint(x: Grid.frame.size.width, y: CenterV))
-            let Rotation = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
-            MeridianLayer.transform = Rotation
-        }
-        if Settings.ShowTropics()
-        {
-            let TropicDistance: CGFloat = 23.43666
-            let TropicPercent = Grid.bounds.size.width * (TropicDistance / 180.0)
-            let CancerWidth = CenterH - TropicPercent
-            let Cancer = UIBezierPath(ovalIn: CGRect(x: CenterH - (CancerWidth / 2.0),
-                                                     y: CenterV - (CancerWidth / 2.0),
-                                                     width: CancerWidth,
-                                                     height: CancerWidth))
-            let CapricornWidth = CenterH + TropicPercent
-            let Capricorn = UIBezierPath(ovalIn: CGRect(x: CenterH - (CapricornWidth / 2.0),
-                                                        y: CenterV - (CapricornWidth / 2.0),
-                                                        width: CapricornWidth,
-                                                        height: CapricornWidth))
-            Meridians.append(Cancer)
-            Meridians.append(Capricorn)
-        }
-        if Settings.ShowPolarCircles()
-        {
-            let PolarCircle: CGFloat = 66.55
-            let InnerPercent = Grid.bounds.size.width * (PolarCircle / 180.0)
-            let InnerWidth = CenterH - InnerPercent
-            let InnerCircle = UIBezierPath(ovalIn: CGRect(x: CenterH - (InnerWidth / 2.0),
-                                                          y: CenterV - (InnerWidth / 2.0),
-                                                          width: InnerWidth,
-                                                          height: InnerWidth))
-            let OuterPercent = Grid.bounds.size.width * (PolarCircle / 180.0)
-            let OuterWidth = CenterH + OuterPercent
-            let OuterCircle = UIBezierPath(ovalIn: CGRect(x: CenterH - (OuterWidth / 2.0),
-                                                          y: CenterV - (OuterWidth / 2.0),
-                                                          width: OuterWidth,
-                                                          height: OuterWidth))
-            Meridians.append(InnerCircle)
-            Meridians.append(OuterCircle)
-        }
-        if Settings.ShowEquator()
-        {
-            let Equator = UIBezierPath(ovalIn: CGRect(x: CenterH / 2,
-                                                      y: CenterV / 2,
-                                                      width: CenterH,
-                                                      height: CenterV))
-            Meridians.append(Equator)
-        }
-        MeridianLayer.path = Meridians.cgPath
-        GridOverlay.layer.addSublayer(MeridianLayer)
-        Grid.strokeColor = UIColor.black.withAlphaComponent(0.5).cgColor
-        Grid.lineWidth = 1.0
-        Grid.fillColor = UIColor.clear.cgColor
-        Grid.path = Lines.cgPath
-        GridOverlay.layer.addSublayer(Grid)
     }
     
     /// Runs a recurrent timer to update the display once a second.
@@ -269,6 +197,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     /// rotates the Earth image to keep it aligned with the sun.
     @objc func TimeUpdater()
     {
+        UpdateSunLocations()
         let Now = GetUTC()
         let Formatter = DateFormatter()
         Formatter.dateFormat = "HH:mm:ss"
@@ -295,7 +224,12 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
         let Percent = Double(ElapsedSeconds) / Double(SecondsInDay)
         let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+        let CurrentSeconds = Now.timeIntervalSince1970
+        if CurrentSeconds != OldSeconds
+        {
+            OldSeconds = CurrentSeconds
         RotateImageTo(PrettyPercent)
+        }
         #if true
         if CityTestList.count > 0
         {
@@ -308,6 +242,9 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
         #endif
     }
+    
+    var OldSeconds: Double = 0.0
+    
     var TestCities: UUID? = nil
     
     let SecondsInDay: Int = 60 * 60 * 24
@@ -330,14 +267,16 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     ///                      should be normalized.
     func RotateImageTo(_ Percent: Double)
     {
-        if PreviousPercent == Percent
-        {
-            return
-        }
+        //if PreviousPercent == Percent
+        //{
+        //    return
+        //}
         PreviousPercent = Percent
-        let FinalOffset = Settings.GetSunLocation() == .Bottom ? 0.0 : OriginalOrientation
+        let FinalOffset = Settings.GetImageCenter() == .NorthPole ? 0.0 : 180.0
+ //       let FinalOffset = Settings.GetSunLocation() == .Bottom ? -90.0 : OriginalOrientation
         //Be sure to rotate the proper direction based on the map.
-        let Radians = MakeRadialTime(From: Percent, With: FinalOffset)
+        let Multiplier = Settings.GetImageCenter() == .NorthPole ? 1.0 : -1.0
+        let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
         let Rotation = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
         WorldViewer.layer.transform = Rotation
         if Settings.ShowGrid()
@@ -348,35 +287,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         {
             PlotCities(InCityList: CityTestList, RadialTime: Radians, CityListChanged: true)
         }
-        PlotDayLight()
     }
-    
-    func PlotDayLight()
-    {
-        let DQ = DispatchQueue(label: "SunlightQueue", qos: .utility)
-        DQ.async
-            {
-            self.GetSunlightPoints()
-        }
-    }
-    
-    let DaylightGridSize = 1.3
-    
-    func GetSunlightPoints()
-    {
-        LightList.removeAll()
-        for Lon in stride(from: -179, to: 180, by: DaylightGridSize)
-        {
-            for Lat in stride(from: -90, to: 90, by: DaylightGridSize)
-            {
-                let Location = GeoPoint2(Double(Lat), Double(Lon))
-                let SunVisible = Solar.CalculateSunVisibility(Where: Location)
-                LightList.append((Latitude: Double(Lat), Longitude: Double(Lon), SunVisible: SunVisible))
-            }
-        }
-    }
-    
-    var LightList = [(Latitude: Double, Longitude: Double, SunVisible: Bool)]()
     
     var PreviousImage: String = "WorldNorth"
     /// Previous percent drawn. Used to prevent constant updates when an update would not result
@@ -412,8 +323,17 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let Bezier = UIBezierPath()
         for SomeCity in InCityList
         {
-            let CityPath = PlotCity3(SomeCity, Diameter: (CityLayer?.bounds.width)!)
+            let CityPath = PlotCity(SomeCity, Diameter: (CityLayer?.bounds.width)!)
             Bezier.append(CityPath)
+        }
+        if Settings.ShowUserLocations()
+        {
+            let UserLocations = Settings.GetLocations()
+            for (ID, Location, Name, Color) in UserLocations
+            {
+                let LocationPath = PlotLocation(Location, Name, Color, (CityLayer?.bounds.width)!)
+                Bezier.append(LocationPath)
+            }
         }
         CityLayer?.fillColor = UIColor.red.cgColor
         CityLayer?.strokeColor = UIColor.black.cgColor
@@ -425,7 +345,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
         let HalfCircumference: Double = 40075.0 / 2.0
     
-    func PlotCity3(_ PlotMe: City, Diameter: CGFloat) -> UIBezierPath
+    func PlotCity(_ PlotMe: City, Diameter: CGFloat) -> UIBezierPath
     {
         let Latitude = PlotMe.Latitude
         let Longitude = PlotMe.Longitude
@@ -434,10 +354,10 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let CitySize: CGFloat = 10.0
         let CityDotSize = CGSize(width: CitySize, height: CitySize)
         let PointModifier = Double(CGFloat(Half) - (CitySize / 2.0))
-        
-        var Distance = DistanceFromNorthPole(To: GeoPoint2(Latitude, Longitude))
+        let LongitudeAdjustment = Settings.GetImageCenter() == .NorthPole ? 1.0 : -1.0
+        var Distance = DistanceFromContextPole(To: GeoPoint2(Latitude, Longitude))
         Distance = Distance * Ratio
-        var CityBearing = Bearing(Start: GeoPoint2(90.0, 0.0), End: GeoPoint2(Latitude, Longitude))
+        var CityBearing = Bearing(Start: GeoPoint2(90.0, 0.0), End: GeoPoint2(Latitude, Longitude * LongitudeAdjustment))
         CityBearing = (CityBearing + 90.0).ToRadians()
         let PointX = Distance * cos(CityBearing) + PointModifier
         let PointY = Distance * sin(CityBearing) + PointModifier
@@ -445,6 +365,27 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
 
         let City = UIBezierPath(ovalIn: CGRect(origin: Origin, size: CityDotSize))
      return City
+    }
+    
+    func PlotLocation(_ Location: GeoPoint2, _ Name: String, _ Color: UIColor, _ Diameter: CGFloat) -> UIBezierPath
+    {
+        let Latitude = Location.Latitude
+        let Longitude = Location.Longitude
+        let Half = Double(Diameter / 2.0)
+        let Ratio: Double = Half / HalfCircumference
+        let LocationSize: CGFloat = 10.0
+        let LocationDotSize = CGSize(width: LocationSize, height: LocationSize)
+        let PointModifier = Double(CGFloat(Half) - (LocationSize / 2.0))
+        let LongitudeAdjustment = Settings.GetImageCenter() == .NorthPole ? 1.0 : -1.0
+        var Distance = DistanceFromContextPole(To: GeoPoint2(Latitude, Longitude))
+        Distance = Distance * Ratio
+        var LocationBearing = Bearing(Start: GeoPoint2(90.0, 0.0), End: GeoPoint2(Latitude, Longitude * LongitudeAdjustment))
+        LocationBearing = (LocationBearing + 90.0).ToRadians()
+        let PointX = Distance * cos(LocationBearing) + PointModifier
+        let PointY = Distance * sin(LocationBearing) + PointModifier
+        let Origin = CGPoint(x: PointX, y: PointY)
+        let Location = UIBezierPath(rect: CGRect(origin: Origin, size: LocationDotSize))
+        return Location
     }
     
     /// Calculate the bearing between two geographic points on the Earth using the forward azimuth formula (great circle).
@@ -492,6 +433,23 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     func DistanceFromNorthPole(To: GeoPoint2) -> Double
     {
         return LawOfCosines(Point1: GeoPoint2(90.0, 0.0), Point2: To)
+    }
+    
+    func DistanceFromSouthPole(To: GeoPoint2) -> Double
+    {
+        return LawOfCosines(Point1: GeoPoint2(-90.0, 0.0), Point2: To)
+    }
+    
+    func DistanceFromContextPole(To: GeoPoint2) -> Double
+    {
+        if Settings.GetImageCenter() == .NorthPole
+        {
+            return DistanceFromNorthPole(To: To)
+        }
+        else
+        {
+            return DistanceFromSouthPole(To: To)
+        }
     }
 
     func PrettyPoint(_ Point: CGPoint) -> String
