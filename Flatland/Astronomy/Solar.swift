@@ -355,6 +355,8 @@ public class Solar
         return ToRadians(S * 360.0)
     }
     
+    static var TestBlock: NSObject = NSObject()
+    
     /// Called iteratively to calculate sunrise and sunset times.
     /// - Parameters:
     ///   - TheHour: Test house.
@@ -364,6 +366,9 @@ public class Solar
     /// - Returns: Transit time.
     private static func TestHour(TheHour: Int, Zone: Double, SidTime: Double, Latitude: Double) -> Double
     {
+        objc_sync_enter(TestBlock)
+        defer{objc_sync_exit(TestBlock)}
+//        var HA = Array(repeating: 0.0, count: 3)
         var HA: [Double] = [0.0, 0.0, 0.0]
         HA[0] = SidTime - mRightAscentionArr[0] + (Double(TheHour) * MK1)
         HA[2] = SidTime - mRightAscentionArr[2] + ((Double(TheHour) * MK1) + MK1)
