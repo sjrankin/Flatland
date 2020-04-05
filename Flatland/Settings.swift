@@ -99,7 +99,6 @@ class Settings
             UserDefaults.standard.set("", forKey: "UserLocations")
             return
         }
-        print("Setting locations: \(List)")
         var LocationList = ""
         for (ID, Location, Name, Color) in List
         {
@@ -153,7 +152,6 @@ class Settings
                     var Results = [(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: UIColor)]()
         if let Raw = UserDefaults.standard.string(forKey: "UserLocations")
         {
-            print("Raw locations: \(Raw)")
             let Locations = Raw.split(separator: ";", omittingEmptySubsequences: true)
             for Where in Locations
             {
