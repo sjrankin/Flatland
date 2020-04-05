@@ -34,6 +34,7 @@
 		17CC3C61242CC69900CC7F87 /* SettingsNavigationViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */; };
 		17E180F5242F62F700310896 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F4242F62F700310896 /* City.swift */; };
 		17E180F8242F646700310896 /* Cities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F7242F646700310896 /* Cities.swift */; };
+		17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF546D2439921B005B036C /* +DrawGrid.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationViewer.swift; sourceTree = "<group>"; };
 		17E180F4242F62F700310896 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		17E180F7242F646700310896 /* Cities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cities.swift; sourceTree = "<group>"; };
+		17EF546D2439921B005B036C /* +DrawGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+DrawGrid.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 				17BE6867242C7A99009861E1 /* AppDelegate.swift */,
 				17BE686D242C7A99009861E1 /* Main.storyboard */,
 				17BE686B242C7A99009861E1 /* MainView.swift */,
+				17EF546D2439921B005B036C /* +DrawGrid.swift */,
 				17BE6869242C7A99009861E1 /* SceneDelegate.swift */,
 				17BE6880242CA8FB009861E1 /* Settings.swift */,
 				173A9260242F24D700363576 /* SunGenerator.swift */,
@@ -229,6 +232,7 @@
 				1792BD8A2430540A006ABD02 /* Miscellaneous.swift in Sources */,
 				173A9263242F32E100363576 /* SingleTask.swift in Sources */,
 				1792BD8624305173006ABD02 /* Utility.swift in Sources */,
+				17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */,
 				176DC96E2438390100830DB1 /* EditLocation.swift in Sources */,
 				17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */,
 				1792BD8024304EA7006ABD02 /* Solar.swift in Sources */,
