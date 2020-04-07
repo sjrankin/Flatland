@@ -29,9 +29,9 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         BottomSun.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
         for Top in CityTestList
-         {
+        {
             print("Name: \(Top.Name), population: \(Top.MetropolitanPopulation!)")
-         }
+        }
         SunlightTimer = Timer.scheduledTimer(timeInterval: 30.0,
                                              target: self,
                                              selector: #selector(UpdateDaylight),
@@ -41,11 +41,13 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     @objc func UpdateDaylight()
     {
+        #if false
         let DQ = DispatchQueue(label: "SunlightQueue", qos: .utility)
         DQ.async
             {
                 self.GetSunlightPoints()
         }
+        #endif
     }
     
     let DaylightGridSize = 1.3
@@ -228,7 +230,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         if CurrentSeconds != OldSeconds
         {
             OldSeconds = CurrentSeconds
-        RotateImageTo(PrettyPercent)
+            RotateImageTo(PrettyPercent)
         }
         #if true
         if CityTestList.count > 0
@@ -273,7 +275,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         //}
         PreviousPercent = Percent
         let FinalOffset = Settings.GetImageCenter() == .NorthPole ? 0.0 : 180.0
- //       let FinalOffset = Settings.GetSunLocation() == .Bottom ? -90.0 : OriginalOrientation
+        //       let FinalOffset = Settings.GetSunLocation() == .Bottom ? -90.0 : OriginalOrientation
         //Be sure to rotate the proper direction based on the map.
         let Multiplier = Settings.GetImageCenter() == .NorthPole ? 1.0 : -1.0
         let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
@@ -328,11 +330,24 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
         if Settings.ShowUserLocations()
         {
+            if CityLayer?.sublayers != nil
+            {
+                for SomeLayer in CityLayer!.sublayers!
+                {
+                    if SomeLayer.name == "User Location"
+                    {
+                        SomeLayer.removeFromSuperlayer()
+                    }
+                }
+            }
             let UserLocations = Settings.GetLocations()
             for (ID, Location, Name, Color) in UserLocations
             {
-                let LocationPath = PlotLocation(Location, Name, Color, (CityLayer?.bounds.width)!)
-                Bezier.append(LocationPath)
+                let LocationLayer = PlotLocation2(Location, Name, Color, (CityLayer?.bounds.width)!)
+                LocationLayer.name = "User Location"
+                CityLayer?.addSublayer(LocationLayer)
+//                let LocationPath = PlotLocation(Location, Name, Color, (CityLayer?.bounds.width)!)
+//                Bezier.append(LocationPath)
             }
         }
         CityLayer?.fillColor = UIColor.red.cgColor
@@ -343,7 +358,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         CityLayer?.transform = Rotation
     }
     
-        let HalfCircumference: Double = 40075.0 / 2.0
+    let HalfCircumference: Double = 40075.0 / 2.0
     
     func PlotCity(_ PlotMe: City, Diameter: CGFloat) -> UIBezierPath
     {
@@ -362,9 +377,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let PointX = Distance * cos(CityBearing) + PointModifier
         let PointY = Distance * sin(CityBearing) + PointModifier
         let Origin = CGPoint(x: PointX, y: PointY)
-
         let City = UIBezierPath(ovalIn: CGRect(origin: Origin, size: CityDotSize))
-     return City
+        return City
     }
     
     func PlotLocation(_ Location: GeoPoint2, _ Name: String, _ Color: UIColor, _ Diameter: CGFloat) -> UIBezierPath
@@ -386,6 +400,35 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let Origin = CGPoint(x: PointX, y: PointY)
         let Location = UIBezierPath(rect: CGRect(origin: Origin, size: LocationDotSize))
         return Location
+    }
+    
+    func PlotLocation2(_ Location: GeoPoint2, _ Name: String, _ Color: UIColor, _ Diameter: CGFloat) -> CAShapeLayer
+    {
+        let Latitude = Location.Latitude
+        let Longitude = Location.Longitude
+        let Half = Double(Diameter / 2.0)
+        let Ratio: Double = Half / HalfCircumference
+        let LocationSize: CGFloat = 10.0
+        let LocationDotSize = CGSize(width: LocationSize, height: LocationSize)
+        let PointModifier = Double(CGFloat(Half) - (LocationSize / 2.0))
+        let LongitudeAdjustment = Settings.GetImageCenter() == .NorthPole ? 1.0 : -1.0
+        var Distance = DistanceFromContextPole(To: GeoPoint2(Latitude, Longitude))
+        Distance = Distance * Ratio
+        var LocationBearing = Bearing(Start: GeoPoint2(90.0, 0.0), End: GeoPoint2(Latitude, Longitude * LongitudeAdjustment))
+        LocationBearing = (LocationBearing + 90.0).ToRadians()
+        let PointX = Distance * cos(LocationBearing) + PointModifier
+        let PointY = Distance * sin(LocationBearing) + PointModifier
+        let Origin = CGPoint(x: PointX, y: PointY)
+        let Location = UIBezierPath(rect: CGRect(origin: Origin, size: LocationDotSize))
+        let Layer = CAShapeLayer()
+        Layer.frame = WorldViewer.bounds
+        Layer.bounds = WorldViewer.bounds
+        Layer.backgroundColor = UIColor.clear.cgColor
+        Layer.fillColor = Color.cgColor
+        Layer.strokeColor = UIColor.black.cgColor
+        Layer.lineWidth = 1.0
+        Layer.path = Location.cgPath
+        return Layer
     }
     
     /// Calculate the bearing between two geographic points on the Earth using the forward azimuth formula (great circle).
@@ -420,6 +463,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         return Angle
     }
     
+    /// Implementation of the Spherical Law of Cosines. Used to calculate a distance between two
+    /// points on a sphere, in our case, the surface of the Earth.
+    /// - Parameter Point1: First location.
+    /// - Parameter Point2: Second location.
+    /// - Returns: Distance from `Point1` to `Point2` in kilometers.
     func LawOfCosines(Point1: GeoPoint2, Point2: GeoPoint2) -> Double
     {
         let Term1 = sin(Point1.Latitude.ToRadians()) * sin(Point2.Latitude.ToRadians())
@@ -430,16 +478,23 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         return V
     }
     
+    /// Returns the distance from the passed location to the North Pole.
+    /// - Returns: Distance (in kilometers) from `To` to the North Pole.
     func DistanceFromNorthPole(To: GeoPoint2) -> Double
     {
         return LawOfCosines(Point1: GeoPoint2(90.0, 0.0), Point2: To)
     }
-    
+
+    /// Returns the distance from the passed location to the South Pole.
+    /// - Returns: Distance (in kilometers) from `To` to the South Pole.
     func DistanceFromSouthPole(To: GeoPoint2) -> Double
     {
         return LawOfCosines(Point1: GeoPoint2(-90.0, 0.0), Point2: To)
     }
     
+    /// Returns the distance from the passed location to the pole that is at the center of the image.
+    /// - Parameter To: The point whose distance to the pole at the center of the image is returned.
+    /// - Returns: The distance (in kilometers) from `To` to the pole at the center of the image.
     func DistanceFromContextPole(To: GeoPoint2) -> Double
     {
         if Settings.GetImageCenter() == .NorthPole
@@ -451,7 +506,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             return DistanceFromSouthPole(To: To)
         }
     }
-
+    
     func PrettyPoint(_ Point: CGPoint) -> String
     {
         let X = Double(Point.x).RoundedTo(3)
@@ -459,6 +514,12 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         return "(\(X),\(Y))"
     }
     
+    /// Converts polar coordintes into Cartesian coordinates, optionally adding an offset value.
+    /// - Parameter Theta: The angle of the polar coordinate.
+    /// - Parameter Radius: The radial value of the polar coordinate.
+    /// - Parameter HOffset: Value added to the returned `x` value. Defaults to 0.0.
+    /// - Parameter VOffset: Value added to the returned `y` value. Defaults to 0.0.
+    /// - Returns: `CGPoint` with the converted polar coorindate.
     func PolarToCartesian(Theta: Double, Radius: Double, HOffset: Double = 0.0, VOffset: Double = 0.0) -> CGPoint
     {
         let Radial = Theta * Double.pi / 180.0
@@ -486,6 +547,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         return Controller
     }
     
+    // MARK: - Interface builder outlets.
+    
     @IBOutlet weak var SettingsButton: UIButton!
     @IBOutlet weak var GridOverlay: UIView!
     @IBOutlet weak var SunViewTop: UIImageView!
@@ -496,8 +559,12 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     @IBOutlet weak var WorldViewer: UIImageView!
 }
 
+/// Double extensions.
 extension Double
 {
+    /// Returns a rounded value of the instance double.
+    /// - Parameter Count: Number of places to round to.
+    /// - Returns: Rounded value.
     func RoundedTo(_ Count: Int) -> Double
     {
         let Multiplier = pow(10.0, Count)
@@ -505,11 +572,15 @@ extension Double
         return Double(Value) / Double(truncating: Multiplier as NSNumber)
     }
     
+    /// Converts the instance value from (an assumed) degrees to radians.
+    /// - Returns: Value converted to radians.
     func ToRadians() -> Double
     {
         return self * Double.pi / 180.0
     }
     
+    /// Converts the instance value from (an assumed) radians to degrees.
+    /// - Returns: Value converted to degrees.
     func ToDegrees() -> Double
     {
         return self * 180.0 / Double.pi
