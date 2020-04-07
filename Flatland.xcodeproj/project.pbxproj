@@ -35,6 +35,7 @@
 		17E180F5242F62F700310896 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F4242F62F700310896 /* City.swift */; };
 		17E180F8242F646700310896 /* Cities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F7242F646700310896 /* Cities.swift */; };
 		17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF546D2439921B005B036C /* +DrawGrid.swift */; };
+		17EF5472243B5EB4005B036C /* Sun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF5471243B5EB3005B036C /* Sun.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,7 @@
 		17E180F4242F62F700310896 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		17E180F7242F646700310896 /* Cities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cities.swift; sourceTree = "<group>"; };
 		17EF546D2439921B005B036C /* +DrawGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+DrawGrid.swift"; sourceTree = "<group>"; };
+		17EF5471243B5EB3005B036C /* Sun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sun.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				1792BD8324304FBE006ABD02 /* GeoPoint2.swift */,
 				1792BD872430529C006ABD02 /* TimeHelper.swift */,
 				1792BD892430540A006ABD02 /* Miscellaneous.swift */,
+				17EF5471243B5EB3005B036C /* Sun.swift */,
 			);
 			path = Astronomy;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17EF5472243B5EB4005B036C /* Sun.swift in Sources */,
 				1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */,
 				1792BD882430529C006ABD02 /* TimeHelper.swift in Sources */,
 				17E180F8242F646700310896 /* Cities.swift in Sources */,
