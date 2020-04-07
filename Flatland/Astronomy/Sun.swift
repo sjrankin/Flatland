@@ -25,9 +25,9 @@ class Sun
     
     /// Initializer.
     /// - Parameter Location: The location whose relation to the location of the sun is resolved here.
-    /// - Parameter Zenith: The zenith of the sky. Defaults to `90.83`.
+    /// - Parameter Zenith: The zenith of the sky. Defaults to `90.833`.
     /// - Parameter Offset: Time zone offset in number of seconds from UT.
-    init(Location: GeoPoint2, Zenith: Double = 90.83, Offset: Int)
+    init(Location: GeoPoint2, Zenith: Double = 90.833, Offset: Int)
     {
         self.Zenith = Zenith
         ClassTimeZoneOffset = Offset
@@ -224,6 +224,66 @@ class Sun
         }
         return Sunset(For: TargetDate, At: GeoPoint2(ClassLatitude!, ClassLongitude!), TimeZoneOffset: ClassTimeZoneOffset!)
     }
+    
+    /// Return the number of seconds for the `.Second`, `.Minute`, and `.Hour` components of the
+    /// passed date.
+    /// - Parameter Value: The date whose time components are returned as seconds.
+    /// - Returns: Number of seconds in the time components of the passed date.
+    func SecondsInDate(_ Value: Date) -> Int
+    {
+        let Cal = Calendar.current
+        let Seconds = Cal.component(.second, from: Value)
+        let Minutes = Cal.component(.minute, from: Value)
+        let Hours = Cal.component(.hour, from: Value)
+        return Seconds + (Minutes * 60) + (Hours * 60 * 60)
+    }
+    
+    /// Returns the length of the day based on the passed sunrise and sunset times. If both parameters
+    /// are nil, 0 is returned.
+    /// - Parameter Sunrise: The sunrise time. Only the time portion is used. If this parameter is
+    ///                      nil, the sunrise is treated as midnight.
+    /// - Parameter sunset: The sunset time. Only the time portion is used. If this parameter is
+    ///                     nil, the sunset is treated as midnight.
+    /// - Returns: Number of seconds the sun is visible during the day.
+    func DaylightTime(Sunrise: Date?, Sunset: Date?) -> Int
+    {
+        if Sunrise == nil && Sunset == nil
+        {
+            return 0
+        }
+        var StartSecond = 0
+        if Sunrise != nil
+        {
+            StartSecond = SecondsInDate(Sunrise!)
+        }
+        var SecondEnd = SecondsInDay
+        if Sunset != nil
+        {
+            SecondEnd = SecondsInDate(Sunset!)
+        }
+        return SecondEnd - StartSecond
+    }
+    
+    /// Returns the percent of day the sunrise and sunset occured.
+    /// - Parameter Sunrise: The time of the sunrise (only the time components are used). If nil, there
+    ///                      was no sunrise so sunrise is treated as midnight.
+    /// - Parameter Sunset: The time of the sunset (only the time components are used). If nil, there
+    ///                      was no sunset so sunrise is treated as midnight.
+    /// Returns: Tuple with the sunrise percent and sunset percent. If both `Sunrise` and `Sunset` are
+    ///          nil, `(0.0, 0.0)` is returned indicating no sunrise or no sunset (eg, polar darkness during
+    ///          the local winter).
+    func SunPercents(Sunrise: Date?, Sunset: Date?) -> (Double, Double)?
+    {
+        if Sunrise == nil && Sunset == nil
+        {
+            return (0.0, 0.0)
+        }
+        let SunriseSeconds = Sunrise == nil ? 0 : SecondsInDate(Sunrise!)
+        let SunsetSeconds = Sunset == nil ? SecondsInDay : SecondsInDate(Sunset!)
+        return (Double(SunriseSeconds) / Double(SecondsInDay), Double(SunsetSeconds) / Double(SecondsInDay))
+    }
+    
+    let SecondsInDay = 24 * 60 * 60
 }
 
 extension Double
