@@ -286,6 +286,7 @@ class Sun
     let SecondsInDay = 24 * 60 * 60
 }
 
+#if false
 extension Double
 {
     var Radians: Double
@@ -304,3 +305,4 @@ extension Double
         }
     }
 }
+#endif
