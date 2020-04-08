@@ -29,6 +29,10 @@
                                         <rect key="frame" x="34" y="162" width="700" height="700"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kDv-JP-mbI">
+                                        <rect key="frame" x="34" y="162" width="700" height="700"/>
+                                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7vk-gF-Mzg">
                                         <rect key="frame" x="216.5" y="900" width="335" height="50"/>
                                         <constraints>
@@ -80,10 +84,14 @@
                                     <constraint firstItem="Pia-TU-9Wx" firstAttribute="centerY" secondItem="EsQ-gP-0lz" secondAttribute="centerY" id="4lY-Ei-F7y"/>
                                     <constraint firstItem="7vk-gF-Mzg" firstAttribute="centerX" secondItem="lZ4-B6-wwt" secondAttribute="centerX" id="6PI-E0-ag8"/>
                                     <constraint firstItem="pUB-G7-6d9" firstAttribute="top" secondItem="7vk-gF-Mzg" secondAttribute="top" id="AqC-Wg-dcb"/>
+                                    <constraint firstItem="l3A-8D-waa" firstAttribute="trailing" secondItem="kDv-JP-mbI" secondAttribute="trailing" id="FG9-Ko-s51"/>
                                     <constraint firstItem="E0c-Ml-2UJ" firstAttribute="bottom" secondItem="l3A-8D-waa" secondAttribute="bottom" id="H6C-c1-q3T"/>
                                     <constraint firstItem="E0c-Ml-2UJ" firstAttribute="leading" secondItem="l3A-8D-waa" secondAttribute="leading" id="MzO-8O-yPd"/>
+                                    <constraint firstItem="l3A-8D-waa" firstAttribute="bottom" secondItem="kDv-JP-mbI" secondAttribute="bottom" id="OP3-Pj-32T"/>
                                     <constraint firstAttribute="bottom" secondItem="STp-0d-B28" secondAttribute="bottom" constant="10" id="Szk-PC-ysV"/>
+                                    <constraint firstItem="kDv-JP-mbI" firstAttribute="leading" secondItem="l3A-8D-waa" secondAttribute="leading" id="UUq-fM-vcg"/>
                                     <constraint firstItem="EsQ-gP-0lz" firstAttribute="centerX" secondItem="lZ4-B6-wwt" secondAttribute="centerX" id="Xdo-80-DSe"/>
+                                    <constraint firstItem="kDv-JP-mbI" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="top" id="aE5-42-yq8"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="top" secondItem="7vk-gF-Mzg" secondAttribute="bottom" constant="-788" id="aIv-fh-Kvr"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="centerX" secondItem="lZ4-B6-wwt" secondAttribute="centerX" id="gG4-gd-Hsp"/>
                                     <constraint firstItem="E0c-Ml-2UJ" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="top" id="iYc-kt-vyu"/>
@@ -105,6 +113,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="ArcLayer" destination="kDv-JP-mbI" id="OhZ-yc-uXx"/>
                         <outlet property="GridOverlay" destination="E0c-Ml-2UJ" id="loN-bu-zjb"/>
                         <outlet property="MainTimeLabelBottom" destination="7vk-gF-Mzg" id="P1o-fs-0x4"/>
                         <outlet property="MainTimeLabelTop" destination="Pia-TU-9Wx" id="Yk8-EI-O8A"/>
