@@ -23,11 +23,14 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         super.viewDidLoad()
         Settings.Initialize()
         
+        ArcLayer.backgroundColor = UIColor.clear
+        ArcLayer.layer.zPosition = 100000
         TopView.backgroundColor = UIColor.black
         SettingsDone()
         TopSun.VariableSunImage(Using: SunViewTop, Interval: 0.1)
         BottomSun.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        #if false
         for Top in CityTestList
         {
             print("Name: \(Top.Name), population: \(Top.MetropolitanPopulation!)")
@@ -37,6 +40,17 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                                              selector: #selector(UpdateDaylight),
                                              userInfo: nil,
                                              repeats: true)
+        #endif
+        let Radius = ArcLayer.bounds.width / 2.0
+        let Center = CGPoint(x: Radius, y: Radius)
+        let test = MakeArc(Start: 90.0,
+                           End: 270.0,
+                           Radius: Radius,// / 2.0,
+                           ArcWidth: 360.0,
+                           Center: Center,
+                           ArcColor: UIColor.black,
+                           Rectangle: ArcLayer.bounds)
+        ArcLayer.layer.addSublayer(test)
     }
     
     @objc func UpdateDaylight()
@@ -549,6 +563,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     // MARK: - Interface builder outlets.
     
+    @IBOutlet weak var ArcLayer: UIView!
     @IBOutlet weak var SettingsButton: UIButton!
     @IBOutlet weak var GridOverlay: UIView!
     @IBOutlet weak var SunViewTop: UIImageView!
@@ -557,32 +572,4 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     @IBOutlet weak var MainTimeLabelTop: UILabel!
     @IBOutlet weak var TopView: UIView!
     @IBOutlet weak var WorldViewer: UIImageView!
-}
-
-/// Double extensions.
-extension Double
-{
-    /// Returns a rounded value of the instance double.
-    /// - Parameter Count: Number of places to round to.
-    /// - Returns: Rounded value.
-    func RoundedTo(_ Count: Int) -> Double
-    {
-        let Multiplier = pow(10.0, Count)
-        let Value = Int(self * Double(truncating: Multiplier as NSNumber))
-        return Double(Value) / Double(truncating: Multiplier as NSNumber)
-    }
-    
-    /// Converts the instance value from (an assumed) degrees to radians.
-    /// - Returns: Value converted to radians.
-    func ToRadians() -> Double
-    {
-        return self * Double.pi / 180.0
-    }
-    
-    /// Converts the instance value from (an assumed) radians to degrees.
-    /// - Returns: Value converted to degrees.
-    func ToDegrees() -> Double
-    {
-        return self * 180.0 / Double.pi
-    }
 }
