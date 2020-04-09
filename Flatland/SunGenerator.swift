@@ -70,6 +70,8 @@ class SunGenerator
         }
     }
     
+    var CachedSuns: [Float: UIImage] = [Float: UIImage]()
+    
     /// Returns a sun image with the specified strenth.
     /// - Parameter WithStrength: The striation strength.
     /// - Returns: Image of a sun.
@@ -180,12 +182,17 @@ class SunGenerator
         FinalStriation = FinalStrength
         Sunbeams.striationStrength = FinalStrength
         Sunbeams.time = 1.0
+        if let SunImage = CachedSuns[FinalStriation]
+        {
+            return SunImage
+        }
         if let FilterOutput = Sunbeams.outputImage
         {
             let Context = CIContext(options: nil)
             if let CGImg = Context.createCGImage(FilterOutput, from: FilterOutput.extent)
             {
                 let Final = UIImage(cgImage: CGImg)
+                CachedSuns[FinalStriation] = Final
                 return Final
             }
         }
