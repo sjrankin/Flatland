@@ -11,8 +11,16 @@ import UIKit
 import SQLite3
 
 /// Encapsulates a geographic point.
-public class GeoPoint2
+public class GeoPoint2: CustomStringConvertible
 {
+    public var description: String
+    {
+        get
+        {
+            return "\(Latitude.RoundedTo(4)),\(Longitude.RoundedTo(4))"
+        }
+    }
+    
     /// Initializer.
     init()
     {
