@@ -54,6 +54,7 @@ class ProgramSettings: UITableViewController
         FreezeTimeAtSwitch.isOn = Settings.GetFreezeTime()
         ClockSpeedSegment.selectedSegmentIndex = Settings.GetClockMultiplier()
         EnableDebugSwitch.isOn = Settings.GetDebug()
+        ShowLocalDataSwitch.isOn = Settings.GetShowLocalData()
     }
     
     @IBAction func HandleTimeLabelChanged(_ sender: Any)
@@ -185,6 +186,14 @@ class ProgramSettings: UITableViewController
         }
     }
     
+    @IBAction func HandleShowLocalDataChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetShowLocalData(Switch.isOn)
+        }
+    }
+    
     @IBAction func HandleEnableDebugChanged(_ sender: Any)
     {
         if let Switch = sender as? UISwitch
@@ -193,6 +202,7 @@ class ProgramSettings: UITableViewController
         }
     }
     
+    @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
     @IBOutlet weak var ShowPolarCirclesSwitch: UISwitch!
     @IBOutlet weak var ShowCitiesSwitch: UISwitch!
     @IBOutlet weak var EnableDebugSwitch: UISwitch!
