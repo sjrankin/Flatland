@@ -23,6 +23,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         super.viewDidLoad()
         Settings.Initialize()
         
+        DataStack.layer.borderColor = UIColor.white.cgColor
         ArcLayer.backgroundColor = UIColor.clear
         ArcLayer.layer.zPosition = 100000
         TopView.backgroundColor = UIColor.black
@@ -35,12 +36,13 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         {
             print("Name: \(Top.Name), population: \(Top.MetropolitanPopulation!)")
         }
-        SunlightTimer = Timer.scheduledTimer(timeInterval: 30.0,
+        #endif
+        SunlightTimer = Timer.scheduledTimer(timeInterval: 60.0,
                                              target: self,
                                              selector: #selector(UpdateDaylight),
                                              userInfo: nil,
                                              repeats: true)
-        #endif
+        MakeLatitudeBands()
         let Radius = ArcLayer.bounds.width / 2.0
         let Center = CGPoint(x: Radius, y: Radius)
         let test = MakeArc(Start: 90.0,
@@ -51,17 +53,116 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                            ArcColor: UIColor.black,
                            Rectangle: ArcLayer.bounds)
         ArcLayer.layer.addSublayer(test)
+        LocalDataTimer = Timer.scheduledTimer(timeInterval: 1.0,
+                                              target: self,
+                                              selector: #selector(UpdateLocalData),
+                                              userInfo: nil,
+                                              repeats: true)
+    }
+    
+    var LocalDataTimer: Timer? = nil
+    
+    @objc func UpdateLocalData()
+    {
+        if !Settings.GetShowLocalData()
+        {
+            DataStack.isHidden = true
+            return
+        }
+        DataStack.isHidden = false
+        let Now = Date()
+        let Cal = Calendar.current
+        let Hour = Cal.component(.hour, from: Now)
+        let Minute = Cal.component(.minute, from: Now)
+        let Second = Cal.component(.second, from: Now)
+        let Total = Second + (Minute * 60) + (Hour * 60 * 60)
+        let FinalTotal = "\(Total)"
+        LocalSecondsLabel.text = FinalTotal
+        let LocalLat = Settings.GetLocalLatitude()
+        let LocalLon = Settings.GetLocalLongitude()
+        if LocalLat == nil || LocalLon == nil
+        {
+            LocalSunsetLabel.text = "N/A"
+            LocalSunriseLabel.text = "N/A"
+        }
+        else
+        {
+            let SunTimes = Sun(Location: GeoPoint2(LocalLat!, LocalLon!), Offset: Settings.GetLocalTimeZoneOffset())
+            if let SunriseTime = SunTimes.Sunrise(For: Date())
+            {
+                LocalSunriseLabel.text = PrettyTime(From: SunriseTime)
+            }
+            else
+            {
+                LocalSunriseLabel.text = "No sunrise"
+            }
+            if let SunsetTime = SunTimes.Sunset(For: Date())
+            {
+                LocalSunsetLabel.text = PrettyTime(From: SunsetTime)
+            }
+            else
+            {
+                LocalSunsetLabel.text = "No sunset"
+            }
+        }
+    }
+    
+    func PrettyTime(From: Date) -> String
+    {
+        let Cal = Calendar.current
+        let Hour = Cal.component(.hour, from: From)
+        let Minute = Cal.component(.minute, from: From)
+        let Second = Cal.component(.second, from: From)
+        var HourS = "\(Hour)"
+        if Hour < 10
+        {
+            HourS = " " + HourS
+        }
+        var MinuteS = "\(Minute)"
+        if Minute < 10
+        {
+            MinuteS = "0" + MinuteS
+        }
+        var SecondS = "\(Second)"
+        if Second < 10
+        {
+            SecondS = "0" + SecondS
+        }
+        return "\(HourS):\(MinuteS):\(SecondS)"
     }
     
     @objc func UpdateDaylight()
     {
-        #if false
         let DQ = DispatchQueue(label: "SunlightQueue", qos: .utility)
         DQ.async
             {
-                self.GetSunlightPoints()
+                self.MakeLatitudeBands()
         }
-        #endif
+    }
+    
+    func MakeLatitudeBands()
+    {
+        let Time = Date()
+        print("Latitude time: \(Time)")
+        for Lat in -90 ..< 90
+        {
+            let Location = GeoPoint2(42.9584, 141.5630)
+            let SolarLibrary = Sun(Location: Location, Offset: 9)
+            let Sunrise = SolarLibrary.Sunrise(For: Time, At: Location, TimeZoneOffset: 9)
+            if Sunrise == nil
+            {
+                print("No sunrise for location on this date")
+            }
+            let Sunset = SolarLibrary.Sunset(For: Time, At: Location, TimeZoneOffset: 9)
+            if Sunset == nil
+            {
+                print("No sunset for location on this date")
+            }
+            if let (Rise, Set) = SolarLibrary.SunPercents(Sunrise: Sunrise, Sunset: Sunset)
+            {
+                //print("At \(Location), Rise%=\(Rise), Set%=\(Set)")
+            }
+        }
     }
     
     let DaylightGridSize = 1.3
@@ -563,6 +664,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     // MARK: - Interface builder outlets.
     
+    @IBOutlet weak var LocalSunsetLabel: UILabel!
+    @IBOutlet weak var LocalSunriseLabel: UILabel!
+    @IBOutlet weak var LocalSecondsLabel: UILabel!
+    @IBOutlet weak var NoonTimezoneLabel: UILabel!
+    @IBOutlet weak var DataStack: UIStackView!
     @IBOutlet weak var ArcLayer: UIView!
     @IBOutlet weak var SettingsButton: UIButton!
     @IBOutlet weak var GridOverlay: UIView!
