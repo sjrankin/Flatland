@@ -42,6 +42,7 @@ class Settings
         SetSouthAmericanCities100(false)
         SetCapitalCities(true)
         SetUserLocations(true)
+        SetShowLocalData(true)
         SetLocations([])
     }
     
@@ -440,6 +441,64 @@ class Settings
     public static func SetUserLocations(_ Show: Bool)
     {
         UserDefaults.standard.set(Show, forKey: "ShowUserLocations")
+    }
+    
+    //MARK: - Local settings display.
+    
+    public static func GetShowLocalData() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowLocalData")
+    }
+    
+    public static func SetShowLocalData(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowLocalData")
+    }
+    
+    public static func GetLocalLatitude() -> Double?
+    {
+        if let Value = UserDefaults.standard.string(forKey: "UserLatitude")
+        {
+            if let Final = Double(Value)
+            {
+                return Final
+            }
+        }
+        return nil
+    }
+    
+    public static func SetLocalLatitude(_ NewLatitude: Double)
+    {
+        let Raw = "\(NewLatitude)"
+        UserDefaults.standard.set(Raw, forKey: "UserLatitude")
+    }
+    
+    public static func GetLocalLongitude() -> Double?
+    {
+        if let Value = UserDefaults.standard.string(forKey: "UserLongitude")
+        {
+            if let Final = Double(Value)
+            {
+                return Final
+            }
+        }
+        return nil
+    }
+    
+    public static func SetLocalLongitude(_ NewLatitude: Double)
+    {
+        let Raw = "\(NewLatitude)"
+        UserDefaults.standard.set(Raw, forKey: "UserLongitude")
+    }
+    
+    public static func GetLocalTimeZoneOffset() -> Int
+    {
+        return UserDefaults.standard.integer(forKey: "LocalTimeZoneOffset")
+    }
+    
+    public static func SetLocalTimeZoneOffset(_ NewOffset: Int)
+    {
+        UserDefaults.standard.set(NewOffset, forKey: "LocalTimeZoneOffset")
     }
 }
 
