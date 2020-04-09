@@ -105,6 +105,11 @@ class Sun
         L = Normalize(L, Max: 360.0)
         
         var RA = atan(0.91764 * tan(L.Radians)).Degrees
+        if RA.isNaN
+        {
+            //print("RA calculation failed.")
+            return nil
+        }
         RA = Normalize(RA, Max: 360.0)
         let LQuad = floor(L / 90.0) * 90.0
         let RAQuad = floor(RA / 90.0) * 90.0
@@ -119,7 +124,7 @@ class Sun
         {
             if CosH > 1.0
             {
-                print("CosH=\(CosH): No sun rise.")
+                //print("CosH=\(CosH): No sun rise.")
                 return nil
             }
         }
@@ -127,12 +132,17 @@ class Sun
         {
             if CosH < -1.0
             {
-                print("CosH=\(CosH): No sun set.")
+                //print("CosH=\(CosH): No sun set.")
                 return nil
             }
         }
         
         var H: Double = 360.0 - acos(CosH).Degrees
+        if H.isNaN
+        {
+            //print("H calculation failed.")
+            return nil
+        }
         if !ForRise
         {
             H = acos(CosH).Degrees
@@ -190,7 +200,11 @@ class Sun
     ///            parameters. If nil is returned, there was no sunset at that location and date.
     func Sunset(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Date?
     {
-        return SunriseSunset(TargetDate, Latitude: Location.Latitude, Longitude: Location.Longitude, Offset: TimeZoneOffset, ForRise: false)
+        return SunriseSunset(TargetDate,
+                             Latitude: Location.Latitude,
+                             Longitude: Location.Longitude,
+                             Offset: TimeZoneOffset,
+                             ForRise: false)
     }
     
     /// Returns the sunrise for the previously set (via the initializer or by setting the `ClassLatitude`
@@ -283,26 +297,13 @@ class Sun
         return (Double(SunriseSeconds) / Double(SecondsInDay), Double(SunsetSeconds) / Double(SecondsInDay))
     }
     
+    /// Number of seconds in a generic day.
     let SecondsInDay = 24 * 60 * 60
-}
-
-#if false
-extension Double
-{
-    var Radians: Double
-    {
-        get
-        {
-            return self * Double.pi / 180.0
-        }
-    }
     
-    var Degrees: Double
+    func OffsetFromUTC(_ Local: Date) -> Int
     {
-        get
-        {
-            return self * 180.0 / Double.pi
-        }
+        var UTCCal = Calendar(identifier: .gregorian)
+        UTCCal.timeZone = TimeZone(identifier: "UTC")!
+        return 0
     }
 }
-#endif
