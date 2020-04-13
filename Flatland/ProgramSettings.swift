@@ -9,8 +9,10 @@
 import Foundation
 import UIKit
 
-class ProgramSettings: UITableViewController
+class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource
 {
+
+    
     weak var Delegate: SettingsProtocol? = nil
     
     override func viewDidLoad()
@@ -51,10 +53,39 @@ class ProgramSettings: UITableViewController
         ShowNoonMerdiansSwitch.isOn = Settings.ShowNoonMeridians()
         ShowCitiesSwitch.isOn = Settings.ShowCities()
         TimePicker.date = Date()
-        FreezeTimeAtSwitch.isOn = Settings.GetFreezeTime()
-        ClockSpeedSegment.selectedSegmentIndex = Settings.GetClockMultiplier()
-        EnableDebugSwitch.isOn = Settings.GetDebug()
         ShowLocalDataSwitch.isOn = Settings.GetShowLocalData()
+        for Offset in -12 ... 12
+        {
+            Offsets.append(Offset)
+        }
+                DebugOffsetPicker.reloadAllComponents()
+        if let Index = Offsets.firstIndex(where: {$0 == 0})
+        {
+        DebugOffsetPicker.selectRow(Index, inComponent: 0, animated: true)
+        }
+        DebugOffsetPicker.layer.borderColor = UIColor.black.cgColor
+        DebugOffsetPicker.layer.borderWidth = 0.5
+        DebugOffsetPicker.layer.cornerRadius = 5.0
+    }
+    
+    var Offsets = [Int]()
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int
+    {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
+    {
+        Offsets.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+    {
+        var Offset = Offsets[row]
+        let Sign = Offset < 0 ? "-" : "+"
+        Offset = abs(Offset)
+        return "\(Sign)\(Offset)"
     }
     
     @IBAction func HandleTimeLabelChanged(_ sender: Any)
@@ -160,30 +191,12 @@ class ProgramSettings: UITableViewController
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func HandleClockSpeedChanged(_ sender: Any)
+    @IBAction func HandleSetTimeButtonPressed(_ sender: Any)
     {
-        if let Segment = sender as? UISegmentedControl
-        {
-            let Index = Segment.selectedSegmentIndex
-            Settings.SetClockMultiplier(Index)
-        }
-    }
-    
-    @IBAction func HandleFreezeTimeAtChanged(_ sender: Any)
-    {
-        if let Switch = sender as? UISwitch
-        {
-            Settings.SetFreezeTime(Switch.isOn)
-        }
-    }
-    
-    @IBAction func HandleTimePickerChanged(_ sender: Any)
-    {
-        if let Picker = sender as? UIDatePicker
-        {
-            let Date = Picker.date
-            Settings.SetDebugTime(Date)
-        }
+        let Index = DebugOffsetPicker.selectedRow(inComponent: 0)
+        let Offset = Offsets[Index]
+        let ForceTime = TimePicker.date
+        Delegate?.ForceTime(NewTime: ForceTime, WithOffset: Offset)
     }
     
     @IBAction func HandleShowLocalDataChanged(_ sender: Any)
@@ -194,18 +207,10 @@ class ProgramSettings: UITableViewController
         }
     }
     
-    @IBAction func HandleEnableDebugChanged(_ sender: Any)
-    {
-        if let Switch = sender as? UISwitch
-        {
-            Settings.SetDebug(Switch.isOn)
-        }
-    }
-    
+    @IBOutlet weak var DebugOffsetPicker: UIPickerView!
     @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
     @IBOutlet weak var ShowPolarCirclesSwitch: UISwitch!
     @IBOutlet weak var ShowCitiesSwitch: UISwitch!
-    @IBOutlet weak var EnableDebugSwitch: UISwitch!
     @IBOutlet weak var ShowNoonMerdiansSwitch: UISwitch!
     @IBOutlet weak var ShowPrimeMerdiansSwitch: UISwitch!
     @IBOutlet weak var ShowTropicsSwitch: UISwitch!
@@ -214,6 +219,4 @@ class ProgramSettings: UITableViewController
     @IBOutlet weak var ImageCenterSegment: UISegmentedControl!
     @IBOutlet weak var TimeLabelSegment: UISegmentedControl!
     @IBOutlet weak var TimePicker: UIDatePicker!
-    @IBOutlet weak var FreezeTimeAtSwitch: UISwitch!
-    @IBOutlet weak var ClockSpeedSegment: UISegmentedControl!
 }
