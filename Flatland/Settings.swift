@@ -13,11 +13,6 @@ class Settings
 {
     public static func Initialize()
     {
-        //Always disable debug when first initializing.
-        SetDebug(false)
-        SetClockMultiplier(0)
-        SetFreezeTime(false)
-        UserDefaults.standard.set(0.0, forKey: "DebugClockTime")
         //See if we've already initialized the defaults. If so, just return.
         if let _ = UserDefaults.standard.string(forKey: "Initialized")
         {
@@ -44,51 +39,6 @@ class Settings
         SetUserLocations(true)
         SetShowLocalData(true)
         SetLocations([])
-    }
-    
-    // MARK: - Debug settings. Maintained only on an instance level.
-    
-    public static func SetDebug(_ NewValue: Bool)
-    {
-        UserDefaults.standard.set(NewValue, forKey: "EnableDebug")
-    }
-    
-    public static func GetDebug() -> Bool
-    {
-        return UserDefaults.standard.bool(forKey: "EnableDebug")
-    }
-    
-    public static func SetDebugTime(_ NewValue: Date)
-    {
-        let Seconds = NewValue.timeIntervalSince1970
-        UserDefaults.standard.set(Seconds, forKey: "DebugClockTime")
-    }
-    
-    public static func GetDebugTime() -> Date
-    {
-        let Raw = UserDefaults.standard.double(forKey: "DebugClockTime")
-        let Final = Date(timeIntervalSince1970: Raw)
-        return Final
-    }
-    
-    public static func SetClockMultiplier(_ NewValue: Int)
-    {
-        UserDefaults.standard.set(NewValue, forKey: "DebugClockMultiplier")
-    }
-    
-    public static func GetClockMultiplier() -> Int
-    {
-        return UserDefaults.standard.integer(forKey: "DebugClockMultiplier")
-    }
-    
-    public static func SetFreezeTime(_ NewValue: Bool)
-    {
-        UserDefaults.standard.set(NewValue, forKey: "DebugFreezeTime")
-    }
-    
-    public static func GetFreezeTime() -> Bool
-    {
-        return UserDefaults.standard.bool(forKey: "DebugFreezeTime")
     }
     
     // MARK: - Location list settings.
