@@ -55,6 +55,9 @@ class CitySelectorView: UITableViewController, UIPickerViewDelegate, UIPickerVie
                 break
             }
         }
+        #if os(macOS)
+        GetLocationButton.isHidden = true
+        #endif
     }
     
     func MakeTimeZoneList()
