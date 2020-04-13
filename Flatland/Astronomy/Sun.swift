@@ -306,4 +306,19 @@ class Sun
         UTCCal.timeZone = TimeZone(identifier: "UTC")!
         return 0
     }
+    
+    /// Returns the rough, approximate declination of the Earth on the given date.
+    /// - Note: See [How to Calculate the Sun's Declination](https://sciencing.com/convert-julian-date-calender-date-6017669.html)
+    /// - Parameter For: The date whose declination will be returned.
+    /// - Returns: The declination for the passed date.
+    public static func Declination(For: Date) -> Double
+    {
+        let StartOfYear = Date.DateFactory(Year: For.Year, Month: 1, Day: 1)!
+        let Delta = abs(StartOfYear.timeIntervalSinceReferenceDate - For.timeIntervalSinceReferenceDate)
+        let Days = Delta / Double(Date.SecondsIn(.Day)) + 10.0
+        let DegreesPerDay = 360.0 / 365.0
+        let CumulativeDegrees = Days * DegreesPerDay
+        let CosC = cos(CumulativeDegrees.Radians) * -23.44
+        return CosC
+    }
 }
