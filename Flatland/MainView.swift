@@ -52,7 +52,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                            Center: Center,
                            ArcColor: UIColor.black,
                            Rectangle: ArcLayer.bounds)
-        ArcLayer.layer.addSublayer(test)
+        //ArcLayer.layer.addSublayer(test)
         LocalDataTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                               target: self,
                                               selector: #selector(UpdateLocalData),
@@ -78,6 +78,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let Total = Second + (Minute * 60) + (Hour * 60 * 60)
         let FinalTotal = "\(Total)"
         LocalSecondsLabel.text = FinalTotal
+  //      let Degrees = 360.0 * CurrentWorldRotationalValue - Double(Settings.GetImageCenter() == .NorthPole ? 0.0 : 180.0)
+     //   let HoursRotation = CurrentWorldRotationalValue * 24.0
+//        print("HoursRotation = \(HoursRotation.RoundedTo(3)) [\(CurrentWorldRotationalValue.RoundedTo(3))] {\(PrettyTime(From: Date()))} <\(Degrees.RoundedTo(4))>")
+    //    let SecondsRotation = HoursRotation * 60 * 60
+       // let TZ = TimeZone(secondsFromGMT: Int(SecondsRotation))!
         let LocalLat = Settings.GetLocalLatitude()
         let LocalLon = Settings.GetLocalLongitude()
         if LocalLat == nil || LocalLon == nil
@@ -87,18 +92,21 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
         else
         {
-            let SunTimes = Sun(Location: GeoPoint2(LocalLat!, LocalLon!), Offset: Settings.GetLocalTimeZoneOffset())
-            if let SunriseTime = SunTimes.Sunrise(For: Date())
+            let Location = GeoPoint2(LocalLat!, LocalLon!)
+            let SunTimes = Sun()
+            if let SunriseTime = SunTimes.Sunrise(For: Date(), At: Location,
+                                                 TimeZoneOffset: 0)
             {
-                LocalSunriseLabel.text = PrettyTime(From: SunriseTime)
+                LocalSunriseLabel.text = SunriseTime.PrettyTime()//PrettyTime(From: SunriseTime)
             }
             else
             {
                 LocalSunriseLabel.text = "No sunrise"
             }
-            if let SunsetTime = SunTimes.Sunset(For: Date())
+            if let SunsetTime = SunTimes.Sunset(For: Date(), At: Location,
+                                                TimeZoneOffset: 0)
             {
-                LocalSunsetLabel.text = PrettyTime(From: SunsetTime)
+                LocalSunsetLabel.text = SunsetTime.PrettyTime()//PrettyTime(From: SunsetTime)
             }
             else
             {
@@ -107,6 +115,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
     }
     
+    /*
     func PrettyTime(From: Date) -> String
     {
         let Cal = Calendar.current
@@ -130,6 +139,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
         return "\(HourS):\(MinuteS):\(SecondS)"
     }
+ */
     
     @objc func UpdateDaylight()
     {
@@ -148,12 +158,12 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         {
             let Location = GeoPoint2(42.9584, 141.5630)
             let SolarLibrary = Sun(Location: Location, Offset: 9)
-            let Sunrise = SolarLibrary.Sunrise(For: Time, At: Location, TimeZoneOffset: 9)
+            let Sunrise = SolarLibrary.Sunrise(For: Time, At: Location, TimeZoneOffset: 0)
             if Sunrise == nil
             {
                 print("No sunrise for location on this date")
             }
-            let Sunset = SolarLibrary.Sunset(For: Time, At: Location, TimeZoneOffset: 9)
+            let Sunset = SolarLibrary.Sunset(For: Time, At: Location, TimeZoneOffset: 0)
             if Sunset == nil
             {
                 print("No sunset for location on this date")
@@ -199,16 +209,18 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         OriginalSunFrame = SunViewTop.frame
     }
     
-    override func viewDidAppear(_ animated: Bool)
-    {
-        super.viewDidAppear(animated)
-        //UpdateSunLocations()
-    }
-    
     ///  Original location of the time label.
     var OriginalTimeFrame: CGRect = CGRect.zero
     /// Original location of the sun image.
     var OriginalSunFrame: CGRect = CGRect.zero
+    
+    func ForceTime(NewTime: Date, WithOffset: Int)
+    {
+        print("Force stop at \(NewTime.PrettyTime()), WithOffset: \(WithOffset)")
+        
+        UseFrozenTime = true
+        FrozenTime = NewTime
+    }
     
     /// Called when the user closes the settings view controller, and when the program first starts.
     func SettingsDone()
@@ -310,12 +322,28 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         return nil
     }
     
+    var UseFrozenTime: Bool = false
+    var IsFrozen: Bool = false
+    var FrozenTime: Date = Date()
+    
     /// Updates the current time (which may or may not be visible given user settings) as well as
     /// rotates the Earth image to keep it aligned with the sun.
     @objc func TimeUpdater()
     {
+        if IsFrozen
+        {
+            return
+        }
         UpdateSunLocations()
-        let Now = GetUTC()
+        var Now: Date = Date()
+        if UseFrozenTime
+        {
+            Now = FrozenTime
+        }
+        else
+        {
+            Now = GetUTC()
+        }
         let Formatter = DateFormatter()
         Formatter.dateFormat = "HH:mm:ss"
         var TimeZoneAbbreviation = ""
@@ -341,11 +369,57 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
         let Percent = Double(ElapsedSeconds) / Double(SecondsInDay)
         let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+        CurrentWorldRotationalValue = PrettyPercent
         let CurrentSeconds = Now.timeIntervalSince1970
         if CurrentSeconds != OldSeconds
         {
+            let ND = (GetUTCNoon().timeIntervalSinceReferenceDate - GetUTC().timeIntervalSinceReferenceDate) / (60 * 60)
+            //print("ND=\(Int(ND))")
+            let IND = Int(ND) + 1
+            if let NDInfo = TimeZoneTable.GetTimeZoneInfo(For: Double(IND))
+            {
+                let NDI = NDInfo.first!
+               // print("Noon time zone \(NDI.Name)")
+                NoonTimezoneLabel.text = NDI.Abbreviation + " \(IND)"
+            }
+            var NoonTime = Date.DateFrom(Percent: PrettyPercent)
+            var NTS = NoonTime.AsSeconds()
+            let (NH, HM, NS) = Date.SecondsToTime(NTS)
+            let PPAngle = 360.0 * PrettyPercent
+            let PPAngleH = PPAngle / 15.0
+           // print("NTS Hour=\(NH), Minute=\(HM), Second=\(NS), \(PrettyPercent)%, Angle=\(PPAngle)°, \(PPAngleH)")
+            let NTSm = NTS % 3600
+            NTS = NTS - NTSm
+         //   print("NTS=\(NTS)")
+            let NTZ = TimeZone(secondsFromGMT: NTS)
+          //  print("NTZ=\((NTZ)!), \(NTZ!.abbreviation())")
+            if let NTZInfo = TimeZoneTable.GetTimeZoneInfo(For: Double(NTS / 3600))
+            {
+                let TZI = NTZInfo.first!
+          //      print("TZI=\(TZI.Name)")
+            }
+            var NoonDelta = NoonTime.timeIntervalSinceReferenceDate - Date().timeIntervalSinceReferenceDate
+            NoonDelta = NoonDelta / 3600
+            NoonDelta.round()
+            let NDTZ = NoonTime.GetTimeZone()
+            //print("Noon delta: \(NoonDelta) \(NoonTime.PrettyTime()) \(PrettyPercent)% TZ: \(NDTZ)")
             OldSeconds = CurrentSeconds
             RotateImageTo(PrettyPercent)
+            let DaySeconds = (Hour * 60 * 60) + (Minute * 60) + Second
+            let NST = NSTimeZone()
+            let NowDate = Date()
+            #if false
+            var D2 = NowDate.ToLocal().timeIntervalSinceReferenceDate - Date().timeIntervalSinceReferenceDate
+            D2 = D2 / 3600.0
+            D2.round()
+            if let TZInfo = TimeZoneTable.GetTimeZoneInfo(For: D2)
+            {
+                let Abbr = TZInfo.first!
+                print("\(Abbr.Abbreviation)")
+            }
+            let Delta = NST.secondsFromGMT(for: Date())
+            print("\(FinalText) [\(DaySeconds)] = \(PrettyPercent), [\(Delta)]")
+            #endif
         }
         #if true
         if CityTestList.count > 0
@@ -358,7 +432,13 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             }
         }
         #endif
+        if UseFrozenTime
+        {
+            IsFrozen = true
+        }
     }
+    
+    var CurrentWorldRotationalValue: Double = -1.0
     
     var OldSeconds: Double = 0.0
     
@@ -369,6 +449,21 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     func GetUTC() -> Date
     {
         return Date()
+    }
+    
+    func GetUTCNoon() -> Date
+    {
+        let Now = GetUTC()
+        var Cal = Calendar(identifier: .gregorian)
+        Cal.timeZone = TimeZone(identifier: "UTC")!
+        var Components = DateComponents()
+        Components.hour = 12
+        Components.minute = 0
+        Components.second = 0
+        Components.year = Cal.component(.year, from: Now)
+        Components.month = Cal.component(.month, from: Now)
+        Components.day = Cal.component(.day, from: Now)
+        return Cal.date(from: Components)!
     }
     
     var TimeTimer: Timer! = nil
@@ -390,7 +485,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         //}
         PreviousPercent = Percent
         let FinalOffset = Settings.GetImageCenter() == .NorthPole ? 0.0 : 180.0
-        //       let FinalOffset = Settings.GetSunLocation() == .Bottom ? -90.0 : OriginalOrientation
         //Be sure to rotate the proper direction based on the map.
         let Multiplier = Settings.GetImageCenter() == .NorthPole ? 1.0 : -1.0
         let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
