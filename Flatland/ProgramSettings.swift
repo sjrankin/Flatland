@@ -207,6 +207,12 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         }
     }
     
+    @IBSegueAction func Instantiate3DTest(_ coder: NSCoder) -> Test3D?
+    {
+        Delegate?.StopTimers() 
+        return Test3D(coder: coder)
+    }
+    
     @IBOutlet weak var DebugOffsetPicker: UIPickerView!
     @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
     @IBOutlet weak var ShowPolarCirclesSwitch: UISwitch!
