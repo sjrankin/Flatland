@@ -95,16 +95,16 @@ class Test3D: UIViewController
 
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        #if true
+        #if false
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "BaseWorldMap")
         #else
-                EarthNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "EarthLand")
+                EarthNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "LandMask")
         #endif
         EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
         
         SeaNode = SCNNode(geometry: SeaSphere)
         SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "EarthSea")
+        SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "SeaMask")
         SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
         
         LineNode = SCNNode(geometry: LineSphere)
@@ -122,7 +122,7 @@ class Test3D: UIViewController
                 if success
                 {
                     self.SystemNode?.addChildNode(self.EarthNode!)
-                    //self.SystemNode?.addChildNode(self.SeaNode!)
+                    self.SystemNode?.addChildNode(self.SeaNode!)
                     self.SystemNode?.addChildNode(self.LineNode!)
                     self.EarthView.scene?.rootNode.addChildNode(self.SystemNode!)
                 }
@@ -132,7 +132,7 @@ class Test3D: UIViewController
         let EarthRotate = SCNAction.rotateBy(x: 0.0, y: 360.0 * CGFloat.pi / 180.0, z: 0.0, duration: 30.0)
         let RotateForever = SCNAction.repeatForever(EarthRotate)
         EarthNode?.runAction(RotateForever)
-        //SeaNode?.runAction(RotateForever)
+        SeaNode?.runAction(RotateForever)
         
         LineNode?.runAction(RotateForever)
     }
