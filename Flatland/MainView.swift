@@ -748,6 +748,13 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     var CityLayer: CAShapeLayer? = nil
     
+    func StopTimers()
+    {
+        TimeTimer.invalidate()
+        SunlightTimer?.invalidate()
+        LocalDataTimer?.invalidate()
+    }
+    
     /// Instantiate the settings controller.
     @IBSegueAction func InstantiateSettingsNavigator(_ coder: NSCoder) -> SettingsNavigationViewer?
     {
