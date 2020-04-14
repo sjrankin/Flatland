@@ -353,7 +353,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="z4h-Od-E8h" kind="show" id="XZg-B7-YD1"/>
+                                            <segue destination="z4h-Od-E8h" kind="show" destinationCreationSelector="Instantiate3DTest:" id="XZg-B7-YD1"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
