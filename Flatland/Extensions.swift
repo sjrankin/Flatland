@@ -45,7 +45,7 @@ extension Double
             return ToRadians()
         }
     }
-
+    
     /// Converts the instance value from assumed radians to degrees.
     /// - Returns: Value converted to degrees.
     var Degrees: Double
@@ -120,7 +120,7 @@ extension Date
     /// - TimeZoneLabel: Valid time zone identifier. If not specified, the current calendar's time
     ///                  zone is used.
     public static func DateFactory(Year: Int, Month: Int, Day: Int, Hour: Int, Minute: Int, Second: Int,
-                                  TimeZoneLabel: String? = "UTC") -> Date?
+                                   TimeZoneLabel: String? = "UTC") -> Date?
     {
         if Month < 1 || Month > 12
         {
@@ -271,6 +271,9 @@ extension Date
         return D!
     }
     
+    /// Converts the passed date's time components into a pretty string.
+    /// - Parameter From: The date whose time components will be used to generate a pretty string.
+    /// - Returns: String value of the time components of `From`.
     static func PrettyTime(From: Date) -> String
     {
         let Cal = Calendar.current
@@ -295,11 +298,15 @@ extension Date
         return "\(HourS):\(MinuteS):\(SecondS)"
     }
     
+    /// Converts the instance date's time components into a pretty string.
+    /// - Returns: String value of the time components of the instance date.
     func PrettyTime() -> String
     {
         return Date.PrettyTime(From: self)
     }
     
+    /// Returns the time zone of the instance date.
+    /// - Returns: Time zone for the the instance date. May be nil if not known or set.
     func GetTimeZone() -> TimeZone?
     {
         let Cal = Calendar(identifier: .gregorian)
@@ -308,6 +315,9 @@ extension Date
         return TZ
     }
     
+    /// Returns the number of seconds represented by the time component (*not* the date component)
+    /// of the instance date.
+    /// - Returns: Number of seconds represented by the time components of the instance value.
     func AsSeconds() -> Int
     {
         let Cal = Calendar.current
@@ -317,6 +327,7 @@ extension Date
         return Second + (Minute * 60) + (Hour * 60 * 60)
     }
     
+    /// The year component value for the instance value.
     public var Year: Int
     {
         get
@@ -326,6 +337,7 @@ extension Date
         }
     }
     
+    /// The month component value for the instance value.
     public var Month: Int
     {
         get
@@ -335,6 +347,7 @@ extension Date
         }
     }
     
+    /// The day component value for the instance value.
     public var Day: Int
     {
         get
@@ -344,6 +357,7 @@ extension Date
         }
     }
     
+    /// The hour component value for the instance value.
     public var Hour: Int
     {
         get
@@ -353,6 +367,7 @@ extension Date
         }
     }
     
+    /// The minute component value for the instance value.
     public var Minute: Int
     {
         get
@@ -362,6 +377,7 @@ extension Date
         }
     }
     
+    /// The second component value for the instance value.
     public var Second: Int
     {
         get
@@ -371,6 +387,10 @@ extension Date
         }
     }
     
+    /// Given a number of seconds, return the number of years, days, hours, minutes, and remaining
+    /// seconds the value represents.
+    /// - Parameter SecondCount: The number of seconds to convert to the returned units.
+    /// - Returns: Tuple of years, days, hours, minutes, and seconds `SecondCount` represents.
     public static func UnitDuration(_ SecondCount: Int) -> (Years: Int, Days: Int, Hours: Int, Minutes: Int, Seconds: Int)
     {
         var Working = SecondCount
@@ -401,29 +421,37 @@ extension Date
         return (YearCount, DayCount, HourCount, MinuteCount, Working)
     }
     
+    /// Returns the number of seconds in the specified time unit.
+    /// - Parameter Unit: The time unit whose number of seconds is returned.
+    /// - Returns: Number of seconds in the specified time unit.
     public static func SecondsIn(_ Unit: TimeUnits) -> Int
     {
         switch Unit
         {
             case .Minute:
-            return 60
+                return 60
             
             case .Hour:
-            return 60 * 60
+                return 60 * 60
             
             case .Day:
-            return 24 * 60 * 60
+                return 24 * 60 * 60
             
             case .Year:
-            return 365 * 24 * 60 * 60
+                return 365 * 24 * 60 * 60
         }
     }
 }
 
+/// Time units.
 public enum TimeUnits
 {
+    /// Represents a calendar year.
     case Year
+    /// Represents a calendar day.
     case Day
+    /// Represents an hour.
     case Hour
+    /// Represents a minute.
     case Minute
 }
