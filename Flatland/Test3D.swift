@@ -48,14 +48,32 @@ class Test3D: UIViewController
         LightNode.light = Light
         LightNode.position = SCNVector3(0.0, 0.0, 80.0)
         
+        #if false
+        let SpotLight = SCNLight()
+        SpotLight.type = .spot
+        SpotLight.intensity = 900
+        SpotLight.castsShadow = true
+        SpotLight.shadowColor = UIColor.black.withAlphaComponent(0.80)
+        SpotLight.shadowMode = .forward
+        SpotLight.shadowRadius = 10.0
+        SpotLight.color = UIColor.yellow
+        SpotLightNode = SCNNode()
+        SpotLightNode.light = SpotLight
+        SpotLightNode.position = SCNVector3(0.0, 0.0, 15.0)
+        #endif
+        
         EarthView.scene?.rootNode.addChildNode(CameraNode)
         EarthView.scene?.rootNode.addChildNode(LightNode)
+        #if false
+        EarthView.scene?.rootNode.addChildNode(SpotLightNode)
+        #endif
         
         AddEarth()
     }
     
     var CameraNode = SCNNode()
     var LightNode = SCNNode()
+    var SpotLightNode = SCNNode()
     
     func AddEarth()
     {
@@ -134,11 +152,13 @@ class Test3D: UIViewController
         LineNode?.runAction(RotateForever)
     }
     
+    /// Plot cities on the Earth.
+    /// - Parameter On: The main sphere node upon which to plot cities.
+    /// - Parameter WithRadius: The radius of there Earth sphere node.
     func PlotCities(On: SCNNode, WithRadius: CGFloat)
     {
         let CityList = Cities()
         let TestCities = CityList.TopNCities(N: 50, UseMetroPopulation: true)
-        print("TestCities.count=\(TestCities.count)")
         let CitySize: CGFloat = 0.15
         for City in TestCities
         {
