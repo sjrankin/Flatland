@@ -13,4 +13,5 @@ protocol SettingsProtocol: class
     func SettingsDone()
     func ForceTime(NewTime: Date, WithOffset: Int)
     func StopTimers()
+    func GetCities() -> [City]
 }
