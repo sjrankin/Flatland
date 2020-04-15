@@ -115,32 +115,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
     }
     
-    /*
-    func PrettyTime(From: Date) -> String
-    {
-        let Cal = Calendar.current
-        let Hour = Cal.component(.hour, from: From)
-        let Minute = Cal.component(.minute, from: From)
-        let Second = Cal.component(.second, from: From)
-        var HourS = "\(Hour)"
-        if Hour < 10
-        {
-            HourS = " " + HourS
-        }
-        var MinuteS = "\(Minute)"
-        if Minute < 10
-        {
-            MinuteS = "0" + MinuteS
-        }
-        var SecondS = "\(Second)"
-        if Second < 10
-        {
-            SecondS = "0" + SecondS
-        }
-        return "\(HourS):\(MinuteS):\(SecondS)"
-    }
- */
-    
     @objc func UpdateDaylight()
     {
         let DQ = DispatchQueue(label: "SunlightQueue", qos: .utility)
@@ -753,6 +727,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         TimeTimer.invalidate()
         SunlightTimer?.invalidate()
         LocalDataTimer?.invalidate()
+    }
+    
+    func GetCities() -> [City]
+    {
+        return CityTestList
     }
     
     /// Instantiate the settings controller.
