@@ -83,7 +83,7 @@ class Test3D: UIViewController
             SystemNode?.removeFromParentNode()
             SystemNode = nil
         }
-
+        
         SystemNode = SCNNode()
         
         let EarthSphere = SCNSphere(radius: 10)
@@ -92,19 +92,15 @@ class Test3D: UIViewController
         SeaSphere.segmentCount = 100
         let LineSphere = SCNSphere(radius: 10.2)
         LineSphere.segmentCount = 100
-
+        
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        #if false
-        EarthNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "BaseWorldMap")
-        #else
-                EarthNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "LandMask")
-        #endif
+        EarthNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "LandMask2")
         EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
         
         SeaNode = SCNNode(geometry: SeaSphere)
         SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "SeaMask")
+        SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "SeaMask2")
         SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
         
         LineNode = SCNNode(geometry: LineSphere)
@@ -116,9 +112,11 @@ class Test3D: UIViewController
         let Declination = Sun.Declination(For: Date())
         SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
         
+        PlotCities(On: EarthNode!, WithRadius: 10)
+        
         EarthView.prepare([EarthNode!, SeaNode!, LineNode!], completionHandler:
             {
-             success in
+                success in
                 if success
                 {
                     self.SystemNode?.addChildNode(self.EarthNode!)
@@ -127,14 +125,49 @@ class Test3D: UIViewController
                     self.EarthView.scene?.rootNode.addChildNode(self.SystemNode!)
                 }
         }
-            )
-
+        )
+        
         let EarthRotate = SCNAction.rotateBy(x: 0.0, y: 360.0 * CGFloat.pi / 180.0, z: 0.0, duration: 30.0)
         let RotateForever = SCNAction.repeatForever(EarthRotate)
         EarthNode?.runAction(RotateForever)
         SeaNode?.runAction(RotateForever)
-        
         LineNode?.runAction(RotateForever)
+    }
+    
+    func PlotCities(On: SCNNode, WithRadius: CGFloat)
+    {
+        let CityList = Cities()
+        let TestCities = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        print("TestCities.count=\(TestCities.count)")
+        let CitySize: CGFloat = 0.15
+        for City in TestCities
+        {
+            let CityShape = SCNSphere(radius: CitySize)
+            let CityNode = SCNNode(geometry: CityShape)
+            CityNode.geometry?.firstMaterial?.diffuse.contents = UIColor.yellow
+            CityNode.geometry?.firstMaterial?.emission.contents = UIImage(named: "CitySphereTexture")
+            CityNode.castsShadow = true
+            let (X, Y, Z) = ToECEF(City.Latitude, City.Longitude, Radius: Double(10 - (CitySize / 2)))
+            CityNode.position = SCNVector3(X, Y, Z)
+            On.addChildNode(CityNode)
+        }
+    }
+    
+    /// Convert the passed latitude and longitude values into a 3D coordinate that can be plotted
+    /// on a sphere.
+    /// - Note: See [How to map latitude and logitude to a 3D sphere](https://stackoverflow.com/questions/36369734/how-to-map-latitude-and-longitude-to-a-3d-sphere)
+    /// - Parameter Latitude: The latitude portion of the 2D coordinate.
+    /// - Parameter Longitude: The longitude portion of the 2D coordinate.
+    /// - Parameter Radius: The radius of the sphere.
+    /// - Returns: Tuple with the X, Y, and Z coordinates for the location on the sphere.
+    func ToECEF(_ Latitude: Double, _ Longitude: Double, Radius: Double) -> (Double, Double, Double)
+    {
+        let Lat = (90 - Latitude).Radians
+        let Lon = (90 + Longitude).Radians
+        let X = -(Radius * sin(Lat) * cos(Lon))
+        let Z = (Radius * sin(Lat) * sin(Lon))
+        let Y = (Radius * cos(Lat))
+        return (X, Y, Z)
     }
     
     var RotationAccumulator: CGFloat = 0.0
@@ -180,7 +213,7 @@ class Test3D: UIViewController
             ctx?.move(to: CGPoint(x: X, y: 0))
             ctx?.addLine(to: CGPoint(x: X, y: Height))
             
-
+            
             ctx?.strokePath()
         }
         
@@ -188,7 +221,7 @@ class Test3D: UIViewController
         UIGraphicsEndImageContext()
         return Final!
     }
-
+    
     @IBAction func HandleResetButtonPressed(_ sender: Any)
     {
     }
@@ -211,27 +244,9 @@ enum Longitudes: Double, CaseIterable
 enum Latitudes: Double, CaseIterable
 {
     case PrimeMeridian = 0.5
-    case AntiPrimeMerician = 0.995
+    case OtherPrimeMeridian = 0.995
+    case AntiPrimeMeridian = 0.25
+    case OtherAntiPrimeMeridian = 0.75
 }
 
-extension UIImage
-    {
-        /// Rotate the instance image to the number of passed radians.
-        /// - Note: See [Rotating UIImage in Swift](https://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift/47402811#47402811)
-        /// - Parameter Radians: Number of radians to rotate the image to.
-        func Rotate(Radians: CGFloat) -> UIImage
-        {
-            var NewSize = CGRect(origin: CGPoint.zero, size: self.size).applying(CGAffineTransform(rotationAngle: Radians)).size
-            NewSize.width = floor(NewSize.width)
-            NewSize.height = floor(NewSize.height)
-            UIGraphicsBeginImageContextWithOptions(NewSize, false, self.scale)
-            let Context = UIGraphicsGetCurrentContext()
-            Context?.translateBy(x: NewSize.width / 2, y: NewSize.height / 2)
-            Context?.rotate(by: Radians)
-            self.draw(in: CGRect(x: -self.size.width / 2, y: -self.size.height / 2,
-                                 width: self.size.width, height: self.size.height))
-            let Rotated = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return Rotated!
-        }
-}
+
