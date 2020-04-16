@@ -36,6 +36,7 @@
 		17BE6881242CA8FB009861E1 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6880242CA8FB009861E1 /* Settings.swift */; };
 		17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6882242CC349009861E1 /* SettingsProtocol.swift */; };
 		17CC3C61242CC69900CC7F87 /* SettingsNavigationViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */; };
+		17D825112448547D00323C1D /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D825102448547D00323C1D /* MapSettings.swift */; };
 		17E180F5242F62F700310896 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F4242F62F700310896 /* City.swift */; };
 		17E180F8242F646700310896 /* Cities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F7242F646700310896 /* Cities.swift */; };
 		17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF546D2439921B005B036C /* +DrawGrid.swift */; };
@@ -75,6 +76,7 @@
 		17BE6880242CA8FB009861E1 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		17BE6882242CC349009861E1 /* SettingsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsProtocol.swift; sourceTree = "<group>"; };
 		17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationViewer.swift; sourceTree = "<group>"; };
+		17D825102448547D00323C1D /* MapSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettings.swift; sourceTree = "<group>"; };
 		17E180F4242F62F700310896 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		17E180F7242F646700310896 /* Cities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cities.swift; sourceTree = "<group>"; };
 		17EF546D2439921B005B036C /* +DrawGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+DrawGrid.swift"; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				1746C17D242DB6E000A479DE /* LocationEditor.swift */,
 				176DC96D2438390100830DB1 /* EditLocation.swift */,
 				17633B55243858BB0021600D /* LocationCell.swift */,
+				17D825102448547D00323C1D /* MapSettings.swift */,
 				176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */,
 				17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */,
 				17BE6872242C7A9C009861E1 /* LaunchScreen.storyboard */,
@@ -250,6 +253,7 @@
 				1792BD8A2430540A006ABD02 /* Miscellaneous.swift in Sources */,
 				173A9263242F32E100363576 /* SingleTask.swift in Sources */,
 				17ADB45C243D636E002E5F88 /* +ArcLayer.swift in Sources */,
+				17D825112448547D00323C1D /* MapSettings.swift in Sources */,
 				1792BD8624305173006ABD02 /* Utility.swift in Sources */,
 				17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */,
 				176DC96E2438390100830DB1 /* EditLocation.swift in Sources */,
