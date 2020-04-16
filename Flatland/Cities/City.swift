@@ -85,11 +85,18 @@ class City
     
     /// Continent of the city.
     public var Continent: Continents = .Asia
+    
+    /// Color to use to render the city.
+    public var CityColor: UIColor = UIColor.yellow
+    
+    /// User city flag.
+    public var IsUserCity: Bool = false
 }
 
 /// Continents for the city database.
 enum Continents: String, CaseIterable
 {
+    case NoName = "NoName"
     case Africa = "Africa"
     case Asia = "Asia"
     case Europe = "Europe"
