@@ -48,34 +48,94 @@ class Test3D: UIViewController
         LightNode.light = Light
         LightNode.position = SCNVector3(0.0, 0.0, 80.0)
         
-        #if false
-        let SpotLight = SCNLight()
-        SpotLight.type = .spot
-        SpotLight.intensity = 900
-        SpotLight.castsShadow = true
-        SpotLight.shadowColor = UIColor.black.withAlphaComponent(0.80)
-        SpotLight.shadowMode = .forward
-        SpotLight.shadowRadius = 10.0
-        SpotLight.color = UIColor.yellow
-        SpotLightNode = SCNNode()
-        SpotLightNode.light = SpotLight
-        SpotLightNode.position = SCNVector3(0.0, 0.0, 15.0)
-        #endif
+        let MoonLight = SCNLight()
+        MoonLight.type = .omni
+        MoonLight.intensity = 200
+        MoonLight.color = UIColor.gray
+        MoonNode = SCNNode()
+        MoonNode.light = MoonLight
+        MoonNode.position = SCNVector3(0.0, 0.0, -100.0)
         
         EarthView.scene?.rootNode.addChildNode(CameraNode)
         EarthView.scene?.rootNode.addChildNode(LightNode)
-        #if false
-        EarthView.scene?.rootNode.addChildNode(SpotLightNode)
-        #endif
+        EarthView.scene?.rootNode.addChildNode(MoonNode)
+        
+        StatusView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        StatusView.layer.cornerRadius = 10
         
         AddEarth()
+        StartClock()
+        DrawTime()
     }
     
     var CameraNode = SCNNode()
     var LightNode = SCNNode()
-    var SpotLightNode = SCNNode()
+    var MoonNode = SCNNode()
     
-    func AddEarth()
+    func StartClock()
+    {
+        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(DrawTime),
+                                     userInfo: nil, repeats: true)
+    }
+    
+    /// Returns the local time zone abbreviation (a three-letter indicator, not a set of words).
+    /// - Returns: The local time zone identifier if found, nil if not found.
+    func GetLocalTimeZoneID() -> String?
+    {
+        let TZID = TimeZone.current.identifier
+        for (Abbreviation, Wordy) in TimeZone.abbreviationDictionary
+        {
+            if Wordy == TZID
+            {
+                return Abbreviation
+            }
+        }
+        return nil
+    }
+    
+    @objc func DrawTime()
+    {
+            let Now = Date()
+        let Formatter = DateFormatter()
+        Formatter.dateFormat = "HH:mm:ss"
+        var TimeZoneAbbreviation = ""
+        if Settings.GetTimeLabel() == .UTC
+        {
+            TimeZoneAbbreviation = "UTC"
+        }
+        else
+        {
+            TimeZoneAbbreviation = GetLocalTimeZoneID() ?? "UTC"
+        }
+        let TZ = TimeZone(abbreviation: TimeZoneAbbreviation)
+        Formatter.timeZone = TZ
+        let Final = Formatter.string(from: Now)
+        let FinalText = Final + " " + TimeZoneAbbreviation
+        TimeLabel.text = FinalText
+        
+        var Cal = Calendar(identifier: .gregorian)
+        Cal.timeZone = TZ!
+        let Hour = Cal.component(.hour, from: Now)
+        let Minute = Cal.component(.minute, from: Now)
+        let Second = Cal.component(.second, from: Now)
+        let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+        let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
+        let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+        UpdateEarth(With: PrettyPercent)
+    }
+    
+    func UpdateEarth(With Percent: Double)
+    {
+        let Degrees = 180.0 * Percent
+        print("Percent(\(Percent))=\(Degrees.RoundedTo(4))°")
+        let Radians = Degrees.Radians
+        let Rotate = SCNAction.rotateTo(x: 0.0, y: CGFloat(-Radians), z: 0.0, duration: 1.0)
+        EarthNode?.runAction(Rotate)
+        SeaNode?.runAction(Rotate)
+        LineNode?.runAction(Rotate)
+    }
+    
+    func AddEarth(FastAnimate: Bool = false)
     {
         if EarthNode != nil
         {
@@ -129,8 +189,10 @@ class Test3D: UIViewController
         
         let Declination = Sun.Declination(For: Date())
         SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+        DeclinationLabel.text = "Declination: \(Declination.RoundedTo(3))°"
         
         PlotCities(On: EarthNode!, WithRadius: 10)
+
         
         EarthView.prepare([EarthNode!, SeaNode!, LineNode!], completionHandler:
             {
@@ -145,11 +207,14 @@ class Test3D: UIViewController
         }
         )
         
+        if FastAnimate
+        {
         let EarthRotate = SCNAction.rotateBy(x: 0.0, y: 360.0 * CGFloat.pi / 180.0, z: 0.0, duration: 30.0)
         let RotateForever = SCNAction.repeatForever(EarthRotate)
         EarthNode?.runAction(RotateForever)
         SeaNode?.runAction(RotateForever)
         LineNode?.runAction(RotateForever)
+        }
     }
     
     /// Plot cities on the Earth.
@@ -158,18 +223,55 @@ class Test3D: UIViewController
     func PlotCities(On: SCNNode, WithRadius: CGFloat)
     {
         let CityList = Cities()
-        let TestCities = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        var TestCities = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        
+        let UserLocations = Settings.GetLocations()
+        for (_, Location, Name, Color) in UserLocations
+        {
+            print("Found user city \(Name)")
+            let UserCity = City(Continent: "NoName", Country: "No Name", Name: Name, Population: nil, MetroPopulation: nil, Latitude: Location.Latitude, Longitude: Location.Longitude)
+            UserCity.CityColor = Color
+            UserCity.IsUserCity = true
+            TestCities.append(UserCity)
+        }
+        
         let CitySize: CGFloat = 0.15
         for City in TestCities
         {
-            let CityShape = SCNSphere(radius: CitySize)
-            let CityNode = SCNNode(geometry: CityShape)
-            CityNode.geometry?.firstMaterial?.diffuse.contents = UIColor.yellow
-            CityNode.geometry?.firstMaterial?.emission.contents = UIImage(named: "CitySphereTexture")
-            CityNode.castsShadow = true
-            let (X, Y, Z) = ToECEF(City.Latitude, City.Longitude, Radius: Double(10 - (CitySize / 2)))
-            CityNode.position = SCNVector3(X, Y, Z)
-            On.addChildNode(CityNode)
+            if City.IsUserCity
+            {
+                let CityShape = SCNCone(topRadius: 0.0, bottomRadius: CitySize, height: CitySize * 3.5)
+                let CityNode = SCNNode(geometry: CityShape)
+                CityNode.geometry?.firstMaterial?.diffuse.contents = City.CityColor
+                CityNode.geometry?.firstMaterial?.emission.contents = City.CityColor
+                CityNode.castsShadow = true
+                let (X, Y, Z) = ToECEF(City.Latitude, City.Longitude, Radius: 10)//Double(10 - (CitySize / 2)))
+                CityNode.position = SCNVector3(X, Y, Z)
+                var NodeRotation = 0.0
+                if City.Latitude >= 0
+                {
+                    NodeRotation = 90.0 - City.Latitude
+                }
+                else
+                {
+                    NodeRotation = -90 + City.Latitude
+                }
+                print("Node rotation for \(City.Latitude)° is \(NodeRotation)")
+                NodeRotation = NodeRotation.Radians
+                CityNode.eulerAngles = SCNVector3(0.0, NodeRotation, 0.0)
+                On.addChildNode(CityNode)
+            }
+            else
+            {
+                let CityShape = SCNSphere(radius: CitySize)
+                let CityNode = SCNNode(geometry: CityShape)
+                CityNode.geometry?.firstMaterial?.diffuse.contents = City.CityColor
+                CityNode.geometry?.firstMaterial?.emission.contents = UIImage(named: "CitySphereTexture")
+                CityNode.castsShadow = true
+                let (X, Y, Z) = ToECEF(City.Latitude, City.Longitude, Radius: Double(10 - (CitySize / 2)))
+                CityNode.position = SCNVector3(X, Y, Z)
+                On.addChildNode(CityNode)
+            }
         }
     }
     
@@ -244,8 +346,12 @@ class Test3D: UIViewController
     
     @IBAction func HandleResetButtonPressed(_ sender: Any)
     {
+        AddEarth()
     }
     
+    @IBOutlet weak var DeclinationLabel: UILabel!
+    @IBOutlet weak var TimeLabel: UILabel!
+    @IBOutlet weak var StatusView: UIView!
     @IBOutlet weak var EarthView: SCNView!
 }
 
