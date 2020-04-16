@@ -450,6 +450,30 @@ class Settings
     {
         UserDefaults.standard.set(NewOffset, forKey: "LocalTimeZoneOffset")
     }
+    
+    public static let GlobeMapList: [MapTypes: String] =
+        [
+            .Standard: "FlatEarthMap",
+            .BlueMarble: "LandMask2",
+            .DarkBlueMarble: "DarkLandMask",
+            .Simple: "SimpleMap1",
+            .Continents: "SimpleMapContinents",
+            .SimpleBorders1: "SimpleMapWithBorders1",
+            .SimpleBorders2: "SimpleMapWithBordersButNoBackground",
+            .Dots: "DotMap"
+    ]
+    
+    public static let FlatMapList: [MapTypes: String] =
+        [
+            .Standard: "FlatEarthMap",
+            .BlueMarble: "LandMask2",
+            .DarkBlueMarble: "DarkLandMask",
+            .Simple: "SimpleMap1",
+            .Continents: "SimpleMapContinents",
+            .SimpleBorders1: "SimpleMapWithBorders1",
+            .SimpleBorders2: "SimpleMapWithBordersButNoBackground",
+            .Dots: "DotMap"
+    ]
 }
 
 // MARK: - Enums for some settings.
@@ -483,4 +507,16 @@ enum SunLocations: String, CaseIterable
     case Top = "Top"
     /// Sun is at the bottom.
     case Bottom = "Bottom"
+}
+
+enum MapTypes: String, CaseIterable
+{
+    case Standard = "Standard"
+    case BlueMarble = "Blue Marble"
+    case DarkBlueMarble = "Dark Blue Marble"
+    case Simple = "Simple"
+    case SimpleBorders1 = "Simple with Borders 1"
+    case SimpleBorders2 = "Simple with Borders 2"
+        case Continents = "Continents"
+    case Dots = "Dotted Continents"
 }
