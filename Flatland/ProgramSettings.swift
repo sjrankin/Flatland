@@ -45,12 +45,7 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
             case .SouthPole:
                 ImageCenterSegment.selectedSegmentIndex = 1
         }
-        ShowPolarCirclesSwitch.isOn = Settings.ShowPolarCircles()
-        ShowGridSwitch.isOn = Settings.ShowGrid()
-        ShowEquatorSwitch.isOn = Settings.ShowEquator()
-        ShowTropicsSwitch.isOn = Settings.ShowTropics()
-        ShowPrimeMerdiansSwitch.isOn = Settings.ShowPrimeMeridians()
-        ShowNoonMerdiansSwitch.isOn = Settings.ShowNoonMeridians()
+
         ShowCitiesSwitch.isOn = Settings.ShowCities()
         TimePicker.date = Date()
         ShowLocalDataSwitch.isOn = Settings.GetShowLocalData()
@@ -215,13 +210,7 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
     
     @IBOutlet weak var DebugOffsetPicker: UIPickerView!
     @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
-    @IBOutlet weak var ShowPolarCirclesSwitch: UISwitch!
     @IBOutlet weak var ShowCitiesSwitch: UISwitch!
-    @IBOutlet weak var ShowNoonMerdiansSwitch: UISwitch!
-    @IBOutlet weak var ShowPrimeMerdiansSwitch: UISwitch!
-    @IBOutlet weak var ShowTropicsSwitch: UISwitch!
-    @IBOutlet weak var ShowEquatorSwitch: UISwitch!
-    @IBOutlet weak var ShowGridSwitch: UISwitch!
     @IBOutlet weak var ImageCenterSegment: UISegmentedControl!
     @IBOutlet weak var TimeLabelSegment: UISegmentedControl!
     @IBOutlet weak var TimePicker: UIDatePicker!
