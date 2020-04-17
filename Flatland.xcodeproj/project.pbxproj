@@ -16,6 +16,7 @@
 		176DC96C2438380300830DB1 /* LocationEditedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */; };
 		176DC96E2438390100830DB1 /* EditLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96D2438390100830DB1 /* EditLocation.swift */; };
 		177348C5244192F90024590F /* TimeZoneTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177348C4244192F90024590F /* TimeZoneTable.swift */; };
+		17865A6824499D8000DEED75 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17865A6724499D8000DEED75 /* GlobeView.swift */; };
 		1792BD7E24304E56006ABD02 /* Julian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7D24304E55006ABD02 /* Julian.swift */; };
 		1792BD8024304EA7006ABD02 /* Solar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7F24304EA7006ABD02 /* Solar.swift */; };
 		1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD8124304F1A006ABD02 /* Geometry.swift */; };
@@ -53,6 +54,7 @@
 		176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditedProtocol.swift; sourceTree = "<group>"; };
 		176DC96D2438390100830DB1 /* EditLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocation.swift; sourceTree = "<group>"; };
 		177348C4244192F90024590F /* TimeZoneTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZoneTable.swift; sourceTree = "<group>"; };
+		17865A6724499D8000DEED75 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
 		1792BD7D24304E55006ABD02 /* Julian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Julian.swift; sourceTree = "<group>"; };
 		1792BD7F24304EA7006ABD02 /* Solar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solar.swift; sourceTree = "<group>"; };
 		1792BD8124304F1A006ABD02 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				17BE686B242C7A99009861E1 /* MainView.swift */,
 				17EF546D2439921B005B036C /* +DrawGrid.swift */,
 				17ADB45B243D636E002E5F88 /* +ArcLayer.swift */,
+				17865A6724499D8000DEED75 /* GlobeView.swift */,
 				17BE6869242C7A99009861E1 /* SceneDelegate.swift */,
 				17BE6880242CA8FB009861E1 /* Settings.swift */,
 				173A9260242F24D700363576 /* SunGenerator.swift */,
@@ -254,6 +257,7 @@
 				173A9263242F32E100363576 /* SingleTask.swift in Sources */,
 				17ADB45C243D636E002E5F88 /* +ArcLayer.swift in Sources */,
 				17D825112448547D00323C1D /* MapSettings.swift in Sources */,
+				17865A6824499D8000DEED75 /* GlobeView.swift in Sources */,
 				1792BD8624305173006ABD02 /* Utility.swift in Sources */,
 				17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */,
 				176DC96E2438390100830DB1 /* EditLocation.swift in Sources */,
