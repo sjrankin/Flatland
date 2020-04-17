@@ -239,6 +239,23 @@ class Settings
         UserDefaults.standard.set(NewLocation.rawValue, forKey: "SunLocation")
     }
     
+    public static func GetViewType() -> ViewTypes
+    {
+        if let Value = UserDefaults.standard.string(forKey: "MainViewType")
+        {
+            if let TheType = ViewTypes(rawValue: Value)
+            {
+                return TheType
+            }
+        }
+        return ViewTypes.FlatMap
+    }
+    
+    public static func SetViewType(_ NewViewType: ViewTypes)
+    {
+        UserDefaults.standard.set(NewViewType.rawValue, forKey: "MainViewType")
+    }
+    
     // MARK: - Grid-related settings.
     
     public static func ShowGrid() -> Bool
@@ -519,4 +536,10 @@ enum MapTypes: String, CaseIterable
     case SimpleBorders2 = "Simple with Borders 2"
         case Continents = "Continents"
     case Dots = "Dotted Continents"
+}
+
+enum ViewTypes: String, CaseIterable
+{
+    case FlatMap = "FlatMap"
+    case Globe3D = "3DGlobe"
 }
