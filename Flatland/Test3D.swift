@@ -95,7 +95,7 @@ class Test3D: UIViewController
     
     @objc func DrawTime()
     {
-            let Now = Date()
+        let Now = Date()
         let Formatter = DateFormatter()
         Formatter.dateFormat = "HH:mm:ss"
         var TimeZoneAbbreviation = ""
@@ -126,7 +126,7 @@ class Test3D: UIViewController
     
     func UpdateEarth(With Percent: Double)
     {
-        let Degrees = 180.0 * Percent
+        let Degrees = 180.0 - (360.0) * Percent
         print("Percent(\(Percent))=\(Degrees.RoundedTo(4))°")
         let Radians = Degrees.Radians
         let Rotate = SCNAction.rotateTo(x: 0.0, y: CGFloat(-Radians), z: 0.0, duration: 1.0)
@@ -192,7 +192,7 @@ class Test3D: UIViewController
         DeclinationLabel.text = "Declination: \(Declination.RoundedTo(3))°"
         
         PlotCities(On: EarthNode!, WithRadius: 10)
-
+        
         
         EarthView.prepare([EarthNode!, SeaNode!, LineNode!], completionHandler:
             {
@@ -209,11 +209,11 @@ class Test3D: UIViewController
         
         if FastAnimate
         {
-        let EarthRotate = SCNAction.rotateBy(x: 0.0, y: 360.0 * CGFloat.pi / 180.0, z: 0.0, duration: 30.0)
-        let RotateForever = SCNAction.repeatForever(EarthRotate)
-        EarthNode?.runAction(RotateForever)
-        SeaNode?.runAction(RotateForever)
-        LineNode?.runAction(RotateForever)
+            let EarthRotate = SCNAction.rotateBy(x: 0.0, y: 360.0 * CGFloat.pi / 180.0, z: 0.0, duration: 30.0)
+            let RotateForever = SCNAction.repeatForever(EarthRotate)
+            EarthNode?.runAction(RotateForever)
+            SeaNode?.runAction(RotateForever)
+            LineNode?.runAction(RotateForever)
         }
     }
     
