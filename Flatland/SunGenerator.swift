@@ -36,17 +36,15 @@ class SunGenerator
     /// Holds the radius of the sun when viewing via `VariableSunImage`.
     private var VariableSunRadius: Float = 50.0
     /// Holds the timer for animating the variable sun.
-    private var VariableSunTimer: Timer!
+    private var VariableSunTimer: Timer? = nil
     
     /// Stops the updating of the variable sun when initialized with `VariableSunImage`. To reanimate
     /// the sun, you must call `VariableSunImage` again.
     func StopVariableSun()
     {
-        if VariableSunTimer != nil
-        {
-            VariableSunTimer.invalidate()
-            VariableSunTimer = nil
-        }
+        VariableSunTimer?.invalidate()
+        VariableSunTimer = nil
+        VariableView?.isHidden = true
     }
     
     /// Holds the `UIImageView` where to animate the variable sun.
