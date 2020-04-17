@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreImage
+import SceneKit
 
 class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
 {
@@ -23,13 +24,26 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         super.viewDidLoad()
         Settings.Initialize()
         
+        if Settings.GetViewType() == .FlatMap
+        {
+            WorldViewer3D.Hide()
+            SetFlatlandVisibility(IsVisible: true)
+            ViewTypeSegment.selectedSegmentIndex = 0
+        }
+        else
+        {
+            WorldViewer3D.Show()
+            SetFlatlandVisibility(IsVisible: false)
+            ViewTypeSegment.selectedSegmentIndex = 1
+        }
+        
         DataStack.layer.borderColor = UIColor.white.cgColor
         ArcLayer.backgroundColor = UIColor.clear
         ArcLayer.layer.zPosition = 100000
         TopView.backgroundColor = UIColor.black
         SettingsDone()
-        TopSun.VariableSunImage(Using: SunViewTop, Interval: 0.1)
-        BottomSun.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
+        TopSun?.VariableSunImage(Using: SunViewTop, Interval: 0.1)
+        BottomSun?.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
         #if false
         for Top in CityTestList
@@ -37,21 +51,17 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             print("Name: \(Top.Name), population: \(Top.MetropolitanPopulation!)")
         }
         #endif
-        SunlightTimer = Timer.scheduledTimer(timeInterval: 60.0,
-                                             target: self,
-                                             selector: #selector(UpdateDaylight),
-                                             userInfo: nil,
-                                             repeats: true)
+
         MakeLatitudeBands()
         let Radius = ArcLayer.bounds.width / 2.0
         let Center = CGPoint(x: Radius, y: Radius)
         let test = MakeArc(Start: 90.0,
                            End: 270.0,
                            Radius: Radius,// / 2.0,
-                           ArcWidth: 360.0,
-                           Center: Center,
-                           ArcColor: UIColor.black,
-                           Rectangle: ArcLayer.bounds)
+            ArcWidth: 360.0,
+            Center: Center,
+            ArcColor: UIColor.black,
+            Rectangle: ArcLayer.bounds)
         //ArcLayer.layer.addSublayer(test)
         LocalDataTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                               target: self,
@@ -61,6 +71,40 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     }
     
     var LocalDataTimer: Timer? = nil
+    
+    func SetFlatlandVisibility(IsVisible: Bool)
+    {
+            WorldViewer.isHidden = !IsVisible
+        GridOverlay.isHidden = !IsVisible
+        ArcLayer.isHidden = !IsVisible
+        if !IsVisible
+        {
+            SunViewTop?.alpha = 0.0
+            SunViewBottom?.alpha = 0.0
+        }
+        else
+        {
+            SunViewTop?.alpha = 1.0
+            SunViewBottom?.alpha = 1.0
+            UpdateSunLocations()
+        }
+        if IsVisible
+        {
+            SunlightTimer = Timer.scheduledTimer(timeInterval: 60.0,
+                                                 target: self,
+                                                 selector: #selector(UpdateDaylight),
+                                                 userInfo: nil,
+                                                 repeats: true)
+        }
+        else
+        {
+            if SunlightTimer != nil
+            {
+                SunlightTimer?.invalidate()
+                SunlightTimer = nil
+            }
+        }
+    }
     
     @objc func UpdateLocalData()
     {
@@ -78,15 +122,14 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let Total = Second + (Minute * 60) + (Hour * 60 * 60)
         let FinalTotal = "\(Total)"
         LocalSecondsLabel.text = FinalTotal
-  //      let Degrees = 360.0 * CurrentWorldRotationalValue - Double(Settings.GetImageCenter() == .NorthPole ? 0.0 : 180.0)
-     //   let HoursRotation = CurrentWorldRotationalValue * 24.0
-//        print("HoursRotation = \(HoursRotation.RoundedTo(3)) [\(CurrentWorldRotationalValue.RoundedTo(3))] {\(PrettyTime(From: Date()))} <\(Degrees.RoundedTo(4))>")
-    //    let SecondsRotation = HoursRotation * 60 * 60
-       // let TZ = TimeZone(secondsFromGMT: Int(SecondsRotation))!
         let LocalLat = Settings.GetLocalLatitude()
         let LocalLon = Settings.GetLocalLongitude()
+        var RiseAndSetAvailable = true
+        var SunRiseTime = Date()
+        var SunSetTime = Date()
         if LocalLat == nil || LocalLon == nil
         {
+            RiseAndSetAvailable = false
             LocalSunsetLabel.text = "N/A"
             LocalSunriseLabel.text = "N/A"
         }
@@ -95,23 +138,51 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             let Location = GeoPoint2(LocalLat!, LocalLon!)
             let SunTimes = Sun()
             if let SunriseTime = SunTimes.Sunrise(For: Date(), At: Location,
-                                                 TimeZoneOffset: 0)
+                                                  TimeZoneOffset: 0)
             {
-                LocalSunriseLabel.text = SunriseTime.PrettyTime()//PrettyTime(From: SunriseTime)
+                SunRiseTime = SunriseTime
+                LocalSunriseLabel.text = SunriseTime.PrettyTime()
             }
             else
             {
+                RiseAndSetAvailable = false
                 LocalSunriseLabel.text = "No sunrise"
             }
             if let SunsetTime = SunTimes.Sunset(For: Date(), At: Location,
                                                 TimeZoneOffset: 0)
             {
-                LocalSunsetLabel.text = SunsetTime.PrettyTime()//PrettyTime(From: SunsetTime)
+                SunSetTime = SunsetTime
+                LocalSunsetLabel.text = SunsetTime.PrettyTime()
             }
             else
             {
+                RiseAndSetAvailable = false
                 LocalSunsetLabel.text = "No sunset"
             }
+        }
+        let Declination = Sun.Declination(For: Date())
+        DeclinitionLabel.text = "\(Declination.RoundedTo(3))°"
+        if RiseAndSetAvailable
+        {
+            let RiseHour = Cal.component(.hour, from: SunRiseTime)
+            let RiseMinute = Cal.component(.minute, from: SunRiseTime)
+            let RiseSecond = Cal.component(.second, from: SunRiseTime)
+            let SetHour = Cal.component(.hour, from: SunSetTime)
+            let SetMinute = Cal.component(.minute, from: SunSetTime)
+            let SetSecond = Cal.component(.second, from: SunSetTime)
+            let RiseSeconds = RiseSecond + (RiseMinute * 60) + (RiseHour * 60 * 60)
+            let SetSeconds = SetSecond + (SetMinute * 60) + (SetHour * 60 * 60)
+            let SecondDelta = SetSeconds - RiseSeconds
+            let NoonTime = RiseSeconds + (SecondDelta / 2)
+            let (NoonHour, NoonMinute, NoonSecond) = Date.SecondsToTime(NoonTime)
+            let HourS = "\(NoonHour)"
+            let MinuteS = (NoonMinute < 10 ? "0" : "") + "\(NoonMinute)"
+            let SecondS = (NoonSecond < 10 ? "0" : "") + "\(NoonSecond)"
+            SolarNoonLabel.text = "\(HourS):\(MinuteS):\(SecondS)"
+        }
+        else
+        {
+            print("Missing sunrise and/or sunset time.")
         }
     }
     
@@ -171,8 +242,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     var CityTestList = [City]()
     let CityList = Cities()
-    let BottomSun = SunGenerator()
-    let TopSun = SunGenerator()
+    var BottomSun: SunGenerator? = SunGenerator()
+    var TopSun: SunGenerator? = SunGenerator()
     
     /// Get the original locations of the sun and time labels. Initialize the program based on
     /// user settings.
@@ -353,7 +424,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             if let NDInfo = TimeZoneTable.GetTimeZoneInfo(For: Double(IND))
             {
                 let NDI = NDInfo.first!
-               // print("Noon time zone \(NDI.Name)")
+                // print("Noon time zone \(NDI.Name)")
                 NoonTimezoneLabel.text = NDI.Abbreviation + " \(IND)"
             }
             var NoonTime = Date.DateFrom(Percent: PrettyPercent)
@@ -361,16 +432,16 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             let (NH, HM, NS) = Date.SecondsToTime(NTS)
             let PPAngle = 360.0 * PrettyPercent
             let PPAngleH = PPAngle / 15.0
-           // print("NTS Hour=\(NH), Minute=\(HM), Second=\(NS), \(PrettyPercent)%, Angle=\(PPAngle)°, \(PPAngleH)")
+            // print("NTS Hour=\(NH), Minute=\(HM), Second=\(NS), \(PrettyPercent)%, Angle=\(PPAngle)°, \(PPAngleH)")
             let NTSm = NTS % 3600
             NTS = NTS - NTSm
-         //   print("NTS=\(NTS)")
+            //   print("NTS=\(NTS)")
             let NTZ = TimeZone(secondsFromGMT: NTS)
-          //  print("NTZ=\((NTZ)!), \(NTZ!.abbreviation())")
+            //  print("NTZ=\((NTZ)!), \(NTZ!.abbreviation())")
             if let NTZInfo = TimeZoneTable.GetTimeZoneInfo(For: Double(NTS / 3600))
             {
                 let TZI = NTZInfo.first!
-          //      print("TZI=\(TZI.Name)")
+                //      print("TZI=\(TZI.Name)")
             }
             var NoonDelta = NoonTime.timeIntervalSinceReferenceDate - Date().timeIntervalSinceReferenceDate
             NoonDelta = NoonDelta / 3600
@@ -378,6 +449,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             let NDTZ = NoonTime.GetTimeZone()
             //print("Noon delta: \(NoonDelta) \(NoonTime.PrettyTime()) \(PrettyPercent)% TZ: \(NDTZ)")
             OldSeconds = CurrentSeconds
+            print("Flatland pretty percent=\(PrettyPercent)")
             RotateImageTo(PrettyPercent)
             let DaySeconds = (Hour * 60 * 60) + (Minute * 60) + Second
             let NST = NSTimeZone()
@@ -524,13 +596,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 }
             }
             let UserLocations = Settings.GetLocations()
-            for (ID, Location, Name, Color) in UserLocations
+            for (_, Location, Name, Color) in UserLocations
             {
                 let LocationLayer = PlotLocation2(Location, Name, Color, (CityLayer?.bounds.width)!)
                 LocationLayer.name = "User Location"
                 CityLayer?.addSublayer(LocationLayer)
-//                let LocationPath = PlotLocation(Location, Name, Color, (CityLayer?.bounds.width)!)
-//                Bezier.append(LocationPath)
             }
         }
         CityLayer?.fillColor = UIColor.red.cgColor
@@ -562,27 +632,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let Origin = CGPoint(x: PointX, y: PointY)
         let City = UIBezierPath(ovalIn: CGRect(origin: Origin, size: CityDotSize))
         return City
-    }
-    
-    func PlotLocation(_ Location: GeoPoint2, _ Name: String, _ Color: UIColor, _ Diameter: CGFloat) -> UIBezierPath
-    {
-        let Latitude = Location.Latitude
-        let Longitude = Location.Longitude
-        let Half = Double(Diameter / 2.0)
-        let Ratio: Double = Half / HalfCircumference
-        let LocationSize: CGFloat = 10.0
-        let LocationDotSize = CGSize(width: LocationSize, height: LocationSize)
-        let PointModifier = Double(CGFloat(Half) - (LocationSize / 2.0))
-        let LongitudeAdjustment = Settings.GetImageCenter() == .NorthPole ? 1.0 : -1.0
-        var Distance = DistanceFromContextPole(To: GeoPoint2(Latitude, Longitude))
-        Distance = Distance * Ratio
-        var LocationBearing = Bearing(Start: GeoPoint2(90.0, 0.0), End: GeoPoint2(Latitude, Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0).ToRadians()
-        let PointX = Distance * cos(LocationBearing) + PointModifier
-        let PointY = Distance * sin(LocationBearing) + PointModifier
-        let Origin = CGPoint(x: PointX, y: PointY)
-        let Location = UIBezierPath(rect: CGRect(origin: Origin, size: LocationDotSize))
-        return Location
     }
     
     func PlotLocation2(_ Location: GeoPoint2, _ Name: String, _ Color: UIColor, _ Diameter: CGFloat) -> CAShapeLayer
@@ -667,7 +716,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     {
         return LawOfCosines(Point1: GeoPoint2(90.0, 0.0), Point2: To)
     }
-
+    
     /// Returns the distance from the passed location to the South Pole.
     /// - Returns: Distance (in kilometers) from `To` to the South Pole.
     func DistanceFromSouthPole(To: GeoPoint2) -> Double
@@ -734,6 +783,28 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         return CityTestList
     }
     
+    @IBAction func HandleViewTypeChanged(_ sender: Any)
+    {
+        if let Segment = sender as? UISegmentedControl
+        {
+            switch Segment.selectedSegmentIndex
+            {
+                case 0:
+                    Settings.SetViewType(.FlatMap)
+                    WorldViewer3D.Hide()
+                    SetFlatlandVisibility(IsVisible: true)
+                
+                case 1:
+                    Settings.SetViewType(.Globe3D)
+                    WorldViewer3D.Show()
+                    SetFlatlandVisibility(IsVisible: false)
+                
+                default:
+                break
+            }
+        }
+    }
+    
     /// Instantiate the settings controller.
     @IBSegueAction func InstantiateSettingsNavigator(_ coder: NSCoder) -> SettingsNavigationViewer?
     {
@@ -744,6 +815,9 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     // MARK: - Interface builder outlets.
     
+
+    @IBOutlet weak var ViewTypeSegment: UISegmentedControl!
+    @IBOutlet weak var WorldViewer3D: GlobeView!
     @IBOutlet weak var LocalSunsetLabel: UILabel!
     @IBOutlet weak var LocalSunriseLabel: UILabel!
     @IBOutlet weak var LocalSecondsLabel: UILabel!
@@ -758,4 +832,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     @IBOutlet weak var MainTimeLabelTop: UILabel!
     @IBOutlet weak var TopView: UIView!
     @IBOutlet weak var WorldViewer: UIImageView!
+    @IBOutlet weak var SolarNoonLabel: UILabel!
+    @IBOutlet weak var DeclinitionLabel: UILabel!
 }
