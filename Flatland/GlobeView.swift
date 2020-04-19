@@ -52,6 +52,8 @@ class GlobeView: SCNView
         Camera.fieldOfView = 90.0
         Camera.usesOrthographicProjection = true
         Camera.orthographicScale = 14
+        Camera.zFar = 500
+        Camera.zNear = 0
         CameraNode = SCNNode()
         CameraNode.camera = Camera
         CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
@@ -92,7 +94,7 @@ class GlobeView: SCNView
     func StartClock()
     {
         EarthClock = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateEarthView),
-                                     userInfo: nil, repeats: true)
+                                          userInfo: nil, repeats: true)
     }
     
     var EarthClock: Timer? = nil
@@ -151,7 +153,7 @@ class GlobeView: SCNView
     func UpdateEarth(With Percent: Double)
     {
         let Degrees = 180.0 - (360.0) * Percent
-        print("Percent(\(Percent))=\(Degrees.RoundedTo(4))°")
+        //print("Percent(\(Percent))=\(Degrees.RoundedTo(4))°")
         let Radians = Degrees.Radians
         let Rotate = SCNAction.rotateTo(x: 0.0, y: CGFloat(-Radians), z: 0.0, duration: 1.0)
         EarthNode?.runAction(Rotate)
@@ -195,15 +197,62 @@ class GlobeView: SCNView
         let LineSphere = SCNSphere(radius: 10.2)
         LineSphere.segmentCount = 100
         
+        let MapType = Settings.GetGlobeMapType()
+        var BaseMapName = ""
+        var SecondaryMapName = ""
+        BaseMapName = MapManager.ImageNameFor(MapType: MapType, ViewType: .Globe3D)!
+        if MapType == .Standard
+        {
+            SecondaryMapName = MapManager.ImageNameFor(MapType: .StandardSea, ViewType: .Globe3D)!
+        }
+        
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        EarthNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "LandMask2")
+        EarthNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: BaseMapName)
         EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
+        EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
+        SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
         
-        SeaNode = SCNNode(geometry: SeaSphere)
-        SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "SeaMask2")
-        SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
+        SeaNode = SCNNode()
+        //Precondition the surfaces.
+        switch MapType
+        {
+            case .Standard:
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: SecondaryMapName)
+                SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
+            SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
+            
+            case .SimpleBorders2:
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.systemBlue
+                SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
+            SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
+            
+            case .Pink:
+                //EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.orange
+                SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.yellow
+            EarthNode?.geometry?.firstMaterial?.lightingModel = .phong
+            
+            case .Bronze:
+                EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.orange
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 1.0,
+                                                                             green: 210.0 / 255.0,
+                                                                             blue: 0.0,
+                                                                             alpha: 1.0)
+                SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
+                SeaNode?.geometry?.firstMaterial?.lightingModel = .lambert
+            
+            default:
+            break
+        }
         
         LineNode = SCNNode(geometry: LineSphere)
         LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -222,7 +271,10 @@ class GlobeView: SCNView
                 if success
                 {
                     self.SystemNode?.addChildNode(self.EarthNode!)
-                    self.SystemNode?.addChildNode(self.SeaNode!)
+                    if [MapTypes.Standard, MapTypes.SimpleBorders2, MapTypes.Pink, MapTypes.Bronze].contains(MapType)
+                    {
+                        self.SystemNode?.addChildNode(self.SeaNode!)
+                    }
                     self.SystemNode?.addChildNode(self.LineNode!)
                     self.scene?.rootNode.addChildNode(self.SystemNode!)
                 }
@@ -250,7 +302,6 @@ class GlobeView: SCNView
         let UserLocations = Settings.GetLocations()
         for (_, Location, Name, Color) in UserLocations
         {
-            print("Found user city \(Name)")
             let UserCity = City(Continent: "NoName", Country: "No Name", Name: Name, Population: nil, MetroPopulation: nil, Latitude: Location.Latitude, Longitude: Location.Longitude)
             UserCity.CityColor = Color
             UserCity.IsUserCity = true
