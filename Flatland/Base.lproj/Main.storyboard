@@ -22,7 +22,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </sceneKitView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WorldNorth" translatesAutoresizingMaskIntoConstraints="NO" id="l3A-8D-waa">
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WorldNorth" translatesAutoresizingMaskIntoConstraints="NO" id="l3A-8D-waa">
                                         <rect key="frame" x="34" y="162" width="700" height="700"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="700" id="Vw8-J0-NMw"/>
@@ -210,6 +210,20 @@
                                             <action selector="HandleViewTypeChanged:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="mCr-w6-wph"/>
                                         </connections>
                                     </segmentedControl>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="L7s-Gw-TR2">
+                                        <rect key="frame" x="581" y="926" width="106" height="32"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="106" id="hmT-bp-KwQ"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="" image="n.circle" catalog="system"/>
+                                            <segment title="" image="s.circle" catalog="system"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="HandlePolarSegmentChanged:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="EJK-XH-opO"/>
+                                        </connections>
+                                    </segmentedControl>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -225,11 +239,13 @@
                                     <constraint firstItem="a8N-hj-j3j" firstAttribute="leading" secondItem="kDv-JP-mbI" secondAttribute="leading" constant="-26" id="JGo-P6-bWq"/>
                                     <constraint firstAttribute="trailing" secondItem="wU5-9A-Ujl" secondAttribute="trailing" id="JdJ-cE-1P4"/>
                                     <constraint firstItem="E0c-Ml-2UJ" firstAttribute="leading" secondItem="l3A-8D-waa" secondAttribute="leading" id="MzO-8O-yPd"/>
+                                    <constraint firstItem="L7s-Gw-TR2" firstAttribute="leading" secondItem="Kse-DN-BOT" secondAttribute="leading" id="OB6-Ek-nUc"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="bottom" secondItem="kDv-JP-mbI" secondAttribute="bottom" id="OP3-Pj-32T"/>
                                     <constraint firstItem="wU5-9A-Ujl" firstAttribute="leading" secondItem="lZ4-B6-wwt" secondAttribute="leading" id="RXD-SR-vzF"/>
                                     <constraint firstAttribute="bottom" secondItem="STp-0d-B28" secondAttribute="bottom" constant="10" id="Szk-PC-ysV"/>
                                     <constraint firstItem="kDv-JP-mbI" firstAttribute="leading" secondItem="l3A-8D-waa" secondAttribute="leading" id="UUq-fM-vcg"/>
                                     <constraint firstItem="EsQ-gP-0lz" firstAttribute="centerX" secondItem="lZ4-B6-wwt" secondAttribute="centerX" id="Xdo-80-DSe"/>
+                                    <constraint firstItem="L7s-Gw-TR2" firstAttribute="centerY" secondItem="a8N-hj-j3j" secondAttribute="centerY" id="aCK-vD-j9Z"/>
                                     <constraint firstItem="kDv-JP-mbI" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="top" id="aE5-42-yq8"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="top" secondItem="7vk-gF-Mzg" secondAttribute="bottom" constant="-788" id="aIv-fh-Kvr"/>
                                     <constraint firstAttribute="bottom" secondItem="wU5-9A-Ujl" secondAttribute="bottom" id="fqS-JY-vRt"/>
@@ -265,6 +281,7 @@
                         <outlet property="MainTimeLabelBottom" destination="7vk-gF-Mzg" id="P1o-fs-0x4"/>
                         <outlet property="MainTimeLabelTop" destination="Pia-TU-9Wx" id="Yk8-EI-O8A"/>
                         <outlet property="NoonTimezoneLabel" destination="Mbr-2I-Fp3" id="gXW-1t-tkv"/>
+                        <outlet property="PolarSegment" destination="L7s-Gw-TR2" id="k7q-RV-P9m"/>
                         <outlet property="SettingsButton" destination="STp-0d-B28" id="gfe-hq-40e"/>
                         <outlet property="SolarNoonLabel" destination="V3s-K2-qHQ" id="omc-XA-TeG"/>
                         <outlet property="SunViewBottom" destination="pUB-G7-6d9" id="n2E-rC-qgH"/>
@@ -440,7 +457,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Osa-JA-n3R" kind="show" id="Mit-ig-edV"/>
+                                            <segue destination="Osa-JA-n3R" kind="show" destinationCreationSelector="InstantiateMapSettings:" id="Mit-ig-edV"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -1614,5 +1631,7 @@
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="globe" catalog="system" width="128" height="121"/>
         <image name="map" catalog="system" width="128" height="113"/>
+        <image name="n.circle" catalog="system" width="128" height="121"/>
+        <image name="s.circle" catalog="system" width="128" height="121"/>
     </resources>
 </document>
