@@ -29,13 +29,16 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             WorldViewer3D.Hide()
             SetFlatlandVisibility(IsVisible: true)
             ViewTypeSegment.selectedSegmentIndex = 0
+            PolarSegment.isHidden = false
         }
         else
         {
             WorldViewer3D.Show()
             SetFlatlandVisibility(IsVisible: false)
             ViewTypeSegment.selectedSegmentIndex = 1
+            PolarSegment.isHidden = true
         }
+        PolarSegment.selectedSegmentIndex = Settings.GetImageCenter() == .NorthPole ? 0 : 1
         
         DataStack.layer.borderColor = UIColor.white.cgColor
         ArcLayer.backgroundColor = UIColor.clear
@@ -68,6 +71,13 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                                               selector: #selector(UpdateLocalData),
                                               userInfo: nil,
                                               repeats: true)
+        
+        let ContextMenu = UIContextMenuInteraction(delegate: self)
+        //self.view.addInteraction(ContextMenu)
+        TopView.addInteraction(ContextMenu)
+        WorldViewer3D.addInteraction(ContextMenu)
+        //ArcLayer.addInteraction(ContextMenu)
+        //WorldViewer.addInteraction(ContextMenu)
     }
     
     var LocalDataTimer: Timer? = nil
@@ -286,14 +296,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
         UpdateSunLocations()
         var ProvisionalImage = ""
-        switch Settings.GetImageCenter()
-        {
-            case .NorthPole:
-                ProvisionalImage = "WorldNorth"
-            
-            case .SouthPole:
-                ProvisionalImage = "WorldSouth"
-        }
+        let CenterPole = Settings.GetImageCenter()
+        ProvisionalImage = MapManager.ImageNameFor(MapType: Settings.GetFlatlandMapType(), ViewType: .FlatMap, ImageCenter: CenterPole)!
         if ProvisionalImage != PreviousImage
         {
             PreviousImage = ProvisionalImage
@@ -425,7 +429,16 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             {
                 let NDI = NDInfo.first!
                 // print("Noon time zone \(NDI.Name)")
-                NoonTimezoneLabel.text = NDI.Abbreviation + " \(IND)"
+                var TZOffsetSign = ""
+                if IND < 0
+                {
+                    TZOffsetSign = "-"
+                }
+                if IND > 0
+                {
+                    TZOffsetSign = "+"
+                }
+                NoonTimezoneLabel.text = NDI.Abbreviation + " \(TZOffsetSign)\(IND)"
             }
             var NoonTime = Date.DateFrom(Percent: PrettyPercent)
             var NTS = NoonTime.AsSeconds()
@@ -449,7 +462,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             let NDTZ = NoonTime.GetTimeZone()
             //print("Noon delta: \(NoonDelta) \(NoonTime.PrettyTime()) \(PrettyPercent)% TZ: \(NDTZ)")
             OldSeconds = CurrentSeconds
-            print("Flatland pretty percent=\(PrettyPercent)")
+            //print("Flatland pretty percent=\(PrettyPercent)")
             RotateImageTo(PrettyPercent)
             let DaySeconds = (Hour * 60 * 60) + (Minute * 60) + Second
             let NST = NSTimeZone()
@@ -793,11 +806,13 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                     Settings.SetViewType(.FlatMap)
                     WorldViewer3D.Hide()
                     SetFlatlandVisibility(IsVisible: true)
+                    PolarSegment.isHidden = false
                 
                 case 1:
                     Settings.SetViewType(.Globe3D)
                     WorldViewer3D.Show()
                     SetFlatlandVisibility(IsVisible: false)
+                    PolarSegment.isHidden = true
                 
                 default:
                 break
@@ -813,9 +828,50 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         return Controller
     }
     
-    // MARK: - Interface builder outlets.
+    func ChangeMap()
+    {
+        WorldViewer3D.AddEarth()
+        SettingsDone()
+    }
     
+    func SetTexture(_ MapType: MapTypes)
+    {
+        #if true
+        print("User selected \"\(MapType.rawValue)\" map.")
+        Settings.SetFlatlandMapType(MapType)
+        Settings.SetGlobeMapType(MapType)
+        #else
+        if Settings.GetViewType() == .FlatMap
+        {
+            Settings.SetFlatlandMapType(MapType)
+        }
+        else
+        {
+            Settings.SetGlobeMapType(MapType)
+        }
+        #endif
+        ChangeMap()
+    }
+    
+    @IBAction func HandlePolarSegmentChanged(_ sender: Any)
+    {
+        if let Segment = sender as? UISegmentedControl
+        {
+            if Segment.selectedSegmentIndex == 0
+            {
+                Settings.SetImageCenter(.NorthPole)
+            }
+            else
+            {
+                Settings.SetImageCenter(.SouthPole)
+            }
+            SettingsDone()
+        }
+    }
+    
+    // MARK: - Interface builder outlets.
 
+    @IBOutlet weak var PolarSegment: UISegmentedControl!
     @IBOutlet weak var ViewTypeSegment: UISegmentedControl!
     @IBOutlet weak var WorldViewer3D: GlobeView!
     @IBOutlet weak var LocalSunsetLabel: UILabel!
