@@ -231,6 +231,13 @@ class GlobeView: SCNView
                 SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
             SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
             
+            case .Topographical1:
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.systemBlue
+                SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
+                SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
+            
             case .Pink:
                 //EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
                 SeaNode = SCNNode(geometry: SeaSphere)
@@ -265,13 +272,14 @@ class GlobeView: SCNView
         
         PlotCities(On: EarthNode!, WithRadius: 10)
         
+        let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze]
         self.prepare([EarthNode!, SeaNode!, LineNode!], completionHandler:
             {
                 success in
                 if success
                 {
                     self.SystemNode?.addChildNode(self.EarthNode!)
-                    if [MapTypes.Standard, MapTypes.SimpleBorders2, MapTypes.Pink, MapTypes.Bronze].contains(MapType)
+                    if SeaMapList.contains(MapType)
                     {
                         self.SystemNode?.addChildNode(self.SeaNode!)
                     }
@@ -329,7 +337,7 @@ class GlobeView: SCNView
                 {
                     NodeRotation = -90 + City.Latitude
                 }
-                print("Node rotation for \(City.Latitude)° is \(NodeRotation)")
+                //print("Node rotation for \(City.Latitude)° is \(NodeRotation)")
                 NodeRotation = NodeRotation.Radians
                 CityNode.eulerAngles = SCNVector3(0.0, NodeRotation, 0.0)
                 On.addChildNode(CityNode)
