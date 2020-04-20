@@ -27,6 +27,7 @@
 		1792BD882430529C006ABD02 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD872430529C006ABD02 /* TimeHelper.swift */; };
 		1792BD8A2430540A006ABD02 /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD892430540A006ABD02 /* Miscellaneous.swift */; };
 		1792BD9424306EC5006ABD02 /* CitiesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD9324306EC5006ABD02 /* CitiesData.swift */; };
+		17AC32AE244D3CF800CDA5F3 /* Keypad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17AC32AD244D3CF800CDA5F3 /* Keypad.storyboard */; };
 		17ADB45C243D636E002E5F88 /* +ArcLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ADB45B243D636E002E5F88 /* +ArcLayer.swift */; };
 		17ADB45E243D651A002E5F88 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ADB45D243D651A002E5F88 /* Extensions.swift */; };
 		17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6867242C7A99009861E1 /* AppDelegate.swift */; };
@@ -68,6 +69,7 @@
 		1792BD872430529C006ABD02 /* TimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
 		1792BD892430540A006ABD02 /* Miscellaneous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Miscellaneous.swift; sourceTree = "<group>"; };
 		1792BD9324306EC5006ABD02 /* CitiesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesData.swift; sourceTree = "<group>"; };
+		17AC32AD244D3CF800CDA5F3 /* Keypad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Keypad.storyboard; sourceTree = "<group>"; };
 		17ADB45B243D636E002E5F88 /* +ArcLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ArcLayer.swift"; sourceTree = "<group>"; };
 		17ADB45D243D651A002E5F88 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		17BE6864242C7A99009861E1 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,6 +166,14 @@
 			path = Astronomy;
 			sourceTree = "<group>";
 		};
+		17AC32AC244D3CD800CDA5F3 /* Keypad */ = {
+			isa = PBXGroup;
+			children = (
+				17AC32AD244D3CF800CDA5F3 /* Keypad.storyboard */,
+			);
+			path = Keypad;
+			sourceTree = "<group>";
+		};
 		17BE685B242C7A99009861E1 = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				17026470244C202100DEE96A /* Maps */,
+				17AC32AC244D3CD800CDA5F3 /* Keypad */,
 				1792BD7824304787006ABD02 /* Astronomy */,
 				17E180F6242F645800310896 /* Cities */,
 				17BE687B242C7AA8009861E1 /* Flatland.entitlements */,
@@ -273,6 +284,7 @@
 			files = (
 				17BE6874242C7A9C009861E1 /* LaunchScreen.storyboard in Resources */,
 				17BE6871242C7A9C009861E1 /* Assets.xcassets in Resources */,
+				17AC32AE244D3CF800CDA5F3 /* Keypad.storyboard in Resources */,
 				17BE686F242C7A99009861E1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
