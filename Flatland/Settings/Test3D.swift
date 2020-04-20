@@ -256,7 +256,7 @@ class Test3D: UIViewController
                 {
                     NodeRotation = -90 + City.Latitude
                 }
-                print("Node rotation for \(City.Latitude)° is \(NodeRotation)")
+                //print("Node rotation for \(City.Latitude)° is \(NodeRotation)")
                 NodeRotation = NodeRotation.Radians
                 CityNode.eulerAngles = SCNVector3(0.0, NodeRotation, 0.0)
                 On.addChildNode(CityNode)
