@@ -48,24 +48,20 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         TopSun?.VariableSunImage(Using: SunViewTop, Interval: 0.1)
         BottomSun?.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
-        #if false
-        for Top in CityTestList
-        {
-            print("Name: \(Top.Name), population: \(Top.MetropolitanPopulation!)")
-        }
-        #endif
 
         MakeLatitudeBands()
         let Radius = ArcLayer.bounds.width / 2.0
         let Center = CGPoint(x: Radius, y: Radius)
+        #if false
         let test = MakeArc(Start: 90.0,
                            End: 270.0,
-                           Radius: Radius,// / 2.0,
+                           Radius: Radius,
             ArcWidth: 360.0,
             Center: Center,
             ArcColor: UIColor.black,
             Rectangle: ArcLayer.bounds)
-        //ArcLayer.layer.addSublayer(test)
+        ArcLayer.layer.addSublayer(test)
+        #endif
         LocalDataTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                               target: self,
                                               selector: #selector(UpdateLocalData),
@@ -73,18 +69,19 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                                               repeats: true)
         
         let ContextMenu = UIContextMenuInteraction(delegate: self)
-        //self.view.addInteraction(ContextMenu)
         TopView.addInteraction(ContextMenu)
-        WorldViewer3D.addInteraction(ContextMenu)
-        //ArcLayer.addInteraction(ContextMenu)
-        //WorldViewer.addInteraction(ContextMenu)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle
+    {
+        return .lightContent
     }
     
     var LocalDataTimer: Timer? = nil
     
     func SetFlatlandVisibility(IsVisible: Bool)
     {
-            WorldViewer.isHidden = !IsVisible
+        WorldViewer.isHidden = !IsVisible
         GridOverlay.isHidden = !IsVisible
         ArcLayer.isHidden = !IsVisible
         if !IsVisible
