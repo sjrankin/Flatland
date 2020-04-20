@@ -21,6 +21,8 @@ extension MainView: UIContextMenuInteractionDelegate
         }
     }
     
+    //MARK: - Physical sub-menu.
+    
     func MakePhysicalSubMenu() -> UIMenu
     {
         var SubMenu = [UIMenuElement]()
@@ -36,6 +38,19 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.DarkBlueMarble)
         }
         SubMenu.append(Menu2)
+        let Menu4 = UIAction(title: "Topographical Map 1", image: nil)
+        {
+            action in
+            self.SetTexture(.Topographical1)
+        }
+        SubMenu.append(Menu4)
+        let Menu3 = UIAction(title: "Static Aerosol Map", image: nil)
+        {
+            action in
+            self.SetTexture(.StaticAerosol)
+        }
+        SubMenu.append(Menu3)
+        
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
             action in
@@ -47,6 +62,8 @@ extension MainView: UIContextMenuInteractionDelegate
                            children: SubMenu)
         return Final
     }
+    
+    //MARK: - Standard sub-menu.
     
     func MakeStandardSubMenu() -> UIMenu
     {
@@ -93,6 +110,8 @@ extension MainView: UIContextMenuInteractionDelegate
         return Final
     }
     
+    // MARK: - Stylized dithered sub-menu.
+    
     func MakeStylizedDitheredMenu() -> UIMenu
     {        var SubMenu = [UIMenuElement]()
         let Menu4 = UIAction(title: "Halftone Line Map", image: nil)
@@ -130,6 +149,8 @@ extension MainView: UIContextMenuInteractionDelegate
                            children: SubMenu)
         return Final
     }
+    
+    // MARK: - Stylized artistic sub-menu.
     
     func MakeStylizedArtisticMenu() -> UIMenu
     {
@@ -184,6 +205,8 @@ extension MainView: UIContextMenuInteractionDelegate
         return Final
     }
     
+    // MARK: - Stylized color sub-menu.
+    
     func MakeStylizedColorfulMenu() -> UIMenu
     {
                 var SubMenu = [UIMenuElement]()
@@ -210,6 +233,8 @@ extension MainView: UIContextMenuInteractionDelegate
                            children: SubMenu)
         return Final
     }
+    
+    // MARK: - Stylized abstract sub-menu.
     
     func MakeStylizedAbstractMenu() -> UIMenu
     {
@@ -275,6 +300,8 @@ extension MainView: UIContextMenuInteractionDelegate
         return Final
     }
     
+    // MARK: - Stylized sub-menu.
+    
     func MakeStylizedSubMenu() -> UIMenu
     {
         var SubMenu = [UIMenuElement]()
@@ -295,6 +322,8 @@ extension MainView: UIContextMenuInteractionDelegate
                            children: SubMenu)
         return Final
     }
+    
+    // MARK: - Main context menu.
     
     func MakeGeneralContextMenu() -> UIMenu
     {
