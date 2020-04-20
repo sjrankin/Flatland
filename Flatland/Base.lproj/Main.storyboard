@@ -15,14 +15,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lZ4-B6-wwt">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lZ4-B6-wwt">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <subviews>
                                     <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" allowsCameraControl="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wU5-9A-Ujl" customClass="GlobeView" customModule="Flatland" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </sceneKitView>
-                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WorldNorth" translatesAutoresizingMaskIntoConstraints="NO" id="l3A-8D-waa">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WorldNorth" translatesAutoresizingMaskIntoConstraints="NO" id="l3A-8D-waa">
                                         <rect key="frame" x="34" y="162" width="700" height="700"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="700" id="Vw8-J0-NMw"/>
@@ -259,9 +259,10 @@
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="centerY" secondItem="lZ4-B6-wwt" secondAttribute="centerY" id="yx2-mQ-8dR"/>
                                     <constraint firstItem="a8N-hj-j3j" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="bottom" constant="18" id="zts-gn-0dK"/>
                                 </constraints>
+                                <viewLayoutGuide key="safeArea" id="dFz-Nh-pZt"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="lZ4-B6-wwt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NQg-Xs-dRX"/>
                             <constraint firstItem="lZ4-B6-wwt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="SFZ-Qi-Psd"/>
