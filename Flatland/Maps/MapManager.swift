@@ -43,6 +43,8 @@ class MapManager
             .WaterColor2: ("WaterColorPlanetNorthCenter", "WaterColorPlanetSouthCenter"),
             .OilPainting1: ("ArtMap4NorthCenter", "ArtMap4SouthCenter"),
             .Abstract3: ("SegmentedMapNorthCenter", "SegmentedMapSouthCenter"),
+            .StaticAerosol: ("AerosolNorthCenter", "AerosolSouthCenter"),
+            .Topographical1: ("Topographical1NorthCenter", "Topographical1SouthCenter"),
     ]
     
     private static func FlatMapImage(MapType: MapTypes, ImageCenter: ImageCenters) -> String?
@@ -154,6 +156,12 @@ class MapManager
             
             case .Abstract3:
             return "SegmentedMap"
+            
+            case .StaticAerosol:
+            return "aerosol"
+            
+            case .Topographical1:
+            return "Topographical1"
         }
     }
     
@@ -240,4 +248,6 @@ enum MapTypes: String, CaseIterable
     case WaterColor1 = "Watercolor Map"
     case WaterColor2 = "Dark Watercolor Map"
     case OilPainting1 = "Oil Painting Map"
+    case StaticAerosol = "Static Aerosol"
+    case Topographical1 = "Topographic 1"
 }
