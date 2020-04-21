@@ -224,6 +224,17 @@
                                             <action selector="HandlePolarSegmentChanged:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="EJK-XH-opO"/>
                                         </connections>
                                     </segmentedControl>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fkZ-wJ-IXP">
+                                        <rect key="frame" x="720" y="36" width="37" height="36"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="ant.circle" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24" scale="large" weight="heavy"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="vVa-32-PrS" kind="show" destinationCreationSelector="InstantiateDebugNavigator:" id="pdO-rd-9vs"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -1672,6 +1683,131 @@
             </objects>
             <point key="canvasLocation" x="4128.90625" y="267.7734375"/>
         </scene>
+        <!--Debugging-->
+        <scene sceneID="GTC-2k-Vnm">
+            <objects>
+                <tableViewController id="jfq-lW-E0R" customClass="DebugController" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="lzl-CF-aEk">
+                        <rect key="frame" x="0.0" y="0.0" width="712" height="984"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <sections>
+                            <tableViewSection headerTitle="Time" id="LiE-VT-14B">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="AH6-zL-D1E">
+                                        <rect key="frame" x="0.0" y="28" width="712" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AH6-zL-D1E" id="5JK-qF-lcI">
+                                            <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Freeze time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOM-5u-yUL">
+                                                    <rect key="frame" x="20" y="11" width="90" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jhQ-gT-ElW">
+                                                    <rect key="frame" x="643" y="6" width="51" height="32"/>
+                                                    <connections>
+                                                        <action selector="HandleFreezeTimeChanged:" destination="jfq-lW-E0R" eventType="primaryActionTriggered" id="mYh-0x-zP5"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="jhQ-gT-ElW" firstAttribute="top" secondItem="5JK-qF-lcI" secondAttribute="topMargin" constant="-5" id="HPm-Jc-uLb"/>
+                                                <constraint firstItem="wOM-5u-yUL" firstAttribute="top" secondItem="5JK-qF-lcI" secondAttribute="topMargin" id="X0h-dH-TvR"/>
+                                                <constraint firstItem="jhQ-gT-ElW" firstAttribute="trailing" secondItem="5JK-qF-lcI" secondAttribute="trailingMargin" id="Zyf-Kx-Gax"/>
+                                                <constraint firstItem="wOM-5u-yUL" firstAttribute="centerY" secondItem="5JK-qF-lcI" secondAttribute="centerY" id="dDc-9v-3yd"/>
+                                                <constraint firstItem="wOM-5u-yUL" firstAttribute="leading" secondItem="5JK-qF-lcI" secondAttribute="leadingMargin" id="k9W-2c-Vu7"/>
+                                                <constraint firstItem="wOM-5u-yUL" firstAttribute="centerY" secondItem="jhQ-gT-ElW" secondAttribute="centerY" id="wiU-eG-llN"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="vYY-TD-eG9">
+                                        <rect key="frame" x="0.0" y="71.5" width="712" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vYY-TD-eG9" id="JZi-XM-P1N">
+                                            <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time multiplier" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sA3-Qb-6dc">
+                                                    <rect key="frame" x="20" y="11" width="113" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="OTK-oS-Jhg">
+                                                    <rect key="frame" x="179" y="7" width="513" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <segments>
+                                                        <segment title="1x"/>
+                                                        <segment title="1.5x"/>
+                                                        <segment title="2x"/>
+                                                        <segment title="4x"/>
+                                                        <segment title="8x"/>
+                                                        <segment title="10x"/>
+                                                        <segment title="20x"/>
+                                                        <segment title="50x"/>
+                                                        <segment title="100x"/>
+                                                    </segments>
+                                                    <connections>
+                                                        <action selector="HandleTimeMultiplierChanged:" destination="jfq-lW-E0R" eventType="primaryActionTriggered" id="1vh-rc-Woo"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="cLK-Dg-lcb">
+                                        <rect key="frame" x="0.0" y="115" width="712" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cLK-Dg-lcb" id="MVw-vJ-hi6">
+                                            <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="jfq-lW-E0R" id="28w-j1-Ua8"/>
+                            <outlet property="delegate" destination="jfq-lW-E0R" id="4z2-Wr-R9n"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Debugging" id="hpi-Wk-ahI">
+                        <barButtonItem key="leftBarButtonItem" title="Done" id="R5V-G2-nKb">
+                            <connections>
+                                <action selector="HandleDonePressed:" destination="jfq-lW-E0R" id="4gB-MV-CcH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="FreezeTimeSwitch" destination="jhQ-gT-ElW" id="ryF-Xl-hB6"/>
+                        <outlet property="TimeMultiplier" destination="OTK-oS-Jhg" id="1IR-tT-j6Q"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M4N-eg-Ffq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1645.3125" y="-489.25781249999994"/>
+        </scene>
+        <!--Debug Navigation Viewer-->
+        <scene sceneID="pVk-On-Epa">
+            <objects>
+                <navigationController id="vVa-32-PrS" customClass="DebugNavigationViewer" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="ii5-ri-lWo"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4Bi-IM-Aec">
+                        <rect key="frame" x="0.0" y="0.0" width="712" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="jfq-lW-E0R" kind="relationship" relationship="rootViewController" id="jqd-vM-mWe"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gh0-39-m2D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="875" y="-489"/>
+        </scene>
         <!--Settings-->
         <scene sceneID="Kka-Ec-VOn">
             <objects>
@@ -1700,6 +1836,7 @@
     <resources>
         <image name="Sun" width="160" height="160"/>
         <image name="WorldNorth" width="2048" height="2048"/>
+        <image name="ant.circle" catalog="system" width="128" height="121"/>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="globe" catalog="system" width="128" height="121"/>
         <image name="map" catalog="system" width="128" height="113"/>
