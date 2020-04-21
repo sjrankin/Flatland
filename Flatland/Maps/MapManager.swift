@@ -52,6 +52,8 @@ class MapManager
             .MarsMariner9: ("MarsM9GeoMapNorthCenter", "MarsM9GeoMapSouthCenter"),
             .LROMap: ("LRONorthCenter", "LROSouthCenter"),
             .LunarGeoMap: ("LunarGeoMapNorthCenter", "LunarGeoMapSouthCenter"),
+            .House: ("HouseUpCenter", "HouseDownCenter"),
+            .Tigger: ("TiggerWorldR0", "TiggerWorldroundR1"),
     ]
     
     private static func FlatMapImage(MapType: MapTypes, ImageCenter: ImageCenters) -> String?
@@ -190,6 +192,12 @@ class MapManager
             
             case .LunarGeoMap:
                 return "LunarGeoMap"
+            
+            case .House:
+            return "House"
+            
+            case .Tigger:
+            return "TiggerWorld"
         }
     }
     
@@ -285,4 +293,6 @@ enum MapTypes: String, CaseIterable
     case MOLAVerticalRoughness = "Mars Vertical Roughness Map"
     case LROMap = "Lunar Reconnaissance Orbiter Moon Map"
     case LunarGeoMap = "Lunar Geologic Map"
+    case House = "Kitahiroshima House"
+    case Tigger = "Tigger"
 }
