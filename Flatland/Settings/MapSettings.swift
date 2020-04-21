@@ -22,6 +22,25 @@ class MapSettings: UITableViewController, UIPickerViewDelegate, UIPickerViewData
         TropicSwitch.isOn = Settings.ShowTropics()
         PrimeMeridianSwitch.isOn = Settings.ShowPrimeMeridians()
         NoonMeridianSwitch.isOn = Settings.ShowNoonMeridians()
+        MinorGridSwitch.isOn = Settings.ShowMinorGridLines()
+        var Gap = Settings.GetMinorGridLineGap()
+        if Gap == 0.0
+        {
+            Gap = 15.0
+            Settings.SetMinorGridLineGap(Gap)
+        }
+        if !ValidGaps.contains(Gap)
+        {
+            Gap = 15.0
+        }
+        if let GapIndex = ValidGaps.firstIndex(of: Gap)
+        {
+            GapSegment.selectedSegmentIndex = GapIndex
+        }
+        else
+        {
+            GapSegment.selectedSegmentIndex = 1
+        }
         
         FlatlandMapPicker.layer.borderColor = UIColor.black.cgColor
         GlobeMapPicker.layer.borderColor = UIColor.black.cgColor
@@ -29,6 +48,8 @@ class MapSettings: UITableViewController, UIPickerViewDelegate, UIPickerViewData
         GlobeMapPicker.reloadAllComponents()
         FlatlandMapPicker.reloadAllComponents()
     }
+    
+    let ValidGaps = [5.0, 15.0, 30.0, 45.0]
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int
     {
@@ -105,12 +126,30 @@ class MapSettings: UITableViewController, UIPickerViewDelegate, UIPickerViewData
                 case PrimeMeridianSwitch:
                     Settings.SetPrimeMeridians(Switch.isOn)
                 
+                case MinorGridSwitch:
+                    Settings.SetMinorGridLines(Switch.isOn)
+                
                 default:
                     break
             }
         }
     }
     
+    @IBAction func HandleMinorGapChanged(_ sender: Any)
+    {
+        if let Segment = sender as? UISegmentedControl
+        {
+            if Segment.selectedSegmentIndex > ValidGaps.count - 1
+            {
+                return
+            }
+            let Gap = ValidGaps[Segment.selectedSegmentIndex]
+            Settings.SetMinorGridLineGap(Gap)
+        }
+    }
+    
+    @IBOutlet weak var GapSegment: UISegmentedControl!
+    @IBOutlet weak var MinorGridSwitch: UISwitch!
     @IBOutlet weak var NoonMeridianSwitch: UISwitch!
     @IBOutlet weak var PrimeMeridianSwitch: UISwitch!
     @IBOutlet weak var PolarSwitch: UISwitch!
