@@ -401,6 +401,36 @@ extension MainView: UIContextMenuInteractionDelegate
         return Final
     }
     
+    // MARK: - Silly sub-menu.
+    
+    func MakeSillySubMenu() -> UIMenu
+    {
+        var SubMenu = [UIMenuElement]()
+        let Menu1 = UIAction(title: "House", image: nil)
+        {
+            action in
+            self.SetTexture(.House)
+        }
+        SubMenu.append(Menu1)
+        let Menu2 = UIAction(title: "Tigger", image: nil)
+        {
+            action in
+            self.SetTexture(.Tigger)
+        }
+        SubMenu.append(Menu2)
+        
+        let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
+        {
+            action in
+        }
+        let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
+        SubMenu.append(CancelMenu)
+        let Final = UIMenu(title: "Silly \"Maps\"",
+                           image: UIImage(systemName: "arrowtriangle.right"),
+                           children: SubMenu)
+        return Final
+    }
+    
     // MARK: - Main context menu.
     
     func MakeGeneralContextMenu() -> UIMenu
@@ -410,13 +440,14 @@ extension MainView: UIContextMenuInteractionDelegate
         let PoliticalMenu = MakePoliticalSubMenu()
         let StylizedMenu = MakeStylizedSubMenu()
         let MarsMenu = MakeMarsSubMenu()
+        let SillyMenu = MakeSillySubMenu()
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
             action in
         }
         let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
         let Menu = UIMenu(title: "Map Menu",
-                          children: [StandardMenu, PhysicalMenu, PoliticalMenu, StylizedMenu, MarsMenu, CancelMenu])
+                          children: [StandardMenu, PhysicalMenu, PoliticalMenu, StylizedMenu, MarsMenu, SillyMenu, CancelMenu])
         return Menu
     }
 }
