@@ -38,6 +38,7 @@ class Settings
         SetCapitalCities(true)
         SetUserLocations(true)
         SetShowLocalData(true)
+        SetMinorGridLineGap(15.0)
         SetLocations([])
     }
     
@@ -350,6 +351,26 @@ class Settings
     public static func SetNoonMeridians(_ Show: Bool)
     {
         UserDefaults.standard.set(Show, forKey: "ShowNoonMeridians")
+    }
+    
+    public static func ShowMinorGridLines() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowMinorGridLines")
+    }
+    
+    public static func SetMinorGridLines(_ Show: Bool)
+    {
+        UserDefaults.standard.set(Show, forKey: "ShowMinorGridLines")
+    }
+    
+    public static func GetMinorGridLineGap() -> Double
+    {
+        return UserDefaults.standard.double(forKey: "MinorGridLineGap")
+    }
+    
+    public static func SetMinorGridLineGap(_ Gap: Double)
+    {
+        UserDefaults.standard.set(Gap, forKey: "MinorGridLineGap")
     }
     
     // MARK: - City/location-related settings.
