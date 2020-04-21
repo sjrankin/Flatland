@@ -788,7 +788,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prime Meridians" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3K-H7-wTB">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prime meridians" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3K-H7-wTB">
                                                     <rect key="frame" x="20" y="11" width="123" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -815,8 +815,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Noon Meridians" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4kF-yS-VNn">
-                                                    <rect key="frame" x="20" y="11" width="120.5" height="22"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Noon meridians" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4kF-yS-VNn">
+                                                    <rect key="frame" x="20" y="11" width="120" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -838,6 +838,75 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="fiI-oO-M0i">
+                                        <rect key="frame" x="0.0" y="603.5" width="712" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fiI-oO-M0i" id="yHA-HS-Jbw">
+                                            <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minor grid lines" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D12-Yq-xie">
+                                                    <rect key="frame" x="20" y="11" width="117.5" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5F7-EG-bBf">
+                                                    <rect key="frame" x="643" y="6" width="51" height="32"/>
+                                                    <connections>
+                                                        <action selector="HandleGridSwitchChanged:" destination="Osa-JA-n3R" eventType="primaryActionTriggered" id="AuG-c2-SDI"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="D12-Yq-xie" firstAttribute="top" secondItem="yHA-HS-Jbw" secondAttribute="topMargin" id="PoR-nv-W44"/>
+                                                <constraint firstItem="5F7-EG-bBf" firstAttribute="trailing" secondItem="yHA-HS-Jbw" secondAttribute="trailingMargin" id="RQg-Ff-doh"/>
+                                                <constraint firstItem="D12-Yq-xie" firstAttribute="centerY" secondItem="yHA-HS-Jbw" secondAttribute="centerY" id="UmC-uo-7ol"/>
+                                                <constraint firstItem="D12-Yq-xie" firstAttribute="centerY" secondItem="5F7-EG-bBf" secondAttribute="centerY" id="Z4o-kp-DLZ"/>
+                                                <constraint firstItem="D12-Yq-xie" firstAttribute="leading" secondItem="yHA-HS-Jbw" secondAttribute="leadingMargin" id="oGh-HO-giC"/>
+                                                <constraint firstItem="5F7-EG-bBf" firstAttribute="top" secondItem="yHA-HS-Jbw" secondAttribute="topMargin" constant="-5" id="sTy-I1-FnB"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="Rfs-n3-CwO">
+                                        <rect key="frame" x="0.0" y="647" width="712" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rfs-n3-CwO" id="cUs-do-wy9">
+                                            <rect key="frame" x="0.0" y="0.0" width="712" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minor grid line gap" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YrB-1Y-ODS">
+                                                    <rect key="frame" x="20" y="11" width="143" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yFw-8Z-sAf">
+                                                    <rect key="frame" x="427" y="6" width="265" height="33"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="265" id="UID-tQ-KKw"/>
+                                                    </constraints>
+                                                    <segments>
+                                                        <segment title="5°"/>
+                                                        <segment title="15°"/>
+                                                        <segment title="30°"/>
+                                                        <segment title="45°"/>
+                                                    </segments>
+                                                    <connections>
+                                                        <action selector="HandleMinorGapChanged:" destination="Osa-JA-n3R" eventType="primaryActionTriggered" id="qAb-tn-epJ"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="YrB-1Y-ODS" firstAttribute="centerY" secondItem="yFw-8Z-sAf" secondAttribute="centerY" id="ez6-ao-zSC"/>
+                                                <constraint firstItem="yFw-8Z-sAf" firstAttribute="trailing" secondItem="cUs-do-wy9" secondAttribute="trailingMargin" id="j7O-O4-GoD"/>
+                                                <constraint firstItem="YrB-1Y-ODS" firstAttribute="centerY" secondItem="cUs-do-wy9" secondAttribute="centerY" id="oUg-vH-Cx7"/>
+                                                <constraint firstItem="YrB-1Y-ODS" firstAttribute="top" secondItem="cUs-do-wy9" secondAttribute="topMargin" id="sgJ-kH-6fE"/>
+                                                <constraint firstItem="yFw-8Z-sAf" firstAttribute="top" secondItem="cUs-do-wy9" secondAttribute="topMargin" constant="-5" id="wjW-50-GBh"/>
+                                                <constraint firstItem="YrB-1Y-ODS" firstAttribute="leading" secondItem="cUs-do-wy9" secondAttribute="leadingMargin" id="xhW-uY-bXk"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -850,7 +919,9 @@
                     <connections>
                         <outlet property="EquatorSwitch" destination="4pf-IT-ixG" id="8qk-1Q-NNp"/>
                         <outlet property="FlatlandMapPicker" destination="d22-S6-TAY" id="fuV-FF-wXl"/>
+                        <outlet property="GapSegment" destination="yFw-8Z-sAf" id="Azo-Gf-abd"/>
                         <outlet property="GlobeMapPicker" destination="Avu-5V-yGV" id="nir-An-G3c"/>
+                        <outlet property="MinorGridSwitch" destination="5F7-EG-bBf" id="BVY-7i-aPf"/>
                         <outlet property="NoonMeridianSwitch" destination="RBl-LG-PGd" id="mKH-vz-Zd8"/>
                         <outlet property="PolarSwitch" destination="Ol8-Ul-as2" id="qtP-AZ-lgT"/>
                         <outlet property="PrimeMeridianSwitch" destination="G7G-7D-XCx" id="LYg-2I-FDR"/>
