@@ -45,6 +45,13 @@ class MapManager
             .Abstract3: ("SegmentedMapNorthCenter", "SegmentedMapSouthCenter"),
             .StaticAerosol: ("AerosolNorthCenter", "AerosolSouthCenter"),
             .Topographical1: ("Topographical1NorthCenter", "Topographical1SouthCenter"),
+            .Topographical2: ("EarthTopoNorthCenter", "EarthTopoSouthCenter"),
+            .PoliticalSubDivisions: ("PoliticalSubDivisionsNorthCenter", "PoliticalSubDivisionsSouthCenter"),
+            .MarsViking: ("MarsVikingNorthCenter", "MarsVikingsouthCenter"),
+            .MOLAVerticalRoughness: ("MarsVerticalRoughnessNorthCenter", "MarsVerticalRoughnessSouthCenter"),
+            .MarsMariner9: ("MarsM9GeoMapNorthCenter", "MarsM9GeoMapSouthCenter"),
+            .LROMap: ("LRONorthCenter", "LROSouthCenter"),
+            .LunarGeoMap: ("LunarGeoMapNorthCenter", "LunarGeoMapSouthCenter"),
     ]
     
     private static func FlatMapImage(MapType: MapTypes, ImageCenter: ImageCenters) -> String?
@@ -152,16 +159,37 @@ class MapManager
                 return "WaterColorPlanet"
             
             case .OilPainting1:
-            return "ArtMap4"
+                return "ArtMap4"
             
             case .Abstract3:
-            return "SegmentedMap"
+                return "SegmentedMap"
             
             case .StaticAerosol:
-            return "aerosol"
+                return "aerosol"
             
             case .Topographical1:
-            return "Topographical1"
+                return "Topographical1"
+            
+            case .Topographical2:
+                return "EarthTopo"
+            
+            case .PoliticalSubDivisions:
+                return "PoliticalSubDivisions3600"
+            
+            case .MarsMariner9:
+                return "MarsM9GeoMap"
+            
+            case .MarsViking:
+                return "MarsViking"
+            
+            case .MOLAVerticalRoughness:
+                return "MarsVerticalRoughness"
+            
+            case .LROMap:
+                return "LROMoon"
+            
+            case .LunarGeoMap:
+                return "LunarGeoMap"
         }
     }
     
@@ -250,4 +278,11 @@ enum MapTypes: String, CaseIterable
     case OilPainting1 = "Oil Painting Map"
     case StaticAerosol = "Static Aerosol"
     case Topographical1 = "Topographic 1"
+    case Topographical2 = "Topographic 2"
+    case PoliticalSubDivisions = "Political Sub-Divisions"
+    case MarsMariner9 = "Martian Mariner 9 Geologic Map"
+    case MarsViking = "Martian Viking Map"
+    case MOLAVerticalRoughness = "Mars Vertical Roughness Map"
+    case LROMap = "Lunar Reconnaissance Orbiter Moon Map"
+    case LunarGeoMap = "Lunar Geologic Map"
 }
