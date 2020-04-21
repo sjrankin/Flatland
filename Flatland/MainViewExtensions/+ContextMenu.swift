@@ -44,6 +44,12 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.Topographical1)
         }
         SubMenu.append(Menu4)
+        let Menu5 = UIAction(title: "Topographical Map 2", image: nil)
+        {
+            action in
+            self.SetTexture(.Topographical2)
+        }
+        SubMenu.append(Menu5)
         let Menu3 = UIAction(title: "Static Aerosol Map", image: nil)
         {
             action in
@@ -323,20 +329,94 @@ extension MainView: UIContextMenuInteractionDelegate
         return Final
     }
     
+    // MARK: - Political sub-menu.
+    
+    func MakePoliticalSubMenu() -> UIMenu
+    {
+        var SubMenu = [UIMenuElement]()
+        let Menu1 = UIAction(title: "Political Sub-Divisions", image: nil)
+        {
+            action in
+            self.SetTexture(.PoliticalSubDivisions)
+        }
+        SubMenu.append(Menu1)
+        
+        let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
+        {
+            action in
+        }
+        let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
+        SubMenu.append(CancelMenu)
+        let Final = UIMenu(title: "Political Maps",
+                           image: UIImage(systemName: "arrowtriangle.right"),
+                           children: SubMenu)
+        return Final
+    }
+    
+    // MARK: - Mars sub-menu.
+    
+    func MakeMarsSubMenu() -> UIMenu
+    {
+        var SubMenu = [UIMenuElement]()
+        let Menu1 = UIAction(title: "Viking Mars Map", image: nil)
+        {
+            action in
+            self.SetTexture(.MarsViking)
+        }
+        SubMenu.append(Menu1)
+        let Menu2 = UIAction(title: "Mariner 9 Mars Geologic Map", image: nil)
+        {
+            action in
+            self.SetTexture(.MarsMariner9)
+        }
+        SubMenu.append(Menu2)
+        let Menu3 = UIAction(title: "MOLA Martian Vertical Roughness Map", image: nil)
+        {
+            action in
+            self.SetTexture(.MOLAVerticalRoughness)
+        }
+        SubMenu.append(Menu3)
+        let Menu4 = UIAction(title: "Lunar Reconnaissance Orbiter Map", image: nil)
+        {
+            action in
+            self.SetTexture(.LROMap)
+        }
+        SubMenu.append(Menu4)
+        let Menu5 = UIAction(title: "Lunar Geologic Map", image: nil)
+        {
+            action in
+            self.SetTexture(.LunarGeoMap)
+        }
+        SubMenu.append(Menu5)
+        
+        let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
+        {
+            action in
+        }
+        let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
+        SubMenu.append(CancelMenu)
+        let Final = UIMenu(title: "Extraterrestial Maps",
+                           image: UIImage(systemName: "arrowtriangle.right"),
+                           children: SubMenu)
+        return Final
+    }
+    
     // MARK: - Main context menu.
     
     func MakeGeneralContextMenu() -> UIMenu
     {
         let PhysicalMenu = MakePhysicalSubMenu()
         let StandardMenu = MakeStandardSubMenu()
+        let PoliticalMenu = MakePoliticalSubMenu()
         let StylizedMenu = MakeStylizedSubMenu()
+        let MarsMenu = MakeMarsSubMenu()
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
             action in
         }
         let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
         let Menu = UIMenu(title: "Map Menu",
-                          children: [StandardMenu, PhysicalMenu, StylizedMenu, CancelMenu])
+                          children: [StandardMenu, PhysicalMenu, PoliticalMenu, StylizedMenu, MarsMenu, CancelMenu])
         return Menu
     }
 }
