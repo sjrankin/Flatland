@@ -825,12 +825,41 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         return Controller
     }
     
+    @IBSegueAction func InstantiateDebugNavigator(_ coder: NSCoder) -> DebugNavigationViewer?
+    {
+        let Controller = DebugNavigationViewer(coder: coder)
+        Controller?.Delegate = self
+        return Controller
+    }
+    
     func ChangeMap()
     {
         WorldViewer3D.AddEarth()
         SettingsDone()
     }
     
+    func FreezeTime(_ IsFrozen: Bool)
+    {
+        if IsFrozen
+        {
+            DecoupleClocks()
+        }
+    }
+    
+    func SetTimeMultiplier(_ Multiplier: Double)
+    {
+        print("Time muliplier = \(Multiplier)")
+        if Multiplier > 1.0
+        {
+            WorldViewer3D.SetClockMultiplier(Multiplier)
+        }
+    }
+    
+    func DecoupleClocks()
+    {
+        
+    }
+     
     func SetTexture(_ MapType: MapTypes)
     {
         #if true
