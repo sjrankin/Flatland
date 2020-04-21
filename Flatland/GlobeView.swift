@@ -24,6 +24,7 @@ class GlobeView: SCNView
         InitializeView()
     }
     
+    /// Hide the globe view.
     public func Hide()
     {
         if EarthClock != nil
@@ -35,6 +36,7 @@ class GlobeView: SCNView
         self.isUserInteractionEnabled = false
     }
     
+    /// Show the globe view.
     public func Show()
     {
         StartClock()
@@ -42,6 +44,7 @@ class GlobeView: SCNView
         self.isUserInteractionEnabled = true
     }
     
+    /// Initialize the globe view.
     func InitializeView()
     {
         self.autoenablesDefaultLighting = false
@@ -91,6 +94,18 @@ class GlobeView: SCNView
     var LightNode = SCNNode()
     var MoonNode = SCNNode()
     
+    func SetClockMultiplier(_ Multiplier: Double)
+    {
+//        ClockMultiplier = Multiplier
+        AddEarth(FastAnimate: true)
+    }
+    
+    func StopClock()
+    {
+        EarthClock?.invalidate()
+        EarthClock = nil
+    }
+    
     func StartClock()
     {
         EarthClock = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateEarthView),
@@ -114,8 +129,14 @@ class GlobeView: SCNView
         return nil
     }
     
+    var ClockMultiplier: Double = 1.0
+    
     @objc func UpdateEarthView()
     {
+        if IgnoreClock
+        {
+            return
+        }
         #if false
         let Now = Date()
         let Formatter = DateFormatter()
@@ -161,8 +182,11 @@ class GlobeView: SCNView
         LineNode?.runAction(Rotate)
     }
     
+    var IgnoreClock = false
+    
     func AddEarth(FastAnimate: Bool = false)
     {
+        IgnoreClock = FastAnimate
         if EarthNode != nil
         {
             EarthNode?.removeAllActions()
