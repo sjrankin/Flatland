@@ -19,6 +19,8 @@
 		176DC96E2438390100830DB1 /* EditLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96D2438390100830DB1 /* EditLocation.swift */; };
 		177348C5244192F90024590F /* TimeZoneTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177348C4244192F90024590F /* TimeZoneTable.swift */; };
 		17865A6824499D8000DEED75 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17865A6724499D8000DEED75 /* GlobeView.swift */; };
+		1789A3E9244EDCFC007E3526 /* DebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1789A3E8244EDCFC007E3526 /* DebugController.swift */; };
+		1789A3EB244EDDCB007E3526 /* DebugNavigationViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1789A3EA244EDDCB007E3526 /* DebugNavigationViewer.swift */; };
 		1792BD7E24304E56006ABD02 /* Julian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7D24304E55006ABD02 /* Julian.swift */; };
 		1792BD8024304EA7006ABD02 /* Solar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7F24304EA7006ABD02 /* Solar.swift */; };
 		1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD8124304F1A006ABD02 /* Geometry.swift */; };
@@ -61,6 +63,8 @@
 		176DC96D2438390100830DB1 /* EditLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocation.swift; sourceTree = "<group>"; };
 		177348C4244192F90024590F /* TimeZoneTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZoneTable.swift; sourceTree = "<group>"; };
 		17865A6724499D8000DEED75 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
+		1789A3E8244EDCFC007E3526 /* DebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugController.swift; sourceTree = "<group>"; };
+		1789A3EA244EDDCB007E3526 /* DebugNavigationViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugNavigationViewer.swift; sourceTree = "<group>"; };
 		1792BD7D24304E55006ABD02 /* Julian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Julian.swift; sourceTree = "<group>"; };
 		1792BD7F24304EA7006ABD02 /* Solar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solar.swift; sourceTree = "<group>"; };
 		1792BD8124304F1A006ABD02 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
@@ -120,6 +124,8 @@
 				17BE6882242CC349009861E1 /* SettingsProtocol.swift */,
 				176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */,
 				17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */,
+				1789A3EA244EDDCB007E3526 /* DebugNavigationViewer.swift */,
+				1789A3E8244EDCFC007E3526 /* DebugController.swift */,
 				1746C17B242DB67D00A479DE /* CitySelectorView.swift */,
 				17659B53244332FD00D82B6A /* Test3D.swift */,
 				176DC96D2438390100830DB1 /* EditLocation.swift */,
@@ -303,6 +309,7 @@
 				17659B54244332FD00D82B6A /* Test3D.swift in Sources */,
 				17E180F8242F646700310896 /* Cities.swift in Sources */,
 				17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */,
+				1789A3E9244EDCFC007E3526 /* DebugController.swift in Sources */,
 				17BE686C242C7A99009861E1 /* MainView.swift in Sources */,
 				17E180F5242F62F700310896 /* City.swift in Sources */,
 				17633B56243858BB0021600D /* LocationCell.swift in Sources */,
@@ -313,6 +320,7 @@
 				17D825112448547D00323C1D /* MapSettings.swift in Sources */,
 				17865A6824499D8000DEED75 /* GlobeView.swift in Sources */,
 				1792BD8624305173006ABD02 /* Utility.swift in Sources */,
+				1789A3EB244EDDCB007E3526 /* DebugNavigationViewer.swift in Sources */,
 				17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */,
 				176DC96E2438390100830DB1 /* EditLocation.swift in Sources */,
 				17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */,
