@@ -15,4 +15,6 @@ protocol SettingsProtocol: class
     func ForceTime(NewTime: Date, WithOffset: Int)
     func StopTimers()
     func GetCities() -> [City]
+    func FreezeTime(_ IsFrozen: Bool)
+    func SetTimeMultiplier(_ Multiplier: Double)
 }
