@@ -49,7 +49,7 @@ class GlobeView: SCNView
     {
         self.autoenablesDefaultLighting = false
         self.scene = SCNScene()
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = UIColor.clear//UIColor.black
         
         let Camera = SCNCamera()
         Camera.fieldOfView = 90.0
