@@ -18,6 +18,9 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lZ4-B6-wwt">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <subviews>
+                                    <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="maC-WJ-Q5A" customClass="Starfield" customModule="Flatland" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                    </sceneKitView>
                                     <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" allowsCameraControl="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wU5-9A-Ujl" customClass="GlobeView" customModule="Flatland" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -275,9 +278,13 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="maC-WJ-Q5A" secondAttribute="bottom" id="6hx-W0-hhv"/>
+                            <constraint firstAttribute="trailing" secondItem="maC-WJ-Q5A" secondAttribute="trailing" id="6me-19-FE4"/>
+                            <constraint firstItem="maC-WJ-Q5A" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="HVk-bn-gEG"/>
                             <constraint firstItem="lZ4-B6-wwt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NQg-Xs-dRX"/>
                             <constraint firstItem="lZ4-B6-wwt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="SFZ-Qi-Psd"/>
                             <constraint firstItem="lZ4-B6-wwt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dH5-DG-shl"/>
+                            <constraint firstItem="maC-WJ-Q5A" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="hlN-RY-Wqj"/>
                             <constraint firstItem="lZ4-B6-wwt" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="kp8-um-ChJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -296,6 +303,7 @@
                         <outlet property="PolarSegment" destination="L7s-Gw-TR2" id="k7q-RV-P9m"/>
                         <outlet property="SettingsButton" destination="STp-0d-B28" id="gfe-hq-40e"/>
                         <outlet property="SolarNoonLabel" destination="V3s-K2-qHQ" id="omc-XA-TeG"/>
+                        <outlet property="StarFieldView" destination="maC-WJ-Q5A" id="M9R-ra-tzn"/>
                         <outlet property="SunViewBottom" destination="pUB-G7-6d9" id="n2E-rC-qgH"/>
                         <outlet property="SunViewTop" destination="EsQ-gP-0lz" id="Pwe-1R-hAN"/>
                         <outlet property="TopView" destination="lZ4-B6-wwt" id="MZL-wq-Mqb"/>
@@ -424,8 +432,38 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="ifl-Ns-uby">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="QPs-Js-ymT">
                                         <rect key="frame" x="0.0" y="158.5" width="712" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QPs-Js-ymT" id="c10-Ki-BAb">
+                                            <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show background stars in 3D" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GVz-jK-kdg">
+                                                    <rect key="frame" x="20" y="11" width="224.5" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tUr-df-rBe">
+                                                    <rect key="frame" x="643" y="6" width="51" height="32"/>
+                                                    <connections>
+                                                        <action selector="HandleShowStarsChanged:" destination="Ncr-7P-tvd" eventType="primaryActionTriggered" id="4bS-FR-uYj"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="tUr-df-rBe" firstAttribute="top" secondItem="c10-Ki-BAb" secondAttribute="topMargin" constant="-5" id="4ti-ve-l4K"/>
+                                                <constraint firstItem="GVz-jK-kdg" firstAttribute="centerY" secondItem="tUr-df-rBe" secondAttribute="centerY" id="VY3-aN-Tck"/>
+                                                <constraint firstItem="tUr-df-rBe" firstAttribute="trailing" secondItem="c10-Ki-BAb" secondAttribute="trailingMargin" id="WYI-RY-RfJ"/>
+                                                <constraint firstItem="GVz-jK-kdg" firstAttribute="leading" secondItem="c10-Ki-BAb" secondAttribute="leadingMargin" id="Ydt-UJ-XIb"/>
+                                                <constraint firstItem="GVz-jK-kdg" firstAttribute="centerY" secondItem="c10-Ki-BAb" secondAttribute="centerY" id="rEa-EG-b0P"/>
+                                                <constraint firstItem="GVz-jK-kdg" firstAttribute="top" secondItem="c10-Ki-BAb" secondAttribute="topMargin" id="uA9-gT-WCD"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="ifl-Ns-uby">
+                                        <rect key="frame" x="0.0" y="202" width="712" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ifl-Ns-uby" id="vte-kO-qbb">
                                             <rect key="frame" x="0.0" y="0.0" width="681" height="43.5"/>
@@ -449,7 +487,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="pva-yd-qa6">
-                                        <rect key="frame" x="0.0" y="202" width="712" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="245.5" width="712" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pva-yd-qa6" id="VZH-pQ-fdQ">
                                             <rect key="frame" x="0.0" y="0.0" width="681" height="43.5"/>
@@ -477,7 +515,7 @@
                             <tableViewSection headerTitle="Cities/Locations" id="RfM-G0-LEL">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="Shm-m2-Bte">
-                                        <rect key="frame" x="0.0" y="301.5" width="712" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="345" width="712" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Shm-m2-Bte" id="EM2-19-G7r">
                                             <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
@@ -507,7 +545,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="B7X-Is-RaO">
-                                        <rect key="frame" x="0.0" y="345" width="712" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="388.5" width="712" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="B7X-Is-RaO" id="hoj-wg-AEd">
                                             <rect key="frame" x="0.0" y="0.0" width="681" height="43.5"/>
@@ -531,7 +569,7 @@
                             <tableViewSection headerTitle="Debug" id="b0p-Sr-y9v">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="143" id="K9O-bD-JCF">
-                                        <rect key="frame" x="0.0" y="444.5" width="712" height="143"/>
+                                        <rect key="frame" x="0.0" y="488" width="712" height="143"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="K9O-bD-JCF" id="EvN-w8-FIQ">
                                             <rect key="frame" x="0.0" y="0.0" width="712" height="143"/>
@@ -583,7 +621,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="kdu-5Y-iZk">
-                                        <rect key="frame" x="0.0" y="587.5" width="712" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="631" width="712" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kdu-5Y-iZk" id="2HI-NB-Eap">
                                             <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
@@ -610,6 +648,7 @@
                         <outlet property="ImageCenterSegment" destination="3ci-yR-UeP" id="Sjw-jc-9dK"/>
                         <outlet property="ShowCitiesSwitch" destination="O9E-Ke-dFE" id="xdJ-a8-aKS"/>
                         <outlet property="ShowLocalDataSwitch" destination="h7h-vD-wbw" id="wpF-0h-SLg"/>
+                        <outlet property="ShowStarsSwitch" destination="tUr-df-rBe" id="qiN-Z7-Pso"/>
                         <outlet property="TimeLabelSegment" destination="J8U-tx-7pc" id="gNq-Cj-dcM"/>
                         <outlet property="TimePicker" destination="fAz-aW-OMW" id="vDx-8l-fl9"/>
                     </connections>
