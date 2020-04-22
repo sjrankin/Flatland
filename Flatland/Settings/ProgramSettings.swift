@@ -60,6 +60,7 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         DebugOffsetPicker.layer.borderColor = UIColor.black.cgColor
         DebugOffsetPicker.layer.borderWidth = 0.5
         DebugOffsetPicker.layer.cornerRadius = 5.0
+        ShowStarsSwitch.isOn = Settings.ShowStars()
     }
     
     var Offsets = [Int]()
@@ -226,6 +227,15 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         }
     }
     
+    @IBAction func HandleShowStarsChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetShowStars(Switch.isOn)
+        }
+    }
+    
+    @IBOutlet weak var ShowStarsSwitch: UISwitch!
     @IBOutlet weak var DebugOffsetPicker: UIPickerView!
     @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
     @IBOutlet weak var ShowCitiesSwitch: UISwitch!
