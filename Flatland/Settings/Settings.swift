@@ -291,6 +291,18 @@ class Settings
         UserDefaults.standard.set(NewType.rawValue, forKey: "GlobeMapType")
     }
     
+    // MARK: - Globe settings.
+    
+    public static func ShowStars() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "Show3DStars")
+    }
+    
+    public static func SetShowStars(_ DoShow: Bool)
+    {
+        UserDefaults.standard.set(DoShow, forKey: "Show3DStars")
+    }
+    
     // MARK: - Grid-related settings.
     
     public static func ShowGrid() -> Bool
