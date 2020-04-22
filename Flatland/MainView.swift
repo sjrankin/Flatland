@@ -27,6 +27,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         if Settings.GetViewType() == .FlatMap
         {
             WorldViewer3D.Hide()
+            StarFieldView.Hide()
             SetFlatlandVisibility(IsVisible: true)
             ViewTypeSegment.selectedSegmentIndex = 0
             PolarSegment.isHidden = false
@@ -34,6 +35,10 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         else
         {
             WorldViewer3D.Show()
+            if Settings.ShowStars()
+            {
+            StarFieldView.Show()
+            }
             SetFlatlandVisibility(IsVisible: false)
             ViewTypeSegment.selectedSegmentIndex = 1
             PolarSegment.isHidden = true
@@ -302,6 +307,17 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
         PreviousPercent = -1.0
         StartTimeLabel()
+        if Settings.GetViewType() == .Globe3D
+        {
+            if Settings.ShowStars()
+            {
+                StarFieldView.Show()
+            }
+            else
+            {
+                StarFieldView.Hide()
+            }
+        }
     }
     
     var InitialSunPrint: UUID? = nil
@@ -802,12 +818,17 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 case 0:
                     Settings.SetViewType(.FlatMap)
                     WorldViewer3D.Hide()
+                    StarFieldView.Hide()
                     SetFlatlandVisibility(IsVisible: true)
                     PolarSegment.isHidden = false
                 
                 case 1:
                     Settings.SetViewType(.Globe3D)
                     WorldViewer3D.Show()
+                    if Settings.ShowStars()
+                    {
+                    StarFieldView.Show()
+                    }
                     SetFlatlandVisibility(IsVisible: false)
                     PolarSegment.isHidden = true
                 
@@ -897,6 +918,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     // MARK: - Interface builder outlets.
 
+    @IBOutlet weak var StarFieldView: Starfield!
     @IBOutlet weak var PolarSegment: UISegmentedControl!
     @IBOutlet weak var ViewTypeSegment: UISegmentedControl!
     @IBOutlet weak var WorldViewer3D: GlobeView!
