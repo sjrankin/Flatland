@@ -32,6 +32,7 @@
 		17AC32AE244D3CF800CDA5F3 /* Keypad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17AC32AD244D3CF800CDA5F3 /* Keypad.storyboard */; };
 		17ADB45C243D636E002E5F88 /* +ArcLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ADB45B243D636E002E5F88 /* +ArcLayer.swift */; };
 		17ADB45E243D651A002E5F88 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ADB45D243D651A002E5F88 /* Extensions.swift */; };
+		17BC1634245007B200CF42CB /* StarField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BC1633245007B200CF42CB /* StarField.swift */; };
 		17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6867242C7A99009861E1 /* AppDelegate.swift */; };
 		17BE686A242C7A99009861E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6869242C7A99009861E1 /* SceneDelegate.swift */; };
 		17BE686C242C7A99009861E1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE686B242C7A99009861E1 /* MainView.swift */; };
@@ -76,6 +77,7 @@
 		17AC32AD244D3CF800CDA5F3 /* Keypad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Keypad.storyboard; sourceTree = "<group>"; };
 		17ADB45B243D636E002E5F88 /* +ArcLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ArcLayer.swift"; sourceTree = "<group>"; };
 		17ADB45D243D651A002E5F88 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		17BC1633245007B200CF42CB /* StarField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarField.swift; sourceTree = "<group>"; };
 		17BE6864242C7A99009861E1 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17BE6867242C7A99009861E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		17BE6869242C7A99009861E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				17BE686D242C7A99009861E1 /* Main.storyboard */,
 				17BE686B242C7A99009861E1 /* MainView.swift */,
 				17865A6724499D8000DEED75 /* GlobeView.swift */,
+				17BC1633245007B200CF42CB /* StarField.swift */,
 				17BE6869242C7A99009861E1 /* SceneDelegate.swift */,
 				1739F379244AD47F00E7F577 /* MainViewExtensions */,
 				1739F378244AD42C00E7F577 /* Settings */,
@@ -304,6 +307,7 @@
 			files = (
 				17EF5472243B5EB4005B036C /* Sun.swift in Sources */,
 				177348C5244192F90024590F /* TimeZoneTable.swift in Sources */,
+				17BC1634245007B200CF42CB /* StarField.swift in Sources */,
 				1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */,
 				1792BD882430529C006ABD02 /* TimeHelper.swift in Sources */,
 				17659B54244332FD00D82B6A /* Test3D.swift in Sources */,
