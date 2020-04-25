@@ -42,6 +42,28 @@
 		17BE687F242CA831009861E1 /* ProgramSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE687E242CA831009861E1 /* ProgramSettings.swift */; };
 		17BE6881242CA8FB009861E1 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6880242CA8FB009861E1 /* Settings.swift */; };
 		17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6882242CC349009861E1 /* SettingsProtocol.swift */; };
+		17C80BF32454057F00E27112 /* WorldNormalizedTilesNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80BF02454057E00E27112 /* WorldNormalizedTilesNorthCenter.png */; };
+		17C80BF42454057F00E27112 /* WorldNormalizedTiles.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80BF12454057F00E27112 /* WorldNormalizedTiles.png */; };
+		17C80BF52454057F00E27112 /* WorldNormalizedTilesSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80BF22454057F00E27112 /* WorldNormalizedTilesSouthCenter.png */; };
+		17C80BF924540D5900E27112 /* WorldBluePrint.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80BF624540D5800E27112 /* WorldBluePrint.png */; };
+		17C80BFA24540D5900E27112 /* WorldBluePrintSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80BF724540D5800E27112 /* WorldBluePrintSouthCenter.png */; };
+		17C80BFB24540D5900E27112 /* WorldBluePrintNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80BF824540D5900E27112 /* WorldBluePrintNorthCenter.png */; };
+		17C80BFF24540FCC00E27112 /* WorldSkeletonNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80BFC24540FCB00E27112 /* WorldSkeletonNorthCenter.png */; };
+		17C80C0024540FCC00E27112 /* WorldSkeletonSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80BFD24540FCC00E27112 /* WorldSkeletonSouthCenter.png */; };
+		17C80C0124540FCC00E27112 /* WorldSkeleton.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80BFE24540FCC00E27112 /* WorldSkeleton.png */; };
+		17C80C052454223900E27112 /* WorldPolygonizeSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C022454223800E27112 /* WorldPolygonizeSouthCenter.png */; };
+		17C80C062454223900E27112 /* WorldPolygonizeNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C032454223800E27112 /* WorldPolygonizeNorthCenter.png */; };
+		17C80C072454223900E27112 /* WorldPolygonize.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C042454223900E27112 /* WorldPolygonize.png */; };
+		17C80C0B2454228E00E27112 /* WorldInkColorNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C082454228D00E27112 /* WorldInkColorNorthCenter.png */; };
+		17C80C0C2454228E00E27112 /* WorldInkColor.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C092454228D00E27112 /* WorldInkColor.png */; };
+		17C80C0D2454228E00E27112 /* WorldInkColorSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C0A2454228D00E27112 /* WorldInkColorSouthCenter.png */; };
+		17C80C11245422DF00E27112 /* WorldWarholdNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C0E245422DF00E27112 /* WorldWarholdNorthCenter.png */; };
+		17C80C12245422DF00E27112 /* WorldWarholdSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C0F245422DF00E27112 /* WorldWarholdSouthCenter.png */; };
+		17C80C13245422DF00E27112 /* WorldWarhol.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C10245422DF00E27112 /* WorldWarhol.PNG */; };
+		17C80C172454234000E27112 /* WorldVoronoiSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C142454233F00E27112 /* WorldVoronoiSouthCenter.png */; };
+		17C80C182454234000E27112 /* WorldVoronoi.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C152454233F00E27112 /* WorldVoronoi.png */; };
+		17C80C192454234000E27112 /* WorldVoronoiNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C162454234000E27112 /* WorldVoronoiNorthCenter.png */; };
+		17C80C1B2454247A00E27112 /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C80C1A2454247A00E27112 /* FileIO.swift */; };
 		17CC3C61242CC69900CC7F87 /* SettingsNavigationViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */; };
 		17D825112448547D00323C1D /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D825102448547D00323C1D /* MapSettings.swift */; };
 		17DD58FC244AD57500DCCBF8 /* +ContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD58FB244AD57500DCCBF8 /* +ContextMenu.swift */; };
@@ -90,6 +112,28 @@
 		17BE687E242CA831009861E1 /* ProgramSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramSettings.swift; sourceTree = "<group>"; };
 		17BE6880242CA8FB009861E1 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		17BE6882242CC349009861E1 /* SettingsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsProtocol.swift; sourceTree = "<group>"; };
+		17C80BF02454057E00E27112 /* WorldNormalizedTilesNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldNormalizedTilesNorthCenter.png; sourceTree = "<group>"; };
+		17C80BF12454057F00E27112 /* WorldNormalizedTiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldNormalizedTiles.png; sourceTree = "<group>"; };
+		17C80BF22454057F00E27112 /* WorldNormalizedTilesSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldNormalizedTilesSouthCenter.png; sourceTree = "<group>"; };
+		17C80BF624540D5800E27112 /* WorldBluePrint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldBluePrint.png; sourceTree = "<group>"; };
+		17C80BF724540D5800E27112 /* WorldBluePrintSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldBluePrintSouthCenter.png; sourceTree = "<group>"; };
+		17C80BF824540D5900E27112 /* WorldBluePrintNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldBluePrintNorthCenter.png; sourceTree = "<group>"; };
+		17C80BFC24540FCB00E27112 /* WorldSkeletonNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldSkeletonNorthCenter.png; sourceTree = "<group>"; };
+		17C80BFD24540FCC00E27112 /* WorldSkeletonSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldSkeletonSouthCenter.png; sourceTree = "<group>"; };
+		17C80BFE24540FCC00E27112 /* WorldSkeleton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldSkeleton.png; sourceTree = "<group>"; };
+		17C80C022454223800E27112 /* WorldPolygonizeSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldPolygonizeSouthCenter.png; sourceTree = "<group>"; };
+		17C80C032454223800E27112 /* WorldPolygonizeNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldPolygonizeNorthCenter.png; sourceTree = "<group>"; };
+		17C80C042454223900E27112 /* WorldPolygonize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldPolygonize.png; sourceTree = "<group>"; };
+		17C80C082454228D00E27112 /* WorldInkColorNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldInkColorNorthCenter.png; sourceTree = "<group>"; };
+		17C80C092454228D00E27112 /* WorldInkColor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldInkColor.png; sourceTree = "<group>"; };
+		17C80C0A2454228D00E27112 /* WorldInkColorSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldInkColorSouthCenter.png; sourceTree = "<group>"; };
+		17C80C0E245422DF00E27112 /* WorldWarholdNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldWarholdNorthCenter.png; sourceTree = "<group>"; };
+		17C80C0F245422DF00E27112 /* WorldWarholdSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldWarholdSouthCenter.png; sourceTree = "<group>"; };
+		17C80C10245422DF00E27112 /* WorldWarhol.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldWarhol.PNG; sourceTree = "<group>"; };
+		17C80C142454233F00E27112 /* WorldVoronoiSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldVoronoiSouthCenter.png; sourceTree = "<group>"; };
+		17C80C152454233F00E27112 /* WorldVoronoi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldVoronoi.png; sourceTree = "<group>"; };
+		17C80C162454234000E27112 /* WorldVoronoiNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldVoronoiNorthCenter.png; sourceTree = "<group>"; };
+		17C80C1A2454247A00E27112 /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
 		17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationViewer.swift; sourceTree = "<group>"; };
 		17D825102448547D00323C1D /* MapSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettings.swift; sourceTree = "<group>"; };
 		17DD58FB244AD57500DCCBF8 /* +ContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ContextMenu.swift"; sourceTree = "<group>"; };
@@ -156,6 +200,7 @@
 				173A9262242F32E100363576 /* SingleTask.swift */,
 				173A9260242F24D700363576 /* SunGenerator.swift */,
 				17ADB45D243D651A002E5F88 /* Extensions.swift */,
+				17C80C1A2454247A00E27112 /* FileIO.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -186,6 +231,27 @@
 			isa = PBXGroup;
 			children = (
 				17BE6866242C7A99009861E1 /* Flatland */,
+				17C80C152454233F00E27112 /* WorldVoronoi.png */,
+				17C80C162454234000E27112 /* WorldVoronoiNorthCenter.png */,
+				17C80C142454233F00E27112 /* WorldVoronoiSouthCenter.png */,
+				17C80C10245422DF00E27112 /* WorldWarhol.PNG */,
+				17C80C0E245422DF00E27112 /* WorldWarholdNorthCenter.png */,
+				17C80C0F245422DF00E27112 /* WorldWarholdSouthCenter.png */,
+				17C80C092454228D00E27112 /* WorldInkColor.png */,
+				17C80C082454228D00E27112 /* WorldInkColorNorthCenter.png */,
+				17C80C0A2454228D00E27112 /* WorldInkColorSouthCenter.png */,
+				17C80C042454223900E27112 /* WorldPolygonize.png */,
+				17C80C032454223800E27112 /* WorldPolygonizeNorthCenter.png */,
+				17C80C022454223800E27112 /* WorldPolygonizeSouthCenter.png */,
+				17C80BFE24540FCC00E27112 /* WorldSkeleton.png */,
+				17C80BFC24540FCB00E27112 /* WorldSkeletonNorthCenter.png */,
+				17C80BFD24540FCC00E27112 /* WorldSkeletonSouthCenter.png */,
+				17C80BF624540D5800E27112 /* WorldBluePrint.png */,
+				17C80BF824540D5900E27112 /* WorldBluePrintNorthCenter.png */,
+				17C80BF724540D5800E27112 /* WorldBluePrintSouthCenter.png */,
+				17C80BF12454057F00E27112 /* WorldNormalizedTiles.png */,
+				17C80BF02454057E00E27112 /* WorldNormalizedTilesNorthCenter.png */,
+				17C80BF22454057F00E27112 /* WorldNormalizedTilesSouthCenter.png */,
 				17BE6865242C7A99009861E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -292,6 +358,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				17BE6874242C7A9C009861E1 /* LaunchScreen.storyboard in Resources */,
+				17C80C172454234000E27112 /* WorldVoronoiSouthCenter.png in Resources */,
+				17C80C182454234000E27112 /* WorldVoronoi.png in Resources */,
+				17C80C192454234000E27112 /* WorldVoronoiNorthCenter.png in Resources */,
+				17C80C11245422DF00E27112 /* WorldWarholdNorthCenter.png in Resources */,
+				17C80C12245422DF00E27112 /* WorldWarholdSouthCenter.png in Resources */,
+				17C80C13245422DF00E27112 /* WorldWarhol.PNG in Resources */,
+				17C80C0B2454228E00E27112 /* WorldInkColorNorthCenter.png in Resources */,
+				17C80C0C2454228E00E27112 /* WorldInkColor.png in Resources */,
+				17C80C0D2454228E00E27112 /* WorldInkColorSouthCenter.png in Resources */,
+				17C80C052454223900E27112 /* WorldPolygonizeSouthCenter.png in Resources */,
+				17C80C062454223900E27112 /* WorldPolygonizeNorthCenter.png in Resources */,
+				17C80C072454223900E27112 /* WorldPolygonize.png in Resources */,
+				17C80BFF24540FCC00E27112 /* WorldSkeletonNorthCenter.png in Resources */,
+				17C80C0024540FCC00E27112 /* WorldSkeletonSouthCenter.png in Resources */,
+				17C80C0124540FCC00E27112 /* WorldSkeleton.png in Resources */,
+				17C80BF924540D5900E27112 /* WorldBluePrint.png in Resources */,
+				17C80BFA24540D5900E27112 /* WorldBluePrintSouthCenter.png in Resources */,
+				17C80BFB24540D5900E27112 /* WorldBluePrintNorthCenter.png in Resources */,
+				17C80BF32454057F00E27112 /* WorldNormalizedTilesNorthCenter.png in Resources */,
+				17C80BF42454057F00E27112 /* WorldNormalizedTiles.png in Resources */,
+				17C80BF52454057F00E27112 /* WorldNormalizedTilesSouthCenter.png in Resources */,
 				17BE6871242C7A9C009861E1 /* Assets.xcassets in Resources */,
 				17AC32AE244D3CF800CDA5F3 /* Keypad.storyboard in Resources */,
 				17BE686F242C7A99009861E1 /* Main.storyboard in Resources */,
@@ -317,6 +404,7 @@
 				17BE686C242C7A99009861E1 /* MainView.swift in Sources */,
 				17E180F5242F62F700310896 /* City.swift in Sources */,
 				17633B56243858BB0021600D /* LocationCell.swift in Sources */,
+				17C80C1B2454247A00E27112 /* FileIO.swift in Sources */,
 				1792BD8A2430540A006ABD02 /* Miscellaneous.swift in Sources */,
 				17026472244C202F00DEE96A /* MapManager.swift in Sources */,
 				173A9263242F32E100363576 /* SingleTask.swift in Sources */,
