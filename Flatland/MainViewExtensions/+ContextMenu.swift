@@ -287,6 +287,12 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.Surreal1)
         }
         SubMenu.append(Menu15)
+        let Menu16 = UIAction(title: "Skeleton Map", image: nil)
+        {
+            action in
+            self.SetTexture(.Skeleton)
+        }
+        SubMenu.append(Menu16)
         let Menu12 = UIAction(title: "Extruded Map", image: nil)
         {
             action in
