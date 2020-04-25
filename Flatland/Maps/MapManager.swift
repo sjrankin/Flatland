@@ -72,147 +72,191 @@ class MapManager
         return nil
     }
     
-    private static func GlobeMapImage(MapType: MapTypes) -> String?
+    private static func GlobeMapImage(MapType: MapTypes) -> UIImage?
     {
+        if IsExternalMap(MapType)
+        {
+            if let (GlobeImage, _, _) = ExternalMapNames[MapType]
+            {
+                let Image = FileIO.ImageFromFile(WithName: GlobeImage)
+                return Image
+            }
+            else
+            {
+                return nil
+            }
+        }
+        var ImageName = ""
         switch MapType
         {
             case .Standard:
-                return "LandMask2"
+                ImageName = "LandMask2"
             
             case .StandardSea:
-                return "SeaMask2"
+                ImageName = "SeaMask2"
             
             case .BlueMarble:
-                return "BlueMarble"
+                ImageName = "BlueMarble"
             
             case .DarkBlueMarble:
-                return "BlackMarble2"
+                ImageName = "BlackMarble2"
             
             case .Simple:
-                return "SimpleMap1"
+                ImageName = "SimpleMap1"
             
             case .SimpleBorders1:
-                return "SimpleMapWithBorders1"
+                ImageName = "SimpleMapWithBorders1"
             
             case .SimpleBorders2:
-                return "SimpleMapBorders"
+                ImageName = "SimpleMapBorders"
             
             case .Continents:
-                return "SimpleMapContinents"
+                ImageName = "SimpleMapContinents"
             
             case .Dots:
-                return "DotMap"
+                ImageName = "DotMap"
             
             case .Crosshatched:
-                return "Style1"
+                ImageName = "Style1"
             
             case .Textured:
-                return "Style2"
+                ImageName = "Style2"
             
             case .HalftoneLine:
-                return "Style3"
+                ImageName = "Style3"
             
             case .HalftoneVerticalLine:
-                return "HalftoneVerticalLines"
+                ImageName = "HalftoneVerticalLines"
             
             case .HalftoneDot:
-                return "Style4"
+                ImageName = "Style4"
             
             case .Extruded:
-                return "Style5"
+                ImageName = "Style5"
             
             case .Pink:
-                return "PinkMap"
+                ImageName = "PinkMap"
             
             case .Cartoon:
-                return "CartoonMap"
+                ImageName = "CartoonMap"
             
             case .Dithered:
-                return "DitheredMap"
+                ImageName = "DitheredMap"
             
             case .SwirlyLines:
-                return "ArtMap1"
+                ImageName = "ArtMap1"
             
             case .RoundSplotches:
-                return "ArtMap2"
+                ImageName = "ArtMap2"
             
             case .Bronze:
-                return "BronzeMap"
+                ImageName = "BronzeMap"
             
             case .Abstract2:
-                return "Abstract2"
+                ImageName = "Abstract2"
             
             case .Abstract1:
-                return "AbstractShapes1"
+                ImageName = "AbstractShapes1"
             
             case .Dots2:
-                return "DotWorld"
+                ImageName = "DotWorld"
             
             case .Dots3:
-                return "DotWorld3"
+                ImageName = "DotWorld3"
             
             case .Surreal1:
-                return "Surreal1"
+                ImageName = "Surreal1"
             
             case .WaterColor1:
-                return "WaterColor2"
+                ImageName = "WaterColor2"
             
             case .WaterColor2:
-                return "WaterColorPlanet"
+                ImageName = "WaterColorPlanet"
             
             case .OilPainting1:
-                return "ArtMap4"
+                ImageName = "ArtMap4"
             
             case .Abstract3:
-                return "SegmentedMap"
+                ImageName = "SegmentedMap"
             
             case .StaticAerosol:
-                return "aerosol"
+                ImageName = "aerosol"
             
             case .Topographical1:
-                return "Topographical1"
+                ImageName = "Topographical1"
             
             case .Topographical2:
-                return "EarthTopo"
+                ImageName = "EarthTopo"
             
             case .PoliticalSubDivisions:
-                return "PoliticalSubDivisions3600"
+                ImageName = "PoliticalSubDivisions3600"
             
             case .MarsMariner9:
-                return "MarsM9GeoMap"
+                ImageName = "MarsM9GeoMap"
             
             case .MarsViking:
-                return "MarsViking"
+                ImageName = "MarsViking"
             
             case .MOLAVerticalRoughness:
-                return "MarsVerticalRoughness"
+                ImageName = "MarsVerticalRoughness"
             
             case .LROMap:
-                return "LROMoon"
+                ImageName = "LROMoon"
             
             case .LunarGeoMap:
-                return "LunarGeoMap"
+                ImageName = "LunarGeoMap"
             
             case .House:
-            return "House"
+                ImageName = "House"
             
             case .Tigger:
-            return "TiggerWorld"
+                ImageName = "TiggerWorld"
+            
+            default:
+                return nil
         }
+        return UIImage(named: ImageName)
     }
     
-    /// Returns the name of the image file for the specified map.
-    /// - Parameter MapType: The map type to return. Some map types may not be supported in a given
-    ///                      view - when that happens, a default value is returned.
-    /// - Parameter ViewType: The type of view (globe or flat).
-    /// - Parameter ImageCenter: The center of the image for flat maps types. Ignored for globe maps.
-    /// - Returns: The name of the image. Nil on error.
-    public static func ImageNameFor(MapType: MapTypes, ViewType: ViewTypes, ImageCenter: ImageCenters = .NorthPole) -> String?
+    public static func GetFlatMapImage(MapType: MapTypes, ImageCenter: ImageCenters) -> UIImage?
+    {
+        if IsExternalMap(MapType)
+        {
+            if let (_, North, South) = ExternalMapNames[MapType]
+            {
+                let MapToReturn = ImageCenter == .NorthPole ? North : South
+                return FileIO.ImageFromFile(WithName: MapToReturn)
+            }
+        }
+        else
+        {
+            if let (North, South) = FlatMaps[MapType]
+            {
+                switch ImageCenter
+                {
+                    case .NorthPole:
+                        return UIImage(named: North)
+                    
+                    case .SouthPole:
+                        return UIImage(named: South)
+                }
+            }
+        }
+        return nil
+    }
+    
+    /// Return an image for the specified map and map type.
+    /// - Parameter MapType: The general map type. See `MapTypes` for more information.
+    /// - Parameter ViewType: The type of view for the map (flat or 3D).
+    /// - Parameter ImageCenter: Valid only if `ViewType` is `.FlatMap`. Determines the pole at the
+    ///                          center of the map.
+    /// - Returns: Image of the specified map on success, nil on error.
+    public static func ImageFor(MapType: MapTypes, ViewType: ViewTypes, ImageCenter: ImageCenters = .NorthPole) -> UIImage?
     {
         switch ViewType
         {
             case .FlatMap:
-                return FlatMapImage(MapType: MapType, ImageCenter: ImageCenter)
+                return GetFlatMapImage(MapType: MapType, ImageCenter: ImageCenter)
             
             case .Globe3D:
                 return GlobeMapImage(MapType: MapType)
@@ -240,6 +284,22 @@ class MapManager
             .Continents,
             .SimpleBorders1,
             .Dots
+    ]
+    
+    public static func IsExternalMap(_ MapType: MapTypes) -> Bool
+    {
+        return ExternalMapNames[MapType] != nil
+    }
+    
+    public static let ExternalMapNames: [MapTypes: (String, String, String)] =
+        [
+            .Normalized: ("WorldNormalizedTiles.png", "WorldNormalizedTilesNorthCenter.png", "WorldNormalizedTilesSouthCenter.png"),
+            .Blueprint: ("WorldBluePrint.png", "WorldBluePrintNorthCenter.png", "WorldBluePrintSouthCenter.png"),
+            .Skeleton: ("WorldSkeleton.png", "WorldSkeletonNorthCenter.png", "WorldSkeletonSouthCenter.png"),
+            .Polygons: ("WorldPolygonize.png", "WorldPolygonizeNorthCenter.png", "WorldPolygonizeSouthCenter.png"),
+            .ColorInk: ("WorldInkColor.png", "WorldInkColorNorthCenter.png", "WorldInkColorSouthCenter.png"),
+            .Warhol: ("WorldWarhol.png", "WorldWarholNorthCenter.png", "WorldWarholSouthCenter.png"),
+            .Voronoi: ("WorldVoronoi.png", "WorldVoronoiNorthCenter.png", "WorldVoronoiSouthCenter.png"),
     ]
 }
 
@@ -295,4 +355,11 @@ enum MapTypes: String, CaseIterable
     case LunarGeoMap = "Lunar Geologic Map"
     case House = "Kitahiroshima House"
     case Tigger = "Tigger"
+    case Normalized = "Normalized Blocks"
+    case Blueprint = "Blueprint-style Map"
+    case Skeleton = "Skeleton Map"
+    case Polygons = "Polygonized Map"
+    case ColorInk = "Color Ink Map"
+    case Warhol = "Worhol Style Map"
+    case Voronoi = "Voronoi Style Map"
 }
