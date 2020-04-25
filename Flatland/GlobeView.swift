@@ -214,25 +214,42 @@ class GlobeView: SCNView
         
         SystemNode = SCNNode()
         
+        #if false
+        let EarthSphere = SCNBox(width: 10, height: 10, length: 10, chamferRadius: 1)
+        let SeaSphere = SCNBox(width: 10, height: 10, length: 10, chamferRadius: 1)
+        let LineSphere = SCNBox(width: 10.2, height: 1.2, length: 10.2, chamferRadius: 1)
+        #else
         let EarthSphere = SCNSphere(radius: 10)
         EarthSphere.segmentCount = 100
         let SeaSphere = SCNSphere(radius: 10)
         SeaSphere.segmentCount = 100
         let LineSphere = SCNSphere(radius: 10.2)
         LineSphere.segmentCount = 100
+        #endif
         
         let MapType = Settings.GetGlobeMapType()
-        var BaseMapName = ""
-        var SecondaryMapName = ""
-        BaseMapName = MapManager.ImageNameFor(MapType: MapType, ViewType: .Globe3D)!
+        #if true
+        var BaseMap = UIImage()
+        var SecondaryMap = UIImage()
+        BaseMap = MapManager.ImageFor(MapType: MapType, ViewType: .Globe3D)!
         if MapType == .Standard
         {
-            SecondaryMapName = MapManager.ImageNameFor(MapType: .StandardSea, ViewType: .Globe3D)!
+            SecondaryMap = MapManager.ImageFor(MapType: .StandardSea, ViewType: .Globe3D)!
         }
+        #else
+        var BaseMapName = ""
+        var SecondaryMapName = ""
+               BaseMapName = MapManager.ImageNameFor(MapType: MapType, ViewType: .Globe3D)!
+        if MapType == .Standard
+        {
+                        SecondaryMapName = MapManager.ImageNameFor(MapType: .StandardSea, ViewType: .Globe3D)!
+        }
+        #endif
         
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        EarthNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: BaseMapName)
+        EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap
+//        EarthNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: BaseMapName)
         EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
         SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
@@ -244,7 +261,8 @@ class GlobeView: SCNView
             case .Standard:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
-                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: SecondaryMapName)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
+//                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: SecondaryMapName)
                 SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
             SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
             
