@@ -23,6 +23,9 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     {
         super.viewDidLoad()
         Settings.Initialize()
+        FileIO.InitializeDirectory()
+        let Bundled = FileIO.ResourceFileList()
+        print("Bundled maps: \(Bundled)")
         
         if Settings.GetViewType() == .FlatMap
         {
@@ -297,14 +300,22 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             }
         }
         UpdateSunLocations()
-        var ProvisionalImage = ""
+
         let CenterPole = Settings.GetImageCenter()
+        #if true
+        var ProvisionalImage = UIImage()
+        ProvisionalImage = MapManager.ImageFor(MapType: Settings.GetFlatlandMapType(), ViewType: .FlatMap, ImageCenter: CenterPole)!
+            WorldViewer.image = ProvisionalImage
+        #else
+                var ProvisionalImage = ""
         ProvisionalImage = MapManager.ImageNameFor(MapType: Settings.GetFlatlandMapType(), ViewType: .FlatMap, ImageCenter: CenterPole)!
         if ProvisionalImage != PreviousImage
         {
             PreviousImage = ProvisionalImage
             WorldViewer.image = UIImage(named: PreviousImage)
         }
+        #endif
+
         PreviousPercent = -1.0
         StartTimeLabel()
         if Settings.GetViewType() == .Globe3D
