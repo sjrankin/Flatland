@@ -40,7 +40,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             WorldViewer3D.Show()
             if Settings.ShowStars()
             {
-            StarFieldView.Show()
+                StarFieldView.Show()
             }
             SetFlatlandVisibility(IsVisible: false)
             ViewTypeSegment.selectedSegmentIndex = 1
@@ -56,7 +56,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         TopSun?.VariableSunImage(Using: SunViewTop, Interval: 0.1)
         BottomSun?.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
-
+        
         MakeLatitudeBands()
         let Radius = ArcLayer.bounds.width / 2.0
         let Center = CGPoint(x: Radius, y: Radius)
@@ -64,10 +64,10 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let test = MakeArc(Start: 90.0,
                            End: 270.0,
                            Radius: Radius,
-            ArcWidth: 360.0,
-            Center: Center,
-            ArcColor: UIColor.black,
-            Rectangle: ArcLayer.bounds)
+                           ArcWidth: 360.0,
+                           Center: Center,
+                           ArcColor: UIColor.black,
+                           Rectangle: ArcLayer.bounds)
         ArcLayer.layer.addSublayer(test)
         #endif
         LocalDataTimer = Timer.scheduledTimer(timeInterval: 1.0,
@@ -92,6 +92,9 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         WorldViewer.isHidden = !IsVisible
         GridOverlay.isHidden = !IsVisible
         ArcLayer.isHidden = !IsVisible
+        HourLayer2D.isHidden = !IsVisible
+        HourLayer2D.backgroundColor = UIColor.clear
+        Show2DHours()
         if !IsVisible
         {
             SunViewTop?.alpha = 0.0
@@ -120,6 +123,82 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             }
         }
     }
+    
+    func Show2DHours()
+    {
+        if Settings.GetViewType() == .Globe3D
+        {
+            HourLayer2D.isHidden = false
+            HourLayer2D.layer.sublayers?.removeAll()
+            return
+        }
+        if Settings.GetShowHourLabels()
+        {
+            HourLayer2D.isHidden = false
+            HourLayer2D.layer.zPosition = 40000
+            HourLayer2D.layer.sublayers?.removeAll()
+            HaveShown2DHours = true
+            HourLayer2D.backgroundColor = UIColor.clear
+            
+            let TextLayer = CALayer()
+            TextLayer.zPosition = 50000
+            let TextLayerRect = HourLayer2D.bounds
+            TextLayer.frame = TextLayerRect
+            TextLayer.bounds = TextLayerRect
+            TextLayer.backgroundColor = UIColor.clear.cgColor
+            let Radius = HourLayer2D.frame.size.width / 2.0
+            for Hour in 0 ... 23
+            {
+                let Angle = CGFloat(Hour) / 24.0 * 360.0
+                let Radial = Angle.Radians
+                var DisplayHour = (Hour + 18) % 24
+                if Settings.GetImageCenter() == .NorthPole
+                {
+                    DisplayHour = 24 - (DisplayHour + 12) % 24
+                }
+                
+                let TextNode = CATextLayer()
+                let (AText, Width, Height) = MakeHourText(Hour: DisplayHour,
+                                                          Font: UIFont.boldSystemFont(ofSize: 30.0),
+                                                          Color: UIColor.yellow,
+                                                          StrokeColor: UIColor.black,
+                                                          StrokeThickness: -2)
+                TextNode.string = AText
+                let X = CGFloat(Radius) * cos(Radial) + CGFloat(Radius - Width / 2)
+                let Y = CGFloat(Radius) * sin(Radial) + CGFloat(Radius - Height / 2)
+                TextNode.font = UIFont.systemFont(ofSize: 30.0)
+                TextNode.fontSize = 30.0
+                TextNode.alignmentMode = .center
+                TextNode.foregroundColor = UIColor.yellow.cgColor
+                TextNode.frame = CGRect(x: X, y: Y, width: Width, height: Height)
+                TextNode.bounds = CGRect(x: 0, y: 0, width: Width, height: Height)
+                let TextRotate = ((90.0 - Angle) + 180.0).Radians
+                TextNode.transform = CATransform3DRotate(TextNode.transform, -TextRotate, 0.0, 0.0, 1.0)
+                TextLayer.addSublayer(TextNode)
+            }
+            HourLayer2D.layer.addSublayer(TextLayer)
+        }
+        else
+        {
+            HourLayer2D.isHidden = true
+            HourLayer2D.layer.sublayers?.removeAll()
+        }
+    }
+    
+    func MakeHourText(Hour: Int, Font: UIFont, Color: UIColor, StrokeColor: UIColor, StrokeThickness: CGFloat) -> (NSAttributedString, CGFloat, CGFloat)
+    {
+        let TextValue = "\(Hour)"
+        let Attributes: [NSAttributedString.Key: Any] =
+            [.font: Font as Any,
+             .foregroundColor: Color.cgColor as Any,
+             .strokeColor: StrokeColor.cgColor as Any,
+             .strokeWidth: StrokeThickness as Any]
+        let Final = NSAttributedString(string: TextValue, attributes: Attributes)
+        let Size = TextValue.size(withAttributes: Attributes)
+        return (Final, Size.width, Size.height)
+    }
+    
+    var HaveShown2DHours = false
     
     @objc func UpdateLocalData()
     {
@@ -300,22 +379,16 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             }
         }
         UpdateSunLocations()
-
+        WorldViewer3D.UpdateSurfaceTransparency()
+        WorldViewer3D.UpdateHourLabels()
+        
+        Show2DHours()
+        
         let CenterPole = Settings.GetImageCenter()
-        #if true
         var ProvisionalImage = UIImage()
         ProvisionalImage = MapManager.ImageFor(MapType: Settings.GetFlatlandMapType(), ViewType: .FlatMap, ImageCenter: CenterPole)!
-            WorldViewer.image = ProvisionalImage
-        #else
-                var ProvisionalImage = ""
-        ProvisionalImage = MapManager.ImageNameFor(MapType: Settings.GetFlatlandMapType(), ViewType: .FlatMap, ImageCenter: CenterPole)!
-        if ProvisionalImage != PreviousImage
-        {
-            PreviousImage = ProvisionalImage
-            WorldViewer.image = UIImage(named: PreviousImage)
-        }
-        #endif
-
+        WorldViewer.image = ProvisionalImage
+        
         PreviousPercent = -1.0
         StartTimeLabel()
         if Settings.GetViewType() == .Globe3D
@@ -838,13 +911,13 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                     WorldViewer3D.Show()
                     if Settings.ShowStars()
                     {
-                    StarFieldView.Show()
+                        StarFieldView.Show()
                     }
                     SetFlatlandVisibility(IsVisible: false)
                     PolarSegment.isHidden = true
                 
                 default:
-                break
+                    break
             }
         }
     }
@@ -870,6 +943,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         SettingsDone()
     }
     
+    func AlphaChanged()
+    {
+        WorldViewer3D.UpdateSurfaceTransparency()
+    }
+    
     func FreezeTime(_ IsFrozen: Bool)
     {
         if IsFrozen
@@ -891,23 +969,12 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     {
         
     }
-     
+    
     func SetTexture(_ MapType: MapTypes)
     {
-        #if true
         print("User selected \"\(MapType.rawValue)\" map.")
         Settings.SetFlatlandMapType(MapType)
         Settings.SetGlobeMapType(MapType)
-        #else
-        if Settings.GetViewType() == .FlatMap
-        {
-            Settings.SetFlatlandMapType(MapType)
-        }
-        else
-        {
-            Settings.SetGlobeMapType(MapType)
-        }
-        #endif
         ChangeMap()
     }
     
@@ -928,7 +995,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     }
     
     // MARK: - Interface builder outlets.
-
+    
+    @IBOutlet weak var HourLayer2D: UIView!
     @IBOutlet weak var StarFieldView: Starfield!
     @IBOutlet weak var PolarSegment: UISegmentedControl!
     @IBOutlet weak var ViewTypeSegment: UISegmentedControl!
