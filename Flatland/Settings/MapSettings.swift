@@ -41,6 +41,22 @@ class MapSettings: UITableViewController, UIPickerViewDelegate, UIPickerViewData
         {
             GapSegment.selectedSegmentIndex = 1
         }
+        let Alpha = Settings.GetTransparencyLevel()
+        if !ValidTransparencies.contains(Alpha)
+        {
+            TransparencySegment.selectedSegmentIndex = 0
+        }
+        else
+        {
+            if let AlphaIndex = ValidTransparencies.firstIndex(of: Alpha)
+            {
+                TransparencySegment.selectedSegmentIndex = AlphaIndex
+            }
+            else
+            {
+                TransparencySegment.selectedSegmentIndex = 0
+            }
+        }
         
         FlatlandMapPicker.layer.borderColor = UIColor.black.cgColor
         GlobeMapPicker.layer.borderColor = UIColor.black.cgColor
@@ -148,6 +164,23 @@ class MapSettings: UITableViewController, UIPickerViewDelegate, UIPickerViewData
         }
     }
     
+    @IBAction func HandleNewTransparency(_ sender: Any)
+    {
+        if let Segment = sender as? UISegmentedControl
+        {
+            if Segment.selectedSegmentIndex > ValidTransparencies.count - 1
+            {
+                return
+            }
+            let Alpha = ValidTransparencies[Segment.selectedSegmentIndex]
+            Settings.SetTransparencyLevel(Alpha)
+            ChangeDelegate?.Changed(Key: "GlobalAlpha", Value: Alpha as Any)
+        }
+    }
+    
+    let ValidTransparencies = [0.0, 0.1, 0.25, 0.35, 0.5]
+    
+    @IBOutlet weak var TransparencySegment: UISegmentedControl!
     @IBOutlet weak var GapSegment: UISegmentedControl!
     @IBOutlet weak var MinorGridSwitch: UISwitch!
     @IBOutlet weak var NoonMeridianSwitch: UISwitch!
