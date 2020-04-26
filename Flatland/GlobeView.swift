@@ -96,7 +96,7 @@ class GlobeView: SCNView
     
     func SetClockMultiplier(_ Multiplier: Double)
     {
-//        ClockMultiplier = Multiplier
+        //        ClockMultiplier = Multiplier
         AddEarth(FastAnimate: true)
     }
     
@@ -211,6 +211,12 @@ class GlobeView: SCNView
             SystemNode?.removeFromParentNode()
             SystemNode = nil
         }
+        if HourNode != nil
+        {
+            HourNode?.removeAllActions()
+            HourNode?.removeFromParentNode()
+            HourNode = nil
+        }
         
         SystemNode = SCNNode()
         
@@ -219,7 +225,7 @@ class GlobeView: SCNView
         let SeaSphere = SCNBox(width: 10, height: 10, length: 10, chamferRadius: 1)
         let LineSphere = SCNBox(width: 10.2, height: 1.2, length: 10.2, chamferRadius: 1)
         #else
-        let EarthSphere = SCNSphere(radius: 10)
+        let EarthSphere = SCNSphere(radius: 10.01)
         EarthSphere.segmentCount = 100
         let SeaSphere = SCNSphere(radius: 10)
         SeaSphere.segmentCount = 100
@@ -228,7 +234,6 @@ class GlobeView: SCNView
         #endif
         
         let MapType = Settings.GetGlobeMapType()
-        #if true
         var BaseMap = UIImage()
         var SecondaryMap = UIImage()
         BaseMap = MapManager.ImageFor(MapType: MapType, ViewType: .Globe3D)!
@@ -236,20 +241,10 @@ class GlobeView: SCNView
         {
             SecondaryMap = MapManager.ImageFor(MapType: .StandardSea, ViewType: .Globe3D)!
         }
-        #else
-        var BaseMapName = ""
-        var SecondaryMapName = ""
-               BaseMapName = MapManager.ImageNameFor(MapType: MapType, ViewType: .Globe3D)!
-        if MapType == .Standard
-        {
-                        SecondaryMapName = MapManager.ImageNameFor(MapType: .StandardSea, ViewType: .Globe3D)!
-        }
-        #endif
         
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap
-//        EarthNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: BaseMapName)
         EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
         SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
@@ -262,16 +257,15 @@ class GlobeView: SCNView
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
-//                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: SecondaryMapName)
                 SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
-            SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
+                SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
             
             case .SimpleBorders2:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.systemBlue
                 SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
-            SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
+                SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
             
             case .Topographical1:
                 SeaNode = SCNNode(geometry: SeaSphere)
@@ -286,7 +280,7 @@ class GlobeView: SCNView
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.orange
                 SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.yellow
-            EarthNode?.geometry?.firstMaterial?.lightingModel = .phong
+                EarthNode?.geometry?.firstMaterial?.lightingModel = .phong
             
             case .Bronze:
                 EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.orange
@@ -300,8 +294,11 @@ class GlobeView: SCNView
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .lambert
             
             default:
-            break
+                break
         }
+        
+        UpdateSurfaceTransparency()
+        UpdateHourLabels()
         
         LineNode = SCNNode(geometry: LineSphere)
         LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -311,6 +308,7 @@ class GlobeView: SCNView
         
         let Declination = Sun.Declination(For: Date())
         SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+        HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
         
         PlotCities(On: EarthNode!, WithRadius: 10)
         
@@ -326,6 +324,7 @@ class GlobeView: SCNView
                         self.SystemNode?.addChildNode(self.SeaNode!)
                     }
                     self.SystemNode?.addChildNode(self.LineNode!)
+                    //self.scene?.rootNode.addChildNode(self.HourNode!)
                     self.scene?.rootNode.addChildNode(self.SystemNode!)
                 }
         }
@@ -339,6 +338,83 @@ class GlobeView: SCNView
             SeaNode?.runAction(RotateForever)
             LineNode?.runAction(RotateForever)
         }
+    }
+    
+    func UpdateHourLabels()
+    {
+        if Settings.GetShowHourLabels()
+        {
+            if CurrentlyShowingHourLabels
+            {
+                return
+            }
+            CurrentlyShowingHourLabels = true
+            let HourSphere = SCNSphere(radius: 11)
+            HourNode = SCNNode(geometry: HourSphere)
+            HourNode?.position = SCNVector3(0.0, 0.0, 0.0)
+            HourNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
+            HourNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
+            DrawHourLabels(On: HourNode!, Radius: 11)
+            let Declination = Sun.Declination(For: Date())
+            HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+            self.scene?.rootNode.addChildNode(HourNode!)
+        }
+        else
+        {
+            if !CurrentlyShowingHourLabels
+            {
+                return
+            }
+            CurrentlyShowingHourLabels = false
+            if HourNode != nil
+            {
+                HourNode?.removeAllActions()
+                HourNode?.removeFromParentNode()
+                HourNode = nil
+            }
+            HourNode = SCNNode()
+        }
+    }
+    
+    var CurrentlyShowingHourLabels = false
+    
+    /// Draw hour labels floating over the Earth.
+    /// - Parameter On: The parent node.
+    /// - Parameter Radius: The radius of the parent node.
+    func DrawHourLabels(On Node: SCNNode, Radius: Double)
+    {
+        for Hour in 0 ... 23
+        {
+            //Get the angle for the text. The +2.0 is because SCNText geometries start at the X position
+            //and move to the right - to make the text line up closely (but not perfectly) with the noon
+            //sun, adding a small amount adjusts the X position.
+            let Angle = ((CGFloat(Hour) / 24.0) * 360.0) + 2.0
+            let Radians = Angle.Radians
+            //Calculate the display hour.
+            let DisplayHour = 24 - (Hour + 5) % 24 - 1
+            let HourText = SCNText(string: "\(DisplayHour)", extrusionDepth: 5.0)
+            HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
+            HourText.firstMaterial?.diffuse.contents = UIColor.yellow
+            HourText.firstMaterial?.specular.contents = UIColor.white
+            HourText.flatness = 0.1
+            let X = CGFloat(Radius) * cos(Radians)
+            let Z = CGFloat(Radius) * sin(Radians)
+            let HourNode = SCNNode(geometry: HourText)
+            HourNode.scale = SCNVector3(0.07, 0.07, 0.07)
+            HourNode.position = SCNVector3(X, -0.8, Z)
+            let HourRotation = (90.0 - Angle).Radians
+            HourNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
+            Node.addChildNode(HourNode)
+        }
+    }
+    
+    /// Change the transparency of the land and sea nodes to what is in user settings.
+    func UpdateSurfaceTransparency()
+    {
+        let Alpha = 1.0 - Settings.GetTransparencyLevel()
+        print("Node alpha=\(Alpha)")
+        EarthNode?.opacity = CGFloat(Alpha)
+        SeaNode?.opacity = CGFloat(Alpha)
     }
     
     /// Plot cities on the Earth.
@@ -421,6 +497,7 @@ class GlobeView: SCNView
     var LineNode: SCNNode? = nil
     var EarthNode: SCNNode? = nil
     var SeaNode: SCNNode? = nil
+    var HourNode: SCNNode? = nil
     
     func MakeImageBase(Width: CGFloat, Height: CGFloat, FillColor: UIColor) -> UIImage
     {
@@ -456,32 +533,32 @@ class GlobeView: SCNView
         
         if Settings.ShowMinorGridLines()
         {
-        let Gap = Settings.GetMinorGridLineGap()
-        if Gap >= 5.0
-        {
-            for Longitude in stride(from: 0.0, to: 359.0, by: Gap)
+            let Gap = Settings.GetMinorGridLineGap()
+            if Gap >= 5.0
             {
-                let X = Width * CGFloat(Longitude / 360.0)
-                ctx?.move(to: CGPoint(x: X, y: 0))
-                ctx?.addLine(to: CGPoint(x: X, y: Height))
-                ctx?.strokePath()
+                for Longitude in stride(from: 0.0, to: 359.0, by: Gap)
+                {
+                    let X = Width * CGFloat(Longitude / 360.0)
+                    ctx?.move(to: CGPoint(x: X, y: 0))
+                    ctx?.addLine(to: CGPoint(x: X, y: Height))
+                    ctx?.strokePath()
+                }
+                for Latitude in stride(from: 0.0, to: 359.0, by: Gap)
+                {
+                    let Y = Height * CGFloat(Latitude / 360.0)
+                    ctx?.move(to: CGPoint(x: 0, y: Y))
+                    ctx?.addLine(to: CGPoint(x: Width, y: Y))
+                    ctx?.strokePath()
+                }
             }
-            for Latitude in stride(from: 0.0, to: 359.0, by: Gap)
-            {
-                let Y = Height * CGFloat(Latitude / 360.0)
-                ctx?.move(to: CGPoint(x: 0, y: Y))
-                ctx?.addLine(to: CGPoint(x: Width, y: Y))
-                ctx?.strokePath()
-            }
-        }
         }
         
         var Final = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         //Draw the major grid lines on top of the minor grid lines.
-            let FinalWithMajorLines = DrawMajorGridLines(On: Final!, Width: Width, Height: Height,
-                                                         LineColor: LineColor)
-                Final = FinalWithMajorLines
+        let FinalWithMajorLines = DrawMajorGridLines(On: Final!, Width: Width, Height: Height,
+                                                     LineColor: LineColor)
+        Final = FinalWithMajorLines
         return Final!
     }
     
