@@ -61,6 +61,7 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         DebugOffsetPicker.layer.borderWidth = 0.5
         DebugOffsetPicker.layer.cornerRadius = 5.0
         ShowStarsSwitch.isOn = Settings.ShowStars()
+        ShowHoursSwitch.isOn = Settings.GetShowHourLabels()
     }
     
     var Offsets = [Int]()
@@ -222,6 +223,9 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
             case "FlatMap", "RoundMap":
                 Delegate?.ChangeMap()
             
+            case "GlobalAlpha":
+                Delegate?.AlphaChanged() 
+            
             default:
             break
         }
@@ -235,6 +239,15 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         }
     }
     
+    @IBAction func HandleShowHoursChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetShowHourLabels(Switch.isOn)
+        }
+    }
+    
+    @IBOutlet weak var ShowHoursSwitch: UISwitch!
     @IBOutlet weak var ShowStarsSwitch: UISwitch!
     @IBOutlet weak var DebugOffsetPicker: UIPickerView!
     @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
