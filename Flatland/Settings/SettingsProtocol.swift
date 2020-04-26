@@ -12,6 +12,7 @@ protocol SettingsProtocol: class
 {
     func SettingsDone()
     func ChangeMap()
+    func AlphaChanged()
     func ForceTime(NewTime: Date, WithOffset: Int)
     func StopTimers()
     func GetCities() -> [City]
