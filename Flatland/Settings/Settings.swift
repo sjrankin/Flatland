@@ -39,6 +39,7 @@ class Settings
         SetUserLocations(true)
         SetShowLocalData(true)
         SetMinorGridLineGap(15.0)
+        SetTransparencyLevel(0.0)
         SetLocations([])
     }
     
@@ -291,7 +292,27 @@ class Settings
         UserDefaults.standard.set(NewType.rawValue, forKey: "GlobeMapType")
     }
     
+    public static func GetShowHourLabels() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowHourLabels")
+    }
+    
+    public static func SetShowHourLabels(_ NewValue: Bool)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "ShowHourLabels")
+    }
+    
     // MARK: - Globe settings.
+    
+    public static func GetTransparencyLevel() -> Double
+    {
+        return UserDefaults.standard.double(forKey: "GlobeTransparency")
+    }
+    
+    public static func SetTransparencyLevel(_ NewLevel: Double)
+    {
+        UserDefaults.standard.set(NewLevel, forKey: "GlobeTransparency")
+    }
     
     public static func ShowStars() -> Bool
     {
