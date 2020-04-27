@@ -204,35 +204,22 @@
                                         </userDefinedRuntimeAttributes>
                                     </stackView>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Kse-DN-BOT">
-                                        <rect key="frame" x="611" y="979" width="137" height="32"/>
+                                        <rect key="frame" x="553" y="979" width="195" height="32"/>
                                         <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="137" id="fc4-fv-ZVg"/>
+                                            <constraint firstAttribute="width" constant="195" id="fc4-fv-ZVg"/>
                                         </constraints>
                                         <segments>
-                                            <segment title="" image="map" catalog="system"/>
+                                            <segment title="" image="n.circle" catalog="system"/>
+                                            <segment title="" image="s.circle" catalog="system"/>
                                             <segment title="" image="globe" catalog="system"/>
                                         </segments>
                                         <connections>
                                             <action selector="HandleViewTypeChanged:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="mCr-w6-wph"/>
                                         </connections>
                                     </segmentedControl>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="L7s-Gw-TR2">
-                                        <rect key="frame" x="642" y="929" width="106" height="32"/>
-                                        <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="106" id="hmT-bp-KwQ"/>
-                                        </constraints>
-                                        <segments>
-                                            <segment title="" image="n.circle" catalog="system"/>
-                                            <segment title="" image="s.circle" catalog="system"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="HandlePolarSegmentChanged:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="EJK-XH-opO"/>
-                                        </connections>
-                                    </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fkZ-wJ-IXP">
-                                        <rect key="frame" x="710" y="92" width="36.5" height="35.5"/>
+                                        <rect key="frame" x="709.5" y="92" width="37" height="35.5"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" image="ant.circle" catalog="system">
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24" scale="large" weight="heavy"/>
@@ -276,7 +263,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RiW-Kc-e2T">
-                                        <rect key="frame" x="488" y="979" width="106" height="32"/>
+                                        <rect key="frame" x="533" y="925" width="212.5" height="32"/>
                                         <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="ciT-HY-GVK"/>
@@ -284,6 +271,8 @@
                                         <segments>
                                             <segment title="" image="circle" catalog="system"/>
                                             <segment title="" image="clock" catalog="system"/>
+                                            <segment title="" image="triangle" catalog="system"/>
+                                            <segment title="" image="pin" catalog="system"/>
                                         </segments>
                                         <connections>
                                             <action selector="HandleHourSegmentChanged:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="Z5f-mD-QIH"/>
@@ -295,6 +284,7 @@
                                     <constraint firstItem="ic8-eO-fM3" firstAttribute="top" secondItem="lZ4-B6-wwt" secondAttribute="top" constant="448" id="0IX-XO-hfK"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="top" secondItem="EsQ-gP-0lz" secondAttribute="bottom" constant="48" id="2hB-B2-Y8Y"/>
                                     <constraint firstItem="Pia-TU-9Wx" firstAttribute="centerY" secondItem="EsQ-gP-0lz" secondAttribute="centerY" id="4lY-Ei-F7y"/>
+                                    <constraint firstItem="RiW-Kc-e2T" firstAttribute="leading" secondItem="Kse-DN-BOT" secondAttribute="leading" constant="-20" id="4tK-h9-AJX"/>
                                     <constraint firstItem="7vk-gF-Mzg" firstAttribute="centerX" secondItem="lZ4-B6-wwt" secondAttribute="centerX" id="6PI-E0-ag8"/>
                                     <constraint firstItem="wU5-9A-Ujl" firstAttribute="top" secondItem="lZ4-B6-wwt" secondAttribute="top" id="7Vy-Xb-aBR"/>
                                     <constraint firstItem="STp-0d-B28" firstAttribute="leading" secondItem="Kse-DN-BOT" secondAttribute="trailing" constant="-40" id="AIV-yk-eu0"/>
@@ -302,6 +292,7 @@
                                     <constraint firstItem="fkZ-wJ-IXP" firstAttribute="top" secondItem="STp-0d-B28" secondAttribute="bottom" constant="19" id="CFP-lH-Rdj"/>
                                     <constraint firstItem="ic8-eO-fM3" firstAttribute="centerY" secondItem="E0c-Ml-2UJ" secondAttribute="centerY" id="EuX-QN-86O"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="trailing" secondItem="kDv-JP-mbI" secondAttribute="trailing" id="FG9-Ko-s51"/>
+                                    <constraint firstItem="fkZ-wJ-IXP" firstAttribute="centerX" secondItem="STp-0d-B28" secondAttribute="centerX" id="Gaw-qK-dmo"/>
                                     <constraint firstItem="E0c-Ml-2UJ" firstAttribute="bottom" secondItem="l3A-8D-waa" secondAttribute="bottom" id="H6C-c1-q3T"/>
                                     <constraint firstAttribute="bottom" secondItem="Kse-DN-BOT" secondAttribute="bottom" constant="14" id="H7A-VW-drA"/>
                                     <constraint firstItem="a8N-hj-j3j" firstAttribute="leading" secondItem="kDv-JP-mbI" secondAttribute="leading" constant="-26" id="JGo-P6-bWq"/>
@@ -309,8 +300,7 @@
                                     <constraint firstItem="sIC-Wp-JbB" firstAttribute="bottom" secondItem="l3A-8D-waa" secondAttribute="bottom" id="KOR-bl-TOm"/>
                                     <constraint firstItem="sIC-Wp-JbB" firstAttribute="trailing" secondItem="l3A-8D-waa" secondAttribute="trailing" id="MaR-rK-hpf"/>
                                     <constraint firstItem="E0c-Ml-2UJ" firstAttribute="leading" secondItem="l3A-8D-waa" secondAttribute="leading" id="MzO-8O-yPd"/>
-                                    <constraint firstItem="fkZ-wJ-IXP" firstAttribute="leading" secondItem="RiW-Kc-e2T" secondAttribute="trailing" constant="116" id="N63-ei-gyb"/>
-                                    <constraint firstItem="L7s-Gw-TR2" firstAttribute="leading" secondItem="Kse-DN-BOT" secondAttribute="leading" constant="31" id="OB6-Ek-nUc"/>
+                                    <constraint firstItem="fkZ-wJ-IXP" firstAttribute="leading" secondItem="RiW-Kc-e2T" secondAttribute="trailing" constant="-36" id="N63-ei-gyb"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="bottom" secondItem="kDv-JP-mbI" secondAttribute="bottom" id="OP3-Pj-32T"/>
                                     <constraint firstItem="wU5-9A-Ujl" firstAttribute="leading" secondItem="lZ4-B6-wwt" secondAttribute="leading" id="RXD-SR-vzF"/>
                                     <constraint firstAttribute="bottom" secondItem="STp-0d-B28" secondAttribute="bottom" constant="951" id="Szk-PC-ysV"/>
@@ -318,14 +308,12 @@
                                     <constraint firstItem="sIC-Wp-JbB" firstAttribute="leading" secondItem="l3A-8D-waa" secondAttribute="leading" id="VXT-k1-GdC"/>
                                     <constraint firstItem="EsQ-gP-0lz" firstAttribute="centerX" secondItem="lZ4-B6-wwt" secondAttribute="centerX" id="Xdo-80-DSe"/>
                                     <constraint firstItem="sIC-Wp-JbB" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="top" id="Yvg-Hr-IAz"/>
-                                    <constraint firstItem="L7s-Gw-TR2" firstAttribute="centerY" secondItem="a8N-hj-j3j" secondAttribute="centerY" constant="3" id="aCK-vD-j9Z"/>
                                     <constraint firstItem="kDv-JP-mbI" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="top" id="aE5-42-yq8"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="top" secondItem="7vk-gF-Mzg" secondAttribute="bottom" constant="-788" id="aIv-fh-Kvr"/>
                                     <constraint firstItem="ic8-eO-fM3" firstAttribute="centerX" secondItem="7vk-gF-Mzg" secondAttribute="centerX" id="bDo-30-pIC"/>
-                                    <constraint firstItem="RiW-Kc-e2T" firstAttribute="trailing" secondItem="L7s-Gw-TR2" secondAttribute="trailing" constant="-154" id="bPd-eQ-weK"/>
+                                    <constraint firstItem="dFz-Nh-pZt" firstAttribute="trailing" secondItem="fkZ-wJ-IXP" secondAttribute="trailing" constant="21.5" id="bcN-rh-k9a"/>
                                     <constraint firstAttribute="bottom" secondItem="wU5-9A-Ujl" secondAttribute="bottom" id="fqS-JY-vRt"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="centerX" secondItem="lZ4-B6-wwt" secondAttribute="centerX" id="gG4-gd-Hsp"/>
-                                    <constraint firstItem="RiW-Kc-e2T" firstAttribute="leading" secondItem="L7s-Gw-TR2" secondAttribute="leading" constant="-154" id="gwa-DE-HdQ"/>
                                     <constraint firstItem="E0c-Ml-2UJ" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="top" id="iYc-kt-vyu"/>
                                     <constraint firstItem="Pia-TU-9Wx" firstAttribute="centerX" secondItem="EsQ-gP-0lz" secondAttribute="centerX" id="ieh-JV-weO"/>
                                     <constraint firstItem="Kse-DN-BOT" firstAttribute="centerY" secondItem="STp-0d-B28" secondAttribute="centerY" constant="941" id="kF0-YY-R2W"/>
@@ -348,7 +336,7 @@
                             <constraint firstItem="lZ4-B6-wwt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="SFZ-Qi-Psd"/>
                             <constraint firstItem="lZ4-B6-wwt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dH5-DG-shl"/>
                             <constraint firstItem="maC-WJ-Q5A" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="hlN-RY-Wqj"/>
-                            <constraint firstAttribute="bottom" secondItem="RiW-Kc-e2T" secondAttribute="bottom" constant="14" id="j56-IX-OmI"/>
+                            <constraint firstAttribute="bottom" secondItem="RiW-Kc-e2T" secondAttribute="bottom" constant="68" id="j56-IX-OmI"/>
                             <constraint firstItem="lZ4-B6-wwt" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="kp8-um-ChJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -367,7 +355,6 @@
                         <outlet property="MainTimeLabelTop" destination="Pia-TU-9Wx" id="Yk8-EI-O8A"/>
                         <outlet property="NoonTimezoneLabel" destination="Mbr-2I-Fp3" id="gXW-1t-tkv"/>
                         <outlet property="PleaseWaitDialog" destination="ic8-eO-fM3" id="Eos-uh-48h"/>
-                        <outlet property="PolarSegment" destination="L7s-Gw-TR2" id="k7q-RV-P9m"/>
                         <outlet property="SettingsButton" destination="STp-0d-B28" id="gfe-hq-40e"/>
                         <outlet property="SolarNoonLabel" destination="V3s-K2-qHQ" id="omc-XA-TeG"/>
                         <outlet property="StarFieldView" destination="maC-WJ-Q5A" id="M9R-ra-tzn"/>
@@ -1116,7 +1103,7 @@
             </objects>
             <point key="canvasLocation" x="938" y="1016"/>
         </scene>
-        <!--City Selector-->
+        <!--Cities and Locations-->
         <scene sceneID="R2f-di-al4">
             <objects>
                 <tableViewController id="dBu-lN-GEF" customClass="CitySelectorView" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
@@ -1507,7 +1494,7 @@
                             <outlet property="delegate" destination="dBu-lN-GEF" id="cjp-o8-wZV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="City Selector" id="vLH-fE-apP"/>
+                    <navigationItem key="navigationItem" title="Cities and Locations" id="vLH-fE-apP"/>
                     <connections>
                         <outlet property="GetLocationButton" destination="iRf-JV-jzH" id="bBE-VU-kDf"/>
                         <outlet property="LocalLatitudeBox" destination="vfg-oK-vb6" id="ZUL-Wr-tRO"/>
@@ -1939,8 +1926,9 @@
         <image name="clock" catalog="system" width="128" height="121"/>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="globe" catalog="system" width="128" height="121"/>
-        <image name="map" catalog="system" width="128" height="113"/>
         <image name="n.circle" catalog="system" width="128" height="121"/>
+        <image name="pin" catalog="system" width="119" height="128"/>
         <image name="s.circle" catalog="system" width="128" height="121"/>
+        <image name="triangle" catalog="system" width="128" height="112"/>
     </resources>
 </document>
