@@ -302,6 +302,23 @@ class Settings
         UserDefaults.standard.set(NewValue, forKey: "ShowHourLabels")
     }
     
+    public static func GetHourValueType() -> HourValueTypes
+    {
+        if let Value = UserDefaults.standard.string(forKey: "HourValueType")
+        {
+            if let TheType = HourValueTypes(rawValue: Value)
+            {
+                return TheType
+            }
+        }
+        return .Solar
+    }
+    
+    public static func SetHourValueType(_ NewType: HourValueTypes)
+    {
+        UserDefaults.standard.set(NewType.rawValue, forKey: "HourValueType")
+    }
+        
     // MARK: - Globe settings.
     
     public static func GetTransparencyLevel() -> Double
@@ -586,4 +603,11 @@ enum ViewTypes: String, CaseIterable
     case FlatMap = "FlatMap"
     case Globe3D = "3DGlobe"
     case CubicWorld = "Cubic"
+}
+
+enum HourValueTypes: String, CaseIterable
+{
+    case Solar = "RelativeToSolar"
+    case RelativeToNoon = "RelativeToNoon"
+    case RelativeToLocation = "RelativeToLocation"
 }
