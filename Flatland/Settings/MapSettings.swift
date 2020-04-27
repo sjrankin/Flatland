@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MapSettings: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource
+class MapSettings: UITableViewController
 {
     public weak var ChangeDelegate: SomethingChanged? = nil
     
@@ -57,69 +57,9 @@ class MapSettings: UITableViewController, UIPickerViewDelegate, UIPickerViewData
                 TransparencySegment.selectedSegmentIndex = 0
             }
         }
-        
-        FlatlandMapPicker.layer.borderColor = UIColor.black.cgColor
-        GlobeMapPicker.layer.borderColor = UIColor.black.cgColor
-        
-        GlobeMapPicker.reloadAllComponents()
-        FlatlandMapPicker.reloadAllComponents()
     }
     
     let ValidGaps = [5.0, 15.0, 30.0, 45.0]
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int
-    {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
-    {
-        switch pickerView
-        {
-            case GlobeMapPicker:
-                return MapManager.GlobeMapList.count
-            
-            case FlatlandMapPicker:
-                return MapManager.FlatMapList.count
-            
-            default:
-                return 0
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-    {
-        switch pickerView
-        {
-            case GlobeMapPicker:
-                return MapManager.GlobeMapList[row].rawValue
-            
-            case FlatlandMapPicker:
-                return MapManager.FlatMapList[row].rawValue
-            
-            default:
-                return nil
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-    {
-        switch pickerView
-        {
-            case FlatlandMapPicker:
-                let MapType = MapManager.FlatMapList[row]
-                Settings.SetFlatlandMapType(MapType)
-                ChangeDelegate?.Changed(Key: "FlatMap", Value: true as Any)
-            
-            case GlobeMapPicker:
-                let MapType = MapManager.GlobeMapList[row]
-                Settings.SetGlobeMapType(MapType)
-                            ChangeDelegate?.Changed(Key: "RoundMap", Value: true as Any)
-            
-            default:
-                return
-        }
-    }
     
     @IBAction func HandleGridSwitchChanged(_ sender: Any)
     {
@@ -188,6 +128,4 @@ class MapSettings: UITableViewController, UIPickerViewDelegate, UIPickerViewData
     @IBOutlet weak var PolarSwitch: UISwitch!
     @IBOutlet weak var TropicSwitch: UISwitch!
     @IBOutlet weak var EquatorSwitch: UISwitch!
-    @IBOutlet weak var FlatlandMapPicker: UIPickerView!
-    @IBOutlet weak var GlobeMapPicker: UIPickerView!
 }
