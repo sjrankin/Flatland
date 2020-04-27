@@ -62,7 +62,7 @@ class GlobeView: SCNView
         CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
         
         let Light = SCNLight()
-        Light.type = .omni
+        Light.type = .directional
         Light.intensity = 800
         Light.castsShadow = true
         Light.shadowColor = UIColor.black.withAlphaComponent(0.80)
@@ -392,6 +392,7 @@ class GlobeView: SCNView
         }
     }
     
+    /// Create or update or hide hour labels.
     func UpdateHourLabels()
     {
         if Settings.GetShowHourLabels()
@@ -425,6 +426,7 @@ class GlobeView: SCNView
     /// - Parameter Radius: The radius of the parent node.
     func DrawHourLabels(On Node: SCNNode, Radius: Double)
     {
+        let HourType = Settings.GetHourValueType()
         for Hour in 0 ... 23
         {
             //Get the angle for the text. The +2.0 is because SCNText geometries start at the X position
@@ -433,8 +435,34 @@ class GlobeView: SCNView
             let Angle = ((CGFloat(Hour) / 24.0) * 360.0) + 2.0
             let Radians = Angle.Radians
             //Calculate the display hour.
-            let DisplayHour = 24 - (Hour + 5) % 24 - 1
-            let HourText = SCNText(string: "\(DisplayHour)", extrusionDepth: 5.0)
+            var DisplayHour = 24 - (Hour + 5) % 24 - 1
+            var Prefix = ""
+            switch HourType
+            {
+                case .Solar:
+                    //Already done.
+                break
+                
+                case .RelativeToLocation:
+                    if let LocalLon = Settings.GetLocalLongitude()
+                    {
+                        let LonHour = LocalLon / 15.0
+                        let ILonHour = Int(LonHour)
+                        DisplayHour = ILonHour - DisplayHour
+                        if DisplayHour > 0
+                        {
+                            Prefix = "+"
+                        }
+                    }
+                
+                case .RelativeToNoon:
+                    DisplayHour = DisplayHour - 12
+                    if DisplayHour > 0
+                    {
+                        Prefix = "+"
+                }
+            }
+            let HourText = SCNText(string: "\(Prefix)\(DisplayHour)", extrusionDepth: 5.0)
             HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
             HourText.firstMaterial?.diffuse.contents = UIColor.yellow
             HourText.firstMaterial?.specular.contents = UIColor.white
