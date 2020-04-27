@@ -184,8 +184,61 @@ class GlobeView: SCNView
     
     var IgnoreClock = false
     
+    /// Draws a cubical Earth for not other reason than being silly.
+    func ShowCubicEarth()
+    {
+        EarthNode?.removeAllActions()
+        EarthNode?.removeFromParentNode()
+        SeaNode?.removeAllActions()
+        SeaNode?.removeFromParentNode()
+        LineNode?.removeAllActions()
+        LineNode?.removeFromParentNode()
+        SystemNode?.removeAllActions()
+        SystemNode?.removeFromParentNode()
+        HourNode?.removeAllActions()
+        HourNode?.removeFromParentNode()
+        
+        let EarthCube = SCNBox(width: 10.0, height: 10.0, length: 10.0, chamferRadius: 0.5)
+        EarthNode = SCNNode(geometry: EarthCube)
+        
+        EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
+        EarthNode?.geometry?.materials.removeAll()
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.nx)!)
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.pz)!)
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.px)!)
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.nz)!)
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.ny, Rotated: 270.0)!)
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.py, Rotated: 90.0)!)
+        
+        EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
+        EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
+        
+        UpdateHourLabels()
+        
+        let Declination = Sun.Declination(For: Date())
+        SystemNode = SCNNode()
+        SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+        HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+        
+        self.prepare([EarthNode!], completionHandler:
+            {
+                success in
+                if success
+                {
+                    self.SystemNode?.addChildNode(self.EarthNode!)
+                    self.scene?.rootNode.addChildNode(self.SystemNode!)
+                }
+        }
+        )
+    }
+    
     func AddEarth(FastAnimate: Bool = false)
     {
+        if Settings.GetViewType() == .CubicWorld
+        {
+            ShowCubicEarth()
+            return
+        }
         IgnoreClock = FastAnimate
         if EarthNode != nil
         {
@@ -324,7 +377,6 @@ class GlobeView: SCNView
                         self.SystemNode?.addChildNode(self.SeaNode!)
                     }
                     self.SystemNode?.addChildNode(self.LineNode!)
-                    //self.scene?.rootNode.addChildNode(self.HourNode!)
                     self.scene?.rootNode.addChildNode(self.SystemNode!)
                 }
         }
@@ -344,11 +396,8 @@ class GlobeView: SCNView
     {
         if Settings.GetShowHourLabels()
         {
-            if CurrentlyShowingHourLabels
-            {
-                return
-            }
-            CurrentlyShowingHourLabels = true
+            HourNode?.removeAllActions()
+            HourNode?.removeFromParentNode()
             let HourSphere = SCNSphere(radius: 11)
             HourNode = SCNNode(geometry: HourSphere)
             HourNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -361,11 +410,6 @@ class GlobeView: SCNView
         }
         else
         {
-            if !CurrentlyShowingHourLabels
-            {
-                return
-            }
-            CurrentlyShowingHourLabels = false
             if HourNode != nil
             {
                 HourNode?.removeAllActions()
@@ -375,8 +419,6 @@ class GlobeView: SCNView
             HourNode = SCNNode()
         }
     }
-    
-    var CurrentlyShowingHourLabels = false
     
     /// Draw hour labels floating over the Earth.
     /// - Parameter On: The parent node.
@@ -412,7 +454,6 @@ class GlobeView: SCNView
     func UpdateSurfaceTransparency()
     {
         let Alpha = 1.0 - Settings.GetTransparencyLevel()
-        print("Node alpha=\(Alpha)")
         EarthNode?.opacity = CGFloat(Alpha)
         SeaNode?.opacity = CGFloat(Alpha)
     }
