@@ -24,8 +24,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         super.viewDidLoad()
         Settings.Initialize()
         FileIO.InitializeDirectory()
-        let Bundled = FileIO.ResourceFileList()
-        print("Bundled maps: \(Bundled)")
+
+        //Initialize the please wait dialog
+        PleaseWaitDialog.isHidden = true
+        PleaseWaitDialog.isUserInteractionEnabled = false
+        PleaseWaitDialog.layer.borderColor = UIColor.systemBlue.cgColor
         
         if Settings.GetViewType() == .FlatMap
         {
@@ -43,7 +46,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 StarFieldView.Show()
             }
             SetFlatlandVisibility(IsVisible: false)
-            ViewTypeSegment.selectedSegmentIndex = 1
+            ViewTypeSegment.selectedSegmentIndex = Settings.GetViewType() == .Globe3D ? 1 : 2
             PolarSegment.isHidden = true
         }
         PolarSegment.selectedSegmentIndex = Settings.GetImageCenter() == .NorthPole ? 0 : 1
@@ -126,7 +129,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     func Show2DHours()
     {
-        if Settings.GetViewType() == .Globe3D
+        if Settings.GetViewType() == .Globe3D || Settings.GetViewType() == .CubicWorld
         {
             HourLayer2D.isHidden = false
             HourLayer2D.layer.sublayers?.removeAll()
@@ -364,6 +367,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     /// Called when the user closes the settings view controller, and when the program first starts.
     func SettingsDone()
     {
+        let HourIndex = Settings.GetShowHourLabels() ? 1 : 0
+        HourSegment.selectedSegmentIndex = HourIndex
         if GridOverlay.layer.sublayers != nil
         {
             for Layer in GridOverlay.layer.sublayers!
@@ -915,6 +920,24 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                     }
                     SetFlatlandVisibility(IsVisible: false)
                     PolarSegment.isHidden = true
+                    PleaseWait
+                        {
+                        WorldViewer3D.AddEarth()
+                    }
+                
+                case 2:
+                    Settings.SetViewType(.CubicWorld)
+                    WorldViewer3D.Show()
+                    if Settings.ShowStars()
+                    {
+                        StarFieldView.Show()
+                    }
+                    SetFlatlandVisibility(IsVisible: false)
+                    PolarSegment.isHidden = true
+                    PleaseWait
+                        {
+                            WorldViewer3D.AddEarth()
+                    }
                 
                 default:
                     break
@@ -937,9 +960,48 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         return Controller
     }
     
+    func PleaseWait(_ Status: ViewStatuses)
+    {
+        switch Status
+        {
+            case .Hide:
+                UIView.animate(withDuration: 0.5,
+                               animations:
+                    {
+                        self.PleaseWaitDialog.alpha = 0.0
+                }, completion:
+                    {
+                        Completed in
+                        if Completed
+                        {
+                            self.PleaseWaitDialog.isHidden = true
+                        }
+                })
+            
+            case .Show:
+                PleaseWaitDialog.alpha = 0.0
+                PleaseWaitDialog.isHidden = false
+                UIView.animate(withDuration: 0.2,
+                               animations:
+                    {
+                        self.PleaseWaitDialog.alpha = 1.0
+                })
+        }
+    }
+    
+    func PleaseWait(For Action: () -> ())
+    {
+        PleaseWait(.Show)
+        Action()
+        PleaseWait(.Hide)
+    }
+    
     func ChangeMap()
     {
-        WorldViewer3D.AddEarth()
+        PleaseWait
+            {
+            WorldViewer3D.AddEarth()
+        }
         SettingsDone()
     }
     
@@ -994,8 +1056,21 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
     }
     
+    @IBAction func HandleHourSegmentChanged(_ sender: Any)
+    {
+        if let Segment = sender as? UISegmentedControl
+        {
+            let ShowHours = Segment.selectedSegmentIndex == 1
+            Settings.SetShowHourLabels(ShowHours)
+            SettingsDone()
+            WorldViewer3D.UpdateHourLabels()
+        }
+    }
+    
     // MARK: - Interface builder outlets.
     
+    @IBOutlet weak var PleaseWaitDialog: UIView!
+    @IBOutlet weak var HourSegment: UISegmentedControl!
     @IBOutlet weak var HourLayer2D: UIView!
     @IBOutlet weak var StarFieldView: Starfield!
     @IBOutlet weak var PolarSegment: UISegmentedControl!
@@ -1017,4 +1092,10 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     @IBOutlet weak var WorldViewer: UIImageView!
     @IBOutlet weak var SolarNoonLabel: UILabel!
     @IBOutlet weak var DeclinitionLabel: UILabel!
+}
+
+enum ViewStatuses
+{
+    case Show
+    case Hide
 }
