@@ -443,6 +443,39 @@ extension Date
     }
 }
 
+/// Extension methods for UIImage.
+extension UIImage
+{
+    /// Rotate the instance image to the number of passed radians.
+    /// - Note: See [Rotating UIImage in Swift](https://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift/47402811#47402811)
+    /// - Parameter Radians: Number of radians to rotate the image to.
+    /// - Returns: Rotated image.
+    func Rotate(Radians: CGFloat) -> UIImage
+    {
+        var NewSize = CGRect(origin: CGPoint.zero, size: self.size).applying(CGAffineTransform(rotationAngle: Radians)).size
+        NewSize.width = floor(NewSize.width)
+        NewSize.height = floor(NewSize.height)
+        UIGraphicsBeginImageContextWithOptions(NewSize, false, self.scale)
+        let Context = UIGraphicsGetCurrentContext()
+        Context?.translateBy(x: NewSize.width / 2, y: NewSize.height / 2)
+        Context?.rotate(by: Radians)
+        self.draw(in: CGRect(x: -self.size.width / 2, y: -self.size.height / 2,
+                             width: self.size.width, height: self.size.height))
+        let Rotated = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return Rotated!
+    }
+    
+    /// Rotate the instance image of the number of passed degrees.
+    /// - Note: See [Rotating UIImage in Swift](https://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift/47402811#47402811)
+    /// - Parameter Degrees: Number of degrees to rotate the image to.
+    /// - Returns: Rotated image.
+    func Rotate(Degrees: CGFloat) -> UIImage
+    {
+        return Rotate(Radians: Degrees.Radians)
+    }
+}
+
 /// Time units.
 public enum TimeUnits
 {
