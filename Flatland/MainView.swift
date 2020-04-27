@@ -35,8 +35,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             WorldViewer3D.Hide()
             StarFieldView.Hide()
             SetFlatlandVisibility(IsVisible: true)
-            ViewTypeSegment.selectedSegmentIndex = 0
-            PolarSegment.isHidden = false
+            let PoleIndex = Settings.GetImageCenter() == .NorthPole ? 0 : 1
+            ViewTypeSegment.selectedSegmentIndex = PoleIndex
         }
         else
         {
@@ -46,10 +46,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 StarFieldView.Show()
             }
             SetFlatlandVisibility(IsVisible: false)
-            ViewTypeSegment.selectedSegmentIndex = Settings.GetViewType() == .Globe3D ? 1 : 2
-            PolarSegment.isHidden = true
+            ViewTypeSegment.selectedSegmentIndex = 2
         }
-        PolarSegment.selectedSegmentIndex = Settings.GetImageCenter() == .NorthPole ? 0 : 1
         
         DataStack.layer.borderColor = UIColor.white.cgColor
         ArcLayer.backgroundColor = UIColor.clear
@@ -140,7 +138,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             HourLayer2D.isHidden = false
             HourLayer2D.layer.zPosition = 40000
             HourLayer2D.layer.sublayers?.removeAll()
-            HaveShown2DHours = true
             HourLayer2D.backgroundColor = UIColor.clear
             
             let TextLayer = CALayer()
@@ -149,28 +146,60 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             TextLayer.frame = TextLayerRect
             TextLayer.bounds = TextLayerRect
             TextLayer.backgroundColor = UIColor.clear.cgColor
-            let Radius = HourLayer2D.frame.size.width / 2.0
+            let Radius = TextLayerRect.size.width / 2.0 
+            let HourType = Settings.GetHourValueType()
+            if HourType != .RelativeToLocation
+            {
+                let Rotation = CATransform3DMakeRotation(0.0, 0.0, 0.0, 1.0)
+                    HourLayer2D.layer.transform = Rotation
+            }
             for Hour in 0 ... 23
             {
                 let Angle = CGFloat(Hour) / 24.0 * 360.0
                 let Radial = Angle.Radians
                 var DisplayHour = (Hour + 18) % 24
-                if Settings.GetImageCenter() == .NorthPole
+                var IncludeSign = false
+                switch HourType
                 {
-                    DisplayHour = 24 - (DisplayHour + 12) % 24
+                    case .Solar:
+                        if Settings.GetImageCenter() == .NorthPole
+                        {
+                            DisplayHour = 24 - (DisplayHour + 12) % 24
+                    }
+                    
+                    case .RelativeToLocation:
+                    DisplayHour = Hour - 18
+                    if DisplayHour < -12
+                    {
+                        DisplayHour = 12 - (DisplayHour * -1) % 12
+                    }
+                    
+                    case .RelativeToNoon:
+                    IncludeSign = true
+                    DisplayHour = DisplayHour - 12
+                    if Settings.GetImageCenter() == .NorthPole
+                    {
+                        DisplayHour = (DisplayHour + 12) % 24
+                        if DisplayHour > 12
+                        {
+                            DisplayHour = DisplayHour - 24
+                        }
+                        DisplayHour = DisplayHour * -1
+                    }
                 }
                 
                 let TextNode = CATextLayer()
                 let (AText, Width, Height) = MakeHourText(Hour: DisplayHour,
-                                                          Font: UIFont.boldSystemFont(ofSize: 30.0),
+                                                          Font: UIFont.boldSystemFont(ofSize: 36.0),
                                                           Color: UIColor.yellow,
                                                           StrokeColor: UIColor.black,
-                                                          StrokeThickness: -2)
+                                                          StrokeThickness: -2,
+                                                          IncludeSign: IncludeSign)
                 TextNode.string = AText
                 let X = CGFloat(Radius) * cos(Radial) + CGFloat(Radius - Width / 2)
                 let Y = CGFloat(Radius) * sin(Radial) + CGFloat(Radius - Height / 2)
-                TextNode.font = UIFont.systemFont(ofSize: 30.0)
-                TextNode.fontSize = 30.0
+                TextNode.font = UIFont.systemFont(ofSize: 36.0)
+                TextNode.fontSize = 36.0
                 TextNode.alignmentMode = .center
                 TextNode.foregroundColor = UIColor.yellow.cgColor
                 TextNode.frame = CGRect(x: X, y: Y, width: Width, height: Height)
@@ -188,9 +217,18 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
     }
     
-    func MakeHourText(Hour: Int, Font: UIFont, Color: UIColor, StrokeColor: UIColor, StrokeThickness: CGFloat) -> (NSAttributedString, CGFloat, CGFloat)
+    func MakeHourText(Hour: Int, Font: UIFont, Color: UIColor, StrokeColor: UIColor,
+                      StrokeThickness: CGFloat, IncludeSign: Bool) -> (NSAttributedString, CGFloat, CGFloat)
     {
-        let TextValue = "\(Hour)"
+        var Sign = ""
+        if IncludeSign
+        {
+            if Hour > 0
+            {
+                Sign = "+"
+            }
+        }
+        let TextValue = "\(Sign)\(Hour)"
         let Attributes: [NSAttributedString.Key: Any] =
             [.font: Font as Any,
              .foregroundColor: Color.cgColor as Any,
@@ -200,8 +238,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let Size = TextValue.size(withAttributes: Attributes)
         return (Final, Size.width, Size.height)
     }
-    
-    var HaveShown2DHours = false
     
     @objc func UpdateLocalData()
     {
@@ -367,8 +403,24 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     /// Called when the user closes the settings view controller, and when the program first starts.
     func SettingsDone()
     {
-        let HourIndex = Settings.GetShowHourLabels() ? 1 : 0
-        HourSegment.selectedSegmentIndex = HourIndex
+        if !Settings.GetShowHourLabels()
+        {
+            HourSegment.selectedSegmentIndex = 0
+        }
+        else
+        {
+            switch Settings.GetHourValueType()
+            {
+                case .Solar:
+                    HourSegment.selectedSegmentIndex = 1
+                
+                case .RelativeToNoon:
+                    HourSegment.selectedSegmentIndex = 2
+                
+                case .RelativeToLocation:
+                    HourSegment.selectedSegmentIndex = 3
+            }
+        }
         if GridOverlay.layer.sublayers != nil
         {
             for Layer in GridOverlay.layer.sublayers!
@@ -651,6 +703,10 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
         let Rotation = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
         WorldViewer.layer.transform = Rotation
+        if Settings.GetHourValueType() == .RelativeToLocation
+        {
+            HourLayer2D.layer.transform = Rotation
+        }
         if Settings.ShowGrid()
         {
             DrawGrid(Radians)
@@ -905,13 +961,22 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             switch Segment.selectedSegmentIndex
             {
                 case 0:
+                    Settings.SetImageCenter(.NorthPole)
                     Settings.SetViewType(.FlatMap)
                     WorldViewer3D.Hide()
                     StarFieldView.Hide()
                     SetFlatlandVisibility(IsVisible: true)
-                    PolarSegment.isHidden = false
+                SettingsDone()
                 
                 case 1:
+                    Settings.SetImageCenter(.SouthPole)
+                    Settings.SetViewType(.FlatMap)
+                    WorldViewer3D.Hide()
+                    StarFieldView.Hide()
+                    SetFlatlandVisibility(IsVisible: true)
+                SettingsDone()
+                
+                case 2:
                     Settings.SetViewType(.Globe3D)
                     WorldViewer3D.Show()
                     if Settings.ShowStars()
@@ -919,24 +984,9 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                         StarFieldView.Show()
                     }
                     SetFlatlandVisibility(IsVisible: false)
-                    PolarSegment.isHidden = true
                     PleaseWait
                         {
                         WorldViewer3D.AddEarth()
-                    }
-                
-                case 2:
-                    Settings.SetViewType(.CubicWorld)
-                    WorldViewer3D.Show()
-                    if Settings.ShowStars()
-                    {
-                        StarFieldView.Show()
-                    }
-                    SetFlatlandVisibility(IsVisible: false)
-                    PolarSegment.isHidden = true
-                    PleaseWait
-                        {
-                            WorldViewer3D.AddEarth()
                     }
                 
                 default:
@@ -1040,30 +1090,38 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         ChangeMap()
     }
     
-    @IBAction func HandlePolarSegmentChanged(_ sender: Any)
-    {
-        if let Segment = sender as? UISegmentedControl
-        {
-            if Segment.selectedSegmentIndex == 0
-            {
-                Settings.SetImageCenter(.NorthPole)
-            }
-            else
-            {
-                Settings.SetImageCenter(.SouthPole)
-            }
-            SettingsDone()
-        }
-    }
-    
     @IBAction func HandleHourSegmentChanged(_ sender: Any)
     {
         if let Segment = sender as? UISegmentedControl
         {
-            let ShowHours = Segment.selectedSegmentIndex == 1
-            Settings.SetShowHourLabels(ShowHours)
-            SettingsDone()
-            WorldViewer3D.UpdateHourLabels()
+            switch Segment.selectedSegmentIndex
+            {
+                case 0:
+                    Settings.SetShowHourLabels(false)
+                    SettingsDone()
+                    WorldViewer3D.UpdateHourLabels()
+                
+                case 1:
+                    Settings.SetShowHourLabels(true)
+                    Settings.SetHourValueType(.Solar)
+                    SettingsDone()
+                    WorldViewer3D.UpdateHourLabels()
+                
+                case 2:
+                    Settings.SetShowHourLabels(true)
+                    Settings.SetHourValueType(.RelativeToNoon)
+                    SettingsDone()
+                    WorldViewer3D.UpdateHourLabels()
+                
+                case 3:
+                    Settings.SetShowHourLabels(true)
+                    Settings.SetHourValueType(.RelativeToLocation)
+                    SettingsDone()
+                    WorldViewer3D.UpdateHourLabels()
+                
+                default:
+                return
+            }
         }
     }
     
@@ -1073,7 +1131,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     @IBOutlet weak var HourSegment: UISegmentedControl!
     @IBOutlet weak var HourLayer2D: UIView!
     @IBOutlet weak var StarFieldView: Starfield!
-    @IBOutlet weak var PolarSegment: UISegmentedControl!
     @IBOutlet weak var ViewTypeSegment: UISegmentedControl!
     @IBOutlet weak var WorldViewer3D: GlobeView!
     @IBOutlet weak var LocalSunsetLabel: UILabel!
