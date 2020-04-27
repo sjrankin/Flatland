@@ -28,6 +28,7 @@ class MapList
         return nil
     }
     
+    /// List of map items.
     public static let Maps: [MapItem] =
     [
         MapItem(.Standard, false, "LandMask2", "WorldNorth", "WorldSouth"),
@@ -84,6 +85,7 @@ class MapList
     ]
 }
 
+/// Types/styles of world maps supported.
 enum MapTypes: String, CaseIterable
 {
     case Standard = "Standard"
