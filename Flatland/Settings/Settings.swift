@@ -585,4 +585,5 @@ enum ViewTypes: String, CaseIterable
 {
     case FlatMap = "FlatMap"
     case Globe3D = "3DGlobe"
+    case CubicWorld = "Cubic"
 }
