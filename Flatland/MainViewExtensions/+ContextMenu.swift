@@ -50,12 +50,24 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.Topographical2)
         }
         SubMenu.append(Menu5)
+        let Menu7 = UIAction(title: "Surreal Topographical Map", image: nil)
+        {
+            action in
+            self.SetTexture(.SurrealTopographic)
+        }
+        SubMenu.append(Menu7)
         let Menu3 = UIAction(title: "Static Aerosol Map", image: nil)
         {
             action in
             self.SetTexture(.StaticAerosol)
         }
         SubMenu.append(Menu3)
+        let Menu6 = UIAction(title: "Normalized Tile Map", image: nil)
+        {
+            action in
+            self.SetTexture(.Normalized)
+        }
+        SubMenu.append(Menu6)
         
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
@@ -198,6 +210,24 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.RoundSplotches)
         }
         SubMenu.append(Menu11)
+        let Menu15 = UIAction(title: "Color Ink Map", image: nil)
+        {
+            action in
+            self.SetTexture(.ColorInk)
+        }
+        SubMenu.append(Menu15)
+        let Menu14 = UIAction(title: "Andy Warhol Map", image: nil)
+        {
+            action in
+            self.SetTexture(.Warhol)
+        }
+        SubMenu.append(Menu14)
+        let Menu20 = UIAction(title: "Ukiyoe Map 1", image: nil)
+        {
+            action in
+            self.SetTexture(.Ukiyoe1)
+        }
+        SubMenu.append(Menu20)
 
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
@@ -228,6 +258,19 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.Bronze)
         }
         SubMenu.append(Menu10)
+        let Menu11 = UIAction(title: "Blueprint Map", image: nil)
+        {
+            action in
+            self.SetTexture(.Blueprint)
+        }
+        SubMenu.append(Menu11)
+        let Menu12 = UIAction(title: "Red Spot Color Map", image: nil)
+        {
+            action in
+            self.SetTexture(.SpotColor)
+        }
+        SubMenu.append(Menu12)
+        
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
             action in
@@ -293,6 +336,18 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.Skeleton)
         }
         SubMenu.append(Menu16)
+        let Menu17 = UIAction(title: "Voronoi Map", image: nil)
+        {
+            action in
+            self.SetTexture(.Voronoi)
+        }
+        SubMenu.append(Menu17)
+        let Menu18 = UIAction(title: "Polygonized Map", image: nil)
+        {
+            action in
+            self.SetTexture(.Polygons)
+        }
+        SubMenu.append(Menu18)
         let Menu12 = UIAction(title: "Extruded Map", image: nil)
         {
             action in
