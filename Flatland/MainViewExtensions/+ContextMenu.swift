@@ -354,6 +354,12 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.Extruded)
         }
         SubMenu.append(Menu12)
+        let Menu19 = UIAction(title: "Bubble Map", image: nil)
+        {
+            action in
+            self.SetTexture(.BubbleWorld)
+        }
+        SubMenu.append(Menu19)
         
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
@@ -414,9 +420,9 @@ extension MainView: UIContextMenuInteractionDelegate
         return Final
     }
     
-    // MARK: - Mars sub-menu.
+    // MARK: - Extraterrestrial sub-menu.
     
-    func MakeMarsSubMenu() -> UIMenu
+    func MakeExtraterrestrialMenu() -> UIMenu
     {
         var SubMenu = [UIMenuElement]()
         let Menu1 = UIAction(title: "Viking Mars Map", image: nil)
@@ -449,6 +455,24 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.LunarGeoMap)
         }
         SubMenu.append(Menu5)
+        let Menu6 = UIAction(title: "Gaia Sky Map", image: nil)
+        {
+            action in
+            self.SetTexture(.GaiaSky)
+        }
+        SubMenu.append(Menu6)
+        let Menu7 = UIAction(title: "Tycho Sky Map", image: nil)
+        {
+            action in
+            self.SetTexture(.TychoSky)
+        }
+        SubMenu.append(Menu7)
+        let Menu8 = UIAction(title: "Inverted Sky Map", image: nil)
+        {
+            action in
+            self.SetTexture(.NASAStarsInverted)
+        }
+        SubMenu.append(Menu8)
         
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
@@ -500,7 +524,7 @@ extension MainView: UIContextMenuInteractionDelegate
         let StandardMenu = MakeStandardSubMenu()
         let PoliticalMenu = MakePoliticalSubMenu()
         let StylizedMenu = MakeStylizedSubMenu()
-        let MarsMenu = MakeMarsSubMenu()
+        let AstronomyMenu = MakeExtraterrestrialMenu()
         let SillyMenu = MakeSillySubMenu()
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
@@ -508,7 +532,7 @@ extension MainView: UIContextMenuInteractionDelegate
         }
         let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
         let Menu = UIMenu(title: "Map Menu",
-                          children: [StandardMenu, PhysicalMenu, PoliticalMenu, StylizedMenu, MarsMenu, SillyMenu, CancelMenu])
+                          children: [StandardMenu, PhysicalMenu, PoliticalMenu, StylizedMenu, AstronomyMenu, SillyMenu, CancelMenu])
         return Menu
     }
 }
