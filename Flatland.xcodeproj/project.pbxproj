@@ -8,6 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		17026472244C202F00DEE96A /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17026471244C202F00DEE96A /* MapManager.swift */; };
+		1717F4D72457D72600C7F263 /* GaiaSkyNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4D42457D72500C7F263 /* GaiaSkyNorthCenter.png */; };
+		1717F4D82457D72600C7F263 /* GaiaSkySouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4D52457D72500C7F263 /* GaiaSkySouthCenter.png */; };
+		1717F4D92457D72600C7F263 /* GaiaSky.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4D62457D72600C7F263 /* GaiaSky.png */; };
+		1717F4DD2457D73400C7F263 /* TychoSky.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4DA2457D73300C7F263 /* TychoSky.png */; };
+		1717F4DE2457D73400C7F263 /* TychoSkyNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4DB2457D73300C7F263 /* TychoSkyNorthCenter.png */; };
+		1717F4DF2457D73400C7F263 /* TychoSkySouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4DC2457D73400C7F263 /* TychoSkySouthCenter.png */; };
+		1717F4E32457D75600C7F263 /* NASAStarMapInverted.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4E02457D75500C7F263 /* NASAStarMapInverted.png */; };
+		1717F4E42457D75600C7F263 /* NASAStarMapInvertedSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4E12457D75500C7F263 /* NASAStarMapInvertedSouthCenter.png */; };
+		1717F4E52457D75600C7F263 /* NASAStarMapInvertedNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4E22457D75600C7F263 /* NASAStarMapInvertedNorthCenter.png */; };
+		1717F4E92457D77400C7F263 /* BubbleWorldSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4E62457D77300C7F263 /* BubbleWorldSouthCenter.png */; };
+		1717F4EA2457D77400C7F263 /* BubbleWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4E72457D77400C7F263 /* BubbleWorld.png */; };
+		1717F4EB2457D77400C7F263 /* BubbleWorldNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4E82457D77400C7F263 /* BubbleWorldNorthCenter.png */; };
+		1717F4EE2457F69B00C7F263 /* SCNStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717F4ED2457F69B00C7F263 /* SCNStar.swift */; };
 		172BC97A24568CD2001CEACB /* MapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172BC97924568CD2001CEACB /* MapList.swift */; };
 		172BC97C24568CFD001CEACB /* MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172BC97B24568CFD001CEACB /* MapItem.swift */; };
 		1739F377244AAED700E7F577 /* SomethingChanged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1739F376244AAED700E7F577 /* SomethingChanged.swift */; };
@@ -86,6 +99,19 @@
 
 /* Begin PBXFileReference section */
 		17026471244C202F00DEE96A /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
+		1717F4D42457D72500C7F263 /* GaiaSkyNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GaiaSkyNorthCenter.png; sourceTree = "<group>"; };
+		1717F4D52457D72500C7F263 /* GaiaSkySouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GaiaSkySouthCenter.png; sourceTree = "<group>"; };
+		1717F4D62457D72600C7F263 /* GaiaSky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GaiaSky.png; sourceTree = "<group>"; };
+		1717F4DA2457D73300C7F263 /* TychoSky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TychoSky.png; sourceTree = "<group>"; };
+		1717F4DB2457D73300C7F263 /* TychoSkyNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TychoSkyNorthCenter.png; sourceTree = "<group>"; };
+		1717F4DC2457D73400C7F263 /* TychoSkySouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TychoSkySouthCenter.png; sourceTree = "<group>"; };
+		1717F4E02457D75500C7F263 /* NASAStarMapInverted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NASAStarMapInverted.png; sourceTree = "<group>"; };
+		1717F4E12457D75500C7F263 /* NASAStarMapInvertedSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NASAStarMapInvertedSouthCenter.png; sourceTree = "<group>"; };
+		1717F4E22457D75600C7F263 /* NASAStarMapInvertedNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NASAStarMapInvertedNorthCenter.png; sourceTree = "<group>"; };
+		1717F4E62457D77300C7F263 /* BubbleWorldSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BubbleWorldSouthCenter.png; sourceTree = "<group>"; };
+		1717F4E72457D77400C7F263 /* BubbleWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BubbleWorld.png; sourceTree = "<group>"; };
+		1717F4E82457D77400C7F263 /* BubbleWorldNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BubbleWorldNorthCenter.png; sourceTree = "<group>"; };
+		1717F4ED2457F69B00C7F263 /* SCNStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNStar.swift; sourceTree = "<group>"; };
 		172BC97924568CD2001CEACB /* MapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapList.swift; sourceTree = "<group>"; };
 		172BC97B24568CFD001CEACB /* MapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapItem.swift; sourceTree = "<group>"; };
 		1739F376244AAED700E7F577 /* SomethingChanged.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomethingChanged.swift; sourceTree = "<group>"; };
@@ -186,6 +212,14 @@
 			path = Maps;
 			sourceTree = "<group>";
 		};
+		1717F4EC2457F68C00C7F263 /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				1717F4ED2457F69B00C7F263 /* SCNStar.swift */,
+			);
+			path = Shapes;
+			sourceTree = "<group>";
+		};
 		1739F378244AD42C00E7F577 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +289,18 @@
 			isa = PBXGroup;
 			children = (
 				17BE6866242C7A99009861E1 /* Flatland */,
+				1717F4E02457D75500C7F263 /* NASAStarMapInverted.png */,
+				1717F4E22457D75600C7F263 /* NASAStarMapInvertedNorthCenter.png */,
+				1717F4E12457D75500C7F263 /* NASAStarMapInvertedSouthCenter.png */,
+				1717F4DA2457D73300C7F263 /* TychoSky.png */,
+				1717F4DB2457D73300C7F263 /* TychoSkyNorthCenter.png */,
+				1717F4DC2457D73400C7F263 /* TychoSkySouthCenter.png */,
+				1717F4D62457D72600C7F263 /* GaiaSky.png */,
+				1717F4D42457D72500C7F263 /* GaiaSkyNorthCenter.png */,
+				1717F4D52457D72500C7F263 /* GaiaSkySouthCenter.png */,
+				1717F4E72457D77400C7F263 /* BubbleWorld.png */,
+				1717F4E82457D77400C7F263 /* BubbleWorldNorthCenter.png */,
+				1717F4E62457D77300C7F263 /* BubbleWorldSouthCenter.png */,
 				17C80C152454233F00E27112 /* WorldVoronoi.png */,
 				17C80C162454234000E27112 /* WorldVoronoiNorthCenter.png */,
 				17C80C142454233F00E27112 /* WorldVoronoiSouthCenter.png */,
@@ -300,6 +346,7 @@
 		17BE6866242C7A99009861E1 /* Flatland */ = {
 			isa = PBXGroup;
 			children = (
+				1717F4EC2457F68C00C7F263 /* Shapes */,
 				17026470244C202100DEE96A /* Maps */,
 				17AC32AC244D3CD800CDA5F3 /* Keypad */,
 				1792BD7824304787006ABD02 /* Astronomy */,
@@ -391,6 +438,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1757986024555840001980EE /* WorldUkiyoe1.png in Resources */,
+				1717F4D72457D72600C7F263 /* GaiaSkyNorthCenter.png in Resources */,
+				1717F4D82457D72600C7F263 /* GaiaSkySouthCenter.png in Resources */,
+				1717F4DD2457D73400C7F263 /* TychoSky.png in Resources */,
+				1717F4DF2457D73400C7F263 /* TychoSkySouthCenter.png in Resources */,
 				1757986824555900001980EE /* EarthTopoGlowingEdges1.png in Resources */,
 				17BE6874242C7A9C009861E1 /* LaunchScreen.storyboard in Resources */,
 				1757985A245557DA001980EE /* WorldSpotColorNorthCenter.png in Resources */,
@@ -405,24 +456,32 @@
 				17C80C052454223900E27112 /* WorldPolygonizeSouthCenter.png in Resources */,
 				17C80C062454223900E27112 /* WorldPolygonizeNorthCenter.png in Resources */,
 				17C80C072454223900E27112 /* WorldPolygonize.png in Resources */,
+				1717F4EA2457D77400C7F263 /* BubbleWorld.png in Resources */,
 				17C80BFF24540FCC00E27112 /* WorldSkeletonNorthCenter.png in Resources */,
 				175798542455530B001980EE /* WorldWarholNorthCenter.png in Resources */,
 				17C80C0024540FCC00E27112 /* WorldSkeletonSouthCenter.png in Resources */,
+				1717F4D92457D72600C7F263 /* GaiaSky.png in Resources */,
 				17C80C0124540FCC00E27112 /* WorldSkeleton.png in Resources */,
 				175798532455530B001980EE /* WorldWarholSouthCenter.png in Resources */,
+				1717F4E92457D77400C7F263 /* BubbleWorldSouthCenter.png in Resources */,
 				17C80BF924540D5900E27112 /* WorldBluePrint.png in Resources */,
 				17C80BFA24540D5900E27112 /* WorldBluePrintSouthCenter.png in Resources */,
 				17C80BFB24540D5900E27112 /* WorldBluePrintNorthCenter.png in Resources */,
 				17C80BF32454057F00E27112 /* WorldNormalizedTilesNorthCenter.png in Resources */,
 				17C80BF42454057F00E27112 /* WorldNormalizedTiles.png in Resources */,
 				1757986124555840001980EE /* WorldUkiyoe1SouthCenter.png in Resources */,
+				1717F4E42457D75600C7F263 /* NASAStarMapInvertedSouthCenter.png in Resources */,
+				1717F4DE2457D73400C7F263 /* TychoSkyNorthCenter.png in Resources */,
 				17C80BF52454057F00E27112 /* WorldNormalizedTilesSouthCenter.png in Resources */,
 				17BE6871242C7A9C009861E1 /* Assets.xcassets in Resources */,
+				1717F4EB2457D77400C7F263 /* BubbleWorldNorthCenter.png in Resources */,
 				17AC32AE244D3CF800CDA5F3 /* Keypad.storyboard in Resources */,
 				1757985B245557DA001980EE /* WorldSpotColorSouthCenter.png in Resources */,
 				1757986724555900001980EE /* EarthTopoGlowingEdges1SouthCenter.png in Resources */,
 				1757986224555840001980EE /* WorldUkiyoe1NorthCenter.png in Resources */,
+				1717F4E32457D75600C7F263 /* NASAStarMapInverted.png in Resources */,
 				1757985C245557DA001980EE /* WorldSpotColor.png in Resources */,
+				1717F4E52457D75600C7F263 /* NASAStarMapInvertedNorthCenter.png in Resources */,
 				17BE686F242C7A99009861E1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -452,6 +511,7 @@
 				173A9263242F32E100363576 /* SingleTask.swift in Sources */,
 				17ADB45C243D636E002E5F88 /* +ArcLayer.swift in Sources */,
 				17D825112448547D00323C1D /* MapSettings.swift in Sources */,
+				1717F4EE2457F69B00C7F263 /* SCNStar.swift in Sources */,
 				17865A6824499D8000DEED75 /* GlobeView.swift in Sources */,
 				1792BD8624305173006ABD02 /* Utility.swift in Sources */,
 				1789A3EB244EDDCB007E3526 /* DebugNavigationViewer.swift in Sources */,
