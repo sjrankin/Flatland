@@ -216,7 +216,7 @@ class CitySelectorView: UITableViewController, UIPickerViewDelegate, UIPickerVie
             }
             else
             {
-                let OldTextBG = TextField.backgroundColor!
+                let OldTextBG = UIColor.white
                 TextField.textColor = UIColor.yellow
                 TextField.backgroundColor = UIColor.red
                 UIView.animate(withDuration: 0.5,
@@ -224,13 +224,6 @@ class CitySelectorView: UITableViewController, UIPickerViewDelegate, UIPickerVie
                     {
                         TextField.textColor = UIColor.black
                         TextField.backgroundColor = OldTextBG
-                }, completion:
-                    {
-                        Completed in
-                        if Completed
-                        {
-                            TextField.text = ""
-                        }
                 })
             }
         }
@@ -263,7 +256,7 @@ class CitySelectorView: UITableViewController, UIPickerViewDelegate, UIPickerVie
             }
             else
             {
-                let OldTextBG = TextField.backgroundColor!
+                let OldTextBG = UIColor.white
                 TextField.textColor = UIColor.yellow
                 TextField.backgroundColor = UIColor.red
                 UIView.animate(withDuration: 0.5,
@@ -271,13 +264,6 @@ class CitySelectorView: UITableViewController, UIPickerViewDelegate, UIPickerVie
                     {
                         TextField.textColor = UIColor.black
                         TextField.backgroundColor = OldTextBG
-                }, completion:
-                    {
-                        Completed in
-                        if Completed
-                        {
-                            TextField.text = ""
-                        }
                 })
             }
         }
