@@ -476,6 +476,65 @@ extension UIImage
     }
 }
 
+extension UIColor
+{
+    /// Returns the normalized red value.
+    var r: CGFloat
+    {
+        get
+        {
+            var Red: CGFloat = 0.0
+            var Green: CGFloat = 0.0
+            var Blue: CGFloat = 0.0
+            var Alpha: CGFloat = 0.0
+            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+            return Red
+        }
+    }
+    
+    /// Returns the normalized green value.
+    var g: CGFloat
+    {
+        get
+        {
+            var Red: CGFloat = 0.0
+            var Green: CGFloat = 0.0
+            var Blue: CGFloat = 0.0
+            var Alpha: CGFloat = 0.0
+            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+            return Green
+        }
+    }
+    
+    /// Returns the normalized blue value.
+    var b: CGFloat
+    {
+        get
+        {
+            var Red: CGFloat = 0.0
+            var Green: CGFloat = 0.0
+            var Blue: CGFloat = 0.0
+            var Alpha: CGFloat = 0.0
+            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+            return Blue
+        }
+    }
+    
+    /// Returns the normalized alpha value.
+    var a: CGFloat
+    {
+        get
+        {
+            var Red: CGFloat = 0.0
+            var Green: CGFloat = 0.0
+            var Blue: CGFloat = 0.0
+            var Alpha: CGFloat = 0.0
+            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+            return Alpha
+        }
+    }
+}
+
 /// Time units.
 public enum TimeUnits
 {
