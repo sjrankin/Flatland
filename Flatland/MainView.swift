@@ -159,6 +159,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 let Radial = Angle.Radians
                 var DisplayHour = (Hour + 18) % 24
                 var IncludeSign = false
+
                 switch HourType
                 {
                     case .Solar:
@@ -168,11 +169,32 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                     }
                     
                     case .RelativeToLocation:
-                    DisplayHour = Hour - 18
-                    if DisplayHour < -12
-                    {
-                        DisplayHour = 12 - (DisplayHour * -1) % 12
-                    }
+                        //Only valid if the user has entered local coordinates.
+                        IncludeSign = true
+                        if let LocalLongitude = Settings.GetLocalLongitude()
+                        {
+                            let Long = Int(LocalLongitude / 15.0)
+                            DisplayHour = Hour - 18
+                            if DisplayHour < -12
+                            {
+                                DisplayHour = 12 - (DisplayHour * -1) % 12
+                            }
+                            DisplayHour = DisplayHour * -1
+                            DisplayHour = DisplayHour - Long
+                            if DisplayHour >= 12
+                            {
+                                DisplayHour = 12 - (DisplayHour % 12)
+                                DisplayHour = DisplayHour * -1
+                            }
+                            if DisplayHour < -12
+                            {
+                                DisplayHour = (12 + (DisplayHour % 12))
+                            }
+                            if Settings.GetImageCenter() == .SouthPole
+                            {
+                                DisplayHour = DisplayHour * -1
+                            }
+                        }
                     
                     case .RelativeToNoon:
                     IncludeSign = true
@@ -331,7 +353,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     func MakeLatitudeBands()
     {
         let Time = Date()
-        print("Latitude time: \(Time)")
+        //print("Latitude time: \(Time)")
         for Lat in -90 ..< 90
         {
             let Location = GeoPoint2(42.9584, 141.5630)
