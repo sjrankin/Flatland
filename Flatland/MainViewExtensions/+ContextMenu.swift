@@ -56,6 +56,18 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.SurrealTopographic)
         }
         SubMenu.append(Menu7)
+        let Menu8 = UIAction(title: "Tectonic Plate Map", image: nil)
+        {
+            action in
+            self.SetTexture(.OnlyTectonic)
+        }
+        SubMenu.append(Menu8)
+        let Menu9 = UIAction(title: "Tectonic Overlay", image: nil)
+        {
+            action in
+            self.SetTexture(.TectonicOverlay)
+        }
+        SubMenu.append(Menu9)
         let Menu3 = UIAction(title: "Static Aerosol Map", image: nil)
         {
             action in
@@ -263,7 +275,25 @@ extension MainView: UIContextMenuInteractionDelegate
             action in
             self.SetTexture(.Blueprint)
         }
-        SubMenu.append(Menu11)
+                SubMenu.append(Menu11)
+        let Menu13 = UIAction(title: "Black and White Map", image: nil)
+        {
+            action in
+            self.SetTexture(.BlackWhite)
+        }
+        SubMenu.append(Menu13)
+        let Menu15 = UIAction(title: "Black and White Map (shiny)", image: nil)
+        {
+            action in
+            self.SetTexture(.BlackWhiteShiny)
+        }
+        SubMenu.append(Menu15)
+        let Menu14 = UIAction(title: "White and Black Map", image: nil)
+        {
+            action in
+            self.SetTexture(.WhiteBlack)
+        }
+        SubMenu.append(Menu14)
         let Menu12 = UIAction(title: "Red Spot Color Map", image: nil)
         {
             action in
