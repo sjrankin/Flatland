@@ -61,7 +61,6 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         DebugOffsetPicker.layer.borderWidth = 0.5
         DebugOffsetPicker.layer.cornerRadius = 5.0
         ShowStarsSwitch.isOn = Settings.ShowStars()
-        ShowHoursSwitch.isOn = Settings.GetShowHourLabels()
     }
     
     var Offsets = [Int]()
@@ -125,54 +124,6 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         }
     }
     
-    @IBAction func HandleShowGridChanged(_ sender: Any)
-    {
-        if let Switch = sender as? UISwitch
-        {
-            Settings.SetGrid(Switch.isOn)
-        }
-    }
-    
-    @IBAction func HandleShowEquatorChanged(_ sender: Any)
-    {
-        if let Switch = sender as? UISwitch
-        {
-            Settings.SetEquator(Switch.isOn)
-        }
-    }
-    
-    @IBAction func HandleShowTropicsChanged(_ sender: Any)
-    {
-        if let Switch = sender as? UISwitch
-        {
-            Settings.SetTropics(Switch.isOn)
-        }
-    }
-    
-    @IBAction func HandleShowPrimeMerdiansChanged(_ sender: Any)
-    {
-        if let Switch = sender as? UISwitch
-        {
-            Settings.SetPrimeMeridians(Switch.isOn)
-        }
-    }
-    
-    @IBAction func HandleShowNoonMeridiansChanged(_ sender: Any)
-    {
-        if let Switch = sender as? UISwitch
-        {
-            Settings.SetNoonMeridians(Switch.isOn)
-        }
-    }
-    
-    @IBAction func HandleShowPolarCirclesChanged(_ sender: Any)
-    {
-        if let Switch = sender as? UISwitch
-        {
-            Settings.SetPolarCircles(Switch.isOn)
-        }
-    }
-    
     @IBAction func HandleShowCitiesChanged(_ sender: Any)
     {
         if let Switch = sender as? UISwitch
@@ -201,12 +152,6 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         {
             Settings.SetShowLocalData(Switch.isOn)
         }
-    }
-    
-    @IBSegueAction func Instantiate3DTest(_ coder: NSCoder) -> Test3D?
-    {
-        Delegate?.StopTimers() 
-        return Test3D(coder: coder)
     }
     
     @IBSegueAction func InstantiateMapSettings(_ coder: NSCoder) -> MapSettings?
@@ -239,15 +184,6 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         }
     }
     
-    @IBAction func HandleShowHoursChanged(_ sender: Any)
-    {
-        if let Switch = sender as? UISwitch
-        {
-            Settings.SetShowHourLabels(Switch.isOn)
-        }
-    }
-    
-    @IBOutlet weak var ShowHoursSwitch: UISwitch!
     @IBOutlet weak var ShowStarsSwitch: UISwitch!
     @IBOutlet weak var DebugOffsetPicker: UIPickerView!
     @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
