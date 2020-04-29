@@ -292,16 +292,6 @@ class Settings
         UserDefaults.standard.set(NewType.rawValue, forKey: "GlobeMapType")
     }
     
-    public static func GetShowHourLabels() -> Bool
-    {
-        return UserDefaults.standard.bool(forKey: "ShowHourLabels")
-    }
-    
-    public static func SetShowHourLabels(_ NewValue: Bool)
-    {
-        UserDefaults.standard.set(NewValue, forKey: "ShowHourLabels")
-    }
-    
     public static func GetHourValueType() -> HourValueTypes
     {
         if let Value = UserDefaults.standard.string(forKey: "HourValueType")
@@ -607,6 +597,7 @@ enum ViewTypes: String, CaseIterable
 
 enum HourValueTypes: String, CaseIterable
 {
+    case None = "NoHours"
     case Solar = "RelativeToSolar"
     case RelativeToNoon = "RelativeToNoon"
     case RelativeToLocation = "RelativeToLocation"
