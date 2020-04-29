@@ -133,7 +133,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             HourLayer2D.layer.sublayers?.removeAll()
             return
         }
-        if Settings.GetShowHourLabels()
+        if Settings.GetHourValueType() != .None
         {
             HourLayer2D.isHidden = false
             HourLayer2D.layer.zPosition = 40000
@@ -208,6 +208,9 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                         }
                         DisplayHour = DisplayHour * -1
                     }
+                    
+                    default:
+                    return
                 }
                 
                 let TextNode = CATextLayer()
@@ -425,14 +428,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     /// Called when the user closes the settings view controller, and when the program first starts.
     func SettingsDone()
     {
-        if !Settings.GetShowHourLabels()
-        {
-            HourSegment.selectedSegmentIndex = 0
-        }
-        else
-        {
             switch Settings.GetHourValueType()
             {
+                case .None:
+                    HourSegment.selectedSegmentIndex = 0
+                
                 case .Solar:
                     HourSegment.selectedSegmentIndex = 1
                 
@@ -442,7 +442,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 case .RelativeToLocation:
                     HourSegment.selectedSegmentIndex = 3
             }
-        }
         if GridOverlay.layer.sublayers != nil
         {
             for Layer in GridOverlay.layer.sublayers!
@@ -459,7 +458,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
         UpdateSunLocations()
         WorldViewer3D.UpdateSurfaceTransparency()
-        WorldViewer3D.UpdateHourLabels()
+        WorldViewer3D.UpdateHourLabels(With: Settings.GetHourValueType())
         
         Show2DHours()
         
@@ -1068,6 +1067,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         PleaseWait(.Hide)
     }
     
+    /// Change the map according to what the user set.
     func ChangeMap()
     {
         PleaseWait
@@ -1119,27 +1119,24 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
             switch Segment.selectedSegmentIndex
             {
                 case 0:
-                    Settings.SetShowHourLabels(false)
+                    Settings.SetHourValueType(.None)
                     SettingsDone()
-                    WorldViewer3D.UpdateHourLabels()
+                    WorldViewer3D.UpdateHourLabels(With: .None)
                 
                 case 1:
-                    Settings.SetShowHourLabels(true)
                     Settings.SetHourValueType(.Solar)
                     SettingsDone()
-                    WorldViewer3D.UpdateHourLabels()
+                    WorldViewer3D.UpdateHourLabels(With: .Solar)
                 
                 case 2:
-                    Settings.SetShowHourLabels(true)
                     Settings.SetHourValueType(.RelativeToNoon)
                     SettingsDone()
-                    WorldViewer3D.UpdateHourLabels()
+                    WorldViewer3D.UpdateHourLabels(With: .RelativeToNoon)
                 
                 case 3:
-                    Settings.SetShowHourLabels(true)
                     Settings.SetHourValueType(.RelativeToLocation)
                     SettingsDone()
-                    WorldViewer3D.UpdateHourLabels()
+                    WorldViewer3D.UpdateHourLabels(With: .RelativeToLocation)
                 
                 default:
                 return
