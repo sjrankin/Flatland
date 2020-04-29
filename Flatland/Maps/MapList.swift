@@ -86,6 +86,11 @@ class MapList
             MapItem(.GaiaSky, true, "GaiaSky.png", "GaiaSkyNorthCenter.png", "GaiaSkySouthCenter.png"),
             MapItem(.TychoSky, true, "TychoSky.png", "TychoSkyNorthCenter.png", "TychoSkySouthCenter.png"),
             MapItem(.NASAStarsInverted, true, "NASAStarMapInverted.png", "NASAStarMapInvertedNorthCenter.png", "NASAStarMapInvertedSouthCenter.png"),
+            MapItem(.OnlyTectonic, true, "OnlyPlates2.png", "OnlyPlates2NorthCenter.png", "OnlyPlates2SouthCenter.png"),
+            MapItem(.TectonicOverlay, true, "ColorTectonicsOverlay.png", "ColorTectonicsNorthCenterOverlay.png", "ColorTectonicsSouthCenterOverlay.png"),
+            MapItem(.BlackWhite, true, "BlackWhite.png", "BlackWhiteNorthCenter.png", "BlackWhiteSouthCenter.png"),
+            MapItem(.BlackWhiteShiny, true, "BlackWhiteShiny.png", "BlackWhiteNorthCenter.png", "BlackWhiteSouthCenter.png"),
+                        MapItem(.WhiteBlack, true, "WhiteBlack.png", "WhiteBlackNorthCenter.png", "WhiteBlackSouthCenter.png"),
     ]
 }
 
@@ -147,4 +152,9 @@ enum MapTypes: String, CaseIterable
     case NASAStarsInverted = "Inverted Star Map"
     case TychoSky = "Tycho Star Map"
     case GaiaSky = "Gaia Star Map"
+    case OnlyTectonic = "Tectonic Map"
+    case TectonicOverlay = "Overlayed Tectonic"
+    case BlackWhite = "Black and White Map"
+    case BlackWhiteShiny = "Shiny Black and White Map"
+    case WhiteBlack = "White and Black Map"
 }
