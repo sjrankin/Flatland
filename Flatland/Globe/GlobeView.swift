@@ -47,9 +47,10 @@ class GlobeView: SCNView
     /// Initialize the globe view.
     func InitializeView()
     {
+        self.allowsCameraControl = true
         self.autoenablesDefaultLighting = false
         self.scene = SCNScene()
-        self.backgroundColor = UIColor.clear//UIColor.black
+        self.backgroundColor = UIColor.clear
         
         let Camera = SCNCamera()
         Camera.fieldOfView = 90.0
@@ -102,7 +103,7 @@ class GlobeView: SCNView
     func SetClockMultiplier(_ Multiplier: Double)
     {
         //        ClockMultiplier = Multiplier
-        AddEarth(FastAnimate: true)
+        //AddEarth(FastAnimate: true)
     }
     
     func StopClock()
@@ -181,73 +182,23 @@ class GlobeView: SCNView
         let Degrees = 180.0 - (360.0) * Percent
         let Radians = Degrees.Radians
         let Rotate = SCNAction.rotateTo(x: 0.0, y: CGFloat(-Radians), z: 0.0, duration: 1.0)
+        #if false
+        SystemNode?.runAction(Rotate)
+        #else
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
         LineNode?.runAction(Rotate)
-        #if false
         if Settings.GetHourValueType() == .RelativeToLocation
         {
-            let HourRotation = SCNAction.rotateTo(x: 0.0, y: 0.0, z: CGFloat(-Radians), duration: 1.0)
-            HourNode?.runAction(HourRotation)
-        }
-        else
-        {
-            let Reset = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 0.1)
-            HourNode?.runAction(Reset)
+            HourNode?.runAction(Rotate)
         }
         #endif
     }
     
     var IgnoreClock = false
     
-    /// Draws a cubical Earth for no other reason than being silly.
-    func ShowCubicEarth()
-    {
-        EarthNode?.removeAllActions()
-        EarthNode?.removeFromParentNode()
-        SeaNode?.removeAllActions()
-        SeaNode?.removeFromParentNode()
-        LineNode?.removeAllActions()
-        LineNode?.removeFromParentNode()
-        SystemNode?.removeAllActions()
-        SystemNode?.removeFromParentNode()
-        HourNode?.removeAllActions()
-        HourNode?.removeFromParentNode()
-        
-        let EarthCube = SCNBox(width: 10.0, height: 10.0, length: 10.0, chamferRadius: 0.5)
-        EarthNode = SCNNode(geometry: EarthCube)
-        
-        EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        EarthNode?.geometry?.materials.removeAll()
-        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.nx)!)
-        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.pz)!)
-        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.px)!)
-        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.nz)!)
-        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.ny, Rotated: 270.0)!)
-        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.py, Rotated: 90.0)!)
-        
-        EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
-        EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
-        
-        UpdateHourLabels()
-        
-        let Declination = Sun.Declination(For: Date())
-        SystemNode = SCNNode()
-        SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
-        HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
-        
-        self.prepare([EarthNode!], completionHandler:
-            {
-                success in
-                if success
-                {
-                    self.SystemNode?.addChildNode(self.EarthNode!)
-                    self.scene?.rootNode.addChildNode(self.SystemNode!)
-                }
-        }
-        )
-    }
-    
+    /// Add an Earth view to the 3D view.
+    /// - Parameter FastAnimated: Used for debugging.
     func AddEarth(FastAnimate: Bool = false)
     {
         if Settings.GetViewType() == .CubicWorld
@@ -289,32 +240,33 @@ class GlobeView: SCNView
         
         SystemNode = SCNNode()
         
-        #if false
-        let EarthSphere = SCNBox(width: 10, height: 10, length: 10, chamferRadius: 1)
-        let SeaSphere = SCNBox(width: 10, height: 10, length: 10, chamferRadius: 1)
-        let LineSphere = SCNBox(width: 10.2, height: 1.2, length: 10.2, chamferRadius: 1)
-        #else
         let EarthSphere = SCNSphere(radius: 10.01)
         EarthSphere.segmentCount = 100
         let SeaSphere = SCNSphere(radius: 10)
         SeaSphere.segmentCount = 100
         let LineSphere = SCNSphere(radius: 10.2)
         LineSphere.segmentCount = 100
-        #endif
         
         let MapType = Settings.GetGlobeMapType()
         var BaseMap = UIImage()
         var SecondaryMap = UIImage()
         BaseMap = MapManager.ImageFor(MapType: MapType, ViewType: .Globe3D)!
-        if MapType == .Standard
+        switch MapType
         {
-            SecondaryMap = MapManager.ImageFor(MapType: .StandardSea, ViewType: .Globe3D)!
+            case .Standard:
+                SecondaryMap = MapManager.ImageFor(MapType: .StandardSea, ViewType: .Globe3D)!
+            
+            case .TectonicOverlay:
+                SecondaryMap = MapManager.ImageFor(MapType: .Dithered, ViewType: .Globe3D)!
+            
+            default:
+                break
         }
         
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap
-        EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
+        //EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
         SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
         
@@ -322,6 +274,20 @@ class GlobeView: SCNView
         //Precondition the surfaces.
         switch MapType
         {
+            case .TectonicOverlay:
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
+                //SeaNode?.geometry?.firstMaterial?.specular.contents = nil
+                //SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
+            
+            case .BlackWhiteShiny:
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.white
+                SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.yellow
+                SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
+            
             case .Standard:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -367,7 +333,6 @@ class GlobeView: SCNView
         }
         
         UpdateSurfaceTransparency()
-        UpdateHourLabels()
         
         LineNode = SCNNode(geometry: LineSphere)
         LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -375,14 +340,11 @@ class GlobeView: SCNView
         LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLines
         LineNode?.castsShadow = false
         
-        let Declination = Sun.Declination(For: Date())
-        SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
-        //HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
-        
         PlotCities(On: EarthNode!, WithRadius: 10)
         
-        let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze]
-        self.prepare([EarthNode!, SeaNode!, LineNode!], completionHandler:
+        let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze, .TectonicOverlay,
+                                      .BlackWhiteShiny]
+        self.prepare([EarthNode!, SeaNode!, LineNode!/*, HourNode!*/], completionHandler:
             {
                 success in
                 if success
@@ -398,114 +360,47 @@ class GlobeView: SCNView
         }
         )
         
+        UpdateHourLabels(With: Settings.GetHourValueType())
+        
+        let Declination = Sun.Declination(For: Date())
+        SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+        /*
+         if Settings.GetHourValueType() != .RelativeToLocation && Settings.GetHourValueType() != .None
+         {
+         self.prepare([HourNode!], completionHandler:
+         {
+         success in
+         if success
+         {
+         self.scene?.rootNode.addChildNode(self.HourNode!)
+         }
+         })
+         HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+         }
+         */
+        
         if FastAnimate
         {
             let EarthRotate = SCNAction.rotateBy(x: 0.0, y: 360.0 * CGFloat.pi / 180.0, z: 0.0, duration: 30.0)
             let RotateForever = SCNAction.repeatForever(EarthRotate)
-            EarthNode?.runAction(RotateForever)
-            SeaNode?.runAction(RotateForever)
-            LineNode?.runAction(RotateForever)
+            SystemNode?.runAction(RotateForever)
         }
     }
     
-    /// Create or update or hide hour labels.
-    func UpdateHourLabels()
-    {
-        if Settings.GetShowHourLabels()
-        {
-            HourNode?.removeAllActions()
-            HourNode?.removeFromParentNode()
-            let HourSphere = SCNSphere(radius: 11)
-            HourNode = SCNNode(geometry: HourSphere)
-            HourNode?.position = SCNVector3(0.0, 0.0, 0.0)
-            HourNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
-            HourNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
-            DrawHourLabels(On: HourNode!, Radius: 11)
-            let Declination = Sun.Declination(For: Date())
-            HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
-            self.scene?.rootNode.addChildNode(HourNode!)
-        }
-        else
-        {
-            if HourNode != nil
-            {
-                HourNode?.removeAllActions()
-                HourNode?.removeFromParentNode()
-                HourNode = nil
-            }
-            HourNode = SCNNode()
-        }
-    }
+    var PreviousHourType: HourValueTypes = .None
     
-    /// Draw hour labels floating over the Earth.
-    /// - Parameter On: The parent node.
-    /// - Parameter Radius: The radius of the parent node.
-    func DrawHourLabels(On Node: SCNNode, Radius: Double)
+    /// Finds and removes all sub-nodes in `Parent` with the specified name.
+    /// - Parameter Parent: The parent node whose sub-nodes are checked for nodes to remove.
+    /// - Parameter Named: Name of the sub-node to remove. All sub-nodes with this name will be removed.
+    func RemoveNodeFrom(Parent Node: SCNNode, Named: String)
     {
-        let HourType = Settings.GetHourValueType()
-        for Hour in 0 ... 23
+        for Child in Node.childNodes
         {
-            //Get the angle for the text. The +2.0 is because SCNText geometries start at the X position
-            //and move to the right - to make the text line up closely (but not perfectly) with the noon
-            //sun, adding a small amount adjusts the X position.
-            let Angle = ((CGFloat(Hour) / 24.0) * 360.0) + 2.0
-            let Radians = Angle.Radians
-            //Calculate the display hour.
-            var DisplayHour = 24 - (Hour + 5) % 24 - 1
-            var Prefix = ""
-            switch HourType
+            if Child.name == Named
             {
-                case .Solar:
-                    //Already done.
-                break
-                
-                case .RelativeToLocation:
-                    if let LocalLongitude = Settings.GetLocalLongitude()
-                    {
-                        let Long = Int(LocalLongitude / 15.0)
-                        print("Hour longitude: \(Long), Local longitude: \(LocalLongitude)")
-                        DisplayHour = Hour - 12 - 1
-                        if DisplayHour < -12
-                        {
-                            DisplayHour = 12 - (DisplayHour * -1) % 12
-                        }
-                        DisplayHour = DisplayHour * -1
-                        DisplayHour = DisplayHour - Long
-                        if DisplayHour >= 12
-                        {
-                            DisplayHour = 12 - (DisplayHour % 12)
-                            DisplayHour = DisplayHour * -1
-                        }
-                        if DisplayHour < -12
-                        {
-                            DisplayHour = (12 + (DisplayHour % 12))
-                        }
-                        if DisplayHour > 0
-                        {
-                            Prefix = "+"
-                        }
-                }
-                
-                case .RelativeToNoon:
-                    DisplayHour = DisplayHour - 12
-                    if DisplayHour > 0
-                    {
-                        Prefix = "+"
-                }
+                Child.removeAllActions()
+                Child.removeFromParentNode()
             }
-            let HourText = SCNText(string: "\(Prefix)\(DisplayHour)", extrusionDepth: 5.0)
-            HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
-            HourText.firstMaterial?.diffuse.contents = UIColor.yellow
-            HourText.firstMaterial?.specular.contents = UIColor.white
-            HourText.flatness = 0.1
-            let X = CGFloat(Radius) * cos(Radians)
-            let Z = CGFloat(Radius) * sin(Radians)
-            let HourNode = SCNNode(geometry: HourText)
-            HourNode.scale = SCNVector3(0.07, 0.07, 0.07)
-            HourNode.position = SCNVector3(X, -0.8, Z)
-            let HourRotation = (90.0 - Angle).Radians
-            HourNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
-            Node.addChildNode(HourNode)
         }
     }
     
@@ -515,127 +410,8 @@ class GlobeView: SCNView
         let Alpha = 1.0 - Settings.GetTransparencyLevel()
         EarthNode?.opacity = CGFloat(Alpha)
         SeaNode?.opacity = CGFloat(Alpha)
-    }
-    
-    /// Add the home location to the globe.
-    /// - Note: The home location has shifting colors and rotates to make it obviouse where it is.
-    /// - Parameter Latitude: The latitude of the home location.
-    /// - Parameter Longitude: The longitude of the home location.
-    /// - Parameter ToSurface: The parent node.
-    func AddLocation(Latitude: Double, Longitude: Double, ToSurface: SCNNode)
-    {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: 10)
-        let Home = SCNNode(geometry: SCNBox(width: 5, height: 5, length: 5, chamferRadius: 0.5))
-        Home.name = "HomeLocation"
-        Home.scale = SCNVector3(0.04, 0.04, 0.04)
-        Home.geometry?.firstMaterial?.diffuse.contents = UIColor(hue: 0.0, saturation: 1.0, brightness: 0.5, alpha: 1.0)
-        Home.castsShadow = true
-        Home.position = SCNVector3(X, Y, Z)
-        ToSurface.addChildNode(Home)
-        let ChangeDuration: CGFloat = 3.0
-        var HueValue = 0.0
-        let ColorAction = SCNAction.customAction(duration: Double(ChangeDuration))
-        {
-            (Node, ElapsedTime) in
-            HueValue = HueValue + 0.01
-            if HueValue > 1.0
-            {
-                HueValue = 0.0
-            }
-            Node.geometry?.firstMaterial?.diffuse.contents = UIColor(hue: CGFloat(HueValue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-            Node.geometry?.firstMaterial?.emission.contents = UIColor(hue: CGFloat(HueValue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-        }
-        let ColorForever = SCNAction.repeatForever(ColorAction)
-        Home.runAction(ColorForever)
-        let RotateValue = CGFloat.pi / 180.0 * 360.0
-        let Rotator = SCNAction.rotateBy(x: RotateValue * 1.1,
-                                         y: RotateValue * 0.9,
-                                         z: RotateValue * 0.5,
-                                         duration: Double(ChangeDuration * 3.7))
-        let RotateForever = SCNAction.repeatForever(Rotator)
-        Home.runAction(RotateForever)
-    }
-    
-    /// Plot cities on the Earth.
-    /// - Parameter On: The main sphere node upon which to plot cities.
-    /// - Parameter WithRadius: The radius of there Earth sphere node.
-    func PlotCities(On: SCNNode, WithRadius: CGFloat)
-    {
-        let CityList = Cities()
-        var TestCities = CityList.TopNCities(N: 50, UseMetroPopulation: true)
-        
-        let UserLocations = Settings.GetLocations()
-        for (_, Location, Name, Color) in UserLocations
-        {
-            let UserCity = City(Continent: "NoName", Country: "No Name", Name: Name, Population: nil, MetroPopulation: nil, Latitude: Location.Latitude, Longitude: Location.Longitude)
-            UserCity.CityColor = Color
-            UserCity.IsUserCity = true
-            TestCities.append(UserCity)
-        }
-        
-        if let LocalLongitude = Settings.GetLocalLongitude()
-        {
-            if let LocalLatitude = Settings.GetLocalLatitude()
-            {
-                AddLocation(Latitude: LocalLatitude, Longitude: LocalLongitude, ToSurface: On)
-            }
-        }
-        
-        let CitySize: CGFloat = 0.15
-        for City in TestCities
-        {
-            if City.IsUserCity
-            {
-                let CityShape = SCNCone(topRadius: 0.0, bottomRadius: CitySize, height: CitySize * 3.5)
-                let CityNode = SCNNode(geometry: CityShape)
-                CityNode.geometry?.firstMaterial?.diffuse.contents = City.CityColor
-                CityNode.geometry?.firstMaterial?.emission.contents = City.CityColor
-                CityNode.castsShadow = true
-                let (X, Y, Z) = ToECEF(City.Latitude, City.Longitude, Radius: 10)//Double(10 - (CitySize / 2)))
-                CityNode.position = SCNVector3(X, Y, Z)
-                var NodeRotation = 0.0
-                if City.Latitude >= 0
-                {
-                    NodeRotation = 90.0 - City.Latitude
-                }
-                else
-                {
-                    NodeRotation = -90 + City.Latitude
-                }
-                //print("Node rotation for \(City.Latitude)° is \(NodeRotation)")
-                NodeRotation = NodeRotation.Radians
-                CityNode.eulerAngles = SCNVector3(0.0, NodeRotation, 0.0)
-                On.addChildNode(CityNode)
-            }
-            else
-            {
-                let CityShape = SCNSphere(radius: CitySize)
-                let CityNode = SCNNode(geometry: CityShape)
-                CityNode.geometry?.firstMaterial?.diffuse.contents = City.CityColor
-                CityNode.geometry?.firstMaterial?.emission.contents = UIImage(named: "CitySphereTexture")
-                CityNode.castsShadow = true
-                let (X, Y, Z) = ToECEF(City.Latitude, City.Longitude, Radius: Double(10 - (CitySize / 2)))
-                CityNode.position = SCNVector3(X, Y, Z)
-                On.addChildNode(CityNode)
-            }
-        }
-    }
-    
-    /// Convert the passed latitude and longitude values into a 3D coordinate that can be plotted
-    /// on a sphere.
-    /// - Note: See [How to map latitude and logitude to a 3D sphere](https://stackoverflow.com/questions/36369734/how-to-map-latitude-and-longitude-to-a-3d-sphere)
-    /// - Parameter Latitude: The latitude portion of the 2D coordinate.
-    /// - Parameter Longitude: The longitude portion of the 2D coordinate.
-    /// - Parameter Radius: The radius of the sphere.
-    /// - Returns: Tuple with the X, Y, and Z coordinates for the location on the sphere.
-    func ToECEF(_ Latitude: Double, _ Longitude: Double, Radius: Double) -> (Double, Double, Double)
-    {
-        let Lat = (90 - Latitude).Radians
-        let Lon = (90 + Longitude).Radians
-        let X = -(Radius * sin(Lat) * cos(Lon))
-        let Z = (Radius * sin(Lat) * sin(Lon))
-        let Y = (Radius * cos(Lat))
-        return (X, Y, Z)
+        HourNode?.opacity = CGFloat(Alpha)
+        LineNode?.opacity = CGFloat(Alpha)
     }
     
     var RotationAccumulator: CGFloat = 0.0
@@ -739,6 +515,6 @@ class GlobeView: SCNView
         let Final = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return Final!
-        
     }
 }
+
