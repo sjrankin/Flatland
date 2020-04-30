@@ -19,18 +19,10 @@ extension GlobeView
         switch With
         {
             case .None:
-                if PreviousHourType == .None
-                {
-                    return
-                }
                 RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
                 RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
             
             case .Solar:
-                if PreviousHourType == .Solar
-                {
-                    return
-                }
                 RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
                 RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 HourNode = DrawHourLabels(Radius: 11.1)
@@ -39,10 +31,6 @@ extension GlobeView
                 self.scene?.rootNode.addChildNode(HourNode!)
             
             case .RelativeToNoon:
-                if PreviousHourType == .RelativeToNoon
-                {
-                    return
-                }
                 RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
                 RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 HourNode = DrawHourLabels(Radius: 11.1)
@@ -51,10 +39,6 @@ extension GlobeView
                 self.scene?.rootNode.addChildNode(HourNode!)
             
             case .RelativeToLocation:
-                if PreviousHourType == .RelativeToLocation
-                {
-                    return
-                }
                 RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
                 RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 HourNode = DrawHourLabels(Radius: 11.1)
