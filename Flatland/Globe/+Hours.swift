@@ -64,8 +64,11 @@ extension GlobeView
     }
     
     /// Create an hour node with labels.
+    /// - Note: `.RelativeToLocation` is not available if the user has not entered his location.
+    ///         If no local information is available, nil is returned.
     /// - Parameter Radius: Radial value for where to place hour labels.
-    /// - Returns: The node with the hour labels. Nil if the user does not want to display hours.
+    /// - Returns: The node with the hour labels. Nil if the user does not want to display hours or if
+    ///            `.RelativeToLocation` is selected but no local information is available.
     func DrawHourLabels(Radius: Double) -> SCNNode?
     {
         switch Settings.GetHourValueType()
@@ -80,6 +83,10 @@ extension GlobeView
                 return MakeNoonDeltaHours(Radius: Radius)
             
             case .RelativeToLocation:
+                if Settings.GetLocalLongitude() == nil || Settings.GetLocalLatitude() == nil
+                {
+                    return nil
+                }
                 return MakeRelativeHours(Radius: Radius)
         }
     }
@@ -152,7 +159,7 @@ extension GlobeView
             }
             let HourText = SCNText(string: "\(Prefix)\(DisplayHour)", extrusionDepth: 5.0)
             HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
-            HourText.firstMaterial?.diffuse.contents = UIColor.systemYellow
+            HourText.firstMaterial?.diffuse.contents = UIColor(red: 239.0 / 255.0, green: 204.0 / 255.0, blue: 0.0 / 255.0, alpha: 1.0)
             HourText.firstMaterial?.specular.contents = UIColor.white
             HourText.flatness = 0.1
             let X = CGFloat(Radius) * cos(Radians)
@@ -181,44 +188,30 @@ extension GlobeView
         Node.geometry?.firstMaterial?.specular.contents = UIColor.clear
         Node.name = "Hour Node"
         
+        var HourList = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+        HourList = HourList.Shift(By: -6)
+        let LocalLongitude = Settings.GetLocalLongitude()!
+        let Long = Int(LocalLongitude / 15.0)
+        HourList = HourList.Shift(By: Long)
         for Hour in 0 ... 23
         {
             //Get the angle for the text. The +2.0 is because SCNText geometries start at the X position
             //and move to the right - to make the text line up closely (but not perfectly) with the noon
             //sun, adding a small amount adjusts the X position.
+            let Hour = (Hour + 7) % 24
             let Angle = ((CGFloat(Hour) / 24.0) * 360.0) + 2.0
-            let Radians = Angle.Radians
+            let Radians = (Angle).Radians
             //Calculate the display hour.
             var Prefix = ""
-            var DisplayHour = 24 - (Hour + 5) % 24 - 1
-            if let LocalLongitude = Settings.GetLocalLongitude()
+            let DisplayHour = HourList[Hour]
+            if DisplayHour > 0
             {
-                let Long = Int(LocalLongitude / 15.0)
-                print("Hour longitude: \(Long), Local longitude: \(LocalLongitude)")
-                DisplayHour = Hour - 12 - 1
-                if DisplayHour < -12
-                {
-                    DisplayHour = 12 - (DisplayHour * -1) % 12
-                }
-                DisplayHour = DisplayHour * -1
-                DisplayHour = DisplayHour - Long
-                if DisplayHour >= 12
-                {
-                    DisplayHour = 12 - (DisplayHour % 12)
-                    DisplayHour = DisplayHour * -1
-                }
-                if DisplayHour < -12
-                {
-                    DisplayHour = (12 + (DisplayHour % 12))
-                }
-                if DisplayHour > 0
-                {
-                    Prefix = "+"
-                }
+                Prefix = "+"
             }
+            
             let HourText = SCNText(string: "\(Prefix)\(DisplayHour)", extrusionDepth: 5.0)
             HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
-            HourText.firstMaterial?.diffuse.contents = UIColor.orange
+            HourText.firstMaterial?.diffuse.contents = UIColor(red: 227.0 / 255.0, green: 1.0, blue: 0.0, alpha: 1.0)
             HourText.firstMaterial?.specular.contents = UIColor.white
             HourText.flatness = 0.1
             let X = CGFloat(Radius) * cos(Radians)
