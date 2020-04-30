@@ -266,7 +266,6 @@ class GlobeView: SCNView
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap
-        //EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
         SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
         
@@ -278,8 +277,6 @@ class GlobeView: SCNView
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
-                //SeaNode?.geometry?.firstMaterial?.specular.contents = nil
-                //SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
             
             case .BlackWhiteShiny:
                 SeaNode = SCNNode(geometry: SeaSphere)
@@ -310,7 +307,6 @@ class GlobeView: SCNView
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
             
             case .Pink:
-                //EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.orange
@@ -344,7 +340,7 @@ class GlobeView: SCNView
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze, .TectonicOverlay,
                                       .BlackWhiteShiny]
-        self.prepare([EarthNode!, SeaNode!, LineNode!/*, HourNode!*/], completionHandler:
+        self.prepare([EarthNode!, SeaNode!, LineNode!], completionHandler:
             {
                 success in
                 if success
@@ -364,20 +360,6 @@ class GlobeView: SCNView
         
         let Declination = Sun.Declination(For: Date())
         SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
-        /*
-         if Settings.GetHourValueType() != .RelativeToLocation && Settings.GetHourValueType() != .None
-         {
-         self.prepare([HourNode!], completionHandler:
-         {
-         success in
-         if success
-         {
-         self.scene?.rootNode.addChildNode(self.HourNode!)
-         }
-         })
-         HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
-         }
-         */
         
         if FastAnimate
         {
