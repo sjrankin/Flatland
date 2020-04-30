@@ -535,6 +535,33 @@ extension UIColor
     }
 }
 
+/// Array extensions.
+extension Array
+{
+    /// Shift the contents of an array by a specified amount.
+    /// - Note: See [Shift arrays in Swift](https://stackoverflow.com/questions/31554670/shift-swift-array/44739098)
+    /// - Parameter By: The number of elements to shift the array, positive or negative.
+    /// - Rturns: Shifted array.
+    public func Shift(By Index: Int) -> Array
+    {
+        let AdjustedIndex = Index %% self.count
+        return Array(self[AdjustedIndex ..< self.count] + self[0 ..< AdjustedIndex])
+    }
+}
+
+infix operator %%
+/// Modulo operator.
+/// - Note: See [Shift arrays in Swift](https://stackoverflow.com/questions/31554670/shift-swift-array/44739098)
+/// - dividend: The dividend value.
+/// - divisor: The divisor value. Fails is 0.
+/// - Returns: Infix modulo.
+public func %%(_ dividend: Int, _ divisor: Int) -> Int
+{
+    precondition(divisor > 0, "modulus must be positive")
+    let Reminder = dividend % divisor
+    return Reminder >= 0 ? Reminder: Reminder + divisor
+}
+
 /// Time units.
 public enum TimeUnits
 {
