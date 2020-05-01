@@ -88,6 +88,7 @@
 		17C80C192454234000E27112 /* WorldVoronoiNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C162454234000E27112 /* WorldVoronoiNorthCenter.png */; };
 		17C80C1B2454247A00E27112 /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C80C1A2454247A00E27112 /* FileIO.swift */; };
 		17CC3C61242CC69900CC7F87 /* SettingsNavigationViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */; };
+		17D314D8245BD6AF001E8353 /* +FlatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D314D7245BD6AF001E8353 /* +FlatView.swift */; };
 		17D825112448547D00323C1D /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D825102448547D00323C1D /* MapSettings.swift */; };
 		17DD58FC244AD57500DCCBF8 /* +ContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD58FB244AD57500DCCBF8 /* +ContextMenu.swift */; };
 		17E180F5242F62F700310896 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F4242F62F700310896 /* City.swift */; };
@@ -197,6 +198,7 @@
 		17C80C162454234000E27112 /* WorldVoronoiNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldVoronoiNorthCenter.png; sourceTree = "<group>"; };
 		17C80C1A2454247A00E27112 /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
 		17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationViewer.swift; sourceTree = "<group>"; };
+		17D314D7245BD6AF001E8353 /* +FlatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatView.swift"; sourceTree = "<group>"; };
 		17D825102448547D00323C1D /* MapSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettings.swift; sourceTree = "<group>"; };
 		17DD58FB244AD57500DCCBF8 /* +ContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ContextMenu.swift"; sourceTree = "<group>"; };
 		17E180F4242F62F700310896 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 				17BE686D242C7A99009861E1 /* Main.storyboard */,
 				17BE686B242C7A99009861E1 /* MainView.swift */,
 				17BE6869242C7A99009861E1 /* SceneDelegate.swift */,
+				17D314D6245BD691001E8353 /* Flat */,
 				17F082EF2459544C00AB6460 /* Globe */,
 				1739F379244AD47F00E7F577 /* MainViewExtensions */,
 				1739F378244AD42C00E7F577 /* Settings */,
@@ -407,6 +410,14 @@
 				17BE6872242C7A9C009861E1 /* LaunchScreen.storyboard */,
 			);
 			path = Flatland;
+			sourceTree = "<group>";
+		};
+		17D314D6245BD691001E8353 /* Flat */ = {
+			isa = PBXGroup;
+			children = (
+				17D314D7245BD6AF001E8353 /* +FlatView.swift */,
+			);
+			path = Flat;
 			sourceTree = "<group>";
 		};
 		17E180F6242F645800310896 /* Cities */ = {
@@ -564,6 +575,7 @@
 				177348C5244192F90024590F /* TimeZoneTable.swift in Sources */,
 				17BC1634245007B200CF42CB /* StarField.swift in Sources */,
 				1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */,
+				17D314D8245BD6AF001E8353 /* +FlatView.swift in Sources */,
 				1792BD882430529C006ABD02 /* TimeHelper.swift in Sources */,
 				17E180F8242F646700310896 /* Cities.swift in Sources */,
 				17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */,
