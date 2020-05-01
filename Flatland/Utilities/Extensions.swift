@@ -544,6 +544,10 @@ extension Array
     /// - Rturns: Shifted array.
     public func Shift(By Index: Int) -> Array
     {
+        if Index == 0
+        {
+            return self
+        }
         let AdjustedIndex = Index %% self.count
         return Array(self[AdjustedIndex ..< self.count] + self[0 ..< AdjustedIndex])
     }
