@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+// MARK: - Double extensions.
+
 extension Double
 {
     /// Returns a rounded value of the instance double.
@@ -56,6 +58,8 @@ extension Double
         }
     }
 }
+
+// MARK: - CGFloat extensions.
 
 extension CGFloat
 {
@@ -105,6 +109,8 @@ extension CGFloat
         }
     }
 }
+
+// MARK: - Date extensions.
 
 /// Date extensions.
 /// - Note: See [Converting UTC date formal to local](https://stackoverflow.com/questions/29392874/converting-utc-date-format-to-local-nsdate)
@@ -240,12 +246,48 @@ extension Date
         return Date(timeInterval: Seconds, since: self)
     }
     
+    /// Given a number of seconds, return the number of hours, minutes, and remaining seconds in
+    /// the total count of seconds.
+    /// - Parameter SourceSeconds: Total number of seconds.
+    /// - Returns: Tuple with the number of hours, minutes, and seconds.
     static func SecondsToTime(_ SourceSeconds: Int) -> (Hour: Int, Minute: Int, Second: Int)
     {
         let Hours = SourceSeconds / (60 * 60)
         let Minutes = (SourceSeconds - (Hours * 60 * 60)) / 60
         let Seconds = SourceSeconds - ((Hours * 60 * 60) + (Minutes * 60))
         return (Hours, Minutes, Seconds)
+    }
+    
+    static func PrettyTimeParts(From TotalSeconds: Int, Separator: String = ", ") -> String
+    {
+        if TotalSeconds <= 0
+        {
+            return "0s"
+        }
+        let (Hour, Minute, Second) = SecondsToTime(TotalSeconds)
+        var Parts = [String]()
+        if Hour > 0
+        {
+            Parts.append("\(Hour)h")
+        }
+        if Minute > 0
+        {
+            Parts.append("\(Minute)m")
+        }
+        if Second > 0
+        {
+            Parts.append("\(Second)s")
+        }
+        var Result = ""
+        for Index in 0 ..< Parts.count
+        {
+            Result.append(Parts[Index])
+            if Index < Parts.count - 1
+            {
+                Result.append(Separator)
+            }
+        }
+        return Result
     }
     
     /// Return a date (only the time components are valid) based on the percent of a day that
@@ -443,6 +485,8 @@ extension Date
     }
 }
 
+// MARK: - UIImage extensions.
+
 /// Extension methods for UIImage.
 extension UIImage
 {
@@ -475,6 +519,8 @@ extension UIImage
         return Rotate(Radians: Degrees.Radians)
     }
 }
+
+// MARK: - UIColor extensions.
 
 extension UIColor
 {
@@ -534,6 +580,8 @@ extension UIColor
         }
     }
 }
+
+// MARK: - Array extenions.
 
 /// Array extensions.
 extension Array
