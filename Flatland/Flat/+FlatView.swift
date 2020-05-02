@@ -51,8 +51,23 @@ extension MainView
     
     func MakeLatitudeBands()
     {
+        return
         let Time = Date()
         //print("Latitude time: \(Time)")
+        #if true
+//        let Location = GeoPoint2(42.9584, 141.5630)
+        let Location = GeoPoint2(51.5074,-0.1278)
+//        let SunLib = Sun(Location: Location, Offset: 0)
+        let SunLib = Sun()
+        let Sunrise = SunLib.Sunrise(For: Time, At: Location, TimeZoneOffset: 0)
+        let Sunset = SunLib.Sunset(For: Time, At: Location, TimeZoneOffset: 0)
+        if let (Rise, Set) = SunLib.SunPercents(Sunrise: Sunrise, Sunset: Sunset)
+        {
+            let (RHour, RMinute, RSecond) = Date.SecondsToTime(Int(Rise * 24 * 60 * 60))
+            let (SHour, SMinute, SSecond) = Date.SecondsToTime(Int(Set * 24 * 60 * 60))
+            print("At (\(Location)), Sunrise=\(RHour):\(RMinute):\(RSecond), Sunset=\(SHour):\(SMinute):\(SSecond)")
+        }
+        #else
         for Lat in -90 ..< 90
         {
             let Location = GeoPoint2(42.9584, 141.5630)
@@ -72,6 +87,12 @@ extension MainView
                 //print("At \(Location), Rise%=\(Rise), Set%=\(Set)")
             }
         }
+        #endif
+    }
+    
+    func BandAt(Latitude: Double)
+    {
+        
     }
     
     func GetSunlightPoints()
