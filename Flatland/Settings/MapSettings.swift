@@ -117,9 +117,9 @@ class MapSettings: UITableViewController
             ChangeDelegate?.Changed(Key: "GlobalAlpha", Value: Alpha as Any)
         }
     }
-    
+       
     let ValidTransparencies = [0.0, 0.1, 0.25, 0.35, 0.5]
-    
+
     @IBOutlet weak var TransparencySegment: UISegmentedControl!
     @IBOutlet weak var GapSegment: UISegmentedControl!
     @IBOutlet weak var MinorGridSwitch: UISwitch!
