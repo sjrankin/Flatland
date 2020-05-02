@@ -63,7 +63,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let Center = CGPoint(x: Radius, y: Radius)
         #if false
         let test = MakeArc(Start: 90.0,
-                           End: 270.0,
+                           End: 180.0,
                            Radius: Radius,
                            ArcWidth: 360.0,
                            Center: Center,
@@ -117,6 +117,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
         else
         {
+            /*
             let Location = GeoPoint2(LocalLat!, LocalLon!)
             let SunTimes = Sun()
             if let SunriseTime = SunTimes.Sunrise(For: Date(), At: Location,
@@ -141,6 +142,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 RiseAndSetAvailable = false
                 LocalSunsetLabel.text = "No sunset"
             }
+ */
         }
         let Declination = Sun.Declination(For: Date())
         DeclinitionLabel.text = "\(Declination.RoundedTo(3))°"
