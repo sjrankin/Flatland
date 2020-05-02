@@ -13,32 +13,11 @@ import UIKit
 class Sun
 {
     /// Default initializer.
-    /// - Note: If this initializer is called, unless you set `ClassLatitude`, `ClassLongitude`,
-    ///         and `ClassTimeZoneOffset` manually, you will get a fatal error if you call the
-    ///         incorrect version of `Sunrise` or `Sunset` (specifically those version that do not
-    ///         pass the location).
     init()
     {
-        ClassLatitude = nil
-        ClassLongitude = nil
     }
     
-    /// Initializer.
-    /// - Parameter Location: The location whose relation to the location of the sun is resolved here.
-    /// - Parameter Zenith: The zenith of the sky. Defaults to `90.833`.
-    /// - Parameter Offset: Time zone offset in number of seconds from UT.
-    init(Location: GeoPoint2, Zenith: Double = 90.833, Offset: Int)
-    {
-        self.Zenith = Zenith
-        ClassTimeZoneOffset = Offset
-        ClassLatitude = Location.Latitude
-        ClassLongitude = Location.Longitude
-    }
-    
-    var ClassLatitude: Double? = nil
-    var ClassLongitude: Double? = nil
     var Zenith: Double = 90.83
-    var ClassTimeZoneOffset: Int? = nil
     
     /// "Normalizes" the passed value between 0.0 and `Max`.
     /// - Parameter Value: The value to normalized.
@@ -73,13 +52,13 @@ class Sun
     ///            If nil is returned, there is no sunset or sunrise, depending on the value of
     ///            `ForRise` - in other words, if you pass `true` in `ForRise` and nil is returned,
     ///            there was no sunrise on the given date at the given location.
-    func SunriseSunset(_ TargetDate: Date, Latitude: Double, Longitude: Double, Offset: Int, ForRise: Bool = true) -> Date?
+    func SunriseSunset(_ TargetDate: Date, Latitude: Double, Longitude: Double, Offset: Int, ForRise: Bool = true) -> (Date?, Int?)
     {
         var Cal = Calendar(identifier: .gregorian)
         Cal.timeZone = TimeZone(identifier: "UTC")!
         guard let NI = Cal.ordinality(of: .day, in: .year, for: TargetDate) else
         {
-            return nil
+            return (nil, nil)
         }
         let N: Double = Double(NI)
         let RadLatitude = Latitude.Radians
@@ -108,7 +87,7 @@ class Sun
         if RA.isNaN
         {
             //print("RA calculation failed.")
-            return nil
+            return (nil, nil)
         }
         RA = Normalize(RA, Max: 360.0)
         let LQuad = floor(L / 90.0) * 90.0
@@ -125,7 +104,7 @@ class Sun
             if CosH > 1.0
             {
                 //print("CosH=\(CosH): No sun rise.")
-                return nil
+                return (nil, nil)
             }
         }
         else
@@ -133,7 +112,7 @@ class Sun
             if CosH < -1.0
             {
                 //print("CosH=\(CosH): No sun set.")
-                return nil
+                return (nil, nil)
             }
         }
         
@@ -141,7 +120,7 @@ class Sun
         if H.isNaN
         {
             //print("H calculation failed.")
-            return nil
+            return (nil, nil)
         }
         if !ForRise
         {
@@ -172,9 +151,11 @@ class Sun
         Components.hour = Int(Hour)
         Components.minute = Int(Minute)
         Components.second = Int(Second)
-        Cal.timeZone = TimeZone(identifier: "UTC")!
+        let TotalSeconds = Int(Second) + Int(Minute * 60) + Int(Hour * 60 * 60)
+        //Cal.timeZone = TimeZone(identifier: "UTC")!
         let AlmostFinal = Cal.date(from: Components)
-        return Date(timeInterval: 60 * 60 * Double(Offset), since: AlmostFinal!)
+        print("AlmostFinal=\((AlmostFinal)!), ForRise=\(ForRise), Offset=\(Offset)")
+        return (Date(timeInterval: 60 * 60 * Double(Offset), since: AlmostFinal!), TotalSeconds)
     }
     
     /// Returns the sunrise time for the passed location and date.
@@ -187,7 +168,36 @@ class Sun
     ///            parameters. If nil is returned, there was no sunrise at that location and date.
     func Sunrise(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Date?
     {
-        return SunriseSunset(TargetDate, Latitude: Location.Latitude, Longitude: Location.Longitude, Offset: TimeZoneOffset, ForRise: true)
+        let (SunriseFor, _) = SunriseSunset(TargetDate,
+                             Latitude: Location.Latitude,
+                             Longitude: Location.Longitude,
+                             Offset: TimeZoneOffset,
+                             ForRise: true)
+        print("SunriseFor=\((SunriseFor)!)")
+        return SunriseFor
+    }
+    
+    func SunriseAsSeconds(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Int?
+    {
+        let (s, Seconds) = SunriseSunset(TargetDate,
+                                         Latitude: Location.Latitude,
+                                         Longitude: Location.Longitude,
+                                         Offset: TimeZoneOffset,
+                                         ForRise: true)
+        if s == nil
+        {
+            fatalError("huh?")
+        }
+        var fs = s!
+        fs = fs.ToUTC()
+        let Cal = Calendar.current
+        let h = Cal.component(.hour, from: fs)
+        let m = Cal.component(.minute, from: fs)
+        let sc = Cal.component(.second, from: fs)
+        print("Sunrise seconds: \((Seconds)!), \(fs): \(h),\(m),\(sc)")
+        let Final = (h * 60 * 60) + (m * 60) + sc
+        return Final
+//    return Seconds
     }
     
     /// Returns the sunset time for the passed location and date.
@@ -200,43 +210,36 @@ class Sun
     ///            parameters. If nil is returned, there was no sunset at that location and date.
     func Sunset(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Date?
     {
-        return SunriseSunset(TargetDate,
+        let (SunsetFor, _) = SunriseSunset(TargetDate,
                              Latitude: Location.Latitude,
                              Longitude: Location.Longitude,
                              Offset: TimeZoneOffset,
                              ForRise: false)
+        print("SunsetFor=\((SunsetFor)!)")
+        return SunsetFor
     }
     
-    /// Returns the sunrise for the previously set (via the initializer or by setting the `ClassLatitude`
-    /// `ClassLongitude`, **and** `ClassTimeZoneOffset` manually) location.
-    /// - Warning: If any of `ClassLatitude`, `ClassLongitude`, of `ClassTimeZoneOffset` is nil, a
-    ///            fatal error will be generated.
-    /// - Parameter For: The date whose sunrise will be returned.
-    /// - Returns: The time for the sunrise in the previously set location. If nil, no sunrise at that
-    ///            location on the passed date.
-    func Sunrise(For TargetDate: Date) -> Date?
+    func SunsetAsSeconds(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Int?
     {
-        if ClassLatitude == nil || ClassLongitude == nil || ClassTimeZoneOffset == nil
+        let (s, Seconds) = SunriseSunset(TargetDate,
+                                         Latitude: Location.Latitude,
+                                         Longitude: Location.Longitude,
+                                         Offset: TimeZoneOffset,
+                                         ForRise: false)
+        if s == nil
         {
-            fatalError("Location not set for sunrise.")
+            fatalError("huh?")
         }
-        return Sunrise(For: TargetDate, At: GeoPoint2(ClassLatitude!, ClassLongitude!), TimeZoneOffset: ClassTimeZoneOffset!)
-    }
-    
-    /// Returns the sunset for the previously set (via the initializer or by setting the `ClassLatitude`
-    /// `ClassLongitude`, **and** `ClassTimeZoneOffset` manually) location.
-    /// - Warning: If any of `ClassLatitude`, `ClassLongitude`, of `ClassTimeZoneOffset` is nil, a
-    ///            fatal error will be generated.
-    /// - Parameter For: The date whose sunset will be returned.
-    /// - Returns: The time for the sunset in the previously set location. If nil, no sunset at that
-    ///            location on the passed date.
-    func Sunset(For TargetDate: Date) -> Date?
-    {
-        if ClassLatitude == nil || ClassLongitude == nil || ClassTimeZoneOffset == nil
-        {
-            fatalError("Location not set for sunset.")
-        }
-        return Sunset(For: TargetDate, At: GeoPoint2(ClassLatitude!, ClassLongitude!), TimeZoneOffset: ClassTimeZoneOffset!)
+        var fs = s!
+        fs = fs.ToUTC()
+        let Cal = Calendar.current
+        let h = Cal.component(.hour, from: fs)
+        let m = Cal.component(.minute, from: fs)
+        let sc = Cal.component(.second, from: fs)
+        print("Sunset seconds: \((Seconds)!), \(fs): \(h),\(m),\(sc)")
+        let Final = (h * 60 * 60) + (m * 60) + sc
+        return Final
+//        return Seconds
     }
     
     /// Return the number of seconds for the `.Second`, `.Minute`, and `.Hour` components of the
