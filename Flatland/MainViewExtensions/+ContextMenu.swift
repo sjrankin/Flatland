@@ -485,6 +485,12 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.LunarGeoMap)
         }
         SubMenu.append(Menu5)
+        let Menu9 = UIAction(title: "Jupiter", image: nil)
+        {
+            action in
+            self.SetTexture(.Jupiter)
+        }
+        SubMenu.append(Menu9)
         let Menu6 = UIAction(title: "Gaia Sky Map", image: nil)
         {
             action in
