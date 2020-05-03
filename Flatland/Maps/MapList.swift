@@ -90,7 +90,8 @@ class MapList
             MapItem(.TectonicOverlay, true, "ColorTectonicsOverlay.png", "ColorTectonicsNorthCenterOverlay.png", "ColorTectonicsSouthCenterOverlay.png"),
             MapItem(.BlackWhite, true, "BlackWhite.png", "BlackWhiteNorthCenter.png", "BlackWhiteSouthCenter.png"),
             MapItem(.BlackWhiteShiny, true, "BlackWhiteShiny.png", "BlackWhiteNorthCenter.png", "BlackWhiteSouthCenter.png"),
-                        MapItem(.WhiteBlack, true, "WhiteBlack.png", "WhiteBlackNorthCenter.png", "WhiteBlackSouthCenter.png"),
+            MapItem(.WhiteBlack, true, "WhiteBlack.png", "WhiteBlackNorthCenter.png", "WhiteBlackSouthCenter.png"),
+            MapItem(.Jupiter, true, "Jupiter.png", "JupiterNorthCenter.png", "JupiterSouthCenter.png"),
     ]
 }
 
@@ -157,4 +158,5 @@ enum MapTypes: String, CaseIterable
     case BlackWhite = "Black and White Map"
     case BlackWhiteShiny = "Shiny Black and White Map"
     case WhiteBlack = "White and Black Map"
+    case Jupiter = "Jupiter"
 }
