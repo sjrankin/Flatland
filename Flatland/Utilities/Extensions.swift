@@ -579,6 +579,57 @@ extension UIColor
             return Alpha
         }
     }
+    
+    static func Random(MinRed: CGFloat = 0.5, MinGreen: CGFloat = 0.5, MinBlue: CGFloat = 0.5) -> UIColor
+    {
+        let Red = CGFloat.random(in: MinRed ... 1.0)
+        let Green = CGFloat.random(in: MinGreen ... 1.0)
+        let Blue = CGFloat.random(in: MinBlue ... 1.0)
+        return UIColor(red: Red, green: Green, blue: Blue, alpha: 1.0)
+    }
+    
+    static func Random(MaxRed: CGFloat = 0.5, MaxGreen: CGFloat = 0.5, MaxBlue: CGFloat = 0.5) -> UIColor
+    {
+        let Red = CGFloat.random(in: 0.0 ... MaxRed)
+        let Green = CGFloat.random(in: 0.0 ... MaxGreen)
+        let Blue = CGFloat.random(in: 0.0 ... MaxBlue)
+        return UIColor(red: Red, green: Green, blue: Blue, alpha: 1.0)
+    }
+    
+    static func Random() -> UIColor
+    {
+        let Red = CGFloat.random(in: 0.0 ... 1.0)
+        let Green = CGFloat.random(in: 0.0 ... 1.0)
+        let Blue = CGFloat.random(in: 0.0 ... 1.0)
+        return UIColor(red: Red, green: Green, blue: Blue, alpha: 1.0)
+    }
+    
+    static func Random(RedLow: CGFloat = 0.2, RedHigh: CGFloat = 0.8, GreenLow: CGFloat = 0.2,
+        GreenHigh: CGFloat = 0.8, BlueLow: CGFloat = 0.2, BlueHigh: CGFloat = 0.8) -> UIColor
+    {
+        var ARedLow = RedLow
+        var ARedHigh = RedHigh
+        if ARedLow > ARedHigh
+        {
+            swap(&ARedLow, &ARedHigh)
+        }
+        var AGreenLow = GreenLow
+        var AGreenHigh = GreenHigh
+        if AGreenLow > AGreenHigh
+        {
+            swap(&AGreenLow, &AGreenHigh)
+        }
+        var ABlueLow = BlueLow
+        var ABlueHigh = BlueHigh
+        if ABlueLow > ABlueHigh
+        {
+            swap(&ABlueLow, &ABlueHigh)
+        }
+        let Red = CGFloat.random(in: ARedLow ... ARedHigh)
+        let Green = CGFloat.random(in: AGreenLow ... AGreenHigh)
+        let Blue = CGFloat.random(in: ABlueLow ... ABlueHigh)
+        return UIColor(red: Red, green: Green, blue: Blue, alpha: 1.0)
+    }
 }
 
 // MARK: - Array extenions.
