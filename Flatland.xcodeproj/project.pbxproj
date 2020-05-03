@@ -59,6 +59,9 @@
 		17ADB45C243D636E002E5F88 /* +ArcLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ADB45B243D636E002E5F88 /* +ArcLayer.swift */; };
 		17ADB45E243D651A002E5F88 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ADB45D243D651A002E5F88 /* Extensions.swift */; };
 		17AE7F3E245D03120011160F /* SolarCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AE7F3D245D03120011160F /* SolarCalculator.swift */; };
+		17AE7F42245D8E290011160F /* JupiterNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17AE7F3F245D8E270011160F /* JupiterNorthCenter.png */; };
+		17AE7F43245D8E290011160F /* JupiterSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17AE7F40245D8E280011160F /* JupiterSouthCenter.png */; };
+		17AE7F44245D8E290011160F /* Jupiter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17AE7F41245D8E280011160F /* Jupiter.png */; };
 		17BC1634245007B200CF42CB /* StarField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BC1633245007B200CF42CB /* StarField.swift */; };
 		17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6867242C7A99009861E1 /* AppDelegate.swift */; };
 		17BE686A242C7A99009861E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BE6869242C7A99009861E1 /* SceneDelegate.swift */; };
@@ -169,6 +172,9 @@
 		17ADB45B243D636E002E5F88 /* +ArcLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ArcLayer.swift"; sourceTree = "<group>"; };
 		17ADB45D243D651A002E5F88 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		17AE7F3D245D03120011160F /* SolarCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarCalculator.swift; sourceTree = "<group>"; };
+		17AE7F3F245D8E270011160F /* JupiterNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = JupiterNorthCenter.png; sourceTree = "<group>"; };
+		17AE7F40245D8E280011160F /* JupiterSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = JupiterSouthCenter.png; sourceTree = "<group>"; };
+		17AE7F41245D8E280011160F /* Jupiter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Jupiter.png; sourceTree = "<group>"; };
 		17BC1633245007B200CF42CB /* StarField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarField.swift; sourceTree = "<group>"; };
 		17BE6864242C7A99009861E1 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17BE6867242C7A99009861E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -383,6 +389,9 @@
 				1757986524555900001980EE /* EarthTopoGlowingEdges1.png */,
 				1757986324555900001980EE /* EarthTopoGlowingEdges1NorthCenter.png */,
 				1757986424555900001980EE /* EarthTopoGlowingEdges1SouthCenter.png */,
+				17AE7F41245D8E280011160F /* Jupiter.png */,
+				17AE7F3F245D8E270011160F /* JupiterNorthCenter.png */,
+				17AE7F40245D8E280011160F /* JupiterSouthCenter.png */,
 				17BE6865242C7A99009861E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -514,12 +523,14 @@
 				1717F4D72457D72600C7F263 /* GaiaSkyNorthCenter.png in Resources */,
 				1717F4D82457D72600C7F263 /* GaiaSkySouthCenter.png in Resources */,
 				1717F4DD2457D73400C7F263 /* TychoSky.png in Resources */,
+				17AE7F42245D8E290011160F /* JupiterNorthCenter.png in Resources */,
 				1717F4DF2457D73400C7F263 /* TychoSkySouthCenter.png in Resources */,
 				1757986824555900001980EE /* EarthTopoGlowingEdges1.png in Resources */,
 				17BE6874242C7A9C009861E1 /* LaunchScreen.storyboard in Resources */,
 				1757985A245557DA001980EE /* WorldSpotColorNorthCenter.png in Resources */,
 				17C80C172454234000E27112 /* WorldVoronoiSouthCenter.png in Resources */,
 				175798562455533B001980EE /* WorldWarhol.png in Resources */,
+				17AE7F44245D8E290011160F /* Jupiter.png in Resources */,
 				17C80C182454234000E27112 /* WorldVoronoi.png in Resources */,
 				17C80C192454234000E27112 /* WorldVoronoiNorthCenter.png in Resources */,
 				17C80C0B2454228E00E27112 /* WorldInkColorNorthCenter.png in Resources */,
@@ -548,6 +559,7 @@
 				1757986124555840001980EE /* WorldUkiyoe1SouthCenter.png in Resources */,
 				17F0831D245999CA00AB6460 /* BlackWhiteShiny.png in Resources */,
 				17F0831A2459755D00AB6460 /* BlackWhite.png in Resources */,
+				17AE7F43245D8E290011160F /* JupiterSouthCenter.png in Resources */,
 				17F0830324595ACA00AB6460 /* ColorTectonicsNorthCenterOverlay.png in Resources */,
 				1717F4E42457D75600C7F263 /* NASAStarMapInvertedSouthCenter.png in Resources */,
 				17F083152459755800AB6460 /* WhiteBlackSouthCenter.png in Resources */,
