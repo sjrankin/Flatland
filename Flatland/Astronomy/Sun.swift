@@ -152,9 +152,7 @@ class Sun
         Components.minute = Int(Minute)
         Components.second = Int(Second)
         let TotalSeconds = Int(Second) + Int(Minute * 60) + Int(Hour * 60 * 60)
-        //Cal.timeZone = TimeZone(identifier: "UTC")!
         let AlmostFinal = Cal.date(from: Components)
-        print("AlmostFinal=\((AlmostFinal)!), ForRise=\(ForRise), Offset=\(Offset)")
         return (Date(timeInterval: 60 * 60 * Double(Offset), since: AlmostFinal!), TotalSeconds)
     }
     
@@ -169,35 +167,34 @@ class Sun
     func Sunrise(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Date?
     {
         let (SunriseFor, _) = SunriseSunset(TargetDate,
-                             Latitude: Location.Latitude,
-                             Longitude: Location.Longitude,
-                             Offset: TimeZoneOffset,
-                             ForRise: true)
-        print("SunriseFor=\((SunriseFor)!)")
+                                            Latitude: Location.Latitude,
+                                            Longitude: Location.Longitude,
+                                            Offset: TimeZoneOffset,
+                                            ForRise: true)
         return SunriseFor
     }
     
     func SunriseAsSeconds(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Int?
     {
-        let (s, Seconds) = SunriseSunset(TargetDate,
-                                         Latitude: Location.Latitude,
-                                         Longitude: Location.Longitude,
-                                         Offset: TimeZoneOffset,
-                                         ForRise: true)
-        if s == nil
+        let (s, _) = SunriseSunset(TargetDate,
+                                   Latitude: Location.Latitude,
+                                   Longitude: Location.Longitude,
+                                   Offset: TimeZoneOffset,
+                                   ForRise: true)
+        if var fs = s
         {
-            fatalError("huh?")
+            fs = fs.ToUTC()
+            let Cal = Calendar.current
+            let h = Cal.component(.hour, from: fs)
+            let m = Cal.component(.minute, from: fs)
+            let sc = Cal.component(.second, from: fs)
+            let Final = (h * 60 * 60) + (m * 60) + sc
+            return Final
         }
-        var fs = s!
-        fs = fs.ToUTC()
-        let Cal = Calendar.current
-        let h = Cal.component(.hour, from: fs)
-        let m = Cal.component(.minute, from: fs)
-        let sc = Cal.component(.second, from: fs)
-        print("Sunrise seconds: \((Seconds)!), \(fs): \(h),\(m),\(sc)")
-        let Final = (h * 60 * 60) + (m * 60) + sc
-        return Final
-//    return Seconds
+        else
+        {
+            return 0
+        }
     }
     
     /// Returns the sunset time for the passed location and date.
@@ -211,35 +208,34 @@ class Sun
     func Sunset(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Date?
     {
         let (SunsetFor, _) = SunriseSunset(TargetDate,
-                             Latitude: Location.Latitude,
-                             Longitude: Location.Longitude,
-                             Offset: TimeZoneOffset,
-                             ForRise: false)
-        print("SunsetFor=\((SunsetFor)!)")
+                                           Latitude: Location.Latitude,
+                                           Longitude: Location.Longitude,
+                                           Offset: TimeZoneOffset,
+                                           ForRise: false)
         return SunsetFor
     }
     
     func SunsetAsSeconds(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Int?
     {
-        let (s, Seconds) = SunriseSunset(TargetDate,
-                                         Latitude: Location.Latitude,
-                                         Longitude: Location.Longitude,
-                                         Offset: TimeZoneOffset,
-                                         ForRise: false)
-        if s == nil
+        let (s, _) = SunriseSunset(TargetDate,
+                                   Latitude: Location.Latitude,
+                                   Longitude: Location.Longitude,
+                                   Offset: TimeZoneOffset,
+                                   ForRise: false)
+        if var fs = s
         {
-            fatalError("huh?")
+            fs = fs.ToUTC()
+            let Cal = Calendar.current
+            let h = Cal.component(.hour, from: fs)
+            let m = Cal.component(.minute, from: fs)
+            let sc = Cal.component(.second, from: fs)
+            let Final = (h * 60 * 60) + (m * 60) + sc
+            return Final
         }
-        var fs = s!
-        fs = fs.ToUTC()
-        let Cal = Calendar.current
-        let h = Cal.component(.hour, from: fs)
-        let m = Cal.component(.minute, from: fs)
-        let sc = Cal.component(.second, from: fs)
-        print("Sunset seconds: \((Seconds)!), \(fs): \(h),\(m),\(sc)")
-        let Final = (h * 60 * 60) + (m * 60) + sc
-        return Final
-//        return Seconds
+        else
+        {
+            return 24 * 60 * 60
+        }
     }
     
     /// Return the number of seconds for the `.Second`, `.Minute`, and `.Hour` components of the
