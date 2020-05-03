@@ -92,6 +92,12 @@ class MapList
             MapItem(.BlackWhiteShiny, true, "BlackWhiteShiny.png", "BlackWhiteNorthCenter.png", "BlackWhiteSouthCenter.png"),
             MapItem(.WhiteBlack, true, "WhiteBlack.png", "WhiteBlackNorthCenter.png", "WhiteBlackSouthCenter.png"),
             MapItem(.Jupiter, true, "Jupiter.png", "JupiterNorthCenter.png", "JupiterSouthCenter.png"),
+            MapItem(.SquareWorld, true, "WorldSquare.png", "WorldSquareNorthCenter.png", "WorldSquareSouthCenter.png"),
+            MapItem(.LevelWorld, true, "WorldSquareLevels.png", "WorldSquareLevelsNorthCenter.png", "WorldSquareLevelsSouthCentered.png"),
+            MapItem(.GlowingCoasts, true, "WorldGlowingCoasts.png", "WorldGlowingCoastsNorthCenter.png", "WorldGlowingCoastsSouthCenter.png"),
+            MapItem(.StainedGlass, true, "WorldStainedGlass1.png", "WorldStainedGlass1NorthCenter.png", "WorldStainedGlassSouthCenter.png"),
+            MapItem(.PaperWorld, true, "PaperWorld.png", "PaperWorldNorthCenter.png", "PaperWorldSouthCenter.png"),
+            MapItem(.ASCIIArt1, true, "WorldASCIIArt.png", "WorldASCIIArtNorthCenter.png", "WorldASCIIArtSouthCenter.png"),
     ]
 }
 
@@ -159,4 +165,10 @@ enum MapTypes: String, CaseIterable
     case BlackWhiteShiny = "Shiny Black and White Map"
     case WhiteBlack = "White and Black Map"
     case Jupiter = "Jupiter"
+    case PaperWorld = "Paper World"
+    case SquareWorld = "World of Squares"
+    case LevelWorld = "World of Levels"
+    case GlowingCoasts = "Glowing Coasts"
+    case StainedGlass = "Stained Glass"
+    case ASCIIArt1 = "ASCII Art Map 1"
 }
