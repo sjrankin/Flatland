@@ -62,14 +62,28 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         let Radius = ArcLayer.bounds.width / 2.0
         let Center = CGPoint(x: Radius, y: Radius)
         #if false
-        let test = MakeArc(Start: 90.0,
-                           End: 180.0,
-                           Radius: Radius,
-                           ArcWidth: 360.0,
-                           Center: Center,
-                           ArcColor: UIColor.black,
-                           Rectangle: ArcLayer.bounds)
-        ArcLayer.layer.addSublayer(test)
+        var Start: CGFloat = -90
+        let LatitudeIncrement = 5
+        let ArcIncrement = abs(Start / CGFloat(LatitudeIncrement))
+        print("ArcIncrement=\(ArcIncrement)")
+        for Lat in stride(from: -180, to: 180, by: LatitudeIncrement)
+        {
+            let ArcColor = Lat == -180 ? UIColor.red : UIColor.Random(MinRed: 0.3, MinGreen: 0.3, MinBlue: 0.3)
+            let End = -Start
+            let LatPercent = CGFloat(abs(Double(Lat)) + 180.0) / 360.0
+            let test = MakeArc(Start: -90.0 * LatPercent,
+                               End: 90.0 * LatPercent,
+                               Radius: Radius,
+                               ArcRadius: CGFloat(Lat + 180),
+                               ArcWidth: CGFloat(LatitudeIncrement),
+                               Center: Center,
+                               ArcColor: UIColor.black,//ArcColor,
+                               Rectangle: ArcLayer.bounds)
+            ArcLayer.layer.addSublayer(test)
+            Start = Start + ArcIncrement
+        }
+ 
+// ArcLayer.layer.addSublayer(test)
         #endif
         LocalDataTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                               target: self,
@@ -117,7 +131,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
         else
         {
-            /*
             let Location = GeoPoint2(LocalLat!, LocalLon!)
             let SunTimes = Sun()
             if let SunriseTime = SunTimes.Sunrise(For: Date(), At: Location,
@@ -142,7 +155,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 RiseAndSetAvailable = false
                 LocalSunsetLabel.text = "No sunset"
             }
- */
         }
         let Declination = Sun.Declination(For: Date())
         DeclinitionLabel.text = "\(Declination.RoundedTo(3))°"
