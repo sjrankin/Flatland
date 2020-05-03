@@ -45,6 +45,24 @@
 		176DC96E2438390100830DB1 /* EditLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96D2438390100830DB1 /* EditLocation.swift */; };
 		177348C5244192F90024590F /* TimeZoneTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177348C4244192F90024590F /* TimeZoneTable.swift */; };
 		17865A6824499D8000DEED75 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17865A6724499D8000DEED75 /* GlobeView.swift */; };
+		1788EF56245EE18300881BA8 /* WorldSquareSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF53245EE18300881BA8 /* WorldSquareSouthCenter.png */; };
+		1788EF57245EE18300881BA8 /* WorldSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF54245EE18300881BA8 /* WorldSquare.png */; };
+		1788EF58245EE18300881BA8 /* WorldSquareNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF55245EE18300881BA8 /* WorldSquareNorthCenter.png */; };
+		1788EF5C245EE1D000881BA8 /* WorldSquareLevels.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF59245EE1CF00881BA8 /* WorldSquareLevels.png */; };
+		1788EF5D245EE1D000881BA8 /* WorldSquareLevelsNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF5A245EE1D000881BA8 /* WorldSquareLevelsNorthCenter.png */; };
+		1788EF5E245EE1D000881BA8 /* WorldSquareLevelsSouthCentered.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF5B245EE1D000881BA8 /* WorldSquareLevelsSouthCentered.png */; };
+		1788EF62245EE2F100881BA8 /* WorldGlowingCoasts.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF5F245EE2F100881BA8 /* WorldGlowingCoasts.png */; };
+		1788EF63245EE2F100881BA8 /* WorldGlowingCoastsNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF60245EE2F100881BA8 /* WorldGlowingCoastsNorthCenter.png */; };
+		1788EF64245EE2F100881BA8 /* WorldGlowingCoastsSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF61245EE2F100881BA8 /* WorldGlowingCoastsSouthCenter.png */; };
+		1788EF68245EE35B00881BA8 /* WorldStainedGlass1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF65245EE35B00881BA8 /* WorldStainedGlass1.png */; };
+		1788EF69245EE35B00881BA8 /* WorldStainedGlass1SouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF66245EE35B00881BA8 /* WorldStainedGlass1SouthCenter.png */; };
+		1788EF6A245EE35B00881BA8 /* WorldStainedGlass1NorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF67245EE35B00881BA8 /* WorldStainedGlass1NorthCenter.png */; };
+		1788EF6E245EE7CF00881BA8 /* PaperWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF6B245EE7CF00881BA8 /* PaperWorld.png */; };
+		1788EF6F245EE7CF00881BA8 /* PaperWorldNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF6C245EE7CF00881BA8 /* PaperWorldNorthCenter.png */; };
+		1788EF70245EE7CF00881BA8 /* PaperWorldSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF6D245EE7CF00881BA8 /* PaperWorldSouthCenter.png */; };
+		1788EF74245EEA7700881BA8 /* WorldASCIIArtSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF71245EEA7600881BA8 /* WorldASCIIArtSouthCenter.png */; };
+		1788EF75245EEA7700881BA8 /* WorldASCIIArt.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF72245EEA7600881BA8 /* WorldASCIIArt.png */; };
+		1788EF76245EEA7700881BA8 /* WorldASCIIArtNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF73245EEA7600881BA8 /* WorldASCIIArtNorthCenter.png */; };
 		1789A3E9244EDCFC007E3526 /* DebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1789A3E8244EDCFC007E3526 /* DebugController.swift */; };
 		1789A3EB244EDDCB007E3526 /* DebugNavigationViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1789A3EA244EDDCB007E3526 /* DebugNavigationViewer.swift */; };
 		1792BD7E24304E56006ABD02 /* Julian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7D24304E55006ABD02 /* Julian.swift */; };
@@ -158,6 +176,24 @@
 		176DC96D2438390100830DB1 /* EditLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocation.swift; sourceTree = "<group>"; };
 		177348C4244192F90024590F /* TimeZoneTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZoneTable.swift; sourceTree = "<group>"; };
 		17865A6724499D8000DEED75 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
+		1788EF53245EE18300881BA8 /* WorldSquareSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldSquareSouthCenter.png; sourceTree = "<group>"; };
+		1788EF54245EE18300881BA8 /* WorldSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldSquare.png; sourceTree = "<group>"; };
+		1788EF55245EE18300881BA8 /* WorldSquareNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldSquareNorthCenter.png; sourceTree = "<group>"; };
+		1788EF59245EE1CF00881BA8 /* WorldSquareLevels.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldSquareLevels.png; sourceTree = "<group>"; };
+		1788EF5A245EE1D000881BA8 /* WorldSquareLevelsNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldSquareLevelsNorthCenter.png; sourceTree = "<group>"; };
+		1788EF5B245EE1D000881BA8 /* WorldSquareLevelsSouthCentered.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldSquareLevelsSouthCentered.png; sourceTree = "<group>"; };
+		1788EF5F245EE2F100881BA8 /* WorldGlowingCoasts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldGlowingCoasts.png; sourceTree = "<group>"; };
+		1788EF60245EE2F100881BA8 /* WorldGlowingCoastsNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldGlowingCoastsNorthCenter.png; sourceTree = "<group>"; };
+		1788EF61245EE2F100881BA8 /* WorldGlowingCoastsSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldGlowingCoastsSouthCenter.png; sourceTree = "<group>"; };
+		1788EF65245EE35B00881BA8 /* WorldStainedGlass1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldStainedGlass1.png; sourceTree = "<group>"; };
+		1788EF66245EE35B00881BA8 /* WorldStainedGlass1SouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldStainedGlass1SouthCenter.png; sourceTree = "<group>"; };
+		1788EF67245EE35B00881BA8 /* WorldStainedGlass1NorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldStainedGlass1NorthCenter.png; sourceTree = "<group>"; };
+		1788EF6B245EE7CF00881BA8 /* PaperWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaperWorld.png; sourceTree = "<group>"; };
+		1788EF6C245EE7CF00881BA8 /* PaperWorldNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaperWorldNorthCenter.png; sourceTree = "<group>"; };
+		1788EF6D245EE7CF00881BA8 /* PaperWorldSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaperWorldSouthCenter.png; sourceTree = "<group>"; };
+		1788EF71245EEA7600881BA8 /* WorldASCIIArtSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldASCIIArtSouthCenter.png; sourceTree = "<group>"; };
+		1788EF72245EEA7600881BA8 /* WorldASCIIArt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldASCIIArt.png; sourceTree = "<group>"; };
+		1788EF73245EEA7600881BA8 /* WorldASCIIArtNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldASCIIArtNorthCenter.png; sourceTree = "<group>"; };
 		1789A3E8244EDCFC007E3526 /* DebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugController.swift; sourceTree = "<group>"; };
 		1789A3EA244EDDCB007E3526 /* DebugNavigationViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugNavigationViewer.swift; sourceTree = "<group>"; };
 		1792BD7D24304E55006ABD02 /* Julian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Julian.swift; sourceTree = "<group>"; };
@@ -392,6 +428,24 @@
 				17AE7F41245D8E280011160F /* Jupiter.png */,
 				17AE7F3F245D8E270011160F /* JupiterNorthCenter.png */,
 				17AE7F40245D8E280011160F /* JupiterSouthCenter.png */,
+				1788EF54245EE18300881BA8 /* WorldSquare.png */,
+				1788EF55245EE18300881BA8 /* WorldSquareNorthCenter.png */,
+				1788EF53245EE18300881BA8 /* WorldSquareSouthCenter.png */,
+				1788EF59245EE1CF00881BA8 /* WorldSquareLevels.png */,
+				1788EF5A245EE1D000881BA8 /* WorldSquareLevelsNorthCenter.png */,
+				1788EF5B245EE1D000881BA8 /* WorldSquareLevelsSouthCentered.png */,
+				1788EF5F245EE2F100881BA8 /* WorldGlowingCoasts.png */,
+				1788EF60245EE2F100881BA8 /* WorldGlowingCoastsNorthCenter.png */,
+				1788EF61245EE2F100881BA8 /* WorldGlowingCoastsSouthCenter.png */,
+				1788EF65245EE35B00881BA8 /* WorldStainedGlass1.png */,
+				1788EF67245EE35B00881BA8 /* WorldStainedGlass1NorthCenter.png */,
+				1788EF66245EE35B00881BA8 /* WorldStainedGlass1SouthCenter.png */,
+				1788EF6B245EE7CF00881BA8 /* PaperWorld.png */,
+				1788EF6C245EE7CF00881BA8 /* PaperWorldNorthCenter.png */,
+				1788EF6D245EE7CF00881BA8 /* PaperWorldSouthCenter.png */,
+				1788EF72245EEA7600881BA8 /* WorldASCIIArt.png */,
+				1788EF73245EEA7600881BA8 /* WorldASCIIArtNorthCenter.png */,
+				1788EF71245EEA7600881BA8 /* WorldASCIIArtSouthCenter.png */,
 				17BE6865242C7A99009861E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -524,7 +578,9 @@
 				1717F4D82457D72600C7F263 /* GaiaSkySouthCenter.png in Resources */,
 				1717F4DD2457D73400C7F263 /* TychoSky.png in Resources */,
 				17AE7F42245D8E290011160F /* JupiterNorthCenter.png in Resources */,
+				1788EF74245EEA7700881BA8 /* WorldASCIIArtSouthCenter.png in Resources */,
 				1717F4DF2457D73400C7F263 /* TychoSkySouthCenter.png in Resources */,
+				1788EF5E245EE1D000881BA8 /* WorldSquareLevelsSouthCentered.png in Resources */,
 				1757986824555900001980EE /* EarthTopoGlowingEdges1.png in Resources */,
 				17BE6874242C7A9C009861E1 /* LaunchScreen.storyboard in Resources */,
 				1757985A245557DA001980EE /* WorldSpotColorNorthCenter.png in Resources */,
@@ -534,16 +590,19 @@
 				17C80C182454234000E27112 /* WorldVoronoi.png in Resources */,
 				17C80C192454234000E27112 /* WorldVoronoiNorthCenter.png in Resources */,
 				17C80C0B2454228E00E27112 /* WorldInkColorNorthCenter.png in Resources */,
+				1788EF63245EE2F100881BA8 /* WorldGlowingCoastsNorthCenter.png in Resources */,
 				17C80C0C2454228E00E27112 /* WorldInkColor.png in Resources */,
 				17C80C0D2454228E00E27112 /* WorldInkColorSouthCenter.png in Resources */,
 				1757986624555900001980EE /* EarthTopoGlowingEdges1NorthCenter.png in Resources */,
 				17C80C052454223900E27112 /* WorldPolygonizeSouthCenter.png in Resources */,
 				17C80C062454223900E27112 /* WorldPolygonizeNorthCenter.png in Resources */,
 				17F0830F2459728900AB6460 /* OnlyPlates2NorthCenter.png in Resources */,
+				1788EF56245EE18300881BA8 /* WorldSquareSouthCenter.png in Resources */,
 				17C80C072454223900E27112 /* WorldPolygonize.png in Resources */,
 				1717F4EA2457D77400C7F263 /* BubbleWorld.png in Resources */,
 				17C80BFF24540FCC00E27112 /* WorldSkeletonNorthCenter.png in Resources */,
 				175798542455530B001980EE /* WorldWarholNorthCenter.png in Resources */,
+				1788EF6F245EE7CF00881BA8 /* PaperWorldNorthCenter.png in Resources */,
 				17C80C0024540FCC00E27112 /* WorldSkeletonSouthCenter.png in Resources */,
 				17F0831B2459755D00AB6460 /* BlackWhiteSouthCenter.png in Resources */,
 				1717F4D92457D72600C7F263 /* GaiaSky.png in Resources */,
@@ -563,20 +622,33 @@
 				17F0830324595ACA00AB6460 /* ColorTectonicsNorthCenterOverlay.png in Resources */,
 				1717F4E42457D75600C7F263 /* NASAStarMapInvertedSouthCenter.png in Resources */,
 				17F083152459755800AB6460 /* WhiteBlackSouthCenter.png in Resources */,
+				1788EF69245EE35B00881BA8 /* WorldStainedGlass1SouthCenter.png in Resources */,
 				17F083192459755D00AB6460 /* BlackWhiteNorthCenter.png in Resources */,
+				1788EF5D245EE1D000881BA8 /* WorldSquareLevelsNorthCenter.png in Resources */,
 				17F0830E2459728900AB6460 /* OnlyPlates2.png in Resources */,
 				1717F4DE2457D73400C7F263 /* TychoSkyNorthCenter.png in Resources */,
 				17C80BF52454057F00E27112 /* WorldNormalizedTilesSouthCenter.png in Resources */,
+				1788EF68245EE35B00881BA8 /* WorldStainedGlass1.png in Resources */,
+				1788EF6E245EE7CF00881BA8 /* PaperWorld.png in Resources */,
 				17BE6871242C7A9C009861E1 /* Assets.xcassets in Resources */,
+				1788EF58245EE18300881BA8 /* WorldSquareNorthCenter.png in Resources */,
 				17F083142459755800AB6460 /* WhiteBlack.png in Resources */,
 				1717F4EB2457D77400C7F263 /* BubbleWorldNorthCenter.png in Resources */,
 				17F0830D2459728900AB6460 /* OnlyPlates2SouthCenter.png in Resources */,
 				17AC32AE244D3CF800CDA5F3 /* Keypad.storyboard in Resources */,
+				1788EF75245EEA7700881BA8 /* WorldASCIIArt.png in Resources */,
+				1788EF64245EE2F100881BA8 /* WorldGlowingCoastsSouthCenter.png in Resources */,
 				1757985B245557DA001980EE /* WorldSpotColorSouthCenter.png in Resources */,
 				1757986724555900001980EE /* EarthTopoGlowingEdges1SouthCenter.png in Resources */,
+				1788EF76245EEA7700881BA8 /* WorldASCIIArtNorthCenter.png in Resources */,
 				17F0830224595ACA00AB6460 /* ColorTectonicsSouthCenterOverlay.png in Resources */,
+				1788EF5C245EE1D000881BA8 /* WorldSquareLevels.png in Resources */,
+				1788EF62245EE2F100881BA8 /* WorldGlowingCoasts.png in Resources */,
 				1757986224555840001980EE /* WorldUkiyoe1NorthCenter.png in Resources */,
+				1788EF70245EE7CF00881BA8 /* PaperWorldSouthCenter.png in Resources */,
+				1788EF6A245EE35B00881BA8 /* WorldStainedGlass1NorthCenter.png in Resources */,
 				1717F4E32457D75600C7F263 /* NASAStarMapInverted.png in Resources */,
+				1788EF57245EE18300881BA8 /* WorldSquare.png in Resources */,
 				1757985C245557DA001980EE /* WorldSpotColor.png in Resources */,
 				17F083132459755800AB6460 /* WhiteBlackNorthCenter.png in Resources */,
 				1717F4E52457D75600C7F263 /* NASAStarMapInvertedNorthCenter.png in Resources */,
