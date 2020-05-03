@@ -240,6 +240,12 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.Ukiyoe1)
         }
         SubMenu.append(Menu20)
+        let Menu32 = UIAction(title: "ASCII Art Map", image: nil)
+        {
+            action in
+            self.SetTexture(.ASCIIArt1)
+        }
+        SubMenu.append(Menu32)
 
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
@@ -300,6 +306,12 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.SpotColor)
         }
         SubMenu.append(Menu12)
+        let Menu19 = UIAction(title: "Color Levels World", image: nil)
+        {
+            action in
+            self.SetTexture(.LevelWorld)
+        }
+        SubMenu.append(Menu19)
         
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
@@ -336,6 +348,18 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.Textured)
         }
         SubMenu.append(Menu3)
+        let Menu30 = UIAction(title: "Paper Map", image: nil)
+        {
+            action in
+            self.SetTexture(.PaperWorld)
+        }
+        SubMenu.append(Menu30)
+        let Menu31 = UIAction(title: "Map with Squares", image: nil)
+        {
+            action in
+            self.SetTexture(.SquareWorld)
+        }
+        SubMenu.append(Menu31)
         let Menu13 = UIAction(title: "Abstract Map 1", image: nil)
         {
             action in
@@ -366,6 +390,12 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.Skeleton)
         }
         SubMenu.append(Menu16)
+        let Menu22 = UIAction(title: "Glowing Coasts", image: nil)
+        {
+            action in
+            self.SetTexture(.GlowingCoasts)
+        }
+        SubMenu.append(Menu22)
         let Menu17 = UIAction(title: "Voronoi Map", image: nil)
         {
             action in
@@ -390,6 +420,18 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.BubbleWorld)
         }
         SubMenu.append(Menu19)
+        let Menu20 = UIAction(title: "Glowing Coasts", image: nil)
+        {
+            action in
+            self.SetTexture(.GlowingCoasts)
+        }
+        SubMenu.append(Menu20)
+        let Menu21 = UIAction(title: "Stained Glass Map", image: nil)
+        {
+            action in
+            self.SetTexture(.StainedGlass)
+        }
+        SubMenu.append(Menu21)
         
         let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
         {
