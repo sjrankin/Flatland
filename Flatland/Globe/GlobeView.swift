@@ -278,6 +278,12 @@ class GlobeView: SCNView
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
             
+            case .ASCIIArt1:
+            SeaNode = SCNNode(geometry: SeaSphere)
+            SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+            SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.white
+            SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.yellow
+            
             case .BlackWhiteShiny:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -338,8 +344,8 @@ class GlobeView: SCNView
         
         PlotCities(On: EarthNode!, WithRadius: 10)
         
-        let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze, .TectonicOverlay,
-                                      .BlackWhiteShiny]
+        let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
+                                      .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1]
         self.prepare([EarthNode!, SeaNode!, LineNode!], completionHandler:
             {
                 success in
