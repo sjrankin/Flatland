@@ -27,7 +27,6 @@ class SolarCalculator: UITableViewController, UIPickerViewDelegate, UIPickerView
         SunriseResult.text = ""
         SunsetResult.text = ""
         NoonResult.text = ""
-                //TimezonePicker.selectRow(12, inComponent: 0, animated: true)
         PresetLocationPicker.selectRow(0, inComponent: 0, animated: true)
         let (_, FirstLat, FirstLon, Offset) = PresetLocations[0]
         if let FirstIndex = Timezones.firstIndex(of: Offset)
@@ -173,15 +172,10 @@ class SolarCalculator: UITableViewController, UIPickerViewDelegate, UIPickerView
         let SunCalc = Sun()
         var AbsoluteSunrise = 0
         var AbsoluteSunset = 24 * 60 * 60
-        let index = PresetLocationPicker.selectedRow(inComponent: 0)
-        print("Calculating solar times for \"\(PresetLocations[index].0)\"")
-        #if true
         if let SunriseSeconds = SunCalc.SunriseAsSeconds(For: SolarDate!, At: Location, TimeZoneOffset: Timezone)
         {
             AbsoluteSunrise = SunriseSeconds
             let WorkingSunrise = AbsoluteSunrise
-            //AbsoluteSunrise = abs(SunriseSeconds + (Timezone * 60 * 60))
-            //let WorkingSunrise = AbsoluteSunrise % (24 * 60 * 60)
             let (Hours, Minutes, Seconds) = Date.SecondsToTime(WorkingSunrise)
             var Final = "\(Hours):"
             if Minutes < 10
@@ -202,12 +196,6 @@ class SolarCalculator: UITableViewController, UIPickerViewDelegate, UIPickerView
         }
         if let SunsetSeconds = SunCalc.SunsetAsSeconds(For: SolarDate!, At: Location, TimeZoneOffset: Timezone)
         {
-            //AbsoluteSunset = abs(SunsetSeconds + (Timezone * 60 * 60))
-            //if AbsoluteSunset < AbsoluteSunrise
-            //{
-            //    AbsoluteSunset = AbsoluteSunset + 24 * 60 * 60
-            //}
-            //AbsoluteSunset = AbsoluteSunset % (24 * 60 * 60)
             AbsoluteSunset = SunsetSeconds
             let (Hours, Minutes, Seconds) = Date.SecondsToTime(AbsoluteSunset)
             var Final = "\(Hours):"
@@ -236,39 +224,6 @@ class SolarCalculator: UITableViewController, UIPickerViewDelegate, UIPickerView
         let NightString = Date.PrettyTimeParts(From: NightDuration)
         DaytimeResult.text = DayString
         NighttimeResult.text = NightString
-        #else
-        var SunRTime: Date = Date.DateFrom(Percent: 0.0)
-        var SunSTime: Date = Date.DateFrom(Percent: 1.0)
-        if let SunriseTime = SunCalc.Sunrise(For: SolarDate!, At: Location, TimeZoneOffset: Timezone)
-        {
-            print("  Sunrise[\(SunriseTime)] local: \(SunriseTime.ToLocal()), UTC: \(SunriseTime.ToUTC())")
-            SunriseResult.text = "\(SunriseTime.PrettyTime())"
-            SunRTime = SunriseTime
-        }
-        else
-        {
-            SunriseResult.text = "No rise"
-        }
-        if let SunsetTime = SunCalc.Sunset(For: SolarDate!, At: Location, TimeZoneOffset: Timezone)
-        {
-           print("  Sunset[\(SunsetTime)] local: \(SunsetTime.ToLocal()), UTC: \(SunsetTime.ToUTC())\n")
-            SunsetResult.text = "\(SunsetTime.PrettyTime())"
-            SunSTime = SunsetTime
-        }
-        else
-        {
-            SunsetResult.text = "No set"
-        }
-            let DayDuration = abs(SunSTime.AsSeconds() - SunRTime.AsSeconds())
-        let NightDuration = abs(DayDuration - 24 * 60 * 60)
-            let NoonTimeSeconds = (DayDuration / 2) + SunRTime.AsSeconds()
-            let NoonTime = Date.DateFrom(Percent: Double(NoonTimeSeconds) / Double(24 * 60 * 60))
-            NoonResult.text = "\(NoonTime.PrettyTime())"
-        let DayString = Date.PrettyTimeParts(From: DayDuration)
-        let NightString = Date.PrettyTimeParts(From: NightDuration)
-        DaytimeResult.text = DayString
-        NighttimeResult.text = NightString
-        #endif
     }
     
     @IBAction func HandleLatitudeChanged(_ sender: Any)
