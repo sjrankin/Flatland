@@ -17,6 +17,7 @@ class MapSettings: UITableViewController
     {
         super.viewDidLoad()
         
+        ShowNightSwitch.isOn = Settings.ShowNight()
         PolarSwitch.isOn = Settings.ShowPolarCircles()
         EquatorSwitch.isOn = Settings.ShowEquator()
         TropicSwitch.isOn = Settings.ShowTropics()
@@ -119,7 +120,16 @@ class MapSettings: UITableViewController
     }
        
     let ValidTransparencies = [0.0, 0.1, 0.25, 0.35, 0.5]
-
+    
+    @IBAction func HandleShowNightChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetShowNight(Switch.isOn)
+        }
+    }
+    
+    @IBOutlet weak var ShowNightSwitch: UISwitch!
     @IBOutlet weak var TransparencySegment: UISegmentedControl!
     @IBOutlet weak var GapSegment: UISegmentedControl!
     @IBOutlet weak var MinorGridSwitch: UISwitch!
