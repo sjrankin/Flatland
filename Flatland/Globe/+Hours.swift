@@ -16,6 +16,24 @@ extension GlobeView
     /// - Parameter With: The hour type to display.
     func UpdateHourLabels(With: HourValueTypes)
     {
+        if InVersionDisplayMode
+        {
+            RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
+            RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
+            var Words = [String]()
+                        Words.append("Build \(Versioning.Build)")
+            Words.append(Versioning.MakeVersionString())
+            Words.append(Versioning.ApplicationName)
+            HourNode = MakeSentence(Radius: 11.1, Words: Words)
+            let Declination = Sun.Declination(For: Date())
+            //HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+            self.scene?.rootNode.addChildNode(HourNode!)
+            
+            let Rotation = SCNAction.rotateBy(x: 0.0, y: -CGFloat.pi / 180.0, z: 0.0, duration: 0.1)
+            let Forever = SCNAction.repeatForever(Rotation)
+            HourNode?.runAction(Forever)
+            return
+        }
         switch With
         {
             case .None:
@@ -73,6 +91,38 @@ extension GlobeView
                 }
                 return MakeRelativeHours(Radius: Radius)
         }
+    }
+    
+    func MakeSentence(Radius: Double, Words: [String]) -> SCNNode
+    {
+        let NodeShape = SCNSphere(radius: CGFloat(Radius))
+        let Node = SCNNode(geometry: NodeShape)
+        Node.position = SCNVector3(0.0, 0.0, 0.0)
+        Node.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
+        Node.geometry?.firstMaterial?.specular.contents = UIColor.clear
+        Node.name = "Hour Node"
+        
+        var Angle = 0
+        for Word in Words
+        {
+            let Radians = CGFloat(Angle).Radians
+            Angle = Angle + 45
+            let HourText = SCNText(string: Word, extrusionDepth: 5.0)
+            HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
+            HourText.firstMaterial?.diffuse.contents = UIColor.yellow
+            HourText.firstMaterial?.specular.contents = UIColor.white
+            HourText.flatness = 0.1
+            let X = CGFloat(Radius) * cos(Radians)
+            let Z = CGFloat(Radius) * sin(Radians)
+            let HourTextNode = SCNNode(geometry: HourText)
+            HourTextNode.scale = SCNVector3(0.07, 0.07, 0.07)
+            HourTextNode.position = SCNVector3(X, -0.8, Z)
+            let HourRotation = (90.0 - Double(Angle)).Radians
+            HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
+            Node.addChildNode(HourTextNode)
+        }
+        
+        return Node
     }
     
     /// Make the hour node such that `12` is always under the noon longitude and `0` under midnight.
