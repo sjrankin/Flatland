@@ -19,6 +19,7 @@ class Settings
             return
         }
         UserDefaults.standard.set("WasInitialized", forKey: "Initialized")
+        SetShowNight(true)
         SetTimeLabel(.UTC)
         SetImageCenter(.NorthPole)
         SetSunLocation(.Top)
@@ -329,6 +330,18 @@ class Settings
     public static func SetShowStars(_ DoShow: Bool)
     {
         UserDefaults.standard.set(DoShow, forKey: "Show3DStars")
+    }
+    
+    // MARK: - Flat map-related settings.
+    
+    public static func ShowNight() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowNight")
+    }
+    
+    public static func SetShowNight(_ NewValue: Bool)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "ShowNight")
     }
     
     // MARK: - Grid-related settings.
