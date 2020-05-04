@@ -33,7 +33,7 @@ extension MainView
         }
         if IsVisible
         {
-            SunlightTimer = Timer.scheduledTimer(timeInterval: 60.0,
+            SunlightTimer = Timer.scheduledTimer(timeInterval: 60.0 * 60.0,
                                                  target: self,
                                                  selector: #selector(UpdateDaylight),
                                                  userInfo: nil,
@@ -51,45 +51,74 @@ extension MainView
     
     func MakeLatitudeBands()
     {
-        return
-        let Time = Date()
-        //print("Latitude time: \(Time)")
-        #if true
-//        let Location = GeoPoint2(42.9584, 141.5630)
-        let Location = GeoPoint2(51.5074,-0.1278)
-//        let SunLib = Sun(Location: Location, Offset: 0)
-        let SunLib = Sun()
-        let Sunrise = SunLib.Sunrise(For: Time, At: Location, TimeZoneOffset: 0)
-        let Sunset = SunLib.Sunset(For: Time, At: Location, TimeZoneOffset: 0)
-        if let (Rise, Set) = SunLib.SunPercents(Sunrise: Sunrise, Sunset: Sunset)
+        ArcLayer.layer.sublayers?.removeAll()
+        if !Settings.ShowNight()
         {
-            let (RHour, RMinute, RSecond) = Date.SecondsToTime(Int(Rise * 24 * 60 * 60))
-            let (SHour, SMinute, SSecond) = Date.SecondsToTime(Int(Set * 24 * 60 * 60))
-            print("At (\(Location)), Sunrise=\(RHour):\(RMinute):\(RSecond), Sunset=\(SHour):\(SMinute):\(SSecond)")
+            return
         }
-        #else
-        for Lat in -90 ..< 90
+        let Radius = ArcLayer.bounds.width / 2.0
+        let Center = CGPoint(x: Radius, y: Radius)
+        let NightIsNorth = Settings.GetImageCenter() == .NorthPole
+        let BandWidth = 2
+        for Latitude in stride(from: -90, through: 90, by: BandWidth)
         {
-            let Location = GeoPoint2(42.9584, 141.5630)
-            let SolarLibrary = Sun(Location: Location, Offset: 9)
-            let Sunrise = SolarLibrary.Sunrise(For: Time, At: Location, TimeZoneOffset: 0)
-            if Sunrise == nil
+            #if false
+            if ![-44, -30, -16, 0, 16, 30, 50, 60, 80].contains(Latitude)
             {
-                print("No sunrise for location on this date")
+                continue
             }
-            let Sunset = SolarLibrary.Sunset(For: Time, At: Location, TimeZoneOffset: 0)
-            if Sunset == nil
+            #endif
+            let Now = Date()
+            let Location = GeoPoint2(Double(Latitude), 0.0)
+            let SunCalc = Sun()
+            var AbsoluteSunrise = 0
+            var AbsoluteSunset = 0
+            if let SunriseSeconds = SunCalc.SunriseAsSeconds(For: Now, At: Location, TimeZoneOffset: 0)
             {
-                print("No sunset for location on this date")
+                AbsoluteSunrise = SunriseSeconds
             }
-            if let (Rise, Set) = SolarLibrary.SunPercents(Sunrise: Sunrise, Sunset: Sunset)
+            if let SunsetSeconds = SunCalc.SunsetAsSeconds(For: Now, At: Location, TimeZoneOffset: 0)
             {
-                //print("At \(Location), Rise%=\(Rise), Set%=\(Set)")
+                AbsoluteSunset = SunsetSeconds
             }
+            let DayTime = abs(AbsoluteSunset - AbsoluteSunrise)
+            let Noon = 12 * 60 * 60
+            let Sunrise = Noon - (DayTime / 2)
+            let Sunset = Noon + (DayTime / 2)
+            let RisePercent: Double = Double(Sunrise) / Double(24 * 60 * 60)
+            let SetPercent: Double = Double(Sunset) / Double(24 * 60 * 60)
+            let NightOffset = NightIsNorth ? 0.0 : 180.0
+            let StartValue = -180.0 * RisePercent + NightOffset
+            let EndValue = -StartValue
+            let LatPercent = CGFloat(Latitude + 90) / 180.0
+            var ArcRadius = Radius * LatPercent
+            if !NightIsNorth
+            {
+                ArcRadius = Radius - ArcRadius
+            }
+            if [-44, -30, -16, 0, 16, 30, 50, 60, 80].contains(Latitude)
+            {
+            print("Latitude \(Latitude) sunrise=\(StartValue.RoundedTo(2))/\(Sunrise), sunset=\(EndValue.RoundedTo(2))/\(Sunset)")
+            print("         Noon=\(Noon), DayTime=\(DayTime), HalfDay=\(DayTime / 2), RisePercent=\(RisePercent.RoundedTo(2)), SetPercent=\(SetPercent.RoundedTo(2))")
+            print("         Radius=\(Radius), ArcRadius=\(ArcRadius), Start=\(StartValue.RoundedTo(2)), End=\(EndValue.RoundedTo(2))")
+                print("         Sunrise = \(Date.PrettyTimeParts(From: Sunrise, Separator: ",")), Sunset = \(Date.PrettyTimeParts(From: Sunset, Separator: ","))")
+            }
+                var ArcColor = Latitude == -46 ? UIColor.red : UIColor.black
+            ArcColor = Latitude == 50 ? UIColor.blue : ArcColor
+            ArcColor = Latitude == 0 ? UIColor.systemYellow : ArcColor
+            let NightBand = MakeArc(Start: CGFloat(StartValue),
+                                    End: CGFloat(EndValue),
+                                    Radius: Radius,
+                                    ArcRadius: ArcRadius,
+                                    ArcWidth: CGFloat(BandWidth * 2),
+                                    Center: Center,
+                                    ArcColor: ArcColor,
+                                    Rectangle: ArcLayer.bounds)
+            ArcLayer.layer.addSublayer(NightBand)
         }
-        #endif
     }
     
+    /*
     func BandAt(Latitude: Double)
     {
         
@@ -108,6 +137,7 @@ extension MainView
             }
         }
     }
+ */
     
     func Show2DHours()
     {
