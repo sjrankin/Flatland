@@ -57,7 +57,7 @@ extension MainView
         ArcLayer.bounds = Rectangle
         ArcLayer.backgroundColor = UIColor.clear.cgColor
         let Arc = UIBezierPath(arcCenter: Center,
-                               radius: Radius - CGFloat(ArcRadius / 1.0),
+                               radius: Radius - CGFloat(ArcRadius),
                                startAngle: (Start - 90).Radians,
                                endAngle: (End - 90).Radians,
                                clockwise: true)
