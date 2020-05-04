@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource,
-    SomethingChanged
+    SomethingChanged, ChildClosed
 {
     weak var Delegate: SettingsProtocol? = nil
     
@@ -184,6 +184,35 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         }
     }
     
+    @IBAction func testbutton(_ sender: Any)
+    {
+        WorkingIndicator.isHidden = false
+        WorkingLabel.isHidden = false
+    }
+    @IBSegueAction func HandleAboutInstantiated(_ coder: NSCoder) -> AboutView?
+    {
+        print("Instantiating about: \(Date())")
+        
+        WorkingIndicator.isHidden = false
+        WorkingLabel.isHidden = false
+        let Controller = AboutView(coder: coder)
+        Controller?.ClosedDelegate = self
+        return Controller
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+     print("Selected row at \(indexPath): \(Date())")
+    }
+    
+    func ChildWindowClosed()
+    {
+        WorkingIndicator.isHidden = true
+        WorkingLabel.isHidden = true
+    }
+    
+    @IBOutlet weak var WorkingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var WorkingLabel: UILabel!
     @IBOutlet weak var ShowStarsSwitch: UISwitch!
     @IBOutlet weak var DebugOffsetPicker: UIPickerView!
     @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
