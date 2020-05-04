@@ -505,6 +505,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                     WorldViewer3D.Hide()
                     StarFieldView.Hide()
                     SetFlatlandVisibility(IsVisible: true)
+                    MakeLatitudeBands()
                 SettingsDone()
                 
                 case 1:
@@ -513,6 +514,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                     WorldViewer3D.Hide()
                     StarFieldView.Hide()
                     SetFlatlandVisibility(IsVisible: true)
+                    MakeLatitudeBands()
                 SettingsDone()
                 
                 case 2:
