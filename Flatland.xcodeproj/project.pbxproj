@@ -21,6 +21,14 @@
 		1717F4EA2457D77400C7F263 /* BubbleWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4E72457D77400C7F263 /* BubbleWorld.png */; };
 		1717F4EB2457D77400C7F263 /* BubbleWorldNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4E82457D77400C7F263 /* BubbleWorldNorthCenter.png */; };
 		1717F4EE2457F69B00C7F263 /* SCNStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717F4ED2457F69B00C7F263 /* SCNStar.swift */; };
+		1720DD72245FBAFA00C1E719 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720DD71245FBAFA00C1E719 /* AboutView.swift */; };
+		1720DD74245FBB9D00C1E719 /* Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720DD73245FBB9C00C1E719 /* Versioning.swift */; };
+		1720DD77245FCF2100C1E719 /* ChildClosedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720DD76245FCF2100C1E719 /* ChildClosedProtocol.swift */; };
+		1720DD7A245FD19700C1E719 /* Menus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1720DD79245FD19700C1E719 /* Menus.storyboard */; };
+		1720DD7C245FD35800C1E719 /* VersioningMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720DD7B245FD35800C1E719 /* VersioningMenu.swift */; };
+		1720DD82245FDECD00C1E719 /* VersionTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720DD81245FDECD00C1E719 /* VersionTitleCell.swift */; };
+		1720DD84245FE23000C1E719 /* VersionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720DD83245FE23000C1E719 /* VersionTableCell.swift */; };
+		1720DD86245FE26B00C1E719 /* VersionTwoLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720DD85245FE26B00C1E719 /* VersionTwoLineCell.swift */; };
 		172BC97A24568CD2001CEACB /* MapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172BC97924568CD2001CEACB /* MapList.swift */; };
 		172BC97C24568CFD001CEACB /* MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172BC97B24568CFD001CEACB /* MapItem.swift */; };
 		1739F377244AAED700E7F577 /* SomethingChanged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1739F376244AAED700E7F577 /* SomethingChanged.swift */; };
@@ -152,6 +160,14 @@
 		1717F4E72457D77400C7F263 /* BubbleWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BubbleWorld.png; sourceTree = "<group>"; };
 		1717F4E82457D77400C7F263 /* BubbleWorldNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BubbleWorldNorthCenter.png; sourceTree = "<group>"; };
 		1717F4ED2457F69B00C7F263 /* SCNStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNStar.swift; sourceTree = "<group>"; };
+		1720DD71245FBAFA00C1E719 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		1720DD73245FBB9C00C1E719 /* Versioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Versioning.swift; sourceTree = "<group>"; };
+		1720DD76245FCF2100C1E719 /* ChildClosedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildClosedProtocol.swift; sourceTree = "<group>"; };
+		1720DD79245FD19700C1E719 /* Menus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Menus.storyboard; sourceTree = "<group>"; };
+		1720DD7B245FD35800C1E719 /* VersioningMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersioningMenu.swift; sourceTree = "<group>"; };
+		1720DD81245FDECD00C1E719 /* VersionTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTitleCell.swift; sourceTree = "<group>"; };
+		1720DD83245FE23000C1E719 /* VersionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTableCell.swift; sourceTree = "<group>"; };
+		1720DD85245FE26B00C1E719 /* VersionTwoLineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTwoLineCell.swift; sourceTree = "<group>"; };
 		172BC97924568CD2001CEACB /* MapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapList.swift; sourceTree = "<group>"; };
 		172BC97B24568CFD001CEACB /* MapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapItem.swift; sourceTree = "<group>"; };
 		1739F376244AAED700E7F577 /* SomethingChanged.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomethingChanged.swift; sourceTree = "<group>"; };
@@ -300,11 +316,25 @@
 			path = Shapes;
 			sourceTree = "<group>";
 		};
+		1720DD78245FD18100C1E719 /* Menus */ = {
+			isa = PBXGroup;
+			children = (
+				1720DD79245FD19700C1E719 /* Menus.storyboard */,
+				1720DD7B245FD35800C1E719 /* VersioningMenu.swift */,
+				1720DD81245FDECD00C1E719 /* VersionTitleCell.swift */,
+				1720DD83245FE23000C1E719 /* VersionTableCell.swift */,
+				1720DD85245FE26B00C1E719 /* VersionTwoLineCell.swift */,
+			);
+			path = Menus;
+			sourceTree = "<group>";
+		};
 		1739F378244AD42C00E7F577 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				17BE6880242CA8FB009861E1 /* Settings.swift */,
 				17BE687E242CA831009861E1 /* ProgramSettings.swift */,
+				1720DD76245FCF2100C1E719 /* ChildClosedProtocol.swift */,
+				1720DD71245FBAFA00C1E719 /* AboutView.swift */,
 				17BE6882242CC349009861E1 /* SettingsProtocol.swift */,
 				176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */,
 				17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */,
@@ -473,6 +503,8 @@
 				17BE686D242C7A99009861E1 /* Main.storyboard */,
 				17BE686B242C7A99009861E1 /* MainView.swift */,
 				17BE6869242C7A99009861E1 /* SceneDelegate.swift */,
+				1720DD73245FBB9C00C1E719 /* Versioning.swift */,
+				1720DD78245FD18100C1E719 /* Menus */,
 				17D314D6245BD691001E8353 /* Flat */,
 				17F082EF2459544C00AB6460 /* Globe */,
 				1739F379244AD47F00E7F577 /* MainViewExtensions */,
@@ -522,6 +554,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 17BE6878242C7A9C009861E1 /* Build configuration list for PBXNativeTarget "Flatland" */;
 			buildPhases = (
+				1720DD75245FC24F00C1E719 /* ShellScript */,
 				17BE6860242C7A99009861E1 /* Sources */,
 				17BE6861242C7A99009861E1 /* Frameworks */,
 				17BE6862242C7A99009861E1 /* Resources */,
@@ -608,6 +641,7 @@
 				1717F4D92457D72600C7F263 /* GaiaSky.png in Resources */,
 				17C80C0124540FCC00E27112 /* WorldSkeleton.png in Resources */,
 				17F0830124595ACA00AB6460 /* ColorTectonicsOverlay.png in Resources */,
+				1720DD7A245FD19700C1E719 /* Menus.storyboard in Resources */,
 				175798532455530B001980EE /* WorldWarholSouthCenter.png in Resources */,
 				1717F4E92457D77400C7F263 /* BubbleWorldSouthCenter.png in Resources */,
 				17C80BF924540D5900E27112 /* WorldBluePrint.png in Resources */,
@@ -658,6 +692,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1720DD75245FC24F00C1E719 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/Users/Stuart/Documents/GitHub/Flatland/Flatland/VersionUpdater/VersionUpdater \"/Users/Stuart/Documents/GitHub/Flatland/Flatland/Flatland/Versioning.swift\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		17BE6860242C7A99009861E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -678,7 +732,9 @@
 				17E180F5242F62F700310896 /* City.swift in Sources */,
 				17633B56243858BB0021600D /* LocationCell.swift in Sources */,
 				17C80C1B2454247A00E27112 /* FileIO.swift in Sources */,
+				1720DD82245FDECD00C1E719 /* VersionTitleCell.swift in Sources */,
 				1792BD8A2430540A006ABD02 /* Miscellaneous.swift in Sources */,
+				1720DD84245FE23000C1E719 /* VersionTableCell.swift in Sources */,
 				17026472244C202F00DEE96A /* MapManager.swift in Sources */,
 				173A9263242F32E100363576 /* SingleTask.swift in Sources */,
 				17ADB45C243D636E002E5F88 /* +ArcLayer.swift in Sources */,
@@ -700,14 +756,19 @@
 				1746C17E242DB6E000A479DE /* LocationEditor.swift in Sources */,
 				17F082F12459546C00AB6460 /* +CubicEarth.swift in Sources */,
 				1739F377244AAED700E7F577 /* SomethingChanged.swift in Sources */,
+				1720DD86245FE26B00C1E719 /* VersionTwoLineCell.swift in Sources */,
 				1792BD7E24304E56006ABD02 /* Julian.swift in Sources */,
 				17BE686A242C7A99009861E1 /* SceneDelegate.swift in Sources */,
 				172BC97C24568CFD001CEACB /* MapItem.swift in Sources */,
+				1720DD77245FCF2100C1E719 /* ChildClosedProtocol.swift in Sources */,
 				17BE6881242CA8FB009861E1 /* Settings.swift in Sources */,
 				17F082F52459594000AB6460 /* +Locations.swift in Sources */,
 				1746C17C242DB67D00A479DE /* CitySelectorView.swift in Sources */,
+				1720DD72245FBAFA00C1E719 /* AboutView.swift in Sources */,
 				17AE7F3E245D03120011160F /* SolarCalculator.swift in Sources */,
+				1720DD74245FBB9D00C1E719 /* Versioning.swift in Sources */,
 				176DC96C2438380300830DB1 /* LocationEditedProtocol.swift in Sources */,
+				1720DD7C245FD35800C1E719 /* VersioningMenu.swift in Sources */,
 				173A9261242F24D700363576 /* SunGenerator.swift in Sources */,
 				17CC3C61242CC69900CC7F87 /* SettingsNavigationViewer.swift in Sources */,
 				17ADB45E243D651A002E5F88 /* Extensions.swift in Sources */,
