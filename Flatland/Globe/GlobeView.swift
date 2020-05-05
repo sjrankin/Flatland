@@ -46,7 +46,7 @@ class GlobeView: SCNView
     
     public func ShowAsHelp()
     {
-         VersionString = Versioning.MakeSimpleVersionString()
+        VersionString = Versioning.MakeSimpleVersionString()
         InVersionDisplayMode = true
         AddEarth()
     }
@@ -263,9 +263,13 @@ class GlobeView: SCNView
         {
             MapType = .SimpleBorders2
         }
-        var BaseMap = UIImage()
+        var BaseMap: UIImage? = nil
         var SecondaryMap = UIImage()
-        BaseMap = MapManager.ImageFor(MapType: MapType, ViewType: .Globe3D)!
+        BaseMap = MapManager.ImageFor(MapType: MapType, ViewType: .Globe3D)
+        if BaseMap == nil
+        {
+            fatalError("Error retrieving base map \(MapType).")
+        }
         switch MapType
         {
             case .Standard:
@@ -280,7 +284,7 @@ class GlobeView: SCNView
         
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap
+        EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
         SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
         
@@ -294,10 +298,10 @@ class GlobeView: SCNView
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
             
             case .ASCIIArt1:
-            SeaNode = SCNNode(geometry: SeaSphere)
-            SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
-            SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.white
-            SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.yellow
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.white
+                SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.yellow
             
             case .BlackWhiteShiny:
                 SeaNode = SCNNode(geometry: SeaSphere)
@@ -359,7 +363,7 @@ class GlobeView: SCNView
         
         if !InVersionDisplayMode
         {
-        PlotCities(On: EarthNode!, WithRadius: 10)
+            PlotCities(On: EarthNode!, WithRadius: 10)
         }
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
