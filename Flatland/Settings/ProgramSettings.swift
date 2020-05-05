@@ -184,13 +184,10 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         }
     }
     
-    @IBAction func testbutton(_ sender: Any)
-    {
-        WorkingIndicator.isHidden = false
-        WorkingLabel.isHidden = false
-    }
     @IBSegueAction func HandleAboutInstantiated(_ coder: NSCoder) -> AboutView?
     {
+        objc_sync_enter(AboutBlock)
+        defer{objc_sync_exit(AboutBlock)}
         print("Instantiating about: \(Date())")
         
         WorkingIndicator.isHidden = false
@@ -198,6 +195,18 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         let Controller = AboutView(coder: coder)
         Controller?.ClosedDelegate = self
         return Controller
+    }
+    
+    var AboutBlock: NSObject = NSObject()
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath?
+    {
+        objc_sync_enter(AboutBlock)
+        defer{objc_sync_exit(AboutBlock)}
+            print("Will select row at \(indexPath): \(Date())")
+        WorkingIndicator.isHidden = false
+        WorkingLabel.isHidden = false
+        return indexPath
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
