@@ -13,6 +13,9 @@ import SceneKit
 extension GlobeView
 {
     /// Update the globe display with the specified hour types.
+    /// - Note: If `InVersionDisplayMode` is true, a special case is executed and control returned
+    ///         before any other cases are executed. Also, the current declination is ignored if
+    ///         `InVersionDisplayMode` is true.
     /// - Parameter With: The hour type to display.
     func UpdateHourLabels(With: HourValueTypes)
     {
@@ -21,12 +24,10 @@ extension GlobeView
             RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
             RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
             var Words = [String]()
-                        Words.append("Build \(Versioning.Build)")
+            Words.append("Build \(Versioning.Build)")
             Words.append(Versioning.MakeVersionString())
             Words.append(Versioning.ApplicationName)
             HourNode = MakeSentence(Radius: 11.1, Words: Words)
-            let Declination = Sun.Declination(For: Date())
-            //HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
             self.scene?.rootNode.addChildNode(HourNode!)
             
             let Rotation = SCNAction.rotateBy(x: 0.0, y: -CGFloat.pi / 180.0, z: 0.0, duration: 0.1)
@@ -57,6 +58,10 @@ extension GlobeView
                 self.scene?.rootNode.addChildNode(HourNode!)
             
             case .RelativeToLocation:
+                if HourNode == nil
+                {
+                    return
+                }
                 RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
                 RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 HourNode = DrawHourLabels(Radius: 11.1)
@@ -93,6 +98,11 @@ extension GlobeView
         }
     }
     
+    /// Given an array of words, place a set of words in the hour ring over the Earth.
+    /// - Parameter Radius: The radius of the word.
+    /// - Parameter Words: Array of words (if order is significant, the first word in the order
+    ///                    must be the last entry in the array) to display.
+    /// - Returns: Node for words in the hour ring.
     func MakeSentence(Radius: Double, Words: [String]) -> SCNNode
     {
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
@@ -106,7 +116,6 @@ extension GlobeView
         for Word in Words
         {
             let Radians = CGFloat(Angle).Radians
-            Angle = Angle + 45
             let HourText = SCNText(string: Word, extrusionDepth: 5.0)
             HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
             HourText.firstMaterial?.diffuse.contents = UIColor.yellow
@@ -117,9 +126,12 @@ extension GlobeView
             let HourTextNode = SCNNode(geometry: HourText)
             HourTextNode.scale = SCNVector3(0.07, 0.07, 0.07)
             HourTextNode.position = SCNVector3(X, -0.8, Z)
-            let HourRotation = (90.0 - Double(Angle)).Radians
+            //Words tend to be long so adding a small value here can help realign the center of
+            //words to the proper tangent when orbiting the Earth. This is just a rough value.
+            let HourRotation = (90.0 - Double(Angle) + 10.0).Radians
             HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
             Node.addChildNode(HourTextNode)
+            Angle = Angle + 45
         }
         
         return Node
