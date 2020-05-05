@@ -49,7 +49,24 @@ extension MainView
         }
     }
     
+    /// Make bands of night time. A "band" is an arc at a given latitude that represents darkness
+    /// for that latitude on a given date (the date the program is running).
+    /// - Note: Most of the time, creating latitude bands works without issue. However, on rare
+    ///         occasions, it runs in the background and attempts to update the layer that holds the
+    ///         arcs at the same time as the foreground process is accessing it. This causes crashes.
+    ///         To help alleviate this, this function forces the bands to be created on the UI queue.
     func MakeLatitudeBands()
+    {
+        OperationQueue.main.addOperation
+            {
+                self.DoMakeLatitudeBands()
+        }
+    }
+    
+    /// Create a series of arcs that represent darkness for a given latitude on the date the function
+    /// was called. Update the arc layer with the bands of darkness.
+    /// - Note: This function assumes it is being executed on the UI thread.
+    func DoMakeLatitudeBands()
     {
         ArcLayer.layer.sublayers?.removeAll()
         if !Settings.ShowNight()
@@ -60,15 +77,28 @@ extension MainView
         let Center = CGPoint(x: Radius, y: Radius)
         let NightIsNorth = Settings.GetImageCenter() == .NorthPole
         let BandWidth = 2
+            let Now = Date()
+        let Month = Calendar.current.component(.month, from: Now)
+        let Day = Calendar.current.component(.day, from: Now)
+        var IsSummer = true
+        if Month < 3
+        {
+            IsSummer = false
+        }
+        if Month > 9
+        {
+            IsSummer = false
+        }
+        if Month == 3 && Day < 21
+        {
+            IsSummer = false
+        }
+        if Month == 9 && Day >= 21
+        {
+            IsSummer = false
+        }
         for Latitude in stride(from: -90, through: 90, by: BandWidth)
         {
-            #if false
-            if ![-44, -30, -16, 0, 16, 30, 50, 60, 80].contains(Latitude)
-            {
-                continue
-            }
-            #endif
-            let Now = Date()
             let Location = GeoPoint2(Double(Latitude), 0.0)
             let SunCalc = Sun()
             var AbsoluteSunrise = 0
@@ -88,24 +118,40 @@ extension MainView
             let RisePercent: Double = Double(Sunrise) / Double(24 * 60 * 60)
             let SetPercent: Double = Double(Sunset) / Double(24 * 60 * 60)
             let NightOffset = NightIsNorth ? 0.0 : 180.0
-            let StartValue = -180.0 * RisePercent + NightOffset
-            let EndValue = -StartValue
+            var StartValue = -180.0 * RisePercent + NightOffset
+            var EndValue = -StartValue
+
+            if StartValue == 0.0 && EndValue == 0.0
+            {
+                if IsSummer && Latitude > 0 && Settings.GetImageCenter() == .NorthPole
+                {
+                    print(">> Skipping full daylight in Arctic. [\(Latitude)°]")
+                    continue
+                }
+                if !IsSummer && Latitude < 0 && Settings.GetImageCenter() == .NorthPole
+                {
+                    print(">> Skipping full daylight in Antarctic. [\(Latitude)°]")
+                    continue
+                }
+                StartValue = -180.0
+                EndValue = 180.0
+            }
+
             let LatPercent = CGFloat(Latitude + 90) / 180.0
             var ArcRadius = Radius * LatPercent
             if !NightIsNorth
             {
                 ArcRadius = Radius - ArcRadius
             }
-            if [-44, -30, -16, 0, 16, 30, 50, 60, 80].contains(Latitude)
+            let ArcColor = UIColor.black
+            if StartValue == 180.0 && EndValue == -180.0 && Settings.GetImageCenter() == .SouthPole
             {
-            print("Latitude \(Latitude) sunrise=\(StartValue.RoundedTo(2))/\(Sunrise), sunset=\(EndValue.RoundedTo(2))/\(Sunset)")
-            print("         Noon=\(Noon), DayTime=\(DayTime), HalfDay=\(DayTime / 2), RisePercent=\(RisePercent.RoundedTo(2)), SetPercent=\(SetPercent.RoundedTo(2))")
-            print("         Radius=\(Radius), ArcRadius=\(ArcRadius), Start=\(StartValue.RoundedTo(2)), End=\(EndValue.RoundedTo(2))")
-                print("         Sunrise = \(Date.PrettyTimeParts(From: Sunrise, Separator: ",")), Sunset = \(Date.PrettyTimeParts(From: Sunset, Separator: ","))")
+                if Latitude > 0
+                {
+                    continue
+                }
+                swap(&StartValue, &EndValue)
             }
-                var ArcColor = Latitude == -46 ? UIColor.red : UIColor.black
-            ArcColor = Latitude == 50 ? UIColor.blue : ArcColor
-            ArcColor = Latitude == 0 ? UIColor.systemYellow : ArcColor
             let NightBand = MakeArc(Start: CGFloat(StartValue),
                                     End: CGFloat(EndValue),
                                     Radius: Radius,
@@ -118,27 +164,6 @@ extension MainView
         }
     }
     
-    /*
-    func BandAt(Latitude: Double)
-    {
-        
-    }
-    
-    func GetSunlightPoints()
-    {
-        LightList.removeAll()
-        for Lon in stride(from: -179, to: 180, by: DaylightGridSize)
-        {
-            for Lat in stride(from: -90, to: 90, by: DaylightGridSize)
-            {
-                let Location = GeoPoint2(Double(Lat), Double(Lon))
-                let SunVisible = Solar.CalculateSunVisibility(Where: Location)
-                LightList.append((Latitude: Double(Lat), Longitude: Double(Lon), SunVisible: SunVisible))
-            }
-        }
-    }
- */
-    
     func Show2DHours()
     {
         if Settings.GetViewType() == .Globe3D || Settings.GetViewType() == .CubicWorld
@@ -150,7 +175,7 @@ extension MainView
         if Settings.GetHourValueType() != .None
         {
             HourLayer2D.isHidden = false
-            HourLayer2D.layer.zPosition = 40000
+            HourLayer2D.layer.zPosition = 60000
             HourLayer2D.layer.sublayers?.removeAll()
             HourLayer2D.backgroundColor = UIColor.clear
             
@@ -175,10 +200,12 @@ extension MainView
             var HourList = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
             let InitialOffset = Settings.GetImageCenter() == .SouthPole ? 5 : 6
             HourList = HourList.Shift(By: InitialOffset)
-            let LocalLongitude = Settings.GetLocalLongitude()!
-            var Long = Int(LocalLongitude / 15.0)
-            Long = Long * Int(Settings.GetImageCenter() == .SouthPole ? -1 : 1)
-            HourList = HourList.Shift(By: Long)
+            if let LocalLongitude = Settings.GetLocalLongitude()
+            {
+                var Long = Int(LocalLongitude / 15.0)
+                Long = Long * Int(Settings.GetImageCenter() == .SouthPole ? -1 : 1)
+                HourList = HourList.Shift(By: Long)
+            }
             for Hour in 0 ... 23
             {
                 let Angle = (CGFloat(Hour) + HourOffset) / 24.0 * 360.0
