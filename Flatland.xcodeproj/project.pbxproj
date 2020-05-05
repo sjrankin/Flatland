@@ -118,6 +118,9 @@
 		17C80C192454234000E27112 /* WorldVoronoiNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17C80C162454234000E27112 /* WorldVoronoiNorthCenter.png */; };
 		17C80C1B2454247A00E27112 /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C80C1A2454247A00E27112 /* FileIO.swift */; };
 		17CC3C61242CC69900CC7F87 /* SettingsNavigationViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */; };
+		17D16E0F246002A200CA04F4 /* TychoConstellationsNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17D16E0C246002A000CA04F4 /* TychoConstellationsNorthCenter.png */; };
+		17D16E10246002A200CA04F4 /* TychoConstellationsSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17D16E0D246002A000CA04F4 /* TychoConstellationsSouthCenter.png */; };
+		17D16E11246002A200CA04F4 /* TychoWithConstellations.png in Resources */ = {isa = PBXBuildFile; fileRef = 17D16E0E246002A100CA04F4 /* TychoWithConstellations.png */; };
 		17D314D8245BD6AF001E8353 /* +FlatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D314D7245BD6AF001E8353 /* +FlatView.swift */; };
 		17D314DA245BF93B001E8353 /* Flat2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D314D9245BF93B001E8353 /* Flat2.swift */; };
 		17D314DC245BFEDA001E8353 /* 2DTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D314DB245BFEDA001E8353 /* 2DTest.swift */; };
@@ -260,6 +263,9 @@
 		17C80C162454234000E27112 /* WorldVoronoiNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldVoronoiNorthCenter.png; sourceTree = "<group>"; };
 		17C80C1A2454247A00E27112 /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
 		17CC3C60242CC69900CC7F87 /* SettingsNavigationViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationViewer.swift; sourceTree = "<group>"; };
+		17D16E0C246002A000CA04F4 /* TychoConstellationsNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TychoConstellationsNorthCenter.png; sourceTree = "<group>"; };
+		17D16E0D246002A000CA04F4 /* TychoConstellationsSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TychoConstellationsSouthCenter.png; sourceTree = "<group>"; };
+		17D16E0E246002A100CA04F4 /* TychoWithConstellations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TychoWithConstellations.png; sourceTree = "<group>"; };
 		17D314D7245BD6AF001E8353 /* +FlatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatView.swift"; sourceTree = "<group>"; };
 		17D314D9245BF93B001E8353 /* Flat2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flat2.swift; sourceTree = "<group>"; };
 		17D314DB245BFEDA001E8353 /* 2DTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2DTest.swift; sourceTree = "<group>"; };
@@ -476,6 +482,9 @@
 				1788EF72245EEA7600881BA8 /* WorldASCIIArt.png */,
 				1788EF73245EEA7600881BA8 /* WorldASCIIArtNorthCenter.png */,
 				1788EF71245EEA7600881BA8 /* WorldASCIIArtSouthCenter.png */,
+				17D16E0C246002A000CA04F4 /* TychoConstellationsNorthCenter.png */,
+				17D16E0D246002A000CA04F4 /* TychoConstellationsSouthCenter.png */,
+				17D16E0E246002A100CA04F4 /* TychoWithConstellations.png */,
 				17BE6865242C7A99009861E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -641,6 +650,7 @@
 				1717F4D92457D72600C7F263 /* GaiaSky.png in Resources */,
 				17C80C0124540FCC00E27112 /* WorldSkeleton.png in Resources */,
 				17F0830124595ACA00AB6460 /* ColorTectonicsOverlay.png in Resources */,
+				17D16E11246002A200CA04F4 /* TychoWithConstellations.png in Resources */,
 				1720DD7A245FD19700C1E719 /* Menus.storyboard in Resources */,
 				175798532455530B001980EE /* WorldWarholSouthCenter.png in Resources */,
 				1717F4E92457D77400C7F263 /* BubbleWorldSouthCenter.png in Resources */,
@@ -685,7 +695,9 @@
 				1788EF57245EE18300881BA8 /* WorldSquare.png in Resources */,
 				1757985C245557DA001980EE /* WorldSpotColor.png in Resources */,
 				17F083132459755800AB6460 /* WhiteBlackNorthCenter.png in Resources */,
+				17D16E10246002A200CA04F4 /* TychoConstellationsSouthCenter.png in Resources */,
 				1717F4E52457D75600C7F263 /* NASAStarMapInvertedNorthCenter.png in Resources */,
+				17D16E0F246002A200CA04F4 /* TychoConstellationsNorthCenter.png in Resources */,
 				17BE686F242C7A99009861E1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -708,7 +720,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Users/Stuart/Documents/GitHub/Flatland/Flatland/VersionUpdater/VersionUpdater \"/Users/Stuart/Documents/GitHub/Flatland/Flatland/Flatland/Versioning.swift\"\n";
+			shellScript = "/Users/Stuart/Documents/GitHub/Flatland/Flatland/VersionUpdater/VersionUpdater \"/Users/Stuart/Documents/GitHub/Flatland/Flatland/Flatland/Versioning.swift\"\nxattr -cr ~/Library/Developer/Xcode/DerivedData || echo Clear\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
