@@ -51,7 +51,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         
         DataStack.layer.borderColor = UIColor.white.cgColor
         ArcLayer.backgroundColor = UIColor.clear
-        ArcLayer.layer.zPosition = 100000
+        ArcLayer.layer.zPosition = 50000
         TopView.backgroundColor = UIColor.black
         SettingsDone()
         TopSun?.VariableSunImage(Using: SunViewTop, Interval: 0.1)
@@ -93,6 +93,15 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         
         let ContextMenu = UIContextMenuInteraction(delegate: self)
         TopView.addInteraction(ContextMenu)
+        
+        let Rotation = CABasicAnimation(keyPath: "transform.rotation.z")
+        Rotation.delegate = self
+        Rotation.fromValue = NSNumber(floatLiteral: 0.0)
+        Rotation.toValue = NSNumber(floatLiteral: Double(CGFloat.pi * 2.0))
+        Rotation.duration = 30.0
+        Rotation.repeatCount = Float.greatestFiniteMagnitude
+        Rotation.isAdditive = true
+        SettingsButton.layer.add(Rotation, forKey: "RotateMe")
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle
@@ -493,6 +502,43 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         return CityTestList
     }
     
+    func HandleNewViewType(NewType: MapViewTypes)
+    {
+        switch NewType
+        {
+            case .NorthCentered:
+                Settings.SetImageCenter(.NorthPole)
+                Settings.SetViewType(.FlatMap)
+                WorldViewer3D.Hide()
+                StarFieldView.Hide()
+                SetFlatlandVisibility(IsVisible: true)
+                MakeLatitudeBands()
+                SettingsDone()
+            
+            case .SouthCentered:
+                Settings.SetImageCenter(.SouthPole)
+                Settings.SetViewType(.FlatMap)
+                WorldViewer3D.Hide()
+                StarFieldView.Hide()
+                SetFlatlandVisibility(IsVisible: true)
+                MakeLatitudeBands()
+                SettingsDone()
+            
+            case .Globe3D:
+                Settings.SetViewType(.Globe3D)
+                WorldViewer3D.Show()
+                if Settings.ShowStars()
+                {
+                    StarFieldView.Show()
+                }
+                SetFlatlandVisibility(IsVisible: false)
+                PleaseWait
+                    {
+                        WorldViewer3D.AddEarth()
+            }
+        }
+    }
+    
     @IBAction func HandleViewTypeChanged(_ sender: Any)
     {
         if let Segment = sender as? UISegmentedControl
@@ -632,6 +678,13 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         ChangeMap()
     }
     
+    func UpdateHourDisplay(With NewType: HourValueTypes)
+    {
+        Settings.SetHourValueType(NewType)
+        SettingsDone()
+        WorldViewer3D.UpdateHourLabels(With: NewType)
+    }
+    
     @IBAction func HandleHourSegmentChanged(_ sender: Any)
     {
         if let Segment = sender as? UISegmentedControl
@@ -694,4 +747,11 @@ enum ViewStatuses
 {
     case Show
     case Hide
+}
+
+enum MapViewTypes
+{
+    case NorthCentered
+    case SouthCentered
+    case Globe3D
 }
