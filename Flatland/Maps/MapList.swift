@@ -46,7 +46,7 @@ class MapList
             MapItem(.HalftoneVerticalLine, false, "HalftoneVerticalLines", "HalftoneVerticalLinesNorthCenter", "HalftoneVerticalLinesSouthCenter"),
             MapItem(.Crosshatched, false, "Style1", "HatchedNorthCenter", "HatchedSouthCenter"),
             MapItem(.Pink, false, "PinkMap", "PinkMapNorthCenter", "PinkMapSouthCenter"),
-            MapItem(.Cartoon, false, "CatroonMap", "CartoonMapNorthCenter", "CartoonMapSouthCenter"),
+            MapItem(.Cartoon, false, "CartoonMap", "CartoonMapNorthCenter", "CartoonMapSouthCenter"),
             MapItem(.Dithered, false, "DitheredMap", "DitheredMapNorthCenter", "DitheredMapSouthCenter"),
             MapItem(.SwirlyLines, false, "ArtMap1", "ArtMap1NorthCenter", "ArtMap1SouthCenter"),
             MapItem(.RoundSplotches, false, "ArtMap2", "ArtMap2NorthCenter", "ArtMap2SouthCenter"),
@@ -95,9 +95,10 @@ class MapList
             MapItem(.SquareWorld, true, "WorldSquare.png", "WorldSquareNorthCenter.png", "WorldSquareSouthCenter.png"),
             MapItem(.LevelWorld, true, "WorldSquareLevels.png", "WorldSquareLevelsNorthCenter.png", "WorldSquareLevelsSouthCentered.png"),
             MapItem(.GlowingCoasts, true, "WorldGlowingCoasts.png", "WorldGlowingCoastsNorthCenter.png", "WorldGlowingCoastsSouthCenter.png"),
-            MapItem(.StainedGlass, true, "WorldStainedGlass1.png", "WorldStainedGlass1NorthCenter.png", "WorldStainedGlassSouthCenter.png"),
+            MapItem(.StainedGlass, true, "WorldStainedGlass1.png", "WorldStainedGlass1NorthCenter.png", "WorldStainedGlass1SouthCenter.png"),
             MapItem(.PaperWorld, true, "PaperWorld.png", "PaperWorldNorthCenter.png", "PaperWorldSouthCenter.png"),
             MapItem(.ASCIIArt1, true, "WorldASCIIArt.png", "WorldASCIIArtNorthCenter.png", "WorldASCIIArtSouthCenter.png"),
+            MapItem(.TychoConstellations, true, "TychoWithConstellations.png", "TychoConstellationsNorthCenter.png", "TychoConstellationsSouthCenter.png"),
     ]
 }
 
@@ -158,6 +159,7 @@ enum MapTypes: String, CaseIterable
     case BubbleWorld = "Bubble World"
     case NASAStarsInverted = "Inverted Star Map"
     case TychoSky = "Tycho Star Map"
+    case TychoConstellations = "Tycho Star Map with Lines"
     case GaiaSky = "Gaia Star Map"
     case OnlyTectonic = "Tectonic Map"
     case TectonicOverlay = "Overlayed Tectonic"
