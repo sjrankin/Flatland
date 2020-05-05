@@ -94,6 +94,7 @@ enum CubicMapTypes: String, CaseIterable
     case pz = "pz"
 }
 
+/// Standard longitudes.
 enum Longitudes: Double, CaseIterable
 {
     case Equator = 0.5
@@ -103,6 +104,7 @@ enum Longitudes: Double, CaseIterable
     case TropicOfCapricorn = 0.38282
 }
 
+/// Standard latitudes.
 enum Latitudes: Double, CaseIterable
 {
     case PrimeMeridian = 0.5
