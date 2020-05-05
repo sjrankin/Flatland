@@ -545,6 +545,12 @@ extension MainView: UIContextMenuInteractionDelegate
             self.SetTexture(.TychoSky)
         }
         SubMenu.append(Menu7)
+        let Menu10 = UIAction(title: "Tycho Sky Map with Lines", image: nil)
+        {
+            action in
+            self.SetTexture(.TychoConstellations)
+        }
+        SubMenu.append(Menu10)
         let Menu8 = UIAction(title: "Inverted Sky Map", image: nil)
         {
             action in
@@ -594,10 +600,102 @@ extension MainView: UIContextMenuInteractionDelegate
         return Final
     }
     
+    // MARK: - View context menus.
+    
+    func MakeHourMenu() -> UIMenu
+    {
+        var SubMenu = [UIMenuElement]()
+        let Menu1 = UIAction(title: "No hour display", image: UIImage(named: "circle"))
+        {
+            action in
+            self.UpdateHourDisplay(With: .None)
+        }
+        SubMenu.append(Menu1)
+        let Menu2 = UIAction(title: "Noon Orientation", image: UIImage(named: "clock"))
+        {
+            action in
+            self.UpdateHourDisplay(With: .Solar)
+        }
+        SubMenu.append(Menu2)
+        let Menu3 = UIAction(title: "Noon Delta", image: UIImage(named: "triangle"))
+        {
+            action in
+            self.UpdateHourDisplay(With: .RelativeToNoon)
+        }
+        SubMenu.append(Menu3)
+        let Menu4 = UIAction(title: "Location Delta", image: UIImage(named: "pin"))
+        {
+            action in
+            self.UpdateHourDisplay(With: .RelativeToLocation)
+        }
+        SubMenu.append(Menu4)
+        let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
+        {
+            action in
+        }
+        let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
+        SubMenu.append(CancelMenu)
+        let Final = UIMenu(title: "Hours",
+                           image: UIImage(systemName: "arrowtriangle.right"),
+                           children: SubMenu)
+        return Final
+    }
+    
+    func MakeMapTypeMenu() -> UIMenu
+    {
+        var SubMenu = [UIMenuElement]()
+        let Menu1 = UIAction(title: "Flat, North Centered", image: UIImage(named: "n.circle"))
+        {
+            action in
+            self.HandleNewViewType(NewType: .NorthCentered)
+        }
+        SubMenu.append(Menu1)
+        let Menu2 = UIAction(title: "Flat, South Centered", image: UIImage(named: "s.circle"))
+        {
+            action in
+            self.HandleNewViewType(NewType: .SouthCentered)
+        }
+        SubMenu.append(Menu2)
+        let Menu3 = UIAction(title: "3D Globe", image: UIImage(named: "globe"))
+        {
+            action in
+            self.HandleNewViewType(NewType: .Globe3D)
+        }
+        SubMenu.append(Menu3)
+        let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
+        {
+            action in
+        }
+        let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
+        SubMenu.append(CancelMenu)
+        let Final = UIMenu(title: "Map Types",
+                           image: UIImage(systemName: "arrowtriangle.right"),
+                           children: SubMenu)
+        return Final
+    }
+    
+    func MakeViewContextMenu() -> UIMenu
+    {
+        var SubMenu = [UIMenuElement]()
+        SubMenu.append(MakeHourMenu())
+        SubMenu.append(MakeMapTypeMenu())
+        let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
+        {
+            action in
+        }
+        let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
+        SubMenu.append(CancelMenu)
+        let Final = UIMenu(title: "Views",
+                           image: UIImage(systemName: "arrowtriangle.right"),
+                           children: SubMenu)
+        return Final
+    }
+    
     // MARK: - Main context menu.
     
     func MakeGeneralContextMenu() -> UIMenu
     {
+        let ViewMenu = MakeViewContextMenu()
         let PhysicalMenu = MakePhysicalSubMenu()
         let StandardMenu = MakeStandardSubMenu()
         let PoliticalMenu = MakePoliticalSubMenu()
@@ -610,7 +708,7 @@ extension MainView: UIContextMenuInteractionDelegate
         }
         let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
         let Menu = UIMenu(title: "Map Menu",
-                          children: [StandardMenu, PhysicalMenu, PoliticalMenu, StylizedMenu, AstronomyMenu, SillyMenu, CancelMenu])
+                          children: [ViewMenu, StandardMenu, PhysicalMenu, PoliticalMenu, StylizedMenu, AstronomyMenu, SillyMenu, CancelMenu])
         return Menu
     }
 }
