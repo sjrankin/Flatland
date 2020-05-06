@@ -1,0 +1,115 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      3850,        105]
+NotebookOptionsPosition[      3457,         87]
+NotebookOutlinePosition[      3800,        102]
+CellTagsIndexPosition[      3757,         99]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{"Do", "\[IndentingNewLine]", 
+   RowBox[{"[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"DateName", " ", "=", " ", 
+      RowBox[{
+       RowBox[{"TheDate", "\[IndentingNewLine]", "NightTime"}], " ", "=", " ", 
+       RowBox[{
+        RowBox[{"GeoGraphics", "[", 
+         RowBox[{
+          RowBox[{"NightHemisphere", "[", 
+           RowBox[{"DateObject", "[", 
+            RowBox[{"{", 
+             RowBox[{
+             "2020", ",", "1", ",", "1", ",", " ", "9", ",", " ", "0", ",", 
+              " ", "0"}], "}"}], "]"}], "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"GeoBackground", "\[Rule]", " ", 
+           RowBox[{"GeoStyling", "[", "\"\<Satellite\>\"", "]"}]}], ",", " ", 
+          RowBox[{"ImageSize", " ", "\[Rule]", " ", "Full"}]}], "]"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"Export", "[", 
+         RowBox[{"\"\<d:\\NightMasks\\Mar21.png\>\"", ",", "NightTime"}], 
+         "]"}]}]}]}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"TheDate", ",", " ", 
+       RowBox[{"DateObject", "[", 
+        RowBox[{"{", 
+         RowBox[{
+         "2020", ",", " ", "1", ",", " ", "1", ",", " ", "9", ",", " ", "0", 
+          ",", " ", "0"}], "}"}], "]"}], ",", " ", 
+       RowBox[{"DateObject", "[", 
+        RowBox[{"{", 
+         RowBox[{"2020", ",", "1", ",", "5", ",", "9", ",", "0", ",", "0"}], 
+         "}"}], "]"}], ",", " ", 
+       RowBox[{"DatePlus", "[", 
+        RowBox[{"TheDate", ",", " ", "1"}], "]"}]}], "}"}]}], 
+    "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.79772781292988*^9, 3.7977279624990053`*^9}, {
+   3.7977280457692795`*^9, 3.797728049428857*^9}, {3.7977281751568303`*^9, 
+   3.7977281965275345`*^9}, {3.7977286770617123`*^9, 3.797728705284112*^9}, {
+   3.7977287526876264`*^9, 3.7977288109335604`*^9}, 3.7977289011241913`*^9, {
+   3.797728948738249*^9, 3.797728985456397*^9}, {3.7977290168591943`*^9, 
+   3.7977290393668127`*^9}, {3.7977293139842806`*^9, 3.797729350109446*^9}, {
+   3.797729522889949*^9, 3.797729546480737*^9}, {3.797729623643203*^9, 
+   3.797729639777532*^9}, {3.7977296846086035`*^9, 3.7977296898135595`*^9}, {
+   3.7977301326632175`*^9, 3.797730166596476*^9}, {3.7977305099200535`*^9, 
+   3.7977305213240957`*^9}, {3.797730573439144*^9, 3.79773075599438*^9}, {
+   3.797730841921322*^9, 3.797730919364504*^9}, {3.7977309590513115`*^9, 
+   3.797731015612256*^9}},
+ EmphasizeSyntaxErrors->True],
+
+Cell[BoxData["Do"], "Output",
+ CellChangeTimes->{3.797730740938331*^9, 3.797730989189089*^9}]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{3.797729701592862*^9},
+ NumberMarks->False],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.79772969924621*^9, 3.797729699279194*^9}}]
+},
+WindowSize->{934, 838},
+WindowMargins->{{286, Automatic}, {Automatic, 19}},
+FrontEndVersion->"10.2 for Microsoft Windows (64-bit) (July 29, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 2579, 52, 292, "Input"],
+Cell[3162, 76, 93, 1, 31, "Output"]
+}, Open  ]],
+Cell[3270, 80, 89, 2, 31, "Input"],
+Cell[3362, 84, 91, 1, 31, InheritFromParent]
+}
+]
+*)
+
+(* End of internal cache information *)
+
