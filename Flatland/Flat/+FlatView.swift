@@ -119,6 +119,8 @@ extension MainView
             let SetPercent: Double = Double(Sunset) / Double(24 * 60 * 60)
             let NightOffset = NightIsNorth ? 0.0 : 180.0
             var StartValue = -180.0 * RisePercent + NightOffset
+            //var EndValue = 180.0 * SetPercent + NightOffset
+            //var StartValue = -EndValue
             var EndValue = -StartValue
 
             if StartValue == 0.0 && EndValue == 0.0
