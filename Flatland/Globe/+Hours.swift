@@ -58,10 +58,6 @@ extension GlobeView
                 self.scene?.rootNode.addChildNode(HourNode!)
             
             case .RelativeToLocation:
-                if HourNode == nil
-                {
-                    return
-                }
                 RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
                 RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 HourNode = DrawHourLabels(Radius: 11.1)
