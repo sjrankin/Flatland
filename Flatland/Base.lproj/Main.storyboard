@@ -40,6 +40,10 @@
                                         <rect key="frame" x="34" y="162" width="700" height="700"/>
                                         <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ctd-gQ-xK7" customClass="UIImageView">
+                                        <rect key="frame" x="34" y="162" width="700" height="700"/>
+                                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sIC-Wp-JbB">
                                         <rect key="frame" x="34" y="162" width="700" height="700"/>
                                         <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -287,11 +291,13 @@
                                     <constraint firstItem="RiW-Kc-e2T" firstAttribute="leading" secondItem="Kse-DN-BOT" secondAttribute="leading" constant="-20" id="4tK-h9-AJX"/>
                                     <constraint firstItem="7vk-gF-Mzg" firstAttribute="centerX" secondItem="lZ4-B6-wwt" secondAttribute="centerX" id="6PI-E0-ag8"/>
                                     <constraint firstItem="wU5-9A-Ujl" firstAttribute="top" secondItem="lZ4-B6-wwt" secondAttribute="top" id="7Vy-Xb-aBR"/>
+                                    <constraint firstItem="Ctd-gQ-xK7" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="top" id="8gn-fI-3gS"/>
                                     <constraint firstItem="STp-0d-B28" firstAttribute="leading" secondItem="Kse-DN-BOT" secondAttribute="trailing" constant="-40" id="AIV-yk-eu0"/>
                                     <constraint firstItem="pUB-G7-6d9" firstAttribute="top" secondItem="7vk-gF-Mzg" secondAttribute="top" id="AqC-Wg-dcb"/>
                                     <constraint firstItem="fkZ-wJ-IXP" firstAttribute="top" secondItem="STp-0d-B28" secondAttribute="bottom" constant="19" id="CFP-lH-Rdj"/>
                                     <constraint firstItem="ic8-eO-fM3" firstAttribute="centerY" secondItem="E0c-Ml-2UJ" secondAttribute="centerY" id="EuX-QN-86O"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="trailing" secondItem="kDv-JP-mbI" secondAttribute="trailing" id="FG9-Ko-s51"/>
+                                    <constraint firstItem="Ctd-gQ-xK7" firstAttribute="trailing" secondItem="l3A-8D-waa" secondAttribute="trailing" id="GRA-Kn-qNI"/>
                                     <constraint firstItem="fkZ-wJ-IXP" firstAttribute="centerX" secondItem="STp-0d-B28" secondAttribute="centerX" id="Gaw-qK-dmo"/>
                                     <constraint firstItem="E0c-Ml-2UJ" firstAttribute="bottom" secondItem="l3A-8D-waa" secondAttribute="bottom" id="H6C-c1-q3T"/>
                                     <constraint firstAttribute="bottom" secondItem="Kse-DN-BOT" secondAttribute="bottom" constant="14" id="H7A-VW-drA"/>
@@ -301,6 +307,7 @@
                                     <constraint firstItem="sIC-Wp-JbB" firstAttribute="trailing" secondItem="l3A-8D-waa" secondAttribute="trailing" id="MaR-rK-hpf"/>
                                     <constraint firstItem="E0c-Ml-2UJ" firstAttribute="leading" secondItem="l3A-8D-waa" secondAttribute="leading" id="MzO-8O-yPd"/>
                                     <constraint firstItem="fkZ-wJ-IXP" firstAttribute="leading" secondItem="RiW-Kc-e2T" secondAttribute="trailing" constant="-36" id="N63-ei-gyb"/>
+                                    <constraint firstItem="Ctd-gQ-xK7" firstAttribute="bottom" secondItem="l3A-8D-waa" secondAttribute="bottom" id="NaW-AI-dMh"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="bottom" secondItem="kDv-JP-mbI" secondAttribute="bottom" id="OP3-Pj-32T"/>
                                     <constraint firstItem="wU5-9A-Ujl" firstAttribute="leading" secondItem="lZ4-B6-wwt" secondAttribute="leading" id="RXD-SR-vzF"/>
                                     <constraint firstAttribute="bottom" secondItem="STp-0d-B28" secondAttribute="bottom" constant="951" id="Szk-PC-ysV"/>
@@ -310,6 +317,7 @@
                                     <constraint firstItem="sIC-Wp-JbB" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="top" id="Yvg-Hr-IAz"/>
                                     <constraint firstItem="kDv-JP-mbI" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="top" id="aE5-42-yq8"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="top" secondItem="7vk-gF-Mzg" secondAttribute="bottom" constant="-788" id="aIv-fh-Kvr"/>
+                                    <constraint firstItem="Ctd-gQ-xK7" firstAttribute="leading" secondItem="l3A-8D-waa" secondAttribute="leading" id="ark-sy-9OJ"/>
                                     <constraint firstItem="ic8-eO-fM3" firstAttribute="centerX" secondItem="7vk-gF-Mzg" secondAttribute="centerX" id="bDo-30-pIC"/>
                                     <constraint firstItem="dFz-Nh-pZt" firstAttribute="trailing" secondItem="fkZ-wJ-IXP" secondAttribute="trailing" constant="21.5" id="bcN-rh-k9a"/>
                                     <constraint firstAttribute="bottom" secondItem="wU5-9A-Ujl" secondAttribute="bottom" id="fqS-JY-vRt"/>
@@ -353,6 +361,7 @@
                         <outlet property="LocalSunsetLabel" destination="nP0-zH-B4P" id="9CC-3b-MOq"/>
                         <outlet property="MainTimeLabelBottom" destination="7vk-gF-Mzg" id="P1o-fs-0x4"/>
                         <outlet property="MainTimeLabelTop" destination="Pia-TU-9Wx" id="Yk8-EI-O8A"/>
+                        <outlet property="NightMaskView" destination="Ctd-gQ-xK7" id="ywc-vh-dTc"/>
                         <outlet property="NoonTimezoneLabel" destination="Mbr-2I-Fp3" id="gXW-1t-tkv"/>
                         <outlet property="PleaseWaitDialog" destination="ic8-eO-fM3" id="Eos-uh-48h"/>
                         <outlet property="SettingsButton" destination="STp-0d-B28" id="gfe-hq-40e"/>
