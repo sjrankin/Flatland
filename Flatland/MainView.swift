@@ -24,6 +24,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         super.viewDidLoad()
         Settings.Initialize()
         FileIO.InitializeDirectory()
+        
+        NightMaskView.backgroundColor = UIColor.clear
 
         //Initialize the please wait dialog
         PleaseWaitDialog.isHidden = true
@@ -719,6 +721,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     // MARK: - Interface builder outlets.
     
+    @IBOutlet weak var NightMaskView: UIImageView!
     @IBOutlet weak var PleaseWaitDialog: UIView!
     @IBOutlet weak var HourSegment: UISegmentedControl!
     @IBOutlet weak var HourLayer2D: UIView!
