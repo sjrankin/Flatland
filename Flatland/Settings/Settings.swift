@@ -22,6 +22,7 @@ class Settings
         SetShowNight(true)
         SetTimeLabel(.UTC)
         SetImageCenter(.NorthPole)
+        SetNightMaskAlpha(0.5)
         SetSunLocation(.Top)
         SetGrid(true)
         SetEquator(true)
@@ -342,6 +343,16 @@ class Settings
     public static func SetShowNight(_ NewValue: Bool)
     {
         UserDefaults.standard.set(NewValue, forKey: "ShowNight")
+    }
+    
+    public static func NightMaskAlpha() -> Double
+    {
+        return UserDefaults.standard.double(forKey: "NightMaskAlpha")
+    }
+    
+    public static func SetNightMaskAlpha(_ NewAlpha: Double)
+    {
+        UserDefaults.standard.set(NewAlpha, forKey: "NightMaskAlpha")
     }
     
     // MARK: - Grid-related settings.
