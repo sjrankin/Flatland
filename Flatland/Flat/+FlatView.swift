@@ -49,6 +49,29 @@ extension MainView
         }
     }
     
+    func MakeNightMaskName(From: Date) -> String
+    {
+        let Day = Calendar.current.component(.day, from: From)
+        let Month = Calendar.current.component(.month, from: From) - 1
+        let MonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][Month]
+        return "\(Day)_\(MonthName)"
+    }
+    
+    func GetNightMask(ForDate: Date) -> UIImage?
+    {
+        let test = UIImage(named: "1_Jan")!
+        let ImageName = MakeNightMaskName(From: ForDate)
+        var MaskAlpha = Settings.NightMaskAlpha()
+        if MaskAlpha == 0.0
+        {
+            MaskAlpha = 0.4
+            Settings.SetNightMaskAlpha(MaskAlpha)
+        }
+        let MaskImage = UIImage(named: ImageName)!
+        let Final = MaskImage.Alpha(CGFloat(MaskAlpha))
+        return Final
+    }
+    
     /// Make bands of night time. A "band" is an arc at a given latitude that represents darkness
     /// for that latitude on a given date (the date the program is running).
     /// - Note: Most of the time, creating latitude bands works without issue. However, on rare
@@ -57,18 +80,42 @@ extension MainView
     ///         To help alleviate this, this function forces the bands to be created on the UI queue.
     func MakeLatitudeBands()
     {
+        #if true
+        if Settings.GetViewType() == .Globe3D
+        {
+            return
+        }
+        if !Settings.ShowNight()
+        {
+            return
+        }
+        if let Image = GetNightMask(ForDate: Date())
+        {
+            OperationQueue.main.addOperation
+                {
+                    self.ArcLayer.layer.contents = nil
+                    self.NightMaskView.image = Image
+            }
+        }
+        #else
         OperationQueue.main.addOperation
             {
                 self.DoMakeLatitudeBands()
         }
+        #endif
     }
     
     /// Create a series of arcs that represent darkness for a given latitude on the date the function
     /// was called. Update the arc layer with the bands of darkness.
     /// - Note: This function assumes it is being executed on the UI thread.
+    /// - Note: If the user is not viewing the globe in flat mode, this code returns immediately.
     func DoMakeLatitudeBands()
     {
         ArcLayer.layer.sublayers?.removeAll()
+        if Settings.GetViewType() == .Globe3D
+        {
+            return
+        }
         if !Settings.ShowNight()
         {
             return
@@ -77,7 +124,7 @@ extension MainView
         let Center = CGPoint(x: Radius, y: Radius)
         let NightIsNorth = Settings.GetImageCenter() == .NorthPole
         let BandWidth = 2
-            let Now = Date()
+        let Now = Date()
         let Month = Calendar.current.component(.month, from: Now)
         let Day = Calendar.current.component(.day, from: Now)
         var IsSummer = true
@@ -122,7 +169,7 @@ extension MainView
             //var EndValue = 180.0 * SetPercent + NightOffset
             //var StartValue = -EndValue
             var EndValue = -StartValue
-
+            
             if StartValue == 0.0 && EndValue == 0.0
             {
                 if IsSummer && Latitude > 0 && Settings.GetImageCenter() == .NorthPole
@@ -138,7 +185,7 @@ extension MainView
                 StartValue = -180.0
                 EndValue = 180.0
             }
-
+            
             let LatPercent = CGFloat(Latitude + 90) / 180.0
             var ArcRadius = Radius * LatPercent
             if !NightIsNorth
