@@ -14,6 +14,7 @@ extension MainView
 {
     func SetFlatlandVisibility(IsVisible: Bool)
     {
+        NightMaskView.isHidden = !IsVisible
         WorldViewer.isHidden = !IsVisible
         GridOverlay.isHidden = !IsVisible
         ArcLayer.isHidden = !IsVisible
@@ -54,12 +55,12 @@ extension MainView
         let Day = Calendar.current.component(.day, from: From)
         let Month = Calendar.current.component(.month, from: From) - 1
         let MonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][Month]
-        return "\(Day)_\(MonthName)"
+        let Prefix = Settings.GetImageCenter() == .NorthPole ? "" : "South_"
+        return "\(Prefix)\(Day)_\(MonthName)"
     }
     
     func GetNightMask(ForDate: Date) -> UIImage?
     {
-        let test = UIImage(named: "1_Jan")!
         let ImageName = MakeNightMaskName(From: ForDate)
         var MaskAlpha = Settings.NightMaskAlpha()
         if MaskAlpha == 0.0
@@ -68,7 +69,13 @@ extension MainView
             Settings.SetNightMaskAlpha(MaskAlpha)
         }
         let MaskImage = UIImage(named: ImageName)!
-        let Final = MaskImage.Alpha(CGFloat(MaskAlpha))
+        var Final = MaskImage.Alpha(CGFloat(MaskAlpha))
+        #if false
+        if Settings.GetImageCenter() == .NorthPole
+        {
+            Final = Final.Rotate(Degrees: 180.0)
+        }
+        #endif
         return Final
     }
     
