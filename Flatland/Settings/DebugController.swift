@@ -26,6 +26,8 @@ class DebugController: UITableViewController
         }
         FreezeTimeSwitch.isOn = false
         TimeMultiplier.selectedSegmentIndex = 0
+        FrozenDatePicker.date = Date()
+        FreezeDateSwitch.isOn = false
     }
     
     @IBAction func HandleFreezeTimeChanged(_ sender: Any)
@@ -59,6 +61,21 @@ class DebugController: UITableViewController
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func HandleDateFrozen(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            if Switch.isOn
+            {
+                SettingsDelegate?.FreezeDate(true, ToDate: FrozenDatePicker.date)
+                return
+            }
+        }
+        SettingsDelegate?.FreezeTime(false)
+    }
+    
+    @IBOutlet weak var FreezeDateSwitch: UISwitch!
+    @IBOutlet weak var FrozenDatePicker: UIDatePicker!
     @IBOutlet weak var FreezeTimeSwitch: UISwitch!
     @IBOutlet weak var TimeMultiplier: UISegmentedControl!
 }
