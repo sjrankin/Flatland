@@ -18,4 +18,6 @@ protocol SettingsProtocol: class
     func GetCities() -> [City]
     func FreezeTime(_ IsFrozen: Bool)
     func SetTimeMultiplier(_ Multiplier: Double)
+    func FreezeDate(_ IsFrozen: Bool, ToDate: Date)
+    func FreezeDate(_ IsFrozen: Bool)
 }
