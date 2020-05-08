@@ -667,6 +667,16 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
     }
     
+    func FreezeDate(_ IsFrozen: Bool, ToDate: Date)
+    {
+        
+    }
+    
+    func FreezeDate(_ IsFrozen: Bool)
+    {
+        
+    }
+    
     func DecoupleClocks()
     {
         
