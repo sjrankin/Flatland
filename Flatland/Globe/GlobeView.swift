@@ -44,17 +44,6 @@ class GlobeView: SCNView
         self.isUserInteractionEnabled = true
     }
     
-    public func ShowAsHelp()
-    {
-        VersionString = Versioning.MakeSimpleVersionString()
-        InVersionDisplayMode = true
-        AddEarth()
-    }
-    
-    var InVersionDisplayMode = false
-    
-    var VersionString = ""
-    
     /// Initialize the globe view.
     func InitializeView()
     {
@@ -258,11 +247,7 @@ class GlobeView: SCNView
         let LineSphere = SCNSphere(radius: 10.2)
         LineSphere.segmentCount = 100
         
-        var MapType = Settings.GetGlobeMapType()
-        if InVersionDisplayMode
-        {
-            MapType = .SimpleBorders2
-        }
+        let MapType = Settings.GetGlobeMapType()
         var BaseMap: UIImage? = nil
         var SecondaryMap = UIImage()
         BaseMap = MapManager.ImageFor(MapType: MapType, ViewType: .Globe3D)
@@ -286,9 +271,7 @@ class GlobeView: SCNView
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
-        SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
-        
-        SeaNode = SCNNode()
+
         //Precondition the surfaces.
         switch MapType
         {
@@ -350,10 +333,11 @@ class GlobeView: SCNView
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .lambert
             
             default:
-                break
+                //Create an empty sea node if one is not needed.
+                SeaNode = SCNNode()
         }
         
-        UpdateSurfaceTransparency()
+        //UpdateSurfaceTransparency()
         
         LineNode = SCNNode(geometry: LineSphere)
         LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -361,10 +345,7 @@ class GlobeView: SCNView
         LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLines
         LineNode?.castsShadow = false
         
-        if !InVersionDisplayMode
-        {
             PlotCities(On: EarthNode!, WithRadius: 10)
-        }
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1]
