@@ -17,7 +17,7 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        AboutWorld.ShowAsHelp()
+        DrawAboutGlobe()
     }
     
     @IBAction func HandleCloseButtonPressed(_ sender: Any)
@@ -51,6 +51,209 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         return UIModalPresentationStyle.none
     }
     
+    func DrawAboutGlobe()
+    {
+        AboutWorld.allowsCameraControl = true
+        AboutWorld.autoenablesDefaultLighting = false
+        AboutWorld.scene = SCNScene()
+        AboutWorld.backgroundColor = UIColor.clear
+        
+        let Camera = SCNCamera()
+        Camera.fieldOfView = 90.0
+        Camera.usesOrthographicProjection = true
+        Camera.orthographicScale = 14
+        Camera.zFar = 500
+        Camera.zNear = 0
+        CameraNode = SCNNode()
+        CameraNode.camera = Camera
+        CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
+        
+        let Light = SCNLight()
+        Light.type = .directional
+        Light.intensity = 800
+        Light.castsShadow = true
+        Light.shadowColor = UIColor.black.withAlphaComponent(0.80)
+        Light.shadowMode = .forward
+        Light.shadowRadius = 10.0
+        Light.color = UIColor.white
+        LightNode = SCNNode()
+        LightNode.light = Light
+        LightNode.position = SCNVector3(0.0, 0.0, 80.0)
+        
+        let MoonLight = SCNLight()
+        MoonLight.type = .directional
+        MoonLight.intensity = 300
+        MoonLight.castsShadow = true
+        MoonLight.shadowColor = UIColor.black.withAlphaComponent(0.80)
+        MoonLight.shadowMode = .forward
+        MoonLight.shadowRadius = 10.0
+        MoonLight.color = UIColor.cyan
+        MoonNode = SCNNode()
+        MoonNode.light = MoonLight
+        MoonNode.position = SCNVector3(0.0, 0.0, -100.0)
+        MoonNode.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+        
+        AboutWorld.scene?.rootNode.addChildNode(CameraNode)
+        AboutWorld.scene?.rootNode.addChildNode(LightNode)
+        AboutWorld.scene?.rootNode.addChildNode(MoonNode)
+        
+        DrawWorld()
+        StartEarthClock()
+    }
+    
+    var CameraNode = SCNNode()
+    var LightNode = SCNNode()
+    var MoonNode = SCNNode()
+    
+    func StartEarthClock()
+    {
+        let _ = Timer.scheduledTimer(timeInterval: 1.0,
+                                     target: self,
+                                     selector: #selector(UpdateAboutEarth),
+                                     userInfo: nil,
+                                     repeats: true)
+    }
+    
+    @objc func UpdateAboutEarth()
+    {
+        let Now = Date()
+        let TZ = TimeZone(abbreviation: "UTC")
+        var Cal = Calendar(identifier: .gregorian)
+        Cal.timeZone = TZ!
+        let Hour = Cal.component(.hour, from: Now)
+        let Minute = Cal.component(.minute, from: Now)
+        let Second = Cal.component(.second, from: Now)
+        let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+        let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
+        let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+        UpdateEarth(With: PrettyPercent)
+    }
+    
+    func UpdateEarth(With Percent: Double)
+    {
+        let Degrees = 180.0 - (360.0) * Percent
+        let Radians = Degrees.Radians
+        let Rotate = SCNAction.rotateTo(x: 0.0, y: CGFloat(-Radians), z: 0.0, duration: 1.0)
+        EarthNode?.runAction(Rotate)
+    }
+    
+    func DrawWorld()
+    {
+        let Surface = SCNSphere(radius: 10.0)
+        Surface.segmentCount = 100
+        let BaseMap = UIImage(named: "AboutMap")
+        if BaseMap == nil
+        {
+            fatalError("Error retrieving base map in About.")
+        }
+        EarthNode = SCNNode(geometry: Surface)
+        EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
+        EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
+        SystemNode = SCNNode()
+        AboutWorld.prepare([EarthNode!], completionHandler:
+            {
+                success in
+                if success
+                {
+                    self.SystemNode!.addChildNode(self.EarthNode!)
+                    self.AboutWorld.scene?.rootNode.addChildNode(self.SystemNode!)
+                }
+        })
+        
+        let Declination = Sun.Declination(For: Date())
+        SystemNode!.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+        AddAboutText()
+    }
+    
+    func AddAboutText()
+    {
+        var Words = [String]()
+        Words.append("Build \(Versioning.Build) (\(Versioning.BuildDate))")
+        Words.append(Versioning.MakeVersionString())
+        Words.append(Versioning.ApplicationName)
+        HourNode = MakeSentence(Radius: 11.1, Words: Words)
+        AboutWorld.scene?.rootNode.addChildNode(HourNode!)
+        let Rotation = SCNAction.rotateBy(x: 0.0, y: -CGFloat.pi / 180.0, z: 0.0, duration: 0.06)
+        let Forever = SCNAction.repeatForever(Rotation)
+        HourNode?.runAction(Forever)
+    }
+    
+    var EarthNode: SCNNode? = nil
+    var SystemNode: SCNNode? = nil
+    var HourNode: SCNNode? = nil
+    
+    /// Given an array of words, place a set of words in the hour ring over the Earth.
+    /// - Parameter Radius: The radius of the word.
+    /// - Parameter Words: Array of words (if order is significant, the first word in the order
+    ///                    must be the last entry in the array) to display.
+    /// - Returns: Node for words in the hour ring.
+    func MakeSentence(Radius: Double, Words: [String]) -> SCNNode
+    {
+        let NodeShape = SCNSphere(radius: CGFloat(Radius))
+        let Node = SCNNode(geometry: NodeShape)
+        Node.position = SCNVector3(0.0, 0.0, 0.0)
+        Node.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
+        Node.geometry?.firstMaterial?.specular.contents = UIColor.clear
+        Node.name = "Hour Node"
+        
+        let StartAngle = -100
+        var Angle = StartAngle
+        for Word in Words
+        {
+            print("Displaying Word \"\(Word)\" at \(Angle)°")
+            var WorkingAngle: CGFloat = CGFloat(Angle)
+            for (_, Letter) in Word.enumerated().reversed()
+            {
+                let Radians = WorkingAngle.Radians
+                let AngleIncrement: CGFloat = 3.5
+                WorkingAngle = WorkingAngle + AngleIncrement
+                let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
+                //                HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
+                var IsNumber = false
+                if ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].contains(Letter)
+                {
+                    IsNumber = true
+                }
+                var LetterColor = UIColor.yellow
+                if IsNumber
+                {
+                    HourText.font = UIFont.monospacedDigitSystemFont(ofSize: 20, weight: UIFont.Weight.regular)
+                }
+                else
+                {
+                    var NormalFontWeight = UIFont.Weight.regular
+                    if Word == Versioning.ApplicationName
+                    {
+                        NormalFontWeight = UIFont.Weight.black
+                        LetterColor = UIColor.systemRed
+                    }
+                    HourText.font = UIFont.monospacedSystemFont(ofSize: 20, weight: NormalFontWeight)
+                }
+                HourText.firstMaterial?.diffuse.contents = LetterColor
+                HourText.firstMaterial?.specular.contents = UIColor.white
+                HourText.flatness = 0.1
+                let X = CGFloat(Radius) * cos(Radians)
+                let Z = CGFloat(Radius) * sin(Radians)
+                let HourTextNode = SCNNode(geometry: HourText)
+                HourTextNode.scale = SCNVector3(0.07, 0.07, 0.07)
+                HourTextNode.position = SCNVector3(X, -0.8, Z)
+                let HourRotation = (90.0 - Double(WorkingAngle) + 10.0).Radians
+                HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
+                Node.addChildNode(HourTextNode)
+            }
+            if Angle == StartAngle
+            {
+                Angle = Angle + 100
+            }
+            else
+            {
+                Angle = Angle + 55
+            }
+        }
+        
+        return Node
+    }
+    
     @IBOutlet weak var DetailsButton: UIButton!
-    @IBOutlet weak var AboutWorld: GlobeView!
+    @IBOutlet weak var AboutWorld: SCNView!
 }
