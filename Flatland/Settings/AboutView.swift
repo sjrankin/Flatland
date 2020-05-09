@@ -183,9 +183,11 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
     var HourNode: SCNNode? = nil
     
     /// Given an array of words, place a set of words in the hour ring over the Earth.
+    /// - Note: Pay attention to the word order - it must be reversed in `Words` in order for
+    ///         words to appear correctly as people would expect.
     /// - Parameter Radius: The radius of the word.
     /// - Parameter Words: Array of words (if order is significant, the first word in the order
-    ///                    must be the last entry in the array) to display.
+    ///                    must be the last entry in the array) to display as expected.
     /// - Returns: Node for words in the hour ring.
     func MakeSentence(Radius: Double, Words: [String]) -> SCNNode
     {
@@ -200,35 +202,47 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         var Angle = StartAngle
         for Word in Words
         {
-            print("Displaying Word \"\(Word)\" at \(Angle)°")
             var WorkingAngle: CGFloat = CGFloat(Angle)
-            for (_, Letter) in Word.enumerated().reversed()
+            var PreviousEnding: CGFloat = 0.0
+            for (_, Letter) in Word.enumerated()
             {
                 let Radians = WorkingAngle.Radians
-                let AngleIncrement: CGFloat = 3.5
-                WorkingAngle = WorkingAngle + AngleIncrement
                 let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
-                //                HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
-                var IsNumber = false
-                if ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].contains(Letter)
-                {
-                    IsNumber = true
-                }
                 var LetterColor = UIColor.yellow
-                if IsNumber
+                var VerticalOffset: CGFloat = 0.8
+                if Word == Versioning.ApplicationName
                 {
-                    HourText.font = UIFont.monospacedDigitSystemFont(ofSize: 20, weight: UIFont.Weight.regular)
+                    HourText.font = UIFont(name: "Avenir-Black", size: 28.0)
+                    LetterColor = UIColor.systemRed
                 }
                 else
                 {
-                    var NormalFontWeight = UIFont.Weight.regular
-                    if Word == Versioning.ApplicationName
-                    {
-                        NormalFontWeight = UIFont.Weight.black
-                        LetterColor = UIColor.systemRed
-                    }
-                    HourText.font = UIFont.monospacedSystemFont(ofSize: 20, weight: NormalFontWeight)
+                    HourText.font = UIFont(name: "Avenir-Heavy", size: 24.0)
+                    VerticalOffset = 0.6
                 }
+                var CharWidth: Float = 0
+                if Letter == " "
+                {
+                    CharWidth = 3.5
+                }
+                else
+                {
+                    CharWidth = abs(HourText.boundingBox.max.x - HourText.boundingBox.min.x)
+                }
+                PreviousEnding = CGFloat(CharWidth)
+                if Letter == "V"
+                {
+                    PreviousEnding = CGFloat(12.0)
+                }
+                if Letter == "l"
+                {
+                    PreviousEnding = CGFloat(6.0)
+                }
+                if ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].contains(Letter)
+                {
+                    PreviousEnding = CGFloat(10.0)
+                }
+                WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
                 HourText.firstMaterial?.diffuse.contents = LetterColor
                 HourText.firstMaterial?.specular.contents = UIColor.white
                 HourText.flatness = 0.1
@@ -236,19 +250,12 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
                 let Z = CGFloat(Radius) * sin(Radians)
                 let HourTextNode = SCNNode(geometry: HourText)
                 HourTextNode.scale = SCNVector3(0.07, 0.07, 0.07)
-                HourTextNode.position = SCNVector3(X, -0.8, Z)
-                let HourRotation = (90.0 - Double(WorkingAngle) + 10.0).Radians
+                HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
+                let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
                 HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
                 Node.addChildNode(HourTextNode)
             }
-            if Angle == StartAngle
-            {
-                Angle = Angle + 100
-            }
-            else
-            {
-                Angle = Angle + 55
-            }
+            Angle = Angle + 65
         }
         
         return Node
