@@ -46,20 +46,6 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         }
 
         ShowCitiesSwitch.isOn = Settings.ShowCities()
-        TimePicker.date = Date()
-        ShowLocalDataSwitch.isOn = Settings.GetShowLocalData()
-        for Offset in -12 ... 12
-        {
-            Offsets.append(Offset)
-        }
-                DebugOffsetPicker.reloadAllComponents()
-        if let Index = Offsets.firstIndex(where: {$0 == 0})
-        {
-        DebugOffsetPicker.selectRow(Index, inComponent: 0, animated: true)
-        }
-        DebugOffsetPicker.layer.borderColor = UIColor.black.cgColor
-        DebugOffsetPicker.layer.borderWidth = 0.5
-        DebugOffsetPicker.layer.cornerRadius = 5.0
         ShowStarsSwitch.isOn = Settings.ShowStars()
     }
     
@@ -136,14 +122,6 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
     {
         Delegate?.SettingsDone()
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func HandleSetTimeButtonPressed(_ sender: Any)
-    {
-        let Index = DebugOffsetPicker.selectedRow(inComponent: 0)
-        let Offset = Offsets[Index]
-        let ForceTime = TimePicker.date
-        Delegate?.ForceTime(NewTime: ForceTime, WithOffset: Offset)
     }
     
     @IBAction func HandleShowLocalDataChanged(_ sender: Any)
@@ -223,10 +201,8 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var WorkingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var WorkingLabel: UILabel!
     @IBOutlet weak var ShowStarsSwitch: UISwitch!
-    @IBOutlet weak var DebugOffsetPicker: UIPickerView!
     @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
     @IBOutlet weak var ShowCitiesSwitch: UISwitch!
     @IBOutlet weak var ImageCenterSegment: UISegmentedControl!
     @IBOutlet weak var TimeLabelSegment: UISegmentedControl!
-    @IBOutlet weak var TimePicker: UIDatePicker!
 }
