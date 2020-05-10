@@ -89,6 +89,7 @@ extension GlobeView
         Node.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
         Node.geometry?.firstMaterial?.specular.contents = UIColor.clear
         Node.name = "Hour Node"
+        var HourLabelList = [String]()
         
         for Hour in 0 ... 23
         {
@@ -99,6 +100,9 @@ extension GlobeView
             let Radians = Angle.Radians
             //Calculate the display hour.
             let DisplayHour = 24 - (Hour + 5) % 24 - 1
+            #if true
+            HourLabelList.append("\(DisplayHour)")
+            #else
             let HourText = SCNText(string: "\(DisplayHour)", extrusionDepth: 5.0)
             HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
             HourText.firstMaterial?.diffuse.contents = UIColor.yellow
@@ -112,7 +116,9 @@ extension GlobeView
             let HourRotation = (90.0 - Angle).Radians
             HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
             Node.addChildNode(HourTextNode)
+            #endif
         }
+        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: UIColor.yellow, RadialOffset: 6.0)
         
         return Node
     }
@@ -128,6 +134,7 @@ extension GlobeView
         Node.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
         Node.geometry?.firstMaterial?.specular.contents = UIColor.clear
         Node.name = "Hour Node"
+        var HourLabelList = [String]()
         
         for Hour in 0 ... 23
         {
@@ -144,6 +151,9 @@ extension GlobeView
             {
                 Prefix = "+"
             }
+            #if true
+            HourLabelList.append("\(Prefix)\(DisplayHour)")
+            #else
             let HourText = SCNText(string: "\(Prefix)\(DisplayHour)", extrusionDepth: 5.0)
             HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
             HourText.firstMaterial?.diffuse.contents = UIColor(red: 239.0 / 255.0, green: 204.0 / 255.0, blue: 0.0 / 255.0, alpha: 1.0)
@@ -157,7 +167,10 @@ extension GlobeView
             let HourRotation = (90.0 - Angle).Radians
             HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
             Node.addChildNode(HourTextNode)
+            #endif
         }
+        let LetterColor = UIColor(red: 239.0 / 255.0, green: 204.0 / 255.0, blue: 0.0 / 255.0, alpha: 1.0)
+        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: LetterColor, RadialOffset: 6.0)
         
         return Node
     }
@@ -180,12 +193,13 @@ extension GlobeView
         let LocalLongitude = Settings.GetLocalLongitude()!
         let Long = Int(LocalLongitude / 15.0)
         HourList = HourList.Shift(By: Long)
+        var HourLabelList = [String]()
         for Hour in 0 ... 23
         {
             //Get the angle for the text. The +2.0 is because SCNText geometries start at the X position
             //and move to the right - to make the text line up closely (but not perfectly) with the noon
             //sun, adding a small amount adjusts the X position.
-            let Hour = (Hour + 7) % 24
+            let Hour = (Hour + 0/*7*/) % 24
             let Angle = ((CGFloat(Hour) / 24.0) * 360.0) + 2.0
             let Radians = (Angle).Radians
             //Calculate the display hour.
@@ -195,7 +209,9 @@ extension GlobeView
             {
                 Prefix = "+"
             }
-            
+            #if true
+            HourLabelList.append("\(Prefix)\(DisplayHour)")
+            #else
             let HourText = SCNText(string: "\(Prefix)\(DisplayHour)", extrusionDepth: 5.0)
             HourText.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
             HourText.firstMaterial?.diffuse.contents = UIColor(red: 227.0 / 255.0, green: 1.0, blue: 0.0, alpha: 1.0)
@@ -209,6 +225,76 @@ extension GlobeView
             let HourRotation = (90.0 - Angle).Radians
             HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
             Node.addChildNode(HourTextNode)
+            #endif
+        }
+        let LetterColor = UIColor(red: 227.0 / 255.0, green: 1.0, blue: 0.0, alpha: 1.0)
+        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: LetterColor)
+        
+        return Node
+    }
+    
+    /// Given an array of words, place a set of words in the hour ring over the Earth.
+    /// - Note: Pay attention to the word order - it must be reversed in `Words` in order for
+    ///         words to appear correctly as people would expect.
+    /// - Parameter Radius: The radius of the word.
+    /// - Parameter Words: Array of words (if order is significant, the first word in the order
+    ///                    must be the last entry in the array) to display as expected.
+    /// - Returns: Node for words in the hour ring.
+    func PlotHourLabels(Radius: Double, Labels: [String], LetterColor: UIColor = UIColor.systemYellow,
+                        RadialOffset: CGFloat = 0.0) -> SCNNode
+    {
+        let NodeShape = SCNSphere(radius: CGFloat(Radius))
+        let Node = SCNNode(geometry: NodeShape)
+        Node.position = SCNVector3(0.0, 0.0, 0.0)
+        Node.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
+        Node.geometry?.firstMaterial?.specular.contents = UIColor.clear
+        Node.name = "Hour Node"
+        
+        let StartAngle = 0
+        var Angle = StartAngle
+        for Label in Labels
+        {
+            var WorkingAngle: CGFloat = CGFloat(Angle) + RadialOffset
+            var PreviousEnding: CGFloat = 0.0
+            for (_, Letter) in Label.enumerated()
+            {
+                let Radians = WorkingAngle.Radians
+                let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
+                let SpecularColor = UIColor.white
+                let VerticalOffset: CGFloat = 0.8
+                HourText.font = UIFont(name: "Avenir-Heavy", size: 20.0)
+                var CharWidth: Float = 0
+                if Letter == " "
+                {
+                    CharWidth = 3.5
+                }
+                else
+                {
+                    CharWidth = abs(HourText.boundingBox.max.x - HourText.boundingBox.min.x)
+                }
+                PreviousEnding = CGFloat(CharWidth)
+                if ["0", "2", "3", "4", "5", "6", "7", "8", "9"].contains(Letter)
+                {
+                    PreviousEnding = CGFloat(10.0)
+                }
+                if Letter == "1"
+                {
+                    PreviousEnding = CGFloat(6.0)
+                }
+                WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
+                HourText.firstMaterial?.diffuse.contents = LetterColor
+                HourText.firstMaterial?.specular.contents = SpecularColor
+                HourText.flatness = 0.1
+                let X = CGFloat(Radius) * cos(Radians)
+                let Z = CGFloat(Radius) * sin(Radians)
+                let HourTextNode = SCNNode(geometry: HourText)
+                HourTextNode.scale = SCNVector3(0.07, 0.07, 0.07)
+                HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
+                let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
+                HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
+                Node.addChildNode(HourTextNode)
+            }
+            Angle = Angle + 15
         }
         
         return Node
