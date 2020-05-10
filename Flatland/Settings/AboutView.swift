@@ -208,12 +208,14 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
             {
                 let Radians = WorkingAngle.Radians
                 let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
-                var LetterColor = UIColor.yellow
+                var LetterColor = UIColor.systemYellow
+                var SpecularColor = UIColor.white
                 var VerticalOffset: CGFloat = 0.8
                 if Word == Versioning.ApplicationName
                 {
                     HourText.font = UIFont(name: "Avenir-Black", size: 28.0)
                     LetterColor = UIColor.systemRed
+                    SpecularColor = UIColor.systemOrange
                 }
                 else
                 {
@@ -244,7 +246,7 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
                 }
                 WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
                 HourText.firstMaterial?.diffuse.contents = LetterColor
-                HourText.firstMaterial?.specular.contents = UIColor.white
+                HourText.firstMaterial?.specular.contents = SpecularColor
                 HourText.flatness = 0.1
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
