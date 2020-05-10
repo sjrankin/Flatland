@@ -123,11 +123,14 @@
 		17D16E11246002A200CA04F4 /* TychoWithConstellations.png in Resources */ = {isa = PBXBuildFile; fileRef = 17D16E0E246002A100CA04F4 /* TychoWithConstellations.png */; };
 		17D314D8245BD6AF001E8353 /* +FlatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D314D7245BD6AF001E8353 /* +FlatView.swift */; };
 		17D314DA245BF93B001E8353 /* Flat2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D314D9245BF93B001E8353 /* Flat2.swift */; };
-		17D314DC245BFEDA001E8353 /* 2DTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D314DB245BFEDA001E8353 /* 2DTest.swift */; };
 		17D825112448547D00323C1D /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D825102448547D00323C1D /* MapSettings.swift */; };
 		17DD58FC244AD57500DCCBF8 /* +ContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD58FB244AD57500DCCBF8 /* +ContextMenu.swift */; };
 		17E180F5242F62F700310896 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F4242F62F700310896 /* City.swift */; };
 		17E180F8242F646700310896 /* Cities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F7242F646700310896 /* Cities.swift */; };
+		17E8CD742467BA5800BA4574 /* BlackWhiteNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17E8CD722467BA5800BA4574 /* BlackWhiteNorthCenter.png */; };
+		17E8CD752467BA5800BA4574 /* BlackWhiteSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17E8CD732467BA5800BA4574 /* BlackWhiteSouthCenter.png */; };
+		17E8CD782467BA9900BA4574 /* WhiteBlackSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17E8CD762467BA9800BA4574 /* WhiteBlackSouthCenter.png */; };
+		17E8CD792467BA9900BA4574 /* WhiteBlackNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17E8CD772467BA9900BA4574 /* WhiteBlackNorthCenter.png */; };
 		17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF546D2439921B005B036C /* +DrawGrid.swift */; };
 		17EF5472243B5EB4005B036C /* Sun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF5471243B5EB3005B036C /* Sun.swift */; };
 		17F082F12459546C00AB6460 /* +CubicEarth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F082F02459546C00AB6460 /* +CubicEarth.swift */; };
@@ -139,12 +142,8 @@
 		17F0830D2459728900AB6460 /* OnlyPlates2SouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F0830A2459728900AB6460 /* OnlyPlates2SouthCenter.png */; };
 		17F0830E2459728900AB6460 /* OnlyPlates2.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F0830B2459728900AB6460 /* OnlyPlates2.png */; };
 		17F0830F2459728900AB6460 /* OnlyPlates2NorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F0830C2459728900AB6460 /* OnlyPlates2NorthCenter.png */; };
-		17F083132459755800AB6460 /* WhiteBlackNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F083102459755700AB6460 /* WhiteBlackNorthCenter.png */; };
 		17F083142459755800AB6460 /* WhiteBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F083112459755700AB6460 /* WhiteBlack.png */; };
-		17F083152459755800AB6460 /* WhiteBlackSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F083122459755800AB6460 /* WhiteBlackSouthCenter.png */; };
-		17F083192459755D00AB6460 /* BlackWhiteNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F083162459755D00AB6460 /* BlackWhiteNorthCenter.png */; };
 		17F0831A2459755D00AB6460 /* BlackWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F083172459755D00AB6460 /* BlackWhite.png */; };
-		17F0831B2459755D00AB6460 /* BlackWhiteSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F083182459755D00AB6460 /* BlackWhiteSouthCenter.png */; };
 		17F0831D245999CA00AB6460 /* BlackWhiteShiny.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F0831C245999CA00AB6460 /* BlackWhiteShiny.png */; };
 /* End PBXBuildFile section */
 
@@ -268,11 +267,14 @@
 		17D16E0E246002A100CA04F4 /* TychoWithConstellations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TychoWithConstellations.png; sourceTree = "<group>"; };
 		17D314D7245BD6AF001E8353 /* +FlatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatView.swift"; sourceTree = "<group>"; };
 		17D314D9245BF93B001E8353 /* Flat2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flat2.swift; sourceTree = "<group>"; };
-		17D314DB245BFEDA001E8353 /* 2DTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2DTest.swift; sourceTree = "<group>"; };
 		17D825102448547D00323C1D /* MapSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettings.swift; sourceTree = "<group>"; };
 		17DD58FB244AD57500DCCBF8 /* +ContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ContextMenu.swift"; sourceTree = "<group>"; };
 		17E180F4242F62F700310896 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		17E180F7242F646700310896 /* Cities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cities.swift; sourceTree = "<group>"; };
+		17E8CD722467BA5800BA4574 /* BlackWhiteNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackWhiteNorthCenter.png; sourceTree = "<group>"; };
+		17E8CD732467BA5800BA4574 /* BlackWhiteSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackWhiteSouthCenter.png; sourceTree = "<group>"; };
+		17E8CD762467BA9800BA4574 /* WhiteBlackSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhiteBlackSouthCenter.png; sourceTree = "<group>"; };
+		17E8CD772467BA9900BA4574 /* WhiteBlackNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhiteBlackNorthCenter.png; sourceTree = "<group>"; };
 		17EF546D2439921B005B036C /* +DrawGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+DrawGrid.swift"; sourceTree = "<group>"; };
 		17EF5471243B5EB3005B036C /* Sun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sun.swift; sourceTree = "<group>"; };
 		17F082F02459546C00AB6460 /* +CubicEarth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+CubicEarth.swift"; sourceTree = "<group>"; };
@@ -284,12 +286,8 @@
 		17F0830A2459728900AB6460 /* OnlyPlates2SouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OnlyPlates2SouthCenter.png; sourceTree = "<group>"; };
 		17F0830B2459728900AB6460 /* OnlyPlates2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OnlyPlates2.png; sourceTree = "<group>"; };
 		17F0830C2459728900AB6460 /* OnlyPlates2NorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OnlyPlates2NorthCenter.png; sourceTree = "<group>"; };
-		17F083102459755700AB6460 /* WhiteBlackNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhiteBlackNorthCenter.png; sourceTree = "<group>"; };
 		17F083112459755700AB6460 /* WhiteBlack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhiteBlack.png; sourceTree = "<group>"; };
-		17F083122459755800AB6460 /* WhiteBlackSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhiteBlackSouthCenter.png; sourceTree = "<group>"; };
-		17F083162459755D00AB6460 /* BlackWhiteNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackWhiteNorthCenter.png; sourceTree = "<group>"; };
 		17F083172459755D00AB6460 /* BlackWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackWhite.png; sourceTree = "<group>"; };
-		17F083182459755D00AB6460 /* BlackWhiteSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackWhiteSouthCenter.png; sourceTree = "<group>"; };
 		17F0831C245999CA00AB6460 /* BlackWhiteShiny.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackWhiteShiny.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -353,7 +351,6 @@
 				17D825102448547D00323C1D /* MapSettings.swift */,
 				17AE7F3D245D03120011160F /* SolarCalculator.swift */,
 				17633B55243858BB0021600D /* LocationCell.swift */,
-				17D314DB245BFEDA001E8353 /* 2DTest.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -408,11 +405,11 @@
 				17BE6866242C7A99009861E1 /* Flatland */,
 				17F0831C245999CA00AB6460 /* BlackWhiteShiny.png */,
 				17F083172459755D00AB6460 /* BlackWhite.png */,
-				17F083162459755D00AB6460 /* BlackWhiteNorthCenter.png */,
-				17F083182459755D00AB6460 /* BlackWhiteSouthCenter.png */,
+				17E8CD722467BA5800BA4574 /* BlackWhiteNorthCenter.png */,
+				17E8CD732467BA5800BA4574 /* BlackWhiteSouthCenter.png */,
 				17F083112459755700AB6460 /* WhiteBlack.png */,
-				17F083102459755700AB6460 /* WhiteBlackNorthCenter.png */,
-				17F083122459755800AB6460 /* WhiteBlackSouthCenter.png */,
+				17E8CD772467BA9900BA4574 /* WhiteBlackNorthCenter.png */,
+				17E8CD762467BA9800BA4574 /* WhiteBlackSouthCenter.png */,
 				17F0830B2459728900AB6460 /* OnlyPlates2.png */,
 				17F0830C2459728900AB6460 /* OnlyPlates2NorthCenter.png */,
 				17F0830A2459728900AB6460 /* OnlyPlates2SouthCenter.png */,
@@ -624,6 +621,7 @@
 				1717F4DF2457D73400C7F263 /* TychoSkySouthCenter.png in Resources */,
 				1788EF5E245EE1D000881BA8 /* WorldSquareLevelsSouthCentered.png in Resources */,
 				1757986824555900001980EE /* EarthTopoGlowingEdges1.png in Resources */,
+				17E8CD742467BA5800BA4574 /* BlackWhiteNorthCenter.png in Resources */,
 				17BE6874242C7A9C009861E1 /* LaunchScreen.storyboard in Resources */,
 				1757985A245557DA001980EE /* WorldSpotColorNorthCenter.png in Resources */,
 				17C80C172454234000E27112 /* WorldVoronoiSouthCenter.png in Resources */,
@@ -646,9 +644,9 @@
 				175798542455530B001980EE /* WorldWarholNorthCenter.png in Resources */,
 				1788EF6F245EE7CF00881BA8 /* PaperWorldNorthCenter.png in Resources */,
 				17C80C0024540FCC00E27112 /* WorldSkeletonSouthCenter.png in Resources */,
-				17F0831B2459755D00AB6460 /* BlackWhiteSouthCenter.png in Resources */,
 				1717F4D92457D72600C7F263 /* GaiaSky.png in Resources */,
 				17C80C0124540FCC00E27112 /* WorldSkeleton.png in Resources */,
+				17E8CD792467BA9900BA4574 /* WhiteBlackNorthCenter.png in Resources */,
 				17F0830124595ACA00AB6460 /* ColorTectonicsOverlay.png in Resources */,
 				17D16E11246002A200CA04F4 /* TychoWithConstellations.png in Resources */,
 				1720DD7A245FD19700C1E719 /* Menus.storyboard in Resources */,
@@ -665,9 +663,7 @@
 				17AE7F43245D8E290011160F /* JupiterSouthCenter.png in Resources */,
 				17F0830324595ACA00AB6460 /* ColorTectonicsNorthCenterOverlay.png in Resources */,
 				1717F4E42457D75600C7F263 /* NASAStarMapInvertedSouthCenter.png in Resources */,
-				17F083152459755800AB6460 /* WhiteBlackSouthCenter.png in Resources */,
 				1788EF69245EE35B00881BA8 /* WorldStainedGlass1SouthCenter.png in Resources */,
-				17F083192459755D00AB6460 /* BlackWhiteNorthCenter.png in Resources */,
 				1788EF5D245EE1D000881BA8 /* WorldSquareLevelsNorthCenter.png in Resources */,
 				17F0830E2459728900AB6460 /* OnlyPlates2.png in Resources */,
 				1717F4DE2457D73400C7F263 /* TychoSkyNorthCenter.png in Resources */,
@@ -687,14 +683,15 @@
 				1788EF76245EEA7700881BA8 /* WorldASCIIArtNorthCenter.png in Resources */,
 				17F0830224595ACA00AB6460 /* ColorTectonicsSouthCenterOverlay.png in Resources */,
 				1788EF5C245EE1D000881BA8 /* WorldSquareLevels.png in Resources */,
+				17E8CD782467BA9900BA4574 /* WhiteBlackSouthCenter.png in Resources */,
 				1788EF62245EE2F100881BA8 /* WorldGlowingCoasts.png in Resources */,
 				1757986224555840001980EE /* WorldUkiyoe1NorthCenter.png in Resources */,
 				1788EF70245EE7CF00881BA8 /* PaperWorldSouthCenter.png in Resources */,
+				17E8CD752467BA5800BA4574 /* BlackWhiteSouthCenter.png in Resources */,
 				1788EF6A245EE35B00881BA8 /* WorldStainedGlass1NorthCenter.png in Resources */,
 				1717F4E32457D75600C7F263 /* NASAStarMapInverted.png in Resources */,
 				1788EF57245EE18300881BA8 /* WorldSquare.png in Resources */,
 				1757985C245557DA001980EE /* WorldSpotColor.png in Resources */,
-				17F083132459755800AB6460 /* WhiteBlackNorthCenter.png in Resources */,
 				17D16E10246002A200CA04F4 /* TychoConstellationsSouthCenter.png in Resources */,
 				1717F4E52457D75600C7F263 /* NASAStarMapInvertedNorthCenter.png in Resources */,
 				17D16E0F246002A200CA04F4 /* TychoConstellationsNorthCenter.png in Resources */,
@@ -736,7 +733,6 @@
 				1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */,
 				17D314D8245BD6AF001E8353 /* +FlatView.swift in Sources */,
 				1792BD882430529C006ABD02 /* TimeHelper.swift in Sources */,
-				17D314DC245BFEDA001E8353 /* 2DTest.swift in Sources */,
 				17E180F8242F646700310896 /* Cities.swift in Sources */,
 				17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */,
 				1789A3E9244EDCFC007E3526 /* DebugController.swift in Sources */,
