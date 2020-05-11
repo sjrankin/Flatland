@@ -66,7 +66,8 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         Camera.zNear = 0
         CameraNode = SCNNode()
         CameraNode.camera = Camera
-        CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
+        //The camera's position is higher up in the scene to help show the shadows.
+        CameraNode.position = SCNVector3(0.0, 10.0, 16.0)
         
         let Light = SCNLight()
         Light.type = .directional
@@ -99,6 +100,8 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         
         DrawWorld()
         StartEarthClock()
+        //Make sure the camera is pointed to the Earth.
+        CameraNode.look(at: SCNVector3(0.0, 0.0, 0.0))
     }
     
     var CameraNode = SCNNode()
