@@ -20,10 +20,15 @@ extension GlobeView
     func AddLocation(Latitude: Double, Longitude: Double, ToSurface: SCNNode)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: 10)
+        #if true
+        let Home = SCNNode(geometry: SCNSphere(radius: 0.16))
+        #else
         let Home = SCNNode(geometry: SCNBox(width: 5, height: 5, length: 5, chamferRadius: 0.5))
+                Home.scale = SCNVector3(0.04, 0.04, 0.04)
+        #endif
         Home.name = "HomeLocation"
-        Home.scale = SCNVector3(0.04, 0.04, 0.04)
         Home.geometry?.firstMaterial?.diffuse.contents = UIColor(hue: 0.0, saturation: 1.0, brightness: 0.5, alpha: 1.0)
+        Home.geometry?.firstMaterial?.specular.contents = UIColor.white
         Home.castsShadow = true
         Home.position = SCNVector3(X, Y, Z)
         ToSurface.addChildNode(Home)
@@ -38,10 +43,11 @@ extension GlobeView
                 HueValue = 0.0
             }
             Node.geometry?.firstMaterial?.diffuse.contents = UIColor(hue: CGFloat(HueValue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-            Node.geometry?.firstMaterial?.emission.contents = UIColor(hue: CGFloat(HueValue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
+            //Node.geometry?.firstMaterial?.emission.contents = UIColor(hue: CGFloat(HueValue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
         }
         let ColorForever = SCNAction.repeatForever(ColorAction)
         Home.runAction(ColorForever)
+        #if false
         let RotateValue = CGFloat.pi / 180.0 * 360.0
         let Rotator = SCNAction.rotateBy(x: RotateValue * 1.1,
                                          y: RotateValue * 0.9,
@@ -49,6 +55,86 @@ extension GlobeView
                                          duration: Double(ChangeDuration * 3.7))
         let RotateForever = SCNAction.repeatForever(Rotator)
         Home.runAction(RotateForever)
+        #endif
+    }
+    
+    /// Draws a 3D "arrow" shape (a cone and a cylinder) pointing toward the center of the Earth.
+    /// - Parameter Latitude: The latitude of the arrow.
+    /// - Parameter Longitude: The longitude of the arrow.
+    /// - Parameter Radius: The radius of the Earth. (The arrow is plotted above the radius by a
+    ///                     constant to ensure the entire arrow is visible.)
+    /// - Parameter ToSurface: The surface node where the arrow will be added.
+    /// - Parameter IsCurrentLocation: Determines the shape and color of the arrow. If this value is
+    ///                                `true`, a stem will be added to the arrow shape and the arrow
+    ///                                head will be red with an animation transitioning to yellow and
+    ///                                back. Otherwise, there will be no stem and the color is determined
+    ///                                by the caller (see `WithColor').
+    /// - Parameter WithColor: Ignored if `IsCurrentLocation` is true. Otherwise, this is the color of
+    ///                        the arrow head shape.
+    func PlotArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+                   IsCurrentLocation: Bool = false, WithColor: UIColor = UIColor.red)
+    {
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.25)
+        let Cone = SCNCone(topRadius: 0.0, bottomRadius: 0.15, height: 0.3)
+        let ConeNode = SCNNode(geometry: Cone)
+        ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        ConeNode.geometry?.firstMaterial?.specular.contents = UIColor.white
+        if !IsCurrentLocation
+        {
+            ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
+        }
+        ConeNode.castsShadow = true
+        
+        if IsCurrentLocation
+        {
+        let ChangeDuration: Double = 30.0
+        var HueValue = 0.0
+        var HueIncrement = 0.01
+        let ColorAction = SCNAction.customAction(duration: ChangeDuration)
+        {
+            (Node, ElapsedTime) in
+            HueValue = HueValue + HueIncrement
+            if HueValue > Double(63.0 / 360.0)
+            {
+                HueIncrement = HueIncrement * -1.0
+                HueValue = HueValue + HueIncrement
+            }
+            else
+            {
+                if HueValue < 0.0
+                {
+                    HueIncrement = HueIncrement * -1.0
+                    HueValue = 0.0
+                }
+            }
+            Node.geometry?.firstMaterial?.diffuse.contents = UIColor(hue: CGFloat(HueValue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
+        }
+        let ColorForever = SCNAction.repeatForever(ColorAction)
+        ConeNode.runAction(ColorForever)
+        }
+        
+        let ArrowNode = SCNNode()
+        ArrowNode.name = "ArrowNode"
+        ArrowNode.addChildNode(ConeNode)
+        
+        if IsCurrentLocation
+        {
+        let Cylinder = SCNCylinder(radius: 0.04, height: 0.5)
+        let CylinderNode = SCNNode(geometry: Cylinder)
+        CylinderNode.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
+        CylinderNode.geometry?.firstMaterial?.specular.contents = UIColor.white
+        CylinderNode.castsShadow = true
+        CylinderNode.position = SCNVector3(0.0, -0.3, 0.0)
+                    ArrowNode.addChildNode(CylinderNode)
+        }
+            
+        ArrowNode.position = SCNVector3(X, Y, Z)
+        
+        let YRotation = Latitude + 90.0
+        let XRotation = Longitude + 180.0
+        ArrowNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+
+        ToSurface.addChildNode(ArrowNode)
     }
     
     /// Plot cities on the Earth.
@@ -58,7 +144,7 @@ extension GlobeView
     {
         let CityList = Cities()
         var TestCities = CityList.TopNCities(N: 50, UseMetroPopulation: true)
-        
+ 
         let UserLocations = Settings.GetLocations()
         for (_, Location, Name, Color) in UserLocations
         {
@@ -72,7 +158,8 @@ extension GlobeView
         {
             if let LocalLatitude = Settings.GetLocalLatitude()
             {
-                AddLocation(Latitude: LocalLatitude, Longitude: LocalLongitude, ToSurface: On)
+                PlotArrow(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: 10.0,
+                          ToSurface: On, IsCurrentLocation: true)
             }
         }
         
@@ -81,6 +168,10 @@ extension GlobeView
         {
             if City.IsUserCity
             {
+                #if true
+                PlotArrow(Latitude: City.Latitude, Longitude: City.Longitude, Radius: 10.0, ToSurface: On,
+                          IsCurrentLocation: false, WithColor: City.CityColor)
+                #else
                 let CityShape = SCNCone(topRadius: 0.0, bottomRadius: CitySize, height: CitySize * 3.5)
                 let CityNode = SCNNode(geometry: CityShape)
                 CityNode.geometry?.firstMaterial?.diffuse.contents = City.CityColor
@@ -101,6 +192,7 @@ extension GlobeView
                 NodeRotation = NodeRotation.Radians
                 CityNode.eulerAngles = SCNVector3(0.0, NodeRotation, 0.0)
                 On.addChildNode(CityNode)
+                #endif
             }
             else
             {
