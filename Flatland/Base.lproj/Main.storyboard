@@ -21,7 +21,7 @@
                                     <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="maC-WJ-Q5A" customClass="Starfield" customModule="Flatland" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                     </sceneKitView>
-                                    <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" allowsCameraControl="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wU5-9A-Ujl" customClass="GlobeView" customModule="Flatland" customModuleProvider="target">
+                                    <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" loops="NO" allowsCameraControl="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wU5-9A-Ujl" customClass="GlobeView" customModule="Flatland" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </sceneKitView>
@@ -1393,7 +1393,7 @@
         <!--About Flatland-->
         <scene sceneID="4pg-dH-sfD">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="nXC-PB-nWe" customClass="AboutView" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BigAboutView" modalPresentationStyle="fullScreen" id="nXC-PB-nWe" customClass="AboutView" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KcK-Ok-Z2j">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
