@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SceneKit
 
-class GlobeView: SCNView
+class GlobeView: SCNView, GlobeProtocol
 {
     override init(frame: CGRect)
     {
@@ -51,6 +51,11 @@ class GlobeView: SCNView
         self.autoenablesDefaultLighting = false
         self.scene = SCNScene()
         self.backgroundColor = UIColor.clear
+        #if DEBUG
+        self.showsStatistics = true
+        #else
+        self.showsStatistics = false
+        #endif
         
         let Camera = SCNCamera()
         Camera.fieldOfView = 90.0
@@ -341,8 +346,10 @@ class GlobeView: SCNView
         
         LineNode = SCNNode(geometry: LineSphere)
         LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        let GridLines = MakeGridLines(Width: 3600, Height: 1800, LineColor: UIColor.systemRed)
+        let Maroon = UIColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
+        let GridLines = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
         LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLines
+        LineNode?.geometry?.firstMaterial?.emission.contents = Maroon
         LineNode?.castsShadow = false
         
             PlotCities(On: EarthNode!, WithRadius: 10)
@@ -506,6 +513,14 @@ class GlobeView: SCNView
         let Final = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return Final!
+    }
+    
+    // MARK: - GlobeProtocol functions
+    
+    func PlotSatellite(Satellite: Satellites, At: GeoPoint2)
+    {
+        let SatelliteAltitude = 10.01 * (At.Altitude / 6378.1)
+        let (X, Y, Z) = ToECEF(At.Latitude, At.Longitude, Radius: SatelliteAltitude)
     }
 }
 
