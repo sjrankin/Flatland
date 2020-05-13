@@ -99,6 +99,12 @@ class MapList
             MapItem(.PaperWorld, true, "PaperWorld.png", "PaperWorldNorthCenter.png", "PaperWorldSouthCenter.png"),
             MapItem(.ASCIIArt1, true, "WorldASCIIArt.png", "WorldASCIIArtNorthCenter.png", "WorldASCIIArtSouthCenter.png"),
             MapItem(.TychoConstellations, true, "TychoWithConstellations.png", "TychoConstellationsNorthCenter.png", "TychoConstellationsSouthCenter.png"),
+            MapItem(.TimeZoneMap1, true, "TimeZoneMap.png", "TimeZoneMapNorthCenter.png", "TimeZoneMapSouthCenter.png"),
+            MapItem(.SurrealTimeZone, true, "SurrealTimeZones.png", "SurrealTimeZoneNorthCenter.png", "SurrealTimeZoneSouthCenter.png"),
+            MapItem(.HatchedTimeZones, true, "HatchedTimeZones.png", "HatchedTimeZonesNorthCenter.png", "HatchedTimeZoneSouthCenter.png"),
+            MapItem(.PaperTimeZones, true, "PaperTimeZones.png", "PaperTimeZonesNorthCenter.png", "PaperTimeZonesSouthCenter.png"),
+            MapItem(.ColorfulTimeZones, true, "TimeZoneMap3.png", "TimeZoneMap3NorthCenter.png", "TimeZoneMap3SouthCenter.png"),
+            MapItem(.SimplePoliticalMap1, true, "SimplePoliticalWorldMap.png", "SimplePoliticalWorldMapNorthCenter.png", "SimplePoliticalWorldMapSouthCenter.png"),
     ]
 }
 
@@ -173,4 +179,10 @@ enum MapTypes: String, CaseIterable
     case GlowingCoasts = "Glowing Coasts"
     case StainedGlass = "Stained Glass"
     case ASCIIArt1 = "ASCII Art Map 1"
+    case TimeZoneMap1 = "CIA Time Zone Map"
+    case SurrealTimeZone = "Surreal Time Zone Map"
+    case ColorfulTimeZones = "Colorful Time Zone Map"
+    case HatchedTimeZones = "Hatched Time Zone Map"
+    case PaperTimeZones = "Paper Time Zone Map"
+    case SimplePoliticalMap1 = "Simple Political Map 1"
 }
