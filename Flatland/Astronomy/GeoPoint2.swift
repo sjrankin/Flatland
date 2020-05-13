@@ -41,6 +41,17 @@ public class GeoPoint2: CustomStringConvertible
     }
     
     /// Initializer.
+    /// - Parameter Lat: Initial latitude.
+    /// - Parameter Lon: Initial longitude.
+    /// - Parameter Alt: Initial altitude.
+    init (_ Lat: Double, _ Lon: Double, _ Alt: Double)
+    {
+        Latitude = Lat
+        Longitude = Lon
+        Altitude = Alt
+    }
+    
+    /// Initializer.
     ///
     /// - Parameters:
     ///   - Lat: Initial latitude.
