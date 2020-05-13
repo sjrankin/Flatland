@@ -473,10 +473,10 @@ extension MainView: UIContextMenuInteractionDelegate
     func MakePoliticalSubMenu() -> UIMenu
     {
         var SubMenu = [UIMenuElement]()
-        let Menu1 = UIAction(title: "Political Sub-Divisions", image: nil)
+        let Menu1 = UIAction(title: "Simple Political Map", image: nil)
         {
             action in
-            self.SetTexture(.PoliticalSubDivisions)
+            self.SetTexture(.SimplePoliticalMap1)
         }
         SubMenu.append(Menu1)
         
@@ -487,6 +487,60 @@ extension MainView: UIContextMenuInteractionDelegate
         let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
         SubMenu.append(CancelMenu)
         let Final = UIMenu(title: "Political Maps",
+                           image: UIImage(systemName: "arrowtriangle.right"),
+                           children: SubMenu)
+        return Final
+    }
+    
+    // MARK: - Timezone sub-menu.
+    
+    func MakeTimeZoneSubMenu() -> UIMenu
+    {
+        var SubMenu = [UIMenuElement]()
+        let Menu1 = UIAction(title: "CIA Time Zone Map", image: nil)
+        {
+            action in
+            self.SetTexture(.TimeZoneMap1)
+        }
+        SubMenu.append(Menu1)
+        let Menu2 = UIAction(title: "CIA Time Zone Map", image: nil)
+        {
+            action in
+            self.SetTexture(.TimeZoneMap1)
+        }
+        SubMenu.append(Menu2)
+        let Menu3 = UIAction(title: "Colorful Time Zones", image: nil)
+        {
+            action in
+            self.SetTexture(.ColorfulTimeZones)
+        }
+        SubMenu.append(Menu3)
+        let Menu4 = UIAction(title: "Hatched Time Zones", image: nil)
+        {
+            action in
+            self.SetTexture(.HatchedTimeZones)
+        }
+        SubMenu.append(Menu4)
+        let Menu5 = UIAction(title: "Paper Time Zones", image: nil)
+        {
+            action in
+            self.SetTexture(.PaperTimeZones)
+        }
+        SubMenu.append(Menu5)
+        let Menu6 = UIAction(title: "Surreal Time Zones", image: nil)
+        {
+            action in
+            self.SetTexture(.SurrealTimeZone)
+        }
+        SubMenu.append(Menu6)
+        
+        let CancelAction = UIAction(title: "Cancel", image: UIImage(systemName: "xmark.circle"))
+        {
+            action in
+        }
+        let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
+        SubMenu.append(CancelMenu)
+        let Final = UIMenu(title: "Timezone Maps",
                            image: UIImage(systemName: "arrowtriangle.right"),
                            children: SubMenu)
         return Final
@@ -697,6 +751,7 @@ extension MainView: UIContextMenuInteractionDelegate
     {
         let ViewMenu = MakeViewContextMenu()
         let PhysicalMenu = MakePhysicalSubMenu()
+        let TimeZoneMenu = MakeTimeZoneSubMenu()
         let StandardMenu = MakeStandardSubMenu()
         let PoliticalMenu = MakePoliticalSubMenu()
         let StylizedMenu = MakeStylizedSubMenu()
@@ -708,7 +763,8 @@ extension MainView: UIContextMenuInteractionDelegate
         }
         let CancelMenu = UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [CancelAction])
         let Menu = UIMenu(title: "Map Menu",
-                          children: [ViewMenu, StandardMenu, PhysicalMenu, PoliticalMenu, StylizedMenu, AstronomyMenu, SillyMenu, CancelMenu])
+                          children: [ViewMenu, StandardMenu, PhysicalMenu, TimeZoneMenu, PoliticalMenu,
+                                     StylizedMenu, AstronomyMenu, SillyMenu, CancelMenu])
         return Menu
     }
 }
