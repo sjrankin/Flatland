@@ -32,9 +32,9 @@ class MapManager
                 
                 case .Globe3D:
                     return SomeMap.GetMapImage(For: .Global)
-
+                
                 default:
-                return nil
+                    return nil
             }
         }
         return nil
@@ -72,6 +72,104 @@ class MapManager
             return nil
         }
     }
+    
+    /// Returns a list of map categories.
+    /// - Returns: List of map categories.
+    public static func GetMapCategories() -> [String]
+    {
+        var Results = [String]()
+        for Category in MapCategories.allCases
+        {
+            Results.append(Category.rawValue)
+        }
+        return Results
+    }
+    
+    /// Returns the set of maps associated with the passed map category.
+    /// - Parameter Category: The category whose list of maps is returned.
+    /// - Returns: List of maps for the passed category.
+    public static func GetMapsInCategory(_ Category: MapCategories) -> [MapTypes]
+    {
+        switch Category
+        {
+            case .Standard:
+                return [.Standard, .Simple, .SimpleBorders1, .SimpleBorders2, .Continents]
+            
+            case .Physical:
+                return [.Blueprint, .DarkBlueMarble, .Topographical1, .Topographical2, .SurrealTopographic,
+                        .OnlyTectonic, .TectonicOverlay, .StaticAerosol, .Normalized]
+            
+            case .TimeZone:
+                return [.TimeZoneMap1, .ColorfulTimeZones, .HatchedTimeZones, .PaperTimeZones,
+                        .SurrealTimeZone]
+            
+            case .Political:
+                return [.SimplePoliticalMap1]
+            
+            case .Astronomical:
+                return [.MarsViking, .MarsMariner9, .MOLAVerticalRoughness, .LROMap, .LunarGeoMap,
+                        .Jupiter, .GaiaSky, .TychoSky, .TychoConstellations, .NASAStarsInverted]
+            
+            case .Artistic:
+                return [.OilPainting1, .WaterColor1, .WaterColor2, .Cartoon, .SwirlyLines, .RoundSplotches,
+                        .ColorInk, .Warhol, .Ukiyoe1, .ASCIIArt1]
+            
+            case .Colorful:
+                return [.Pink, .Bronze, .Blueprint, .BlackWhite, .BlackWhiteShiny, .WhiteBlack,
+                        .SpotColor, .LevelWorld]
+            
+            case .Abstract:
+                return [.Dots, .Crosshatched, .Textured, .PaperWorld, .SquareWorld, .Abstract1,
+                        .Abstract2, .Abstract3, .Surreal1, .Skeleton, .GlowingCoasts, .Voronoi,
+                        .Polygons, .Extruded, .BubbleWorld, .StainedGlass]
+            
+            case .Dithered:
+                return [.HalftoneLine, .HalftoneVerticalLine, .HalftoneDot, .Dithered]
+            
+            case .Silly:
+                return [.House, .Tigger]
+        }
+    }
+    
+    /// Returns the map category for the specified map type.
+    /// - Parameter Map: The map type for which the related map category is returned.
+    /// - Returns: The map category for the passed map type. Nil if not found.
+    public static func CategoryFor(Map: MapTypes) -> MapCategories?
+    {
+        for MapCategory in MapCategories.allCases
+        {
+            if GetMapsInCategory(MapCategory).contains(Map)
+            {
+                return MapCategory
+            }
+        }
+        return nil
+    }
+}
+
+/// Map categories.
+enum MapCategories: String, CaseIterable
+{
+    /// Standard maps.
+    case Standard = "Standard"
+    /// Physically-based maps.
+    case Physical = "Physical"
+    /// Maps with time zones marked on them.
+    case TimeZone = "Time Zone"
+    /// Political maps (other than what are in `.Standard` maps).
+    case Political = "Political"
+    /// Extraterrestrial maps.
+    case Astronomical = "Astronomical"
+    /// Artistic maps.
+    case Artistic = "Artistic"
+    /// Colorful (or black and white) maps.
+    case Colorful = "Colorful"
+    /// Abstract (but marginally useful) maps.
+    case Abstract = "Abstract"
+    /// Dithered maps.
+    case Dithered = "Dithered"
+    /// Silly maps.
+    case Silly = "Silly"
 }
 
 /// Determines whether the north pole or the south pole is at the center of the world image.
