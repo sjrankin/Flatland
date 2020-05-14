@@ -63,7 +63,7 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         Camera.usesOrthographicProjection = true
         Camera.orthographicScale = 14
         Camera.zFar = 500
-        Camera.zNear = 0
+        Camera.zNear = 0.1
         CameraNode = SCNNode()
         CameraNode.camera = Camera
         //The camera's position is higher up in the scene to help show the shadows.
