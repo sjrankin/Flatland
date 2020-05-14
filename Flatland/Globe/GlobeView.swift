@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import SceneKit
 
+/// Provide the main 3D view for Flatland.
 class GlobeView: SCNView, GlobeProtocol
 {
     override init(frame: CGRect)
@@ -47,6 +48,7 @@ class GlobeView: SCNView, GlobeProtocol
     /// Initialize the globe view.
     func InitializeView()
     {
+        //        self.debugOptions = [.showBoundingBoxes, .renderAsWireframe]
         self.allowsCameraControl = true
         self.autoenablesDefaultLighting = false
         self.scene = SCNScene()
@@ -62,7 +64,7 @@ class GlobeView: SCNView, GlobeProtocol
         Camera.usesOrthographicProjection = true
         Camera.orthographicScale = 14
         Camera.zFar = 500
-        Camera.zNear = 0
+        Camera.zNear = 0.1
         CameraNode = SCNNode()
         CameraNode.camera = Camera
         CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
@@ -78,32 +80,48 @@ class GlobeView: SCNView, GlobeProtocol
         LightNode = SCNNode()
         LightNode.light = Light
         LightNode.position = SCNVector3(0.0, 0.0, 80.0)
-        
-        let MoonLight = SCNLight()
-        MoonLight.type = .directional
-        MoonLight.intensity = 300
-        MoonLight.castsShadow = true
-        MoonLight.shadowColor = UIColor.black.withAlphaComponent(0.80)
-        MoonLight.shadowMode = .forward
-        MoonLight.shadowRadius = 10.0
-        MoonLight.color = UIColor.cyan
-        MoonNode = SCNNode()
-        MoonNode.light = MoonLight
-        MoonNode.position = SCNVector3(0.0, 0.0, -100.0)
-        MoonNode.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
-        
+ 
         self.scene?.rootNode.addChildNode(CameraNode)
         self.scene?.rootNode.addChildNode(LightNode)
-        self.scene?.rootNode.addChildNode(MoonNode)
+        SetMoonlight(Show: Settings.GetShowMoonlight())
         
         AddEarth()
         StartClock()
         UpdateEarthView()
     }
     
+    /// Show or hide the moonlight node.
+    /// - Parameter Show: Determines if moonlight is shown or removed.
+    func SetMoonlight(Show: Bool)
+    {
+        print("Set moonlight to \(Show)")
+        if Show
+        {
+            let MoonLight = SCNLight()
+            MoonLight.type = .directional
+            MoonLight.intensity = 300
+            MoonLight.castsShadow = true
+            MoonLight.shadowColor = UIColor.black.withAlphaComponent(0.80)
+            MoonLight.shadowMode = .forward
+            MoonLight.shadowRadius = 10.0
+            MoonLight.color = UIColor.cyan
+            MoonNode = SCNNode()
+            MoonNode?.light = MoonLight
+            MoonNode?.position = SCNVector3(0.0, 0.0, -100.0)
+            MoonNode?.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+            self.scene?.rootNode.addChildNode(MoonNode!)
+        }
+        else
+        {
+            MoonNode?.removeAllActions()
+            MoonNode?.removeFromParentNode()
+            MoonNode = nil
+        }
+    }
+    
     var CameraNode = SCNNode()
     var LightNode = SCNNode()
-    var MoonNode = SCNNode()
+    var MoonNode: SCNNode? = nil
     
     func SetClockMultiplier(_ Multiplier: Double)
     {
@@ -249,8 +267,8 @@ class GlobeView: SCNView, GlobeProtocol
         EarthSphere.segmentCount = 100
         let SeaSphere = SCNSphere(radius: 10)
         SeaSphere.segmentCount = 100
-        let LineSphere = SCNSphere(radius: 10.2)
-        LineSphere.segmentCount = 100
+        //let LineSphere = SCNSphere(radius: 10.2)
+        //LineSphere.segmentCount = 100
         
         let MapType = Settings.GetGlobeMapType()
         var BaseMap: UIImage? = nil
@@ -344,6 +362,7 @@ class GlobeView: SCNView, GlobeProtocol
         
         //UpdateSurfaceTransparency()
         
+        #if false
         LineNode = SCNNode(geometry: LineSphere)
         LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
         let Maroon = UIColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
@@ -351,12 +370,13 @@ class GlobeView: SCNView, GlobeProtocol
         LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLines
         LineNode?.geometry?.firstMaterial?.emission.contents = Maroon
         LineNode?.castsShadow = false
+        #endif
         
             PlotCities(On: EarthNode!, WithRadius: 10)
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1]
-        self.prepare([EarthNode!, SeaNode!, LineNode!], completionHandler:
+        self.prepare([EarthNode!, SeaNode!/*, LineNode!*/], completionHandler:
             {
                 success in
                 if success
@@ -366,11 +386,13 @@ class GlobeView: SCNView, GlobeProtocol
                     {
                         self.SystemNode?.addChildNode(self.SeaNode!)
                     }
-                    self.SystemNode?.addChildNode(self.LineNode!)
+                    //self.SystemNode?.addChildNode(self.LineNode!)
                     self.scene?.rootNode.addChildNode(self.SystemNode!)
                 }
         }
         )
+        
+        SetLineLayer()
         
         UpdateHourLabels(With: Settings.GetHourValueType())
         
@@ -386,6 +408,55 @@ class GlobeView: SCNView, GlobeProtocol
     }
     
     var PreviousHourType: HourValueTypes = .None
+    
+    func SetLineLayer()
+    {
+            LineNode?.removeFromParentNode()
+        LineNode = nil
+        if !HasVisibleLines()
+        {
+            return
+        }
+        let LineSphere = SCNSphere(radius: 10.2)
+        LineSphere.segmentCount = 100
+        LineNode = SCNNode(geometry: LineSphere)
+        LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
+        let Maroon = UIColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
+        let GridLines = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
+        LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLines
+        LineNode?.geometry?.firstMaterial?.emission.contents = Maroon
+        LineNode?.castsShadow = false
+        SystemNode?.addChildNode(self.LineNode!)
+    }
+    
+    func HasVisibleLines() -> Bool
+    {
+        if Settings.ShowEquator()
+        {
+            return true
+        }
+        if Settings.ShowTropics()
+        {
+            return true
+        }
+        if Settings.ShowPolarCircles()
+        {
+            return true
+        }
+        if Settings.ShowPrimeMeridians()
+        {
+            return true
+        }
+        if Settings.ShowNoonMeridians()
+        {
+            return true
+        }
+        if Settings.ShowMinorGridLines()
+        {
+            return true
+        }
+        return false
+    }
     
     /// Finds and removes all sub-nodes in `Parent` with the specified name.
     /// - Parameter Parent: The parent node whose sub-nodes are checked for nodes to remove.
