@@ -12,52 +12,6 @@ import SceneKit
 
 extension GlobeView
 {
-    /// Add the home location to the globe.
-    /// - Note: The home location has shifting colors and rotates to make it obviouse where it is.
-    /// - Parameter Latitude: The latitude of the home location.
-    /// - Parameter Longitude: The longitude of the home location.
-    /// - Parameter ToSurface: The parent node.
-    func AddLocation(Latitude: Double, Longitude: Double, ToSurface: SCNNode)
-    {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: 10)
-        #if true
-        let Home = SCNNode(geometry: SCNSphere(radius: 0.16))
-        #else
-        let Home = SCNNode(geometry: SCNBox(width: 5, height: 5, length: 5, chamferRadius: 0.5))
-                Home.scale = SCNVector3(0.04, 0.04, 0.04)
-        #endif
-        Home.name = "HomeLocation"
-        Home.geometry?.firstMaterial?.diffuse.contents = UIColor(hue: 0.0, saturation: 1.0, brightness: 0.5, alpha: 1.0)
-        Home.geometry?.firstMaterial?.specular.contents = UIColor.white
-        Home.castsShadow = true
-        Home.position = SCNVector3(X, Y, Z)
-        ToSurface.addChildNode(Home)
-        let ChangeDuration: CGFloat = 3.0
-        var HueValue = 0.0
-        let ColorAction = SCNAction.customAction(duration: Double(ChangeDuration))
-        {
-            (Node, ElapsedTime) in
-            HueValue = HueValue + 0.01
-            if HueValue > 1.0
-            {
-                HueValue = 0.0
-            }
-            Node.geometry?.firstMaterial?.diffuse.contents = UIColor(hue: CGFloat(HueValue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-            //Node.geometry?.firstMaterial?.emission.contents = UIColor(hue: CGFloat(HueValue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-        }
-        let ColorForever = SCNAction.repeatForever(ColorAction)
-        Home.runAction(ColorForever)
-        #if false
-        let RotateValue = CGFloat.pi / 180.0 * 360.0
-        let Rotator = SCNAction.rotateBy(x: RotateValue * 1.1,
-                                         y: RotateValue * 0.9,
-                                         z: RotateValue * 0.5,
-                                         duration: Double(ChangeDuration * 3.7))
-        let RotateForever = SCNAction.repeatForever(Rotator)
-        Home.runAction(RotateForever)
-        #endif
-    }
-    
     /// Draws a 3D "arrow" shape (a cone and a cylinder) pointing toward the center of the Earth.
     /// - Parameter Latitude: The latitude of the arrow.
     /// - Parameter Longitude: The longitude of the arrow.
@@ -74,8 +28,21 @@ extension GlobeView
     func PlotArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
                    IsCurrentLocation: Bool = false, WithColor: UIColor = UIColor.red)
     {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.25)
-        let Cone = SCNCone(topRadius: 0.0, bottomRadius: 0.15, height: 0.3)
+        let RadialOffset = IsCurrentLocation ? 0.25 : 0.1
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
+        var ConeTop: CGFloat = 0.0
+        var ConeBottom: CGFloat = 0.0
+        if IsCurrentLocation
+        {
+            ConeTop = 0.0
+            ConeBottom = 0.15
+        }
+        else
+        {
+            ConeTop = 0.15
+            ConeBottom = 0.0
+        }
+        let Cone = SCNCone(topRadius: ConeTop, bottomRadius: ConeBottom, height: 0.3)
         let ConeNode = SCNNode(geometry: Cone)
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = UIColor.white
@@ -87,30 +54,30 @@ extension GlobeView
         
         if IsCurrentLocation
         {
-        let ChangeDuration: Double = 30.0
-        var HueValue = 0.0
-        var HueIncrement = 0.01
-        let ColorAction = SCNAction.customAction(duration: ChangeDuration)
-        {
-            (Node, ElapsedTime) in
-            HueValue = HueValue + HueIncrement
-            if HueValue > Double(63.0 / 360.0)
+            let ChangeDuration: Double = 30.0
+            var HueValue = 0.0
+            var HueIncrement = 0.01
+            let ColorAction = SCNAction.customAction(duration: ChangeDuration)
             {
-                HueIncrement = HueIncrement * -1.0
+                (Node, ElapsedTime) in
                 HueValue = HueValue + HueIncrement
-            }
-            else
-            {
-                if HueValue < 0.0
+                if HueValue > Double(63.0 / 360.0)
                 {
                     HueIncrement = HueIncrement * -1.0
-                    HueValue = 0.0
+                    HueValue = HueValue + HueIncrement
                 }
+                else
+                {
+                    if HueValue < 0.0
+                    {
+                        HueIncrement = HueIncrement * -1.0
+                        HueValue = 0.0
+                    }
+                }
+                Node.geometry?.firstMaterial?.diffuse.contents = UIColor(hue: CGFloat(HueValue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
             }
-            Node.geometry?.firstMaterial?.diffuse.contents = UIColor(hue: CGFloat(HueValue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-        }
-        let ColorForever = SCNAction.repeatForever(ColorAction)
-        ConeNode.runAction(ColorForever)
+            let ColorForever = SCNAction.repeatForever(ColorAction)
+            ConeNode.runAction(ColorForever)
         }
         
         let ArrowNode = SCNNode()
@@ -119,21 +86,21 @@ extension GlobeView
         
         if IsCurrentLocation
         {
-        let Cylinder = SCNCylinder(radius: 0.04, height: 0.5)
-        let CylinderNode = SCNNode(geometry: Cylinder)
-        CylinderNode.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
-        CylinderNode.geometry?.firstMaterial?.specular.contents = UIColor.white
-        CylinderNode.castsShadow = true
-        CylinderNode.position = SCNVector3(0.0, -0.3, 0.0)
-                    ArrowNode.addChildNode(CylinderNode)
+            let Cylinder = SCNCylinder(radius: 0.04, height: 0.5)
+            let CylinderNode = SCNNode(geometry: Cylinder)
+            CylinderNode.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
+            CylinderNode.geometry?.firstMaterial?.specular.contents = UIColor.white
+            CylinderNode.castsShadow = true
+            CylinderNode.position = SCNVector3(0.0, -0.3, 0.0)
+            ArrowNode.addChildNode(CylinderNode)
         }
-            
+        
         ArrowNode.position = SCNVector3(X, Y, Z)
         
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
         ArrowNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-
+        
         ToSurface.addChildNode(ArrowNode)
     }
     
@@ -144,7 +111,7 @@ extension GlobeView
     {
         let CityList = Cities()
         var TestCities = CityList.TopNCities(N: 50, UseMetroPopulation: true)
- 
+        
         let UserLocations = Settings.GetLocations()
         for (_, Location, Name, Color) in UserLocations
         {
@@ -168,31 +135,8 @@ extension GlobeView
         {
             if City.IsUserCity
             {
-                #if true
                 PlotArrow(Latitude: City.Latitude, Longitude: City.Longitude, Radius: 10.0, ToSurface: On,
                           IsCurrentLocation: false, WithColor: City.CityColor)
-                #else
-                let CityShape = SCNCone(topRadius: 0.0, bottomRadius: CitySize, height: CitySize * 3.5)
-                let CityNode = SCNNode(geometry: CityShape)
-                CityNode.geometry?.firstMaterial?.diffuse.contents = City.CityColor
-                CityNode.geometry?.firstMaterial?.emission.contents = City.CityColor
-                CityNode.castsShadow = true
-                let (X, Y, Z) = ToECEF(City.Latitude, City.Longitude, Radius: 10)//Double(10 - (CitySize / 2)))
-                CityNode.position = SCNVector3(X, Y, Z)
-                var NodeRotation = 0.0
-                if City.Latitude >= 0
-                {
-                    NodeRotation = 90.0 - City.Latitude
-                }
-                else
-                {
-                    NodeRotation = -90 + City.Latitude
-                }
-                //print("Node rotation for \(City.Latitude)° is \(NodeRotation)")
-                NodeRotation = NodeRotation.Radians
-                CityNode.eulerAngles = SCNVector3(0.0, NodeRotation, 0.0)
-                On.addChildNode(CityNode)
-                #endif
             }
             else
             {
