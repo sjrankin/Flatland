@@ -25,6 +25,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         Settings.Initialize()
         FileIO.InitializeDirectory()
         
+        UIApplication.shared.isIdleTimerDisabled = true
+        
         NightMaskView.backgroundColor = UIColor.clear
 
         //Initialize the please wait dialog
@@ -60,10 +62,10 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         BottomSun?.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
         
+        #if false
         MakeLatitudeBands()
         let Radius = ArcLayer.bounds.width / 2.0
         let Center = CGPoint(x: Radius, y: Radius)
-        #if false
         var Start: CGFloat = -90
         let LatitudeIncrement = 5
         let ArcIncrement = abs(Start / CGFloat(LatitudeIncrement))
@@ -93,9 +95,10 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                                               userInfo: nil,
                                               repeats: true)
         
-        let ContextMenu = UIContextMenuInteraction(delegate: self)
-        TopView.addInteraction(ContextMenu)
+//        let ContextMenu = UIContextMenuInteraction(delegate: self)
+//        TopView.addInteraction(ContextMenu)
         
+        #if true
         let Rotation = CABasicAnimation(keyPath: "transform.rotation.z")
         Rotation.delegate = self
         Rotation.fromValue = NSNumber(floatLiteral: 0.0)
@@ -104,6 +107,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         Rotation.repeatCount = Float.greatestFiniteMagnitude
         Rotation.isAdditive = true
         SettingsButton.layer.add(Rotation, forKey: "RotateMe")
+        #endif
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle
@@ -290,6 +294,9 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 StarFieldView.Hide()
             }
         }
+        
+        //WorldViewer3D.SetMoonlight(Show: Settings.GetShowMoonlight())
+        //WorldViewer3D.SetLineLayer()
     }
     
     var InitialSunPrint: UUID? = nil
@@ -483,6 +490,9 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     let HalfCircumference: Double = 40075.0 / 2.0
     
+    /// Convert a point into a pretty string.
+    /// - Parameter Point: The point to convert.
+    /// - Returns: String equivalent of the passed point.
     func PrettyPoint(_ Point: CGPoint) -> String
     {
         let X = Double(Point.x).RoundedTo(3)
@@ -729,6 +739,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
     }
     
+    @IBAction func HandleSettingsButtonPressed(_ sender: Any)
+    {
+        ShowSettingsWindow()
+    }
+    
     // MARK: - Interface builder outlets.
     
     @IBOutlet weak var NightMaskView: UIImageView!
@@ -762,9 +777,13 @@ enum ViewStatuses
     case Hide
 }
 
+/// Types of map views.
 enum MapViewTypes
 {
+    /// North-centered flat map.
     case NorthCentered
+    /// South-centered flat map.
     case SouthCentered
+    /// 3D globe.
     case Globe3D
 }
