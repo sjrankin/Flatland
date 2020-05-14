@@ -47,6 +47,8 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
 
         ShowCitiesSwitch.isOn = Settings.ShowCities()
         ShowStarsSwitch.isOn = Settings.ShowStars()
+        ShowLocalDataSwitch.isOn = Settings.GetShowLocalData()
+        ShowMoonlightSwitch.isOn = Settings.GetShowMoonlight()
     }
     
     var Offsets = [Int]()
@@ -198,6 +200,15 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         WorkingLabel.isHidden = true
     }
     
+    @IBAction func HandleShowMoonlightChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetShowMoonlight(Switch.isOn)
+        }
+    }
+    
+    @IBOutlet weak var ShowMoonlightSwitch: UISwitch!
     @IBOutlet weak var WorkingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var WorkingLabel: UILabel!
     @IBOutlet weak var ShowStarsSwitch: UISwitch!
