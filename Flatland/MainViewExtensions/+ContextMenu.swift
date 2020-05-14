@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 
-extension MainView: UIContextMenuInteractionDelegate
+extension MainView//: UIContextMenuInteractionDelegate
 {
+    #if false
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
                                 configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration?
     {
@@ -20,6 +21,7 @@ extension MainView: UIContextMenuInteractionDelegate
             return self.MakeGeneralContextMenu()
         }
     }
+    #endif
     
     //MARK: - Physical sub-menu.
     
