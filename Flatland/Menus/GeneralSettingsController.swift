@@ -11,6 +11,8 @@ import UIKit
 
 class GeneralSettingsController: UINavigationController
 {
+    public weak var Delegate: MenuControllerDelegate? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
