@@ -34,7 +34,7 @@ class Starfield: SCNView
         let Camera = SCNCamera()
         Camera.fieldOfView = 60.0
         Camera.zFar = 1000
-        Camera.zNear = 0
+        Camera.zNear = 0.1
         CameraNode = SCNNode()
         CameraNode?.camera = Camera
         CameraNode?.position = SCNVector3(0.0, 0.0, 0.0)
