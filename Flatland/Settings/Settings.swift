@@ -42,6 +42,7 @@ class Settings
         SetShowLocalData(true)
         SetMinorGridLineGap(15.0)
         SetTransparencyLevel(0.0)
+        SetShowMoonlight(true)
         SetLocations([])
     }
     
@@ -311,6 +312,16 @@ class Settings
         UserDefaults.standard.set(NewType.rawValue, forKey: "HourValueType")
     }
         
+    public static func GetShowMoonlight() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowMoonlight")
+    }
+    
+    public static func SetShowMoonlight(_ NewValue: Bool)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "ShowMoonlight")
+    }
+    
     // MARK: - Globe settings.
     
     public static func GetTransparencyLevel() -> Double
