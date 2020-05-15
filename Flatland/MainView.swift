@@ -28,7 +28,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         UIApplication.shared.isIdleTimerDisabled = true
         
         NightMaskView.backgroundColor = UIColor.clear
-
+        
         //Initialize the please wait dialog
         PleaseWaitDialog.isHidden = true
         PleaseWaitDialog.isUserInteractionEnabled = false
@@ -62,43 +62,16 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         BottomSun?.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
         
-        #if false
-        MakeLatitudeBands()
-        let Radius = ArcLayer.bounds.width / 2.0
-        let Center = CGPoint(x: Radius, y: Radius)
-        var Start: CGFloat = -90
-        let LatitudeIncrement = 5
-        let ArcIncrement = abs(Start / CGFloat(LatitudeIncrement))
-        print("ArcIncrement=\(ArcIncrement)")
-        for Lat in stride(from: -180, to: 180, by: LatitudeIncrement)
-        {
-            let ArcColor = Lat == -180 ? UIColor.red : UIColor.Random(MinRed: 0.3, MinGreen: 0.3, MinBlue: 0.3)
-            let End = -Start
-            let LatPercent = CGFloat(abs(Double(Lat)) + 180.0) / 360.0
-            let test = MakeArc(Start: -90.0 * LatPercent,
-                               End: 90.0 * LatPercent,
-                               Radius: Radius,
-                               ArcRadius: CGFloat(Lat + 180),
-                               ArcWidth: CGFloat(LatitudeIncrement),
-                               Center: Center,
-                               ArcColor: UIColor.black,//ArcColor,
-                               Rectangle: ArcLayer.bounds)
-            ArcLayer.layer.addSublayer(test)
-            Start = Start + ArcIncrement
-        }
- 
-// ArcLayer.layer.addSublayer(test)
-        #endif
         LocalDataTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                               target: self,
                                               selector: #selector(UpdateLocalData),
                                               userInfo: nil,
                                               repeats: true)
         
-//        let ContextMenu = UIContextMenuInteraction(delegate: self)
-//        TopView.addInteraction(ContextMenu)
+        //        let ContextMenu = UIContextMenuInteraction(delegate: self)
+        //        TopView.addInteraction(ContextMenu)
         
-        #if true
+        #if false
         let Rotation = CABasicAnimation(keyPath: "transform.rotation.z")
         Rotation.delegate = self
         Rotation.fromValue = NSNumber(floatLiteral: 0.0)
@@ -108,6 +81,27 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         Rotation.isAdditive = true
         SettingsButton.layer.add(Rotation, forKey: "RotateMe")
         #endif
+        
+        #if DEBUG
+        ElapsedRuntime.isHidden = false
+        ElapsedRuntime.font = UIFont.monospacedSystemFont(ofSize: 18.0, weight: .semibold)
+        ElapsedRuntime.textColor = UIColor.white
+        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateElapsedTime), userInfo: nil, repeats: true)
+        #else
+        ElapsedRuntime.isHidden = true
+        #endif
+    }
+    
+    var ElapsedSeconds = 0
+    
+    @objc func UpdateElapsedTime()
+    {
+        ElapsedSeconds = ElapsedSeconds + 1
+        let (Hours, Minutes, Seconds) = Date.SecondsToTime(ElapsedSeconds)
+        let FinalHours = Hours > 0 ? "\(Hours):" : ""
+        let FinalSeconds = Seconds < 10 ? "0\(Seconds)" : "\(Seconds)"
+        let FinalMinutes = Minutes < 10 ? "0\(Minutes)" : "\(Minutes)"
+        ElapsedRuntime.text = "\(FinalHours)\(FinalMinutes):\(FinalSeconds)"
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle
@@ -197,15 +191,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         }
     }
     
-    @objc func UpdateDaylight()
-    {
-        let DQ = DispatchQueue(label: "SunlightQueue", qos: .utility)
-        DQ.async
-            {
-                self.MakeLatitudeBands()
-        }
-    }
-    
     let DaylightGridSize = 1.3
     
     var LightList = [(Latitude: Double, Longitude: Double, SunVisible: Bool)]()
@@ -242,20 +227,20 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     /// Called when the user closes the settings view controller, and when the program first starts.
     func SettingsDone()
     {
-            switch Settings.GetHourValueType()
-            {
-                case .None:
-                    HourSegment.selectedSegmentIndex = 0
-                
-                case .Solar:
-                    HourSegment.selectedSegmentIndex = 1
-                
-                case .RelativeToNoon:
-                    HourSegment.selectedSegmentIndex = 2
-                
-                case .RelativeToLocation:
-                    HourSegment.selectedSegmentIndex = 3
-            }
+        switch Settings.GetHourValueType()
+        {
+            case .None:
+                HourSegment.selectedSegmentIndex = 0
+            
+            case .Solar:
+                HourSegment.selectedSegmentIndex = 1
+            
+            case .RelativeToNoon:
+                HourSegment.selectedSegmentIndex = 2
+            
+            case .RelativeToLocation:
+                HourSegment.selectedSegmentIndex = 3
+        }
         if GridOverlay.layer.sublayers != nil
         {
             for Layer in GridOverlay.layer.sublayers!
@@ -524,7 +509,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 WorldViewer3D.Hide()
                 StarFieldView.Hide()
                 SetFlatlandVisibility(IsVisible: true)
-                MakeLatitudeBands()
+                SetNightMask()
                 SettingsDone()
             
             case .SouthCentered:
@@ -533,7 +518,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                 WorldViewer3D.Hide()
                 StarFieldView.Hide()
                 SetFlatlandVisibility(IsVisible: true)
-                MakeLatitudeBands()
+                SetNightMask()
                 SettingsDone()
             
             case .Globe3D:
@@ -563,8 +548,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                     WorldViewer3D.Hide()
                     StarFieldView.Hide()
                     SetFlatlandVisibility(IsVisible: true)
-                    MakeLatitudeBands()
-                SettingsDone()
+                    SetNightMask()
+                    SettingsDone()
                 
                 case 1:
                     Settings.SetImageCenter(.SouthPole)
@@ -572,8 +557,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                     WorldViewer3D.Hide()
                     StarFieldView.Hide()
                     SetFlatlandVisibility(IsVisible: true)
-                    MakeLatitudeBands()
-                SettingsDone()
+                    SetNightMask()
+                    SettingsDone()
                 
                 case 2:
                     Settings.SetViewType(.Globe3D)
@@ -585,8 +570,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                     SetFlatlandVisibility(IsVisible: false)
                     PleaseWait
                         {
-                        WorldViewer3D.AddEarth()
-                    }
+                            WorldViewer3D.AddEarth()
+                }
                 
                 default:
                     break
@@ -650,7 +635,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     {
         PleaseWait
             {
-            WorldViewer3D.AddEarth()
+                WorldViewer3D.AddEarth()
         }
         SettingsDone()
     }
@@ -734,7 +719,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
                     WorldViewer3D.UpdateHourLabels(With: .RelativeToLocation)
                 
                 default:
-                return
+                    return
             }
         }
     }
@@ -746,6 +731,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     
     // MARK: - Interface builder outlets.
     
+    @IBOutlet weak var ElapsedRuntime: UILabel!
     @IBOutlet weak var NightMaskView: UIImageView!
     @IBOutlet weak var PleaseWaitDialog: UIView!
     @IBOutlet weak var HourSegment: UISegmentedControl!
