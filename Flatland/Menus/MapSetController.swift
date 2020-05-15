@@ -137,10 +137,6 @@ class MapSetController: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     var MapList = [(MapTypes, String)]()
     
-    @IBAction func HandleMapSelectedButton(_ sender: Any)
-    {
-    }
-    
     @IBOutlet weak var CurrentMap: UILabel!
     @IBOutlet weak var MapCategoryTable: UITableView!
     @IBOutlet weak var MapTable: UITableView!
