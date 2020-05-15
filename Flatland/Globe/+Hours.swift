@@ -150,7 +150,7 @@ extension GlobeView
         var HourLabelList = [String]()
         for Hour in 0 ... 23
         {
-            let Hour = (Hour + 0/*7*/) % 24
+            let Hour = Hour % 24
             var Prefix = ""
             let DisplayHour = HourList[Hour]
             if DisplayHour > 0
@@ -161,6 +161,26 @@ extension GlobeView
         }
         let LetterColor = UIColor(red: 227.0 / 255.0, green: 1.0, blue: 0.0, alpha: 1.0)
         return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: LetterColor)
+    }
+    
+    /// Convert a number in the range 0 to 24 from an integer to the proper string in the current
+    /// display language.
+    /// - Parameter Number: The number to convert.
+    /// - Returns: String with the proper number in the display language.
+    func ConvertToLanguage(_ Number: Int) -> String
+    {
+        if Number < 0 || Number > 24
+        {
+            fatalError("Invalid number for conversion (\(Number)) - out of range [0...24].")
+        }
+        switch Settings.GetDisplayLanguage()
+        {
+            case .English:
+            return "\(Number)"
+            
+            case .Japanese:
+            return JapaneseHours[Number]
+        }
     }
     
     /// Given an array of words, place a set of words in the hour ring over the Earth.
@@ -188,6 +208,7 @@ extension GlobeView
         {
             var WorkingAngle: CGFloat = CGFloat(Angle) + RadialOffset
             var PreviousEnding: CGFloat = 0.0
+            var TotalLabelWidth: CGFloat = 0.0
             for (_, Letter) in Label.enumerated()
             {
                 let Radians = WorkingAngle.Radians
@@ -225,7 +246,9 @@ extension GlobeView
                 let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
                 HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
                 Node.addChildNode(HourTextNode)
+                TotalLabelWidth = TotalLabelWidth + (CGFloat(CharWidth) + PreviousEnding)
             }
+            print("Width of \(Label) is \(TotalLabelWidth)")
             //Adjust the angle by one hour.
             Angle = Angle + 15
         }
