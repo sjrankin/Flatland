@@ -58,6 +58,17 @@ class CitySelectorView: UITableViewController, UIPickerViewDelegate, UIPickerVie
         #if os(macOS)
         GetLocationButton.isHidden = true
         #endif
+        switch Settings.CityDisplayType()
+        {
+            case .UniformEmbedded:
+                CityTypeSegment.selectedSegmentIndex = 0
+            
+            case .RelativeEmbedded:
+                CityTypeSegment.selectedSegmentIndex = 1
+            
+            case .RelativeFloating:
+                CityTypeSegment.selectedSegmentIndex = 2
+        }
     }
     
     func MakeTimeZoneList()
@@ -269,6 +280,28 @@ class CitySelectorView: UITableViewController, UIPickerViewDelegate, UIPickerVie
         }
     }
     
+    @IBAction func HandleCityTypeChanged(_ sender: Any)
+    {
+        if let Segment = sender as? UISegmentedControl
+        {
+            switch Segment.selectedSegmentIndex
+            {
+                case 0:
+                    Settings.SetCityDisplayType(.UniformEmbedded)
+                
+                case 1:
+                    Settings.SetCityDisplayType(.RelativeEmbedded)
+                
+                case 2:
+                    Settings.SetCityDisplayType(.RelativeFloating)
+                
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBOutlet weak var CityTypeSegment: UISegmentedControl!
     @IBOutlet weak var GetLocationButton: UIButton!
     @IBOutlet weak var TimeZonePicker: UIPickerView!
     @IBOutlet weak var LocalLongitudeBox: UITextField!
