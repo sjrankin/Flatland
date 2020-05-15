@@ -194,7 +194,7 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
      print("Selected row at \(indexPath): \(Date())")
     }
     
-    func ChildWindowClosed()
+    func ChildWindowClosed(_ Dirty: Bool)
     {
         WorkingIndicator.isHidden = true
         WorkingLabel.isHidden = true
