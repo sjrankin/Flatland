@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		17026472244C202F00DEE96A /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17026471244C202F00DEE96A /* MapManager.swift */; };
+		1714A65D246E882D00A83A03 /* CityListSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714A65C246E882D00A83A03 /* CityListSelector.swift */; };
+		1714A65F246E89A800A83A03 /* CityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714A65E246E89A800A83A03 /* CityViewController.swift */; };
+		1714A661246E8C4A00A83A03 /* MainUserCitiesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714A660246E8C4A00A83A03 /* MainUserCitiesController.swift */; };
+		1714A663246E8DCC00A83A03 /* UserLocationSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714A662246E8DCC00A83A03 /* UserLocationSettingController.swift */; };
+		1714A665246EB0F000A83A03 /* AddEditCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714A664246EB0F000A83A03 /* AddEditCity.swift */; };
 		1717F4D72457D72600C7F263 /* GaiaSkyNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4D42457D72500C7F263 /* GaiaSkyNorthCenter.png */; };
 		1717F4D82457D72600C7F263 /* GaiaSkySouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4D52457D72500C7F263 /* GaiaSkySouthCenter.png */; };
 		1717F4D92457D72600C7F263 /* GaiaSky.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4D62457D72600C7F263 /* GaiaSky.png */; };
@@ -175,6 +180,11 @@
 
 /* Begin PBXFileReference section */
 		17026471244C202F00DEE96A /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
+		1714A65C246E882D00A83A03 /* CityListSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListSelector.swift; sourceTree = "<group>"; };
+		1714A65E246E89A800A83A03 /* CityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityViewController.swift; sourceTree = "<group>"; };
+		1714A660246E8C4A00A83A03 /* MainUserCitiesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainUserCitiesController.swift; sourceTree = "<group>"; };
+		1714A662246E8DCC00A83A03 /* UserLocationSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationSettingController.swift; sourceTree = "<group>"; };
+		1714A664246EB0F000A83A03 /* AddEditCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditCity.swift; sourceTree = "<group>"; };
 		1717F4D42457D72500C7F263 /* GaiaSkyNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GaiaSkyNorthCenter.png; sourceTree = "<group>"; };
 		1717F4D52457D72500C7F263 /* GaiaSkySouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GaiaSkySouthCenter.png; sourceTree = "<group>"; };
 		1717F4D62457D72600C7F263 /* GaiaSky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GaiaSky.png; sourceTree = "<group>"; };
@@ -393,6 +403,7 @@
 		1739F378244AD42C00E7F577 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				17BF88F5246E876100249A05 /* ContextSettings */,
 				17BE6880242CA8FB009861E1 /* Settings.swift */,
 				17BE687E242CA831009861E1 /* ProgramSettings.swift */,
 				1720DD76245FCF2100C1E719 /* ChildClosedProtocol.swift */,
@@ -597,6 +608,18 @@
 				17BE6872242C7A9C009861E1 /* LaunchScreen.storyboard */,
 			);
 			path = Flatland;
+			sourceTree = "<group>";
+		};
+		17BF88F5246E876100249A05 /* ContextSettings */ = {
+			isa = PBXGroup;
+			children = (
+				1714A65C246E882D00A83A03 /* CityListSelector.swift */,
+				1714A65E246E89A800A83A03 /* CityViewController.swift */,
+				1714A660246E8C4A00A83A03 /* MainUserCitiesController.swift */,
+				1714A662246E8DCC00A83A03 /* UserLocationSettingController.swift */,
+				1714A664246EB0F000A83A03 /* AddEditCity.swift */,
+			);
+			path = ContextSettings;
 			sourceTree = "<group>";
 		};
 		17D314D6245BD691001E8353 /* Flat */ = {
@@ -829,14 +852,17 @@
 				17BC1634245007B200CF42CB /* StarField.swift in Sources */,
 				1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */,
 				17D314D8245BD6AF001E8353 /* +FlatView.swift in Sources */,
+				1714A65D246E882D00A83A03 /* CityListSelector.swift in Sources */,
 				1792BD882430529C006ABD02 /* TimeHelper.swift in Sources */,
 				17E180F8242F646700310896 /* Cities.swift in Sources */,
 				1733B80E246A7EF300D1A15F /* MapMenu.swift in Sources */,
+				1714A65F246E89A800A83A03 /* CityViewController.swift in Sources */,
 				1733B812246A860C00D1A15F /* MainSettingsMenuController.swift in Sources */,
 				17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */,
 				1789A3E9244EDCFC007E3526 /* DebugController.swift in Sources */,
 				17BE686C242C7A99009861E1 /* MainView.swift in Sources */,
 				17E180F5242F62F700310896 /* City.swift in Sources */,
+				1714A665246EB0F000A83A03 /* AddEditCity.swift in Sources */,
 				17633B56243858BB0021600D /* LocationCell.swift in Sources */,
 				1733B814246A94FC00D1A15F /* SmallVersion.swift in Sources */,
 				17C80C1B2454247A00E27112 /* FileIO.swift in Sources */,
@@ -853,6 +879,7 @@
 				17865A6824499D8000DEED75 /* GlobeView.swift in Sources */,
 				1792BD8624305173006ABD02 /* Utility.swift in Sources */,
 				17F147B6246929A600713220 /* GlobeProtocol.swift in Sources */,
+				1714A661246E8C4A00A83A03 /* MainUserCitiesController.swift in Sources */,
 				1789A3EB244EDDCB007E3526 /* DebugNavigationViewer.swift in Sources */,
 				17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */,
 				176DC96E2438390100830DB1 /* EditLocation.swift in Sources */,
@@ -877,6 +904,7 @@
 				1746C17C242DB67D00A479DE /* CitySelectorView.swift in Sources */,
 				173409AF246D074100E15563 /* MenuControllerDelegate.swift in Sources */,
 				1720DD72245FBAFA00C1E719 /* AboutView.swift in Sources */,
+				1714A663246E8DCC00A83A03 /* UserLocationSettingController.swift in Sources */,
 				17AE7F3E245D03120011160F /* SolarCalculator.swift in Sources */,
 				1720DD74245FBB9D00C1E719 /* Versioning.swift in Sources */,
 				176DC96C2438380300830DB1 /* LocationEditedProtocol.swift in Sources */,
