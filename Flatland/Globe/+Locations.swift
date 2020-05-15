@@ -104,7 +104,33 @@ extension GlobeView
         ToSurface.addChildNode(ArrowNode)
     }
     
-    /// Plot a city on the 3D sphere.
+    /// Plot a city on the 3D sphere. A sphere is set on the surface of the Earth.
+    /// - Parameter Latitude: The latitude of the city.
+    /// - Parameter Longitude: The longitude of the city.
+    /// - Parameter ToSurface: The surface that defines the globe.
+    /// - Parameter WithColor: The color of the city shape.
+    /// - Parameter RelativeSize: The relative size of the city.
+    /// - Parameter LargestSize: The largest permitted.
+    func PlotCity1(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+                   WithColor: UIColor = UIColor.red, RelativeSize: Double = 1.0, LargestSize: Double = 1.0)
+    {
+        var CitySize = CGFloat(RelativeSize * LargestSize)
+        if CitySize < 0.15
+        {
+            CitySize = 0.15
+        }
+        let CityShape = SCNSphere(radius: CitySize)
+        let CityNode = SCNNode(geometry: CityShape)
+        CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        CityNode.geometry?.firstMaterial?.emission.contents = UIImage(named: "CitySphereTexture")
+        CityNode.castsShadow = true
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(10 - (CitySize / 2)))
+        CityNode.position = SCNVector3(X, Y, Z)
+        ToSurface.addChildNode(CityNode)
+    }
+    
+    /// Plot a city on the 3D sphere. The city display is a float ball whose radius is relative to
+    /// the overall size of selected cities and altitude over the Earth is also relative to the population.
     /// - Parameter Latitude: The latitude of the city.
     /// - Parameter Longitude: The longitude of the city.
     /// - Parameter ToSurface: The surface that defines the globe.
@@ -141,7 +167,7 @@ extension GlobeView
         }
         let Cylinder = SCNCylinder(radius: 0.04, height: CGFloat(LongestStem * RelativeHeight))
         let CylinderNode = SCNNode(geometry: Cylinder)
-        CylinderNode.geometry?.firstMaterial?.diffuse.contents = UIColor.systemYellow
+        CylinderNode.geometry?.firstMaterial?.diffuse.contents = UIColor.magenta
         CylinderNode.geometry?.firstMaterial?.specular.contents = UIColor.white
         CylinderNode.castsShadow = true
         CylinderNode.position = SCNVector3(0.0, 0.0, 0.0)
@@ -165,6 +191,8 @@ extension GlobeView
     /// - Parameter WithRadius: The radius of there Earth sphere node.
     func PlotCities(On: SCNNode, WithRadius: CGFloat)
     {
+                PlotPolarFlags(On: On, With: 10.0)
+        
         let CityList = Cities()
         var TestCities = CityList.TopNCities(N: 50, UseMetroPopulation: true)
         
@@ -186,7 +214,7 @@ extension GlobeView
             }
         }
         
-        let CitySize: CGFloat = 0.15
+        //let CitySize: CGFloat = 0.15
         let (Max, Min) = Cities.GetPopulationsIn(CityList: TestCities, UseMetroPopulation: true)
         for City in TestCities
         {
@@ -197,31 +225,97 @@ extension GlobeView
             }
             else
             {
-                #if true
                 var RelativeSize: Double = 1.0
-                if City.Population == nil
+                if let ThePopulation = GetCityPopulation(From: City)
                 {
-                    RelativeSize = Double(Min) / Double(Max)
+                    RelativeSize = Double(ThePopulation) / Double(Max)
                 }
                 else
                 {
-                    RelativeSize = Double(City.Population!) / Double(Max)
+                    RelativeSize = Double(Min) / Double(Max)
                 }
-                PlotCity2(Latitude: City.Latitude, Longitude: City.Longitude, Radius: 10.0,
-                          ToSurface: On, WithColor: UIColor.yellow, RelativeSize: RelativeSize,
-                          RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0)
-                #else
-                let CityShape = SCNSphere(radius: CitySize)
-                let CityNode = SCNNode(geometry: CityShape)
-                CityNode.geometry?.firstMaterial?.diffuse.contents = City.CityColor
-                CityNode.geometry?.firstMaterial?.emission.contents = UIImage(named: "CitySphereTexture")
-                CityNode.castsShadow = true
-                let (X, Y, Z) = ToECEF(City.Latitude, City.Longitude, Radius: Double(10 - (CitySize / 2)))
-                CityNode.position = SCNVector3(X, Y, Z)
-                On.addChildNode(CityNode)
-                #endif
+                switch Settings.CityDisplayType()
+                {
+                    case .UniformEmbedded:
+                        PlotCity1(Latitude: City.Latitude, Longitude: City.Longitude, Radius: 10.0,
+                                  ToSurface: On, WithColor: City.CityColor, RelativeSize: 1.0,
+                                  LargestSize: 0.15)
+                    
+                    case .RelativeEmbedded:
+                        PlotCity1(Latitude: City.Latitude, Longitude: City.Longitude, Radius: 10.0,
+                                  ToSurface: On, WithColor: City.CityColor, RelativeSize: RelativeSize,
+                                  LargestSize: 0.35)
+                    
+                    case .RelativeFloating:
+                        PlotCity2(Latitude: City.Latitude, Longitude: City.Longitude, Radius: 10.0,
+                                  ToSurface: On, WithColor: City.CityColor, RelativeSize: RelativeSize,
+                                  RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0)
+                }
             }
         }
+    }
+    
+    func PlotPolarFlags(On Surface: SCNNode, With Radius: CGFloat)
+    {
+        let (NorthX, NorthY, NorthZ) = ToECEF(90.0, 0.0, Radius: Double(Radius))
+        let (SouthX, SouthY, SouthZ) = ToECEF(-90.0, 0.0, Radius: Double(Radius))
+        let NorthPoleFlag = MakeFlag(NorthPole: true)
+        let SouthPoleFlag = MakeFlag(NorthPole: false)
+        NorthPoleFlag.position = SCNVector3(NorthX, NorthY, NorthZ)
+        SouthPoleFlag.position = SCNVector3(SouthX, SouthY, SouthZ)
+        Surface.addChildNode(NorthPoleFlag)
+        Surface.addChildNode(SouthPoleFlag)
+    }
+    
+    func MakeFlag(NorthPole: Bool) -> SCNNode
+    {
+        let Pole = SCNCylinder(radius: 0.04, height: 2.5)
+        let PoleNode = SCNNode(geometry: Pole)
+        PoleNode.geometry?.firstMaterial?.diffuse.contents = UIColor.brown
+        //PoleNode.geometry?.firstMaterial?.specular.contents = UIColor.white
+        
+        let FlagFace = SCNBox(width: 0.04, height: 0.6, length: 1.2, chamferRadius: 0.0)
+        let FlagFaceNode = SCNNode(geometry: FlagFace)
+        let XOffset = NorthPole ? 0.6 : -0.6
+        let YOffset = NorthPole ? 1.0 : -1.0
+        FlagFaceNode.position = SCNVector3(XOffset, YOffset, 0.0)
+        var FlagName = ""
+        if Settings.GetDisplayLanguage() == .English
+        {
+         FlagName = NorthPole ? "NorthPoleFlag" : "SouthPoleFlag"
+        }
+        else
+        {
+            FlagName = NorthPole ? "NorthPoleFlagJP" : "SouthPoleFlagJP"
+        }
+        let FlagImage = UIImage(named: FlagName)
+        FlagFaceNode.geometry?.firstMaterial?.diffuse.contents = FlagImage
+        FlagFaceNode.geometry?.firstMaterial?.specular.contents = UIColor.white
+        FlagFaceNode.geometry?.firstMaterial?.lightingModel = .lambert
+        FlagFaceNode.eulerAngles = SCNVector3(0.0, 90.0.Radians, 0.0)
+        
+        let FlagNode = SCNNode()
+        FlagNode.castsShadow = true
+        FlagNode.addChildNode(PoleNode)
+        FlagNode.addChildNode(FlagFaceNode)
+        return FlagNode
+    }
+    
+    /// Returns the largest of the city population or the metropolitan population from the passed city.
+    /// - Parameter City: The city whose population is returned.
+    /// - Returns: The largest of the city or the metropolitan populations. Nil if no populations
+    ///            are available.
+    func GetCityPopulation(From: City) -> Int?
+    {
+        if let Metro = From.MetropolitanPopulation
+        {
+            return Metro
+        }
+        if let Local = From.Population
+        {
+            return Local
+        }
+        return nil
     }
     
     /// Convert the passed latitude and longitude values into a 3D coordinate that can be plotted
@@ -240,4 +334,12 @@ extension GlobeView
         let Y = (Radius * cos(Lat))
         return (X, Y, Z)
     }
+}
+
+
+enum CityDisplayTypes: String, CaseIterable
+{
+    case UniformEmbedded = "Flush spheres, uniform size"
+    case RelativeEmbedded = "Flush spheres, relative size"
+    case RelativeFloating = "Floating spheres, relative size"
 }
