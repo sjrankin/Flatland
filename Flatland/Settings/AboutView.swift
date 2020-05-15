@@ -22,7 +22,7 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
     
     @IBAction func HandleCloseButtonPressed(_ sender: Any)
     {
-        ClosedDelegate?.ChildWindowClosed()
+        ClosedDelegate?.ChildWindowClosed(false)
         self.dismiss(animated: true, completion: nil)
     }
     
