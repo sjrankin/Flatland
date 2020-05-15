@@ -78,14 +78,14 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Sun" translatesAutoresizingMaskIntoConstraints="NO" id="EsQ-gP-0lz">
+                                    <imageView opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EsQ-gP-0lz">
                                         <rect key="frame" x="344" y="34" width="80" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="5HQ-hN-6l6"/>
                                             <constraint firstAttribute="width" constant="80" id="D6x-VT-oSB"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Sun" translatesAutoresizingMaskIntoConstraints="NO" id="pUB-G7-6d9">
+                                    <imageView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pUB-G7-6d9">
                                         <rect key="frame" x="344" y="900" width="80" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="bip-rh-ta7"/>
@@ -292,6 +292,12 @@
                                             <action selector="HandleHourSegmentChanged:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="Z5f-mD-QIH"/>
                                         </connections>
                                     </segmentedControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JIr-NK-NaE">
+                                        <rect key="frame" x="34" y="124.5" width="258" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -304,7 +310,9 @@
                                     <constraint firstItem="Ctd-gQ-xK7" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="top" id="8gn-fI-3gS"/>
                                     <constraint firstItem="STp-0d-B28" firstAttribute="leading" secondItem="Kse-DN-BOT" secondAttribute="trailing" constant="-40" id="AIV-yk-eu0"/>
                                     <constraint firstItem="pUB-G7-6d9" firstAttribute="top" secondItem="7vk-gF-Mzg" secondAttribute="top" id="AqC-Wg-dcb"/>
+                                    <constraint firstItem="dFz-Nh-pZt" firstAttribute="trailing" secondItem="JIr-NK-NaE" secondAttribute="trailing" constant="476" id="BiU-Aj-uC3"/>
                                     <constraint firstItem="fkZ-wJ-IXP" firstAttribute="top" secondItem="STp-0d-B28" secondAttribute="bottom" constant="19" id="CFP-lH-Rdj"/>
+                                    <constraint firstItem="l3A-8D-waa" firstAttribute="top" secondItem="JIr-NK-NaE" secondAttribute="bottom" constant="17" id="CnI-O1-Dzy"/>
                                     <constraint firstItem="ic8-eO-fM3" firstAttribute="centerY" secondItem="E0c-Ml-2UJ" secondAttribute="centerY" id="EuX-QN-86O"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="trailing" secondItem="kDv-JP-mbI" secondAttribute="trailing" id="FG9-Ko-s51"/>
                                     <constraint firstItem="Ctd-gQ-xK7" firstAttribute="trailing" secondItem="l3A-8D-waa" secondAttribute="trailing" id="GRA-Kn-qNI"/>
@@ -314,6 +322,7 @@
                                     <constraint firstItem="a8N-hj-j3j" firstAttribute="leading" secondItem="kDv-JP-mbI" secondAttribute="leading" constant="-26" id="JGo-P6-bWq"/>
                                     <constraint firstAttribute="trailing" secondItem="wU5-9A-Ujl" secondAttribute="trailing" id="JdJ-cE-1P4"/>
                                     <constraint firstItem="sIC-Wp-JbB" firstAttribute="bottom" secondItem="l3A-8D-waa" secondAttribute="bottom" id="KOR-bl-TOm"/>
+                                    <constraint firstItem="JIr-NK-NaE" firstAttribute="leading" secondItem="kDv-JP-mbI" secondAttribute="leading" id="KOU-LW-eQ3"/>
                                     <constraint firstItem="sIC-Wp-JbB" firstAttribute="trailing" secondItem="l3A-8D-waa" secondAttribute="trailing" id="MaR-rK-hpf"/>
                                     <constraint firstItem="E0c-Ml-2UJ" firstAttribute="leading" secondItem="l3A-8D-waa" secondAttribute="leading" id="MzO-8O-yPd"/>
                                     <constraint firstItem="fkZ-wJ-IXP" firstAttribute="leading" secondItem="RiW-Kc-e2T" secondAttribute="trailing" constant="-36" id="N63-ei-gyb"/>
@@ -363,6 +372,7 @@
                         <outlet property="ArcLayer" destination="kDv-JP-mbI" id="OhZ-yc-uXx"/>
                         <outlet property="DataStack" destination="a8N-hj-j3j" id="FhE-9d-zJE"/>
                         <outlet property="DeclinitionLabel" destination="ccy-Bv-Ske" id="IbI-Hd-6je"/>
+                        <outlet property="ElapsedRuntime" destination="JIr-NK-NaE" id="PQe-sv-G3Q"/>
                         <outlet property="GridOverlay" destination="E0c-Ml-2UJ" id="loN-bu-zjb"/>
                         <outlet property="HourLayer2D" destination="sIC-Wp-JbB" id="kde-Th-JQF"/>
                         <outlet property="HourSegment" destination="RiW-Kc-e2T" id="aKc-GE-6cC"/>
@@ -2368,7 +2378,6 @@
         <segue reference="rud-5z-wVa"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="Sun" width="160" height="160"/>
         <image name="WorldNorth" width="2048" height="2048"/>
         <image name="ant.circle" catalog="system" width="128" height="121"/>
         <image name="circle" catalog="system" width="128" height="121"/>
