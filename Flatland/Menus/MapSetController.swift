@@ -26,10 +26,9 @@ class MapSetController: UIViewController, UITableViewDelegate, UITableViewDataSo
             let Index = CategoryIndex(For: InitialCategory)
             MapCategoryTable.selectRow(at: IndexPath(row: Index, section: 0),
                                        animated: true, scrollPosition: UITableView.ScrollPosition.middle)
-        FillMapList(InitialCategory)
+            FillMapList(InitialCategory)
         }
-        let CurrentMapName = Settings.GetGlobeMapType().rawValue
-        CurrentMap.text = CurrentMapName
+        CurrentMap.text = Settings.GetGlobeMapType().rawValue
     }
     
     func CategoryIndex(For Category: MapCategories) -> Int
@@ -114,6 +113,7 @@ class MapSetController: UIViewController, UITableViewDelegate, UITableViewDataSo
                 Settings.SetGlobeMapType(NewMap)
                 Settings.SetFlatlandMapType(NewMap)
                 MapTable.reloadData()
+                CurrentMap.text = NewMap.rawValue
             
             case MapCategoryTable:
                 let Category = CategoryList[indexPath.row].0
