@@ -141,7 +141,6 @@
 		17D16E10246002A200CA04F4 /* TychoConstellationsSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17D16E0D246002A000CA04F4 /* TychoConstellationsSouthCenter.png */; };
 		17D16E11246002A200CA04F4 /* TychoWithConstellations.png in Resources */ = {isa = PBXBuildFile; fileRef = 17D16E0E246002A100CA04F4 /* TychoWithConstellations.png */; };
 		17D314D8245BD6AF001E8353 /* +FlatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D314D7245BD6AF001E8353 /* +FlatView.swift */; };
-		17D314DA245BF93B001E8353 /* Flat2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D314D9245BF93B001E8353 /* Flat2.swift */; };
 		17D825112448547D00323C1D /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D825102448547D00323C1D /* MapSettings.swift */; };
 		17DD58FC244AD57500DCCBF8 /* +ContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD58FB244AD57500DCCBF8 /* +ContextMenu.swift */; };
 		17E180F5242F62F700310896 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E180F4242F62F700310896 /* City.swift */; };
@@ -312,7 +311,6 @@
 		17D16E0D246002A000CA04F4 /* TychoConstellationsSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TychoConstellationsSouthCenter.png; sourceTree = "<group>"; };
 		17D16E0E246002A100CA04F4 /* TychoWithConstellations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TychoWithConstellations.png; sourceTree = "<group>"; };
 		17D314D7245BD6AF001E8353 /* +FlatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatView.swift"; sourceTree = "<group>"; };
-		17D314D9245BF93B001E8353 /* Flat2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flat2.swift; sourceTree = "<group>"; };
 		17D825102448547D00323C1D /* MapSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettings.swift; sourceTree = "<group>"; };
 		17DD58FB244AD57500DCCBF8 /* +ContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ContextMenu.swift"; sourceTree = "<group>"; };
 		17E180F4242F62F700310896 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
@@ -605,7 +603,6 @@
 			isa = PBXGroup;
 			children = (
 				17D314D7245BD6AF001E8353 /* +FlatView.swift */,
-				17D314D9245BF93B001E8353 /* Flat2.swift */,
 			);
 			path = Flat;
 			sourceTree = "<group>";
@@ -859,7 +856,6 @@
 				1789A3EB244EDDCB007E3526 /* DebugNavigationViewer.swift in Sources */,
 				17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */,
 				176DC96E2438390100830DB1 /* EditLocation.swift in Sources */,
-				17D314DA245BF93B001E8353 /* Flat2.swift in Sources */,
 				17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */,
 				1792BD8024304EA7006ABD02 /* Solar.swift in Sources */,
 				1792BD9424306EC5006ABD02 /* CitiesData.swift in Sources */,
