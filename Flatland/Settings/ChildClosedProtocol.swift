@@ -10,5 +10,5 @@ import Foundation
 
 protocol ChildClosed: class
 {
-    func ChildWindowClosed()
+    func ChildWindowClosed(_ Dirty: Bool)
 }
