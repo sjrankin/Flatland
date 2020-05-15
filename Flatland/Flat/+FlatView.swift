@@ -12,6 +12,8 @@ import SceneKit
 
 extension MainView
 {
+    /// Sets the visibility of either the 3D globe or 2D map depending on the passed boolean.
+    /// - Parameter IsVisible: If true, 2D maps are visible. If false, 3D maps are visible.
     func SetFlatlandVisibility(IsVisible: Bool)
     {
         NightMaskView.isHidden = !IsVisible
@@ -32,62 +34,11 @@ extension MainView
             SunViewBottom?.alpha = 1.0
             UpdateSunLocations()
         }
-        if IsVisible
-        {
-            SunlightTimer = Timer.scheduledTimer(timeInterval: 60.0 * 60.0,
-                                                 target: self,
-                                                 selector: #selector(UpdateDaylight),
-                                                 userInfo: nil,
-                                                 repeats: true)
-        }
-        else
-        {
-            if SunlightTimer != nil
-            {
-                SunlightTimer?.invalidate()
-                SunlightTimer = nil
-            }
-        }
     }
     
-    func MakeNightMaskName(From: Date) -> String
+    /// Set the night mask for 2D maps.
+    func SetNightMask()
     {
-        let Day = Calendar.current.component(.day, from: From)
-        let Month = Calendar.current.component(.month, from: From) - 1
-        let MonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][Month]
-        let Prefix = Settings.GetImageCenter() == .NorthPole ? "" : "South_"
-        return "\(Prefix)\(Day)_\(MonthName)"
-    }
-    
-    func GetNightMask(ForDate: Date) -> UIImage?
-    {
-        let ImageName = MakeNightMaskName(From: ForDate)
-        var MaskAlpha = Settings.NightMaskAlpha()
-        if MaskAlpha == 0.0
-        {
-            MaskAlpha = 0.4
-            Settings.SetNightMaskAlpha(MaskAlpha)
-        }
-        let MaskImage = UIImage(named: ImageName)!
-        var Final = MaskImage.Alpha(CGFloat(MaskAlpha))
-        #if false
-        if Settings.GetImageCenter() == .NorthPole
-        {
-            Final = Final.Rotate(Degrees: 180.0)
-        }
-        #endif
-        return Final
-    }
-    
-    /// Make bands of night time. A "band" is an arc at a given latitude that represents darkness
-    /// for that latitude on a given date (the date the program is running).
-    /// - Note: Most of the time, creating latitude bands works without issue. However, on rare
-    ///         occasions, it runs in the background and attempts to update the layer that holds the
-    ///         arcs at the same time as the foreground process is accessing it. This causes crashes.
-    ///         To help alleviate this, this function forces the bands to be created on the UI queue.
-    func MakeLatitudeBands()
-    {
-        #if true
         if Settings.GetViewType() == .Globe3D
         {
             return
@@ -98,126 +49,41 @@ extension MainView
         }
         if let Image = GetNightMask(ForDate: Date())
         {
-            OperationQueue.main.addOperation
-                {
-                    self.ArcLayer.layer.contents = nil
-                    self.NightMaskView.image = Image
-            }
+            NightMaskView.image = Image
         }
-        #else
-        OperationQueue.main.addOperation
-            {
-                self.DoMakeLatitudeBands()
+        else
+        {
+            print("No night mask for \(Date()) found.")
         }
-        #endif
     }
     
-    /// Create a series of arcs that represent darkness for a given latitude on the date the function
-    /// was called. Update the arc layer with the bands of darkness.
-    /// - Note: This function assumes it is being executed on the UI thread.
-    /// - Note: If the user is not viewing the globe in flat mode, this code returns immediately.
-    func DoMakeLatitudeBands()
+    /// Given a date, return a mask image for a flat map.
+    /// - Parameter From: The date for the night mask.
+    /// - Returns: Name of the night mask image file.
+    func MakeNightMaskName(From: Date) -> String
     {
-        ArcLayer.layer.sublayers?.removeAll()
-        if Settings.GetViewType() == .Globe3D
+        let Day = Calendar.current.component(.day, from: From)
+        let Month = Calendar.current.component(.month, from: From) - 1
+        let MonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][Month]
+        let Prefix = Settings.GetImageCenter() == .NorthPole ? "" : "South_"
+        return "\(Prefix)\(Day)_\(MonthName)"
+    }
+    
+    /// Get a night mask image for a flat map for the specified date.
+    /// - Parameter ForDate: The date of the night mask.
+    /// - Returns: Image for the passed date (and flat map orientation). Nil return on error.
+    func GetNightMask(ForDate: Date) -> UIImage?
+    {
+        let ImageName = MakeNightMaskName(From: ForDate)
+        var MaskAlpha = Settings.NightMaskAlpha()
+        if MaskAlpha == 0.0
         {
-            return
+            MaskAlpha = 0.4
+            Settings.SetNightMaskAlpha(MaskAlpha)
         }
-        if !Settings.ShowNight()
-        {
-            return
-        }
-        let Radius = ArcLayer.bounds.width / 2.0
-        let Center = CGPoint(x: Radius, y: Radius)
-        let NightIsNorth = Settings.GetImageCenter() == .NorthPole
-        let BandWidth = 2
-        let Now = Date()
-        let Month = Calendar.current.component(.month, from: Now)
-        let Day = Calendar.current.component(.day, from: Now)
-        var IsSummer = true
-        if Month < 3
-        {
-            IsSummer = false
-        }
-        if Month > 9
-        {
-            IsSummer = false
-        }
-        if Month == 3 && Day < 21
-        {
-            IsSummer = false
-        }
-        if Month == 9 && Day >= 21
-        {
-            IsSummer = false
-        }
-        for Latitude in stride(from: -90, through: 90, by: BandWidth)
-        {
-            let Location = GeoPoint2(Double(Latitude), 0.0)
-            let SunCalc = Sun()
-            var AbsoluteSunrise = 0
-            var AbsoluteSunset = 0
-            if let SunriseSeconds = SunCalc.SunriseAsSeconds(For: Now, At: Location, TimeZoneOffset: 0)
-            {
-                AbsoluteSunrise = SunriseSeconds
-            }
-            if let SunsetSeconds = SunCalc.SunsetAsSeconds(For: Now, At: Location, TimeZoneOffset: 0)
-            {
-                AbsoluteSunset = SunsetSeconds
-            }
-            let DayTime = abs(AbsoluteSunset - AbsoluteSunrise)
-            let Noon = 12 * 60 * 60
-            let Sunrise = Noon - (DayTime / 2)
-            let Sunset = Noon + (DayTime / 2)
-            let RisePercent: Double = Double(Sunrise) / Double(24 * 60 * 60)
-            let SetPercent: Double = Double(Sunset) / Double(24 * 60 * 60)
-            let NightOffset = NightIsNorth ? 0.0 : 180.0
-            var StartValue = -180.0 * RisePercent + NightOffset
-            //var EndValue = 180.0 * SetPercent + NightOffset
-            //var StartValue = -EndValue
-            var EndValue = -StartValue
-            
-            if StartValue == 0.0 && EndValue == 0.0
-            {
-                if IsSummer && Latitude > 0 && Settings.GetImageCenter() == .NorthPole
-                {
-                    print(">> Skipping full daylight in Arctic. [\(Latitude)°]")
-                    continue
-                }
-                if !IsSummer && Latitude < 0 && Settings.GetImageCenter() == .NorthPole
-                {
-                    print(">> Skipping full daylight in Antarctic. [\(Latitude)°]")
-                    continue
-                }
-                StartValue = -180.0
-                EndValue = 180.0
-            }
-            
-            let LatPercent = CGFloat(Latitude + 90) / 180.0
-            var ArcRadius = Radius * LatPercent
-            if !NightIsNorth
-            {
-                ArcRadius = Radius - ArcRadius
-            }
-            let ArcColor = UIColor.black
-            if StartValue == 180.0 && EndValue == -180.0 && Settings.GetImageCenter() == .SouthPole
-            {
-                if Latitude > 0
-                {
-                    continue
-                }
-                swap(&StartValue, &EndValue)
-            }
-            let NightBand = MakeArc(Start: CGFloat(StartValue),
-                                    End: CGFloat(EndValue),
-                                    Radius: Radius,
-                                    ArcRadius: ArcRadius,
-                                    ArcWidth: CGFloat(BandWidth * 2),
-                                    Center: Center,
-                                    ArcColor: ArcColor,
-                                    Rectangle: ArcLayer.bounds)
-            ArcLayer.layer.addSublayer(NightBand)
-        }
+        let MaskImage = UIImage(named: ImageName)!
+        let Final = MaskImage.Alpha(CGFloat(MaskAlpha))
+        return Final
     }
     
     func Show2DHours()
