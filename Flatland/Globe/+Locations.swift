@@ -104,6 +104,62 @@ extension GlobeView
         ToSurface.addChildNode(ArrowNode)
     }
     
+    /// Plot a city on the 3D sphere.
+    /// - Parameter Latitude: The latitude of the city.
+    /// - Parameter Longitude: The longitude of the city.
+    /// - Parameter ToSurface: The surface that defines the globe.
+    /// - Parameter WithColor: The color of the city shape.
+    /// - Parameter RelativeSize: The relative size of the city. Used to determine how large of a
+    ///                           city shape to create.
+    /// - Parameter RelativeHeight: The relative height of the city over the Earth.
+    /// - Parameter LargestSize: The largest city size. This value is multiplied by `RelativeSize`
+    ///                          which is assumed to be a normal value.
+    /// - Parameter LongestStem: The length of the stem from the Earth to the floating city shape.
+    ///                          This value is multiplied by `RelativeHeight` which is assumed to be
+    ///                          a normal value.
+    func PlotCity2(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+                   WithColor: UIColor = UIColor.red, RelativeSize: Double = 1.0,
+                   RelativeHeight: Double = 1.0, LargestSize: Double = 1.0, LongestStem: Double = 1.0)
+    {
+        let RadialOffset = 0.1
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
+
+        var CitySize: CGFloat = CGFloat(LargestSize * RelativeSize)
+        if CitySize < 0.15
+        {
+            CitySize = 0.15
+        }
+        let Sphere = SCNSphere(radius: CitySize)
+        let SphereNode = SCNNode(geometry: Sphere)
+        SphereNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        SphereNode.geometry?.firstMaterial?.specular.contents = UIColor.white
+        
+        var CylinderLength = CGFloat(LongestStem * RelativeHeight)
+        if CylinderLength < 0.1
+        {
+            CylinderLength = 0.1
+        }
+        let Cylinder = SCNCylinder(radius: 0.04, height: CGFloat(LongestStem * RelativeHeight))
+        let CylinderNode = SCNNode(geometry: Cylinder)
+        CylinderNode.geometry?.firstMaterial?.diffuse.contents = UIColor.systemYellow
+        CylinderNode.geometry?.firstMaterial?.specular.contents = UIColor.white
+        CylinderNode.castsShadow = true
+        CylinderNode.position = SCNVector3(0.0, 0.0, 0.0)
+        SphereNode.position = SCNVector3(0.0, -(CylinderLength - CitySize), 0.0)
+        
+        let FinalNode = SCNNode()
+        FinalNode.addChildNode(SphereNode)
+        FinalNode.addChildNode(CylinderNode)
+        
+        FinalNode.position = SCNVector3(X, Y, Z)
+        
+        let YRotation = Latitude + 90.0
+        let XRotation = Longitude + 180.0
+        FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        
+        ToSurface.addChildNode(FinalNode)
+    }
+    
     /// Plot cities on the Earth.
     /// - Parameter On: The main sphere node upon which to plot cities.
     /// - Parameter WithRadius: The radius of there Earth sphere node.
@@ -131,6 +187,7 @@ extension GlobeView
         }
         
         let CitySize: CGFloat = 0.15
+        let (Max, Min) = Cities.GetPopulationsIn(CityList: TestCities, UseMetroPopulation: true)
         for City in TestCities
         {
             if City.IsUserCity
@@ -140,6 +197,20 @@ extension GlobeView
             }
             else
             {
+                #if true
+                var RelativeSize: Double = 1.0
+                if City.Population == nil
+                {
+                    RelativeSize = Double(Min) / Double(Max)
+                }
+                else
+                {
+                    RelativeSize = Double(City.Population!) / Double(Max)
+                }
+                PlotCity2(Latitude: City.Latitude, Longitude: City.Longitude, Radius: 10.0,
+                          ToSurface: On, WithColor: UIColor.yellow, RelativeSize: RelativeSize,
+                          RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0)
+                #else
                 let CityShape = SCNSphere(radius: CitySize)
                 let CityNode = SCNNode(geometry: CityShape)
                 CityNode.geometry?.firstMaterial?.diffuse.contents = City.CityColor
@@ -148,6 +219,7 @@ extension GlobeView
                 let (X, Y, Z) = ToECEF(City.Latitude, City.Longitude, Radius: Double(10 - (CitySize / 2)))
                 CityNode.position = SCNVector3(X, Y, Z)
                 On.addChildNode(CityNode)
+                #endif
             }
         }
     }
