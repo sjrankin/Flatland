@@ -322,6 +322,23 @@ class Settings
         UserDefaults.standard.set(NewValue, forKey: "ShowMoonlight")
     }
     
+    public static func GetDisplayLanguage() -> DisplayLanguages
+    {
+        if let Language = UserDefaults.standard.string(forKey: "DisplayLanguage")
+        {
+            if let Final = DisplayLanguages(rawValue: Language)
+            {
+                return Final
+            }
+        }
+        return .English
+    }
+    
+    public static func SetDisplayLanguage(_ NewValue: DisplayLanguages)
+    {
+        UserDefaults.standard.set(NewValue.rawValue, forKey: "DisplayLanguage")
+    }
+    
     // MARK: - Globe settings.
     
     public static func GetTransparencyLevel() -> Double
@@ -342,6 +359,33 @@ class Settings
     public static func SetShowStars(_ DoShow: Bool)
     {
         UserDefaults.standard.set(DoShow, forKey: "Show3DStars")
+    }
+    
+    public static func CityDisplayType() -> CityDisplayTypes
+    {
+        if let CityType = UserDefaults.standard.string(forKey: "CityDisplayType")
+        {
+            if let TheType = CityDisplayTypes(rawValue: CityType)
+            {
+                return TheType
+            }
+        }
+        return .UniformEmbedded
+    }
+    
+    public static func SetCityDisplayType(_ NewType: CityDisplayTypes)
+    {
+        UserDefaults.standard.set(NewType.rawValue, forKey: "CityDisplayType")
+    }
+    
+    public static func ShowPolarFlags() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowPolarFlags")
+    }
+    
+    public static func SetShowPolarFlags(_ NewValue: Bool)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "ShowPolarFlags")
     }
     
     // MARK: - Flat map-related settings.
@@ -588,6 +632,13 @@ class Settings
         UserDefaults.standard.set(Raw, forKey: "UserLongitude")
     }
     
+    public static func ClearLocalLocation()
+    {
+        UserDefaults.standard.set(nil, forKey: "UserLatitude")
+        UserDefaults.standard.set(nil, forKey: "UserLongitude")
+        UserDefaults.standard.set(0, forKey: "LocalTimeZoneOffset")
+    }
+    
     public static func GetLocalTimeZoneOffset() -> Int
     {
         return UserDefaults.standard.integer(forKey: "LocalTimeZoneOffset")
@@ -636,4 +687,10 @@ enum HourValueTypes: String, CaseIterable
     case Solar = "RelativeToSolar"
     case RelativeToNoon = "RelativeToNoon"
     case RelativeToLocation = "RelativeToLocation"
+}
+
+enum DisplayLanguages: String, CaseIterable
+{
+    case English = "English"
+    case Japanese = "日本語"
 }
