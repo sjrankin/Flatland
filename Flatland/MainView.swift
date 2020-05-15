@@ -61,6 +61,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
         TopSun?.VariableSunImage(Using: SunViewTop, Interval: 0.1)
         BottomSun?.VariableSunImage(Using: SunViewBottom, Interval: 0.1)
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        SetNightMask()
         
         LocalDataTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                               target: self,
