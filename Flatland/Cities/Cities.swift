@@ -336,4 +336,48 @@ class Cities
     
     /// Holds all of the cities.
     private var _AllCities = [City]()
+    
+    /// Return the maximum and minimum population in the set a set of cities.
+    /// - Parameter CityList: The list of cities whose maximum and minimum populations will be returned.
+    /// - Parameter UseMetroPopulation: If true, the metropolitan population is used. If false, the city
+    ///                                 population is used. If no population is available, the city is
+    ///                                 ignored for the purposes of this function.
+    /// - Returns: Tuple with the maximum population and the minimum population values.
+    public static func GetPopulationsIn(CityList: [City], UseMetroPopulation: Bool = false) -> (Max: Int, Min: Int)
+    {
+        var MaxValue: Int = Int.min
+        var MinValue: Int = Int.max
+        for SomeCity in CityList
+        {
+            if UseMetroPopulation
+            {
+                if let Population = SomeCity.MetropolitanPopulation
+                {
+                    if MaxValue < Population
+                    {
+                        MaxValue = Population
+                    }
+                    if MinValue > Population
+                    {
+                        MinValue = Population
+                    }
+                }
+            }
+            else
+            {
+                if let Population = SomeCity.Population
+                {
+                    if MaxValue < Population
+                    {
+                        MaxValue = Population
+                    }
+                    if MinValue > Population
+                    {
+                        MinValue = Population
+                    }
+                }
+            }
+        }
+        return (MaxValue, MinValue)
+    }
 }
