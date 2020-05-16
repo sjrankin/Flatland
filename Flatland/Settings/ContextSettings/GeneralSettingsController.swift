@@ -12,7 +12,6 @@ import UIKit
 class GeneralSettingsController: UINavigationController
 {
     public weak var Delegate: MenuControllerDelegate? = nil
-    public weak var Main: MainDelegate? = nil
     
     override func viewDidLoad()
     {
