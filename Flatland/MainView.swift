@@ -91,6 +91,47 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         #else
         ElapsedRuntime.isHidden = true
         #endif
+        
+        #if DEBUG
+        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ThermalChecker), userInfo: nil, repeats: true)
+        #else
+        TemperatureStatus.isHidden = true
+        #endif
+    }
+
+    @objc func ThermalChecker()
+    {
+        #if DEBUG
+        switch ProcessInfo.processInfo.thermalState
+        {
+            case .nominal:
+                TemperatureStatus.tintColor = UIColor.systemTeal
+            
+            case .fair:
+                TemperatureStatus.tintColor = UIColor.systemBlue
+            
+            case .serious:
+                TemperatureStatus.tintColor = UIColor.systemOrange
+            
+            case .critical:
+                TemperatureStatus.tintColor = UIColor.red
+                TemperatureStatus.layer.shadowColor = UIColor.yellow.cgColor
+                TemperatureStatus.layer.shadowRadius = 10.0
+                TemperatureStatus.layer.shadowOpacity = 1.0
+                TemperatureStatus.layer.shadowOffset = CGSize.zero
+                UIView.animate(withDuration: 1.5,
+                               delay: 0.0,
+                               options: [.autoreverse],
+                               animations:
+                    {
+                        self.TemperatureStatus.layer.shadowColor = UIColor.systemPink.cgColor
+                },
+                               completion: nil)
+            
+            default:
+            break
+        }
+        #endif
     }
     
     var ElapsedSeconds = 0
@@ -678,14 +719,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         
     }
     
-    func SetTexture(_ MapType: MapTypes)
-    {
-        print("User selected \"\(MapType.rawValue)\" map.")
-        Settings.SetFlatlandMapType(MapType)
-        Settings.SetGlobeMapType(MapType)
-        ChangeMap()
-    }
-    
     func UpdateHourDisplay(With NewType: HourValueTypes)
     {
         Settings.SetHourValueType(NewType)
@@ -732,13 +765,84 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
     
     // MARK: - Main protocol functions
     
+    /// Return a reference to the 3D world.
+    /// - Returns: The 3D world.
     func GlobeObject() -> GlobeView?
     {
         return WorldViewer3D
     }
     
+    /// Handle changes to the vie type.
+    func MainViewTypeChanged()
+    {
+        switch Settings.GetViewType()
+        {
+            case .Globe3D:
+                WorldViewer3D.Show()
+                if Settings.ShowStars()
+                {
+                    StarFieldView.Show()
+                }
+                SetFlatlandVisibility(IsVisible: false)
+                PleaseWait
+                    {
+                        WorldViewer3D.AddEarth()
+            }
+            
+            case .FlatMap:
+                switch Settings.GetImageCenter()
+                {
+                    case .NorthPole:
+                        WorldViewer3D.Hide()
+                        StarFieldView.Hide()
+                        SetFlatlandVisibility(IsVisible: true)
+                        SetNightMask()
+                        SettingsDone()
+                    
+                    case .SouthPole:
+                        WorldViewer3D.Hide()
+                        StarFieldView.Hide()
+                        SetFlatlandVisibility(IsVisible: true)
+                        SetNightMask()
+                        SettingsDone()
+            }
+            
+            default:
+            break
+        }
+    }
+    
+    /// Handle map type changes.
+    /// - Parameter MapType: The new map type.
+    func SetTexture(_ MapType: MapTypes)
+    {
+        Settings.SetFlatlandMapType(MapType)
+        Settings.SetGlobeMapType(MapType)
+        ChangeMap()
+    }
+    
+    func ShowLocalData(_ Show: Bool)
+    {
+        LocalDataTimer?.invalidate()
+        LocalDataTimer = nil
+        if Show
+        {
+        LocalDataTimer = Timer.scheduledTimer(timeInterval: 1.0,
+                                              target: self,
+                                              selector: #selector(UpdateLocalData),
+                                              userInfo: nil,
+                                              repeats: true)
+        }
+    }
+    
+    func ShowCities(_ Show: Bool)
+    {
+        
+    }
+    
     // MARK: - Interface builder outlets.
     
+    @IBOutlet weak var TemperatureStatus: UIButton!
     @IBOutlet weak var ElapsedRuntime: UILabel!
     @IBOutlet weak var NightMaskView: UIImageView!
     @IBOutlet weak var PleaseWaitDialog: UIView!
