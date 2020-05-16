@@ -11,4 +11,8 @@ import Foundation
 protocol MainProtocol: class
 {
     func GlobeObject() -> GlobeView?
+    func MainViewTypeChanged()
+    func SetTexture(_ MapType: MapTypes)
+    func ShowLocalData(_ Show: Bool)
+    func ShowCities(_ Show: Bool)
 }
