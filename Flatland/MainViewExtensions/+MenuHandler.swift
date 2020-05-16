@@ -17,6 +17,7 @@ extension MainView: UIPopoverPresentationControllerDelegate, MenuControllerDeleg
         if let Controller = Storyboard.instantiateViewController(identifier: "GeneralSettingsMenuRoot") as? GeneralSettingsController
         {
             Controller.Delegate = self
+            Controller.Main = self
             Controller.modalPresentationStyle = .popover
             if let PresentingController = Controller.presentationController
             {
