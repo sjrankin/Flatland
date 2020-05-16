@@ -271,11 +271,16 @@ class Cities
         return CityList
     }
     
+    /// Returns a list of cities that have a metropolitan population associated with it. All known
+    /// cities are searched.
+    /// - Returns: List of cities with a valid metropolitan population.
     public func CitiesWithMetroPopulation() -> [City]
     {
         return CitiesWithMetroPopulation(In: _AllCities)
     }
     
+    /// Returns a list of cities from `In` that have a metropolitan population associated.
+    /// - Returns: List of cities in `In` that have a valid metropolitan population.
     public func CitiesWithMetroPopulation(In SourceList: [City]) -> [City]
     {
         var Final = [City]()
@@ -289,11 +294,15 @@ class Cities
         return Final
     }
     
+    /// Returns a list of cities that have a valid population. All known cities are searched.
+    /// - Returns: List of cities that have a valid population.
     public func CitiesWithPopulation() -> [City]
     {
         return CitiesWithPopulation(In: _AllCities)
     }
     
+    /// Returns a list of cities from `In` that have a population associated.
+    /// - Returns: List of cities in `In` that have a valid population.
     public func CitiesWithPopulation(In SourceList: [City]) -> [City]
     {
         var Final = [City]()
@@ -307,11 +316,25 @@ class Cities
         return Final
     }
     
+    /// Returns a list of cities by population. The top `N` cities are returned. All known cities
+    /// are searched.
+    /// - Parameter N: The top-most n city value. For example, if `N` is 50, the top 50 cities by
+    ///                population are returned.
+    /// - Parameter UseMetroPopulation: If true, the metropolitan population is used to determine
+    ///             which cities to return.
+    /// - Returns: List of cities that meet the passed criteria.
     public func TopNCities(N: Int, UseMetroPopulation: Bool = true) -> [City]
     {
         return TopNCities(In: _AllCities, N: N, UseMetroPopulation: UseMetroPopulation)
     }
     
+    /// Returns a list of cities by population. The top `N` cities are returned.
+    /// - Parameter In: The source list of cities to search.
+    /// - Parameter N: The top-most n city value. For example, if `N` is 50, the top 50 cities by
+    ///                population are returned.
+    /// - Parameter UseMetroPopulation: If true, the metropolitan population is used to determine
+    ///             which cities to return.
+    /// - Returns: List of cities that meet the passed criteria.
     public func TopNCities(In SourceList: [City], N: Int, UseMetroPopulation: Bool = true) -> [City]
     {
         var Sorted = [City]()
@@ -379,5 +402,31 @@ class Cities
             }
         }
         return (MaxValue, MinValue)
+    }
+    
+    /// Returns a color for the passed city based on the continent of the city.
+    /// - Parameter SomeCity: The city whose continent-based color is returned.
+    public static func ColorForCity(_ SomeCity: City) -> UIColor
+    {
+        switch SomeCity.Continent
+        {
+            case .Africa:
+                return UIColor.systemGreen
+            
+            case .Asia:
+                return UIColor.systemTeal
+            
+            case .Europe:
+                return UIColor.systemIndigo
+            
+            case .NorthAmerica:
+                return UIColor.systemBlue
+            
+            case .SouthAmerica:
+                return UIColor.systemOrange
+            
+            case .NoName:
+                return UIColor.white
+        }
     }
 }
