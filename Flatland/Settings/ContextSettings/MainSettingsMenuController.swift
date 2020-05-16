@@ -9,10 +9,10 @@
 import Foundation
 import UIKit
 
-class MainSettingsMenuController: UITableViewController
+class MainSettingsMenuController: UITableViewController, ChildClosed
 {
     public weak var ParentDelegate: ChildClosed? = nil
-    public weak var Main: MainProtocol? = nil
+    public weak var MainObject: MainProtocol? = nil
     var IsDirty = false
     
     override func viewDidLoad()
@@ -41,6 +41,8 @@ class MainSettingsMenuController: UITableViewController
         {
             MapViewSegment.selectedSegmentIndex = 2
         }
+        ShowLocalDataSwitch.isOn = Settings.GetShowLocalData()
+        ShowCitiesSwitch.isOn = Settings.ShowCities()
     }
     
     override func viewWillDisappear(_ animated: Bool)
@@ -69,6 +71,7 @@ class MainSettingsMenuController: UITableViewController
                 default:
                     return
             }
+            MainObject?.MainViewTypeChanged()
             IsDirty = true
         }
     }
@@ -94,8 +97,34 @@ class MainSettingsMenuController: UITableViewController
                 default:
                     return
             }
+            MainObject?.GlobeObject()?.UpdateHourLabels(With: Settings.GetHourValueType())
             IsDirty = true
         }
+    }
+    
+    @IBAction func HandleShowLocalDataChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetShowLocalData(Switch.isOn)
+            MainObject?.ShowLocalData(Switch.isOn)
+        }
+    }
+    
+    
+    @IBSegueAction func InstantiateLocationsController(_ coder: NSCoder) -> CitiesAndLocationsController?
+    {
+        let Controller = CitiesAndLocationsController(coder: coder)
+        Controller?.ParentDelegate = self
+        Controller?.MainObject = MainObject
+        return Controller
+    }
+    
+    @IBSegueAction func InstantiateMapSelector(_ coder: NSCoder) -> MapSetController?
+    {
+        let Controller = MapSetController(coder: coder)
+        Controller?.MainObject = MainObject
+        return Controller
     }
     
     @IBAction func HandleDoneButtonPressed(_ sender: Any)
@@ -103,6 +132,22 @@ class MainSettingsMenuController: UITableViewController
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func HandleShowCitiesChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetShowCities(Switch.isOn)
+            MainObject?.ShowCities(Switch.isOn)
+        }
+    }
+    
+    func ChildWindowClosed(_ Dirty: Bool)
+    {
+        
+    }
+    
+    @IBOutlet weak var ShowCitiesSwitch: UISwitch!
+    @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
     @IBOutlet weak var DoneButton: UIBarButtonItem!
     @IBOutlet weak var HourTypeSegment: UISegmentedControl!
     @IBOutlet weak var MapViewSegment: UISegmentedControl!
