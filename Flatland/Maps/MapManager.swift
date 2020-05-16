@@ -104,7 +104,7 @@ class MapManager
                         .SurrealTimeZone]
             
             case .Political:
-                return [.SimplePoliticalMap1]
+                return [.SimplePoliticalMap1, .TransparentOcean]
             
             case .Astronomical:
                 return [.MarsViking, .MarsMariner9, .MOLAVerticalRoughness, .LROMap, .LunarGeoMap,
