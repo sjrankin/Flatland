@@ -584,6 +584,23 @@ class Settings
         UserDefaults.standard.set(Show, forKey: "ShowUserLocations")
     }
     
+    public static func ShowHomeLocation() -> HomeLocationViews
+    {
+        if let Raw = UserDefaults.standard.string(forKey: "ShowHomeLocation")
+        {
+            if let Value = HomeLocationViews(rawValue: Raw)
+            {
+                return Value
+            }
+        }
+        return .ShowAsArrow
+    }
+    
+    public static func SetShowHomeLocation(_ NewValue: HomeLocationViews)
+    {
+        UserDefaults.standard.set(NewValue.rawValue, forKey: "ShowHomeLocation")
+    }
+    
     //MARK: - Local settings display.
     
     public static func GetShowLocalData() -> Bool
@@ -693,4 +710,12 @@ enum DisplayLanguages: String, CaseIterable
 {
     case English = "English"
     case Japanese = "日本語"
+}
+
+
+enum HomeLocationViews: String, CaseIterable
+{
+    case Hide = "Hide"
+    case ShowAsArrow = "Arrow"
+    case ShowAsFlag = "Flag"
 }
