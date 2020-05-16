@@ -11,6 +11,7 @@ import UIKit
 
 class LocationFlags: UITableViewController
 {
+    public weak var MainObject: MainProtocol? = nil
     public weak var ParentDelegate: ChildClosed? = nil
     var IsDirty = false
     
@@ -32,6 +33,7 @@ class LocationFlags: UITableViewController
         {
             Settings.SetShowPolarFlags(Switch.isOn)
             IsDirty = true
+            MainObject?.GlobeObject()?.PlotPolarFlags(Switch.isOn)
         }
     }
     
