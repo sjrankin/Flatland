@@ -298,6 +298,13 @@
                                             <segue destination="vVa-32-PrS" kind="show" destinationCreationSelector="InstantiateDebugNavigator:" id="pdO-rd-9vs"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EEl-OL-xAi">
+                                        <rect key="frame" x="39.5" y="77" width="26.5" height="38.5"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="thermometer" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24" scale="large" weight="heavy"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -348,6 +355,8 @@
                                     <constraint firstAttribute="trailing" secondItem="STp-0d-B28" secondAttribute="trailing" constant="20" id="nD4-LM-0lW"/>
                                     <constraint firstItem="pUB-G7-6d9" firstAttribute="leading" secondItem="EsQ-gP-0lz" secondAttribute="leading" id="pul-dP-1jv"/>
                                     <constraint firstItem="ic8-eO-fM3" firstAttribute="leading" secondItem="dFz-Nh-pZt" secondAttribute="leading" constant="264" id="snp-1j-hCp"/>
+                                    <constraint firstItem="EEl-OL-xAi" firstAttribute="centerX" secondItem="fkZ-wJ-IXP" secondAttribute="centerX" id="wZI-qG-UPi"/>
+                                    <constraint firstItem="EEl-OL-xAi" firstAttribute="top" secondItem="fkZ-wJ-IXP" secondAttribute="bottom" constant="7.5" id="ysC-eH-3Qr"/>
                                     <constraint firstItem="l3A-8D-waa" firstAttribute="centerY" secondItem="lZ4-B6-wwt" secondAttribute="centerY" id="yx2-mQ-8dR"/>
                                     <constraint firstItem="a8N-hj-j3j" firstAttribute="top" secondItem="l3A-8D-waa" secondAttribute="bottom" constant="18" id="zts-gn-0dK"/>
                                 </constraints>
@@ -389,6 +398,7 @@
                         <outlet property="StarFieldView" destination="maC-WJ-Q5A" id="M9R-ra-tzn"/>
                         <outlet property="SunViewBottom" destination="pUB-G7-6d9" id="n2E-rC-qgH"/>
                         <outlet property="SunViewTop" destination="EsQ-gP-0lz" id="Pwe-1R-hAN"/>
+                        <outlet property="TemperatureStatus" destination="EEl-OL-xAi" id="TJG-aD-dVr"/>
                         <outlet property="TopView" destination="lZ4-B6-wwt" id="MZL-wq-Mqb"/>
                         <outlet property="ViewTypeSegment" destination="Kse-DN-BOT" id="gzq-7v-Cf2"/>
                         <outlet property="WorldViewer" destination="l3A-8D-waa" id="eW1-Ex-ulf"/>
@@ -2424,6 +2434,7 @@
         <image name="n.circle" catalog="system" width="128" height="121"/>
         <image name="pin" catalog="system" width="119" height="128"/>
         <image name="s.circle" catalog="system" width="128" height="121"/>
+        <image name="thermometer" catalog="system" width="87" height="128"/>
         <image name="triangle" catalog="system" width="128" height="112"/>
     </resources>
 </document>
