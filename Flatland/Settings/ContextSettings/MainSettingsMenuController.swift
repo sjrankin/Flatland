@@ -11,6 +11,10 @@ import UIKit
 
 class MainSettingsMenuController: UITableViewController
 {
+    public weak var ParentDelegate: ChildClosed? = nil
+    public weak var Main: MainProtocol? = nil
+    var IsDirty = false
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -39,6 +43,12 @@ class MainSettingsMenuController: UITableViewController
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        ParentDelegate?.ChildWindowClosed(IsDirty)
+        super.viewWillDisappear(animated)
+    }
+    
     @IBAction func HandleMapTypeChanged(_ sender: Any)
     {
         if let Segment = sender as? UISegmentedControl
@@ -59,6 +69,7 @@ class MainSettingsMenuController: UITableViewController
                 default:
                     return
             }
+            IsDirty = true
         }
     }
     
@@ -83,6 +94,7 @@ class MainSettingsMenuController: UITableViewController
                 default:
                     return
             }
+            IsDirty = true
         }
     }
     
