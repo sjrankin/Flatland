@@ -11,6 +11,8 @@ import UIKit
 
 class MapSetController: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
+    public weak var MainObject: MainProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -114,6 +116,7 @@ class MapSetController: UIViewController, UITableViewDelegate, UITableViewDataSo
                 Settings.SetFlatlandMapType(NewMap)
                 MapTable.reloadData()
                 CurrentMap.text = NewMap.rawValue
+                MainObject?.SetTexture(NewMap)
             
             case MapCategoryTable:
                 let Category = CategoryList[indexPath.row].0
