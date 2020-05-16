@@ -99,6 +99,7 @@
 		1788EF76245EEA7700881BA8 /* WorldASCIIArtNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF73245EEA7600881BA8 /* WorldASCIIArtNorthCenter.png */; };
 		1789A3E9244EDCFC007E3526 /* DebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1789A3E8244EDCFC007E3526 /* DebugController.swift */; };
 		1789A3EB244EDDCB007E3526 /* DebugNavigationViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1789A3EA244EDDCB007E3526 /* DebugNavigationViewer.swift */; };
+		178E1CE3246FD69A00DFE656 /* TransparentOceanMap.png in Resources */ = {isa = PBXBuildFile; fileRef = 178E1CE2246FD69A00DFE656 /* TransparentOceanMap.png */; };
 		1792BD7E24304E56006ABD02 /* Julian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7D24304E55006ABD02 /* Julian.swift */; };
 		1792BD8024304EA7006ABD02 /* Solar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD7F24304EA7006ABD02 /* Solar.swift */; };
 		1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD8124304F1A006ABD02 /* Geometry.swift */; };
@@ -178,6 +179,7 @@
 		17F147C024694A1B00713220 /* SimplePoliticalWorldMapSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F147BD24694A1A00713220 /* SimplePoliticalWorldMapSouthCenter.png */; };
 		17F147C124694A1B00713220 /* SimplePoliticalWorldMap.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F147BE24694A1A00713220 /* SimplePoliticalWorldMap.png */; };
 		17F147C224694A1B00713220 /* SimplePoliticalWorldMapNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F147BF24694A1A00713220 /* SimplePoliticalWorldMapNorthCenter.png */; };
+		17F4DC7E246FFC5100AE6151 /* CitiesAndLocationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F4DC7D246FFC5100AE6151 /* CitiesAndLocationsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -273,6 +275,7 @@
 		1788EF73245EEA7600881BA8 /* WorldASCIIArtNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldASCIIArtNorthCenter.png; sourceTree = "<group>"; };
 		1789A3E8244EDCFC007E3526 /* DebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugController.swift; sourceTree = "<group>"; };
 		1789A3EA244EDDCB007E3526 /* DebugNavigationViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugNavigationViewer.swift; sourceTree = "<group>"; };
+		178E1CE2246FD69A00DFE656 /* TransparentOceanMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TransparentOceanMap.png; sourceTree = "<group>"; };
 		1792BD7D24304E55006ABD02 /* Julian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Julian.swift; sourceTree = "<group>"; };
 		1792BD7F24304EA7006ABD02 /* Solar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solar.swift; sourceTree = "<group>"; };
 		1792BD8124304F1A006ABD02 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
@@ -355,6 +358,7 @@
 		17F147BD24694A1A00713220 /* SimplePoliticalWorldMapSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SimplePoliticalWorldMapSouthCenter.png; sourceTree = "<group>"; };
 		17F147BE24694A1A00713220 /* SimplePoliticalWorldMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SimplePoliticalWorldMap.png; sourceTree = "<group>"; };
 		17F147BF24694A1A00713220 /* SimplePoliticalWorldMapNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SimplePoliticalWorldMapNorthCenter.png; sourceTree = "<group>"; };
+		17F4DC7D246FFC5100AE6151 /* CitiesAndLocationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesAndLocationsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,7 +401,6 @@
 				1733B80D246A7EF300D1A15F /* MapMenu.swift */,
 				1733B813246A94FC00D1A15F /* SmallVersion.swift */,
 				173409AE246D074100E15563 /* MenuControllerDelegate.swift */,
-				173409B0246D210000E15563 /* MapSetController.swift */,
 			);
 			path = Menus;
 			sourceTree = "<group>";
@@ -573,6 +576,7 @@
 				1733B805246A57FA00D1A15F /* PaperTimeZones.png */,
 				1733B806246A57FA00D1A15F /* PaperTimeZonesNorthCenter.png */,
 				1733B807246A57FB00D1A15F /* PaperTimeZonesSouthCenter.png */,
+				178E1CE2246FD69A00DFE656 /* TransparentOceanMap.png */,
 				17BE6865242C7A99009861E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -616,11 +620,13 @@
 		17BF88F5246E876100249A05 /* ContextSettings */ = {
 			isa = PBXGroup;
 			children = (
-				1733B811246A860C00D1A15F /* MainSettingsMenuController.swift */,
 				1733B80F246A85BE00D1A15F /* GeneralSettingsController.swift */,
+				1733B811246A860C00D1A15F /* MainSettingsMenuController.swift */,
 				1714A65C246E882D00A83A03 /* CityListSelector.swift */,
 				1714A65E246E89A800A83A03 /* CityViewController.swift */,
+				17F4DC7D246FFC5100AE6151 /* CitiesAndLocationsController.swift */,
 				1714A660246E8C4A00A83A03 /* MainUserCitiesController.swift */,
+				173409B0246D210000E15563 /* MapSetController.swift */,
 				1714A662246E8DCC00A83A03 /* UserLocationSettingController.swift */,
 				1714A664246EB0F000A83A03 /* AddEditCity.swift */,
 				1788AD18246FB1550031CB9E /* LocationFlags.swift */,
@@ -819,6 +825,7 @@
 				17D16E10246002A200CA04F4 /* TychoConstellationsSouthCenter.png in Resources */,
 				1717F4E52457D75600C7F263 /* NASAStarMapInvertedNorthCenter.png in Resources */,
 				17D16E0F246002A200CA04F4 /* TychoConstellationsNorthCenter.png in Resources */,
+				178E1CE3246FD69A00DFE656 /* TransparentOceanMap.png in Resources */,
 				1733B7F7246A573A00D1A15F /* TimeZoneMap3SouthCenter.png in Resources */,
 				17BE686F242C7A99009861E1 /* Main.storyboard in Resources */,
 			);
@@ -908,6 +915,7 @@
 				172BC97C24568CFD001CEACB /* MapItem.swift in Sources */,
 				1720DD77245FCF2100C1E719 /* ChildClosedProtocol.swift in Sources */,
 				17BE6881242CA8FB009861E1 /* Settings.swift in Sources */,
+				17F4DC7E246FFC5100AE6151 /* CitiesAndLocationsController.swift in Sources */,
 				17F082F52459594000AB6460 /* +Locations.swift in Sources */,
 				1746C17C242DB67D00A479DE /* CitySelectorView.swift in Sources */,
 				173409AF246D074100E15563 /* MenuControllerDelegate.swift in Sources */,
