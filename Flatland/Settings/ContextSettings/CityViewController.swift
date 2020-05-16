@@ -11,6 +11,7 @@ import UIKit
 
 class CityViewController: UITableViewController
 {
+    public weak var MainObject: MainProtocol? = nil
     public weak var ParentDelegate: ChildClosed? = nil
     var IsDirty = false
     
@@ -55,6 +56,7 @@ class CityViewController: UITableViewController
                     return
             }
             IsDirty = true
+            MainObject?.GlobeObject()?.PlotCities()
         }
     }
     
