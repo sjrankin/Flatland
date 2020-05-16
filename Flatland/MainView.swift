@@ -11,7 +11,7 @@ import UIKit
 import CoreImage
 import SceneKit
 
-class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
+class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainProtocol
 {
     /// Original orientation of the image with Greenwich, England as the baseline. Since this program
     /// treats midnight as the base and the image has Greenwich at the top, we need an offset value
@@ -728,6 +728,13 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol
     @IBAction func HandleSettingsButtonPressed(_ sender: Any)
     {
         ShowSettingsWindow()
+    }
+    
+    // MARK: - Main protocol functions
+    
+    func GlobeObject() -> GlobeView?
+    {
+        return WorldViewer3D
     }
     
     // MARK: - Interface builder outlets.
