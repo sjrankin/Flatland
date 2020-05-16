@@ -51,20 +51,6 @@ class UserLocationSettingController: UITableViewController, CLLocationManagerDel
         {
             LocalLongitudeBox.text = ""
         }
-        switch Settings.ShowHomeLocation()
-        {
-            case .ShowAsArrow:
-                HomeStyleSegment.selectedSegmentIndex = 0
-            
-            case .ShowAsFlag:
-                HomeStyleSegment.selectedSegmentIndex = 1
-            
-            case .Hide:
-                HomeStyleSegment.selectedSegmentIndex = 2
-            
-            default:
-                break
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool)
@@ -241,31 +227,8 @@ class UserLocationSettingController: UITableViewController, CLLocationManagerDel
         self.present(Alert, animated: true)
     }
     
-    @IBAction func HandleHomeLocationStyleChanged(_ sender: Any)
-    {
-        if let Segment = sender as? UISegmentedControl
-        {
-            switch Segment.selectedSegmentIndex
-            {
-                case 0:
-                    Settings.SetShowHomeLocation(.ShowAsArrow)
-                
-                case 1:
-                    Settings.SetShowHomeLocation(.ShowAsFlag)
-                
-                case 2:
-                    Settings.SetShowHomeLocation(.Hide)
-                
-                default:
-                    break
-            }
-            IsDirty = true
-        }
-    }
-    
     // MARK: Interface builder outlets.
     
-    @IBOutlet weak var HomeStyleSegment: UISegmentedControl!
     @IBOutlet weak var TimeZonePicker: UIPickerView!
     @IBOutlet weak var LocalLongitudeBox: UITextField!
     @IBOutlet weak var LocalLatitudeBox: UITextField!
