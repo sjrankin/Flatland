@@ -475,13 +475,16 @@ extension GlobeView
                 switch Settings.ShowHomeLocation()
                 {
                     case .Hide:
+                        print("Hiding home location")
                         break
                     
                     case .ShowAsArrow:
+                        print("Home as arrow")
                         PlotArrow(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                   ToSurface: Surface, IsCurrentLocation: true)
                     
                     case .ShowAsFlag:
+                        print("Home as flag")
                         PlotHomeFlag(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                      ToSurface: Surface, EmissiveColor: UIColor.orange)
                 }
