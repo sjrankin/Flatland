@@ -11,6 +11,10 @@ import UIKit
 
 class MainUserCitiesController: UITableViewController, ChildClosed
 {
+    public weak var MainObject: MainProtocol? = nil
+    public weak var ParentDelegate: ChildClosed? = nil
+    var IsDirty = false
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -23,6 +27,23 @@ class MainUserCitiesController: UITableViewController, ChildClosed
         {
             UserLocationSetLabel.text = "set"
         }
+        switch Settings.ShowHomeLocation()
+        {
+            case .ShowAsArrow:
+                HomeStyleSegment.selectedSegmentIndex = 0
+            
+            case .ShowAsFlag:
+                HomeStyleSegment.selectedSegmentIndex = 1
+            
+            case .Hide:
+                HomeStyleSegment.selectedSegmentIndex = 2
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        ParentDelegate?.ChildWindowClosed(IsDirty)
+        super.viewWillDisappear(animated)
     }
     
     @IBAction func HandleShowUserCitiesChanged(_ sender: Any)
@@ -30,6 +51,7 @@ class MainUserCitiesController: UITableViewController, ChildClosed
         if let Switch = sender as? UISwitch
         {
             ShowUserCitiesSwitch.isOn = Switch.isOn
+            IsDirty = true
         }
     }
     
@@ -37,7 +59,7 @@ class MainUserCitiesController: UITableViewController, ChildClosed
     {
         if Dirty
         {
-            
+            IsDirty = Dirty
         }
     }
     
@@ -62,6 +84,33 @@ class MainUserCitiesController: UITableViewController, ChildClosed
         return Controller
     }
     
+    @IBAction func HandleHomeLocationStyleChanged(_ sender: Any)
+    {
+        if let Segment = sender as? UISegmentedControl
+        {
+            switch Segment.selectedSegmentIndex
+            {
+                case 0:
+                    print("As arrow")
+                    Settings.SetShowHomeLocation(.ShowAsArrow)
+                
+                case 1:
+                    print("As flag")
+                    Settings.SetShowHomeLocation(.ShowAsFlag)
+                
+                case 2:
+                    print("As nothing")
+                    Settings.SetShowHomeLocation(.Hide)
+                
+                default:
+                    break
+            }
+            IsDirty = true
+            MainObject?.GlobeObject()?.PlotHomeLocation()
+        }
+    }
+    
+    @IBOutlet weak var HomeStyleSegment: UISegmentedControl!
     @IBOutlet weak var UserLocationSetLabel: UILabel!
     @IBOutlet weak var ShowUserCitiesSwitch: UISwitch!
 }
