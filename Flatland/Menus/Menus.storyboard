@@ -134,7 +134,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="BFz-Ym-q8d" kind="show" id="SRI-ED-di9"/>
+                                            <segue destination="BFz-Ym-q8d" kind="show" destinationCreationSelector="InstantiateMapSelector:" id="SRI-ED-di9"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="oAM-Pe-76S">
@@ -229,6 +229,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JdX-RR-cCl">
                                                     <rect key="frame" x="285" y="6" width="51" height="32"/>
+                                                    <connections>
+                                                        <action selector="HandleShowLocalDataChanged:" destination="f1b-Pt-9gt" eventType="primaryActionTriggered" id="dqN-FF-d3T"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -280,6 +283,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VDy-dl-NPg">
                                                     <rect key="frame" x="285" y="6" width="51" height="32"/>
+                                                    <connections>
+                                                        <action selector="HandleShowCitiesChanged:" destination="f1b-Pt-9gt" eventType="primaryActionTriggered" id="xdO-dM-lYR"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -313,7 +319,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="juc-BS-CDq" kind="show" id="kNc-Pa-IXN"/>
+                                            <segue destination="juc-BS-CDq" kind="show" destinationCreationSelector="InstantiateLocationsController:" id="kNc-Pa-IXN"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="QZh-aZ-ZSS">
@@ -344,6 +350,8 @@
                         <outlet property="DoneButton" destination="f6d-vG-uhW" id="C2J-yq-zSV"/>
                         <outlet property="HourTypeSegment" destination="Xff-xp-JCQ" id="lPt-TT-U8p"/>
                         <outlet property="MapViewSegment" destination="oT8-Ge-2fO" id="HPp-qN-mIL"/>
+                        <outlet property="ShowCitiesSwitch" destination="VDy-dl-NPg" id="yiv-IX-CUT"/>
+                        <outlet property="ShowLocalDataSwitch" destination="JdX-RR-cCl" id="iNp-O5-Utz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XCD-R4-0Cr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -904,7 +912,7 @@
         <!--Cities and Locations-->
         <scene sceneID="pG0-nW-hFs">
             <objects>
-                <tableViewController id="juc-BS-CDq" sceneMemberID="viewController">
+                <tableViewController id="juc-BS-CDq" customClass="CitiesAndLocationsController" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5mI-ys-kjA">
                         <rect key="frame" x="0.0" y="0.0" width="350" height="500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -912,8 +920,28 @@
                         <sections>
                             <tableViewSection id="TeB-3A-Qnk">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="hzy-bR-AYP">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="0UE-QJ-OEH">
                                         <rect key="frame" x="0.0" y="28" width="350" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0UE-QJ-OEH" id="nEO-w7-ro5">
+                                            <rect key="frame" x="0.0" y="0.0" width="323" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your cities and locations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ie5-mp-REs">
+                                                    <rect key="frame" x="16" y="11" width="186" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="tfb-xm-zUo" kind="show" destinationCreationSelector="InstantiateCityViews:" id="8vg-6t-jsE"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="hzy-bR-AYP">
+                                        <rect key="frame" x="0.0" y="71.5" width="350" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hzy-bR-AYP" id="Bst-aI-wVG">
                                             <rect key="frame" x="0.0" y="0.0" width="323" height="43.5"/>
@@ -930,26 +958,6 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="5VB-uO-rch" kind="show" destinationCreationSelector="InstantiateCityLists:" id="yXn-lW-Xyo"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="0UE-QJ-OEH">
-                                        <rect key="frame" x="0.0" y="71.5" width="350" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0UE-QJ-OEH" id="nEO-w7-ro5">
-                                            <rect key="frame" x="0.0" y="0.0" width="323" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your cities and locations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ie5-mp-REs">
-                                                    <rect key="frame" x="16" y="11" width="186" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="tfb-xm-zUo" kind="show" id="8vg-6t-jsE"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="49e-QI-jGu">
@@ -969,7 +977,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Shw-d5-JjM" kind="show" destinationCreationSelector="InstantiateCityViews:" id="pWI-JV-oH5"/>
+                                            <segue destination="Shw-d5-JjM" kind="show" destinationCreationSelector="InstantiateFlagsController:" id="pWI-JV-oH5"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="VkX-tE-HgJ">
@@ -993,7 +1001,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="RF2-ss-fZN" kind="show" id="hn6-5z-Abh"/>
+                                            <segue destination="RF2-ss-fZN" kind="show" destinationCreationSelector="InstantiateUserCities:" id="hn6-5z-Abh"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="zu2-Sc-CIp">
@@ -1331,6 +1339,7 @@
                         <outlet property="ShowAsianCitiesSwitch" destination="TeZ-sc-6GE" id="7r9-5L-9OA"/>
                         <outlet property="ShowCapitalCitiesSwitch" destination="sRf-k2-k0S" id="QcJ-Op-sFj"/>
                         <outlet property="ShowEuropeanCitiesSwitch" destination="Lf8-kR-c6z" id="hSb-1a-xk5"/>
+                        <outlet property="ShowNorthAmericanSwitch" destination="nXf-ya-6WU" id="e8L-dS-etk"/>
                         <outlet property="ShowSouthAmericanSwitch" destination="Sau-ms-N8E" id="qXr-hE-mn2"/>
                         <outlet property="ShowWorldCitiesSwitch" destination="C0V-qR-SWq" id="BUs-8S-bGS"/>
                     </connections>
@@ -1437,6 +1446,46 @@
                                             <segue destination="xLs-BU-hX3" kind="show" destinationCreationSelector="InstantiateUserLocation:" id="qDX-4n-crS"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="87" id="cRR-jM-hBr">
+                                        <rect key="frame" x="0.0" y="158.5" width="350" height="87"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cRR-jM-hBr" id="OPE-CP-aeV">
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="87"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home location style" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UkD-HL-ra0">
+                                                    <rect key="frame" x="16" y="11" width="152" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="930-X8-3DY">
+                                                    <rect key="frame" x="17" y="40" width="229" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <segments>
+                                                        <segment title="Arrow"/>
+                                                        <segment title="Flag"/>
+                                                        <segment title="None"/>
+                                                    </segments>
+                                                    <connections>
+                                                        <action selector="HandleHomeLocationStyleChanged:" destination="tfb-xm-zUo" eventType="primaryActionTriggered" id="yO2-v1-Mhg"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="UkD-HL-ra0" firstAttribute="leading" secondItem="OPE-CP-aeV" secondAttribute="leadingMargin" id="1Br-eF-gDV"/>
+                                                <constraint firstItem="UkD-HL-ra0" firstAttribute="top" secondItem="OPE-CP-aeV" secondAttribute="topMargin" id="xAY-fx-vTb"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="SVq-Ly-23e">
+                                        <rect key="frame" x="0.0" y="245.5" width="350" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SVq-Ly-23e" id="8Fs-AI-Plk">
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1447,6 +1496,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Your Cities and Locations" id="90O-gU-YQ2"/>
                     <connections>
+                        <outlet property="HomeStyleSegment" destination="930-X8-3DY" id="9IR-Sp-2Ff"/>
                         <outlet property="ShowUserCitiesSwitch" destination="Pw4-7S-dTi" id="TqS-nG-wTm"/>
                         <outlet property="UserLocationSetLabel" destination="feO-Es-m6J" id="dFi-t1-u8X"/>
                     </connections>
@@ -1698,7 +1748,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <sections>
-                            <tableViewSection headerTitle="Set" id="U3z-7h-B4q">
+                            <tableViewSection headerTitle="Set home location" id="U3z-7h-B4q">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="Jmb-dp-1Xe">
                                         <rect key="frame" x="0.0" y="28" width="350" height="43.5"/>
@@ -1863,50 +1913,6 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Style" id="N9d-O9-cX2">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="87" id="1u2-nv-48L">
-                                        <rect key="frame" x="0.0" y="435" width="350" height="87"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1u2-nv-48L" id="CmK-uI-GS4">
-                                            <rect key="frame" x="0.0" y="0.0" width="350" height="87"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home location style" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IOe-xX-OPj">
-                                                    <rect key="frame" x="16" y="11" width="152" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="ZUk-nm-NEt">
-                                                    <rect key="frame" x="17" y="40" width="229" height="32"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <segments>
-                                                        <segment title="Arrow"/>
-                                                        <segment title="Flag"/>
-                                                        <segment title="None"/>
-                                                    </segments>
-                                                    <connections>
-                                                        <action selector="HandleHomeLocationStyleChanged:" destination="xLs-BU-hX3" eventType="primaryActionTriggered" id="gGI-69-Chn"/>
-                                                    </connections>
-                                                </segmentedControl>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="IOe-xX-OPj" firstAttribute="leading" secondItem="CmK-uI-GS4" secondAttribute="leadingMargin" id="qEt-wi-PnD"/>
-                                                <constraint firstItem="IOe-xX-OPj" firstAttribute="top" secondItem="CmK-uI-GS4" secondAttribute="topMargin" id="wgK-Y8-yuR"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="oJ1-3o-uP6">
-                                        <rect key="frame" x="0.0" y="522" width="350" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oJ1-3o-uP6" id="Fhd-RO-T1K">
-                                            <rect key="frame" x="0.0" y="0.0" width="350" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="xLs-BU-hX3" id="7bt-mM-kUr"/>
@@ -1916,7 +1922,6 @@
                     <navigationItem key="navigationItem" title="Home Location" id="lHz-gJ-Ns5"/>
                     <connections>
                         <outlet property="GetLocationButton" destination="dfc-MF-tKn" id="sbf-P3-Yxb"/>
-                        <outlet property="HomeStyleSegment" destination="ZUk-nm-NEt" id="zs0-Sw-tZM"/>
                         <outlet property="LocalLatitudeBox" destination="VbT-wc-Jr9" id="iFP-ij-VnM"/>
                         <outlet property="LocalLongitudeBox" destination="SjS-sH-yNa" id="0sv-7s-5bi"/>
                         <outlet property="RemoveLocationButton" destination="qDO-v7-wec" id="cy4-Yz-4BS"/>
