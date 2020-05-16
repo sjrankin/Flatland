@@ -827,6 +827,80 @@
             </objects>
             <point key="canvasLocation" x="808" y="192"/>
         </scene>
+        <!--Flags-->
+        <scene sceneID="iju-7C-kHk">
+            <objects>
+                <tableViewController id="RF2-ss-fZN" customClass="LocationFlags" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9VY-P0-BB8">
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="500"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <sections>
+                            <tableViewSection id="kkr-Us-0PK">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="Goc-Tm-bre">
+                                        <rect key="frame" x="0.0" y="28" width="350" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Goc-Tm-bre" id="CxO-RG-3NF">
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show polar flags" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0HG-86-mm3">
+                                                    <rect key="frame" x="16" y="11" width="127" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uzh-eg-2sj">
+                                                    <rect key="frame" x="285" y="6" width="51" height="32"/>
+                                                    <connections>
+                                                        <action selector="HandlePolarFlagsChanged:" destination="RF2-ss-fZN" eventType="primaryActionTriggered" id="SaQ-mB-0da"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="0HG-86-mm3" firstAttribute="centerY" secondItem="CxO-RG-3NF" secondAttribute="centerY" id="G0A-00-QuJ"/>
+                                                <constraint firstItem="Uzh-eg-2sj" firstAttribute="trailing" secondItem="CxO-RG-3NF" secondAttribute="trailingMargin" id="JeG-D2-9Oj"/>
+                                                <constraint firstItem="0HG-86-mm3" firstAttribute="top" secondItem="CxO-RG-3NF" secondAttribute="topMargin" id="cvR-NX-dwq"/>
+                                                <constraint firstItem="0HG-86-mm3" firstAttribute="leading" secondItem="CxO-RG-3NF" secondAttribute="leadingMargin" id="dBA-HN-hcr"/>
+                                                <constraint firstItem="Uzh-eg-2sj" firstAttribute="top" secondItem="CxO-RG-3NF" secondAttribute="topMargin" constant="-5" id="fUC-EW-UvZ"/>
+                                                <constraint firstItem="0HG-86-mm3" firstAttribute="centerY" secondItem="Uzh-eg-2sj" secondAttribute="centerY" id="reQ-YO-2Dm"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="0zC-7R-Y7L">
+                                        <rect key="frame" x="0.0" y="71.5" width="350" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0zC-7R-Y7L" id="WYj-ul-EUP">
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="vUn-Wf-1t5">
+                                        <rect key="frame" x="0.0" y="115" width="350" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vUn-Wf-1t5" id="cSV-sJ-Xvk">
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="RF2-ss-fZN" id="yb7-cx-3Hl"/>
+                            <outlet property="delegate" destination="RF2-ss-fZN" id="6JP-UK-tBp"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Flags" id="0IT-0d-1qs"/>
+                    <connections>
+                        <outlet property="PolarFlagsSwitch" destination="Uzh-eg-2sj" id="deL-gl-1Ec"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BhF-Ts-kmI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1080" y="727"/>
+        </scene>
         <!--Cities and Locations-->
         <scene sceneID="pG0-nW-hFs">
             <objects>
@@ -898,10 +972,34 @@
                                             <segue destination="Shw-d5-JjM" kind="show" destinationCreationSelector="InstantiateCityViews:" id="pWI-JV-oH5"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="VkX-tE-HgJ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" id="VkX-tE-HgJ">
                                         <rect key="frame" x="0.0" y="158.5" width="350" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VkX-tE-HgJ" id="Tqb-Og-prq">
+                                            <rect key="frame" x="0.0" y="0.0" width="323" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O49-j7-EGA">
+                                                    <rect key="frame" x="16" y="11" width="44" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="O49-j7-EGA" firstAttribute="centerY" secondItem="Tqb-Og-prq" secondAttribute="centerY" id="HrP-Ry-JNe"/>
+                                                <constraint firstItem="O49-j7-EGA" firstAttribute="leading" secondItem="Tqb-Og-prq" secondAttribute="leadingMargin" id="UVx-BY-L6j"/>
+                                                <constraint firstItem="O49-j7-EGA" firstAttribute="top" secondItem="Tqb-Og-prq" secondAttribute="topMargin" id="qtS-BD-77M"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="RF2-ss-fZN" kind="show" id="hn6-5z-Abh"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="zu2-Sc-CIp">
+                                        <rect key="frame" x="0.0" y="202" width="350" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zu2-Sc-CIp" id="G15-O5-OHE">
                                             <rect key="frame" x="0.0" y="0.0" width="350" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
@@ -1313,8 +1411,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="323" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tAQ-8Z-4z3">
-                                                    <rect key="frame" x="16" y="11" width="100" height="22"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tAQ-8Z-4z3">
+                                                    <rect key="frame" x="16" y="11" width="111" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1591,7 +1689,7 @@
             </objects>
             <point key="canvasLocation" x="3079.6875" y="726.5625"/>
         </scene>
-        <!--Your Location-->
+        <!--Home Location-->
         <scene sceneID="dDQ-Bm-mz7">
             <objects>
                 <tableViewController id="xLs-BU-hX3" customClass="UserLocationSettingController" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
@@ -1763,10 +1861,46 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="dPY-Wo-kFF">
-                                        <rect key="frame" x="0.0" y="379" width="350" height="43.5"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Style" id="N9d-O9-cX2">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="87" id="1u2-nv-48L">
+                                        <rect key="frame" x="0.0" y="435" width="350" height="87"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dPY-Wo-kFF" id="gb5-pQ-Ja5">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1u2-nv-48L" id="CmK-uI-GS4">
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="87"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home location style" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IOe-xX-OPj">
+                                                    <rect key="frame" x="16" y="11" width="152" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="ZUk-nm-NEt">
+                                                    <rect key="frame" x="17" y="40" width="229" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <segments>
+                                                        <segment title="Arrow"/>
+                                                        <segment title="Flag"/>
+                                                        <segment title="None"/>
+                                                    </segments>
+                                                    <connections>
+                                                        <action selector="HandleHomeLocationStyleChanged:" destination="xLs-BU-hX3" eventType="primaryActionTriggered" id="gGI-69-Chn"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="IOe-xX-OPj" firstAttribute="leading" secondItem="CmK-uI-GS4" secondAttribute="leadingMargin" id="qEt-wi-PnD"/>
+                                                <constraint firstItem="IOe-xX-OPj" firstAttribute="top" secondItem="CmK-uI-GS4" secondAttribute="topMargin" id="wgK-Y8-yuR"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="oJ1-3o-uP6">
+                                        <rect key="frame" x="0.0" y="522" width="350" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oJ1-3o-uP6" id="Fhd-RO-T1K">
                                             <rect key="frame" x="0.0" y="0.0" width="350" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
@@ -1779,9 +1913,10 @@
                             <outlet property="delegate" destination="xLs-BU-hX3" id="6f2-Yz-hbS"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Your Location" id="lHz-gJ-Ns5"/>
+                    <navigationItem key="navigationItem" title="Home Location" id="lHz-gJ-Ns5"/>
                     <connections>
                         <outlet property="GetLocationButton" destination="dfc-MF-tKn" id="sbf-P3-Yxb"/>
+                        <outlet property="HomeStyleSegment" destination="ZUk-nm-NEt" id="zs0-Sw-tZM"/>
                         <outlet property="LocalLatitudeBox" destination="VbT-wc-Jr9" id="iFP-ij-VnM"/>
                         <outlet property="LocalLongitudeBox" destination="SjS-sH-yNa" id="0sv-7s-5bi"/>
                         <outlet property="RemoveLocationButton" destination="qDO-v7-wec" id="cy4-Yz-4BS"/>
