@@ -80,7 +80,7 @@ class GlobeView: SCNView, GlobeProtocol
         LightNode = SCNNode()
         LightNode.light = Light
         LightNode.position = SCNVector3(0.0, 0.0, 80.0)
- 
+        
         self.scene?.rootNode.addChildNode(CameraNode)
         self.scene?.rootNode.addChildNode(LightNode)
         SetMoonlight(Show: Settings.GetShowMoonlight())
@@ -294,7 +294,7 @@ class GlobeView: SCNView, GlobeProtocol
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
-
+        
         //Precondition the surfaces.
         switch MapType
         {
@@ -372,7 +372,7 @@ class GlobeView: SCNView, GlobeProtocol
         LineNode?.castsShadow = false
         #endif
         
-            PlotCities(On: EarthNode!, WithRadius: 10)
+        PlotLocations(On: EarthNode!, WithRadius: 10)
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1]
@@ -411,7 +411,7 @@ class GlobeView: SCNView, GlobeProtocol
     
     func SetLineLayer()
     {
-            LineNode?.removeFromParentNode()
+        LineNode?.removeFromParentNode()
         LineNode = nil
         if !HasVisibleLines()
         {
@@ -600,5 +600,10 @@ class GlobeView: SCNView, GlobeProtocol
     let JapaneseHours = ["〇", "一", "二", "三", "四", "五", "六", "七", "八", "九",
                          "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八",
                          "十九", "二十", "二十一", "二十二", "二十三", "二十四"]
+    
+    var NorthPoleFlag: SCNNode? = nil
+    var SouthPoleFlag: SCNNode? = nil
+    var ArrowNode: SCNNode? = nil
+    var HomeFlagNode: SCNNode? = nil
 }
 
