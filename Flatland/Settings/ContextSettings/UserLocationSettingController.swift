@@ -13,6 +13,8 @@ import CoreLocation
 class UserLocationSettingController: UITableViewController, CLLocationManagerDelegate,
     UIPickerViewDelegate, UIPickerViewDataSource
 {
+    // MARK: - Initialization
+    
     public weak var ParentDelegate: ChildClosed? = nil
     var LocationManager = CLLocationManager()
     var IsDirty = false
@@ -48,6 +50,20 @@ class UserLocationSettingController: UITableViewController, CLLocationManagerDel
         else
         {
             LocalLongitudeBox.text = ""
+        }
+        switch Settings.ShowHomeLocation()
+        {
+            case .ShowAsArrow:
+                HomeStyleSegment.selectedSegmentIndex = 0
+            
+            case .ShowAsFlag:
+                HomeStyleSegment.selectedSegmentIndex = 1
+            
+            case .Hide:
+                HomeStyleSegment.selectedSegmentIndex = 2
+            
+            default:
+                break
         }
     }
     
@@ -225,8 +241,31 @@ class UserLocationSettingController: UITableViewController, CLLocationManagerDel
         self.present(Alert, animated: true)
     }
     
+    @IBAction func HandleHomeLocationStyleChanged(_ sender: Any)
+    {
+        if let Segment = sender as? UISegmentedControl
+        {
+            switch Segment.selectedSegmentIndex
+            {
+                case 0:
+                    Settings.SetShowHomeLocation(.ShowAsArrow)
+                
+                case 1:
+                    Settings.SetShowHomeLocation(.ShowAsFlag)
+                
+                case 2:
+                    Settings.SetShowHomeLocation(.Hide)
+                
+                default:
+                    break
+            }
+            IsDirty = true
+        }
+    }
+    
     // MARK: Interface builder outlets.
     
+    @IBOutlet weak var HomeStyleSegment: UISegmentedControl!
     @IBOutlet weak var TimeZonePicker: UIPickerView!
     @IBOutlet weak var LocalLongitudeBox: UITextField!
     @IBOutlet weak var LocalLatitudeBox: UITextField!
