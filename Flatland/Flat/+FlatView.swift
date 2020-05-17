@@ -13,20 +13,22 @@ import SceneKit
 extension MainView
 {
     /// Sets the visibility of either the 3D globe or 2D map depending on the passed boolean.
-    /// - Parameter IsVisible: If true, 2D maps are visible. If false, 3D maps are visible.
-    func SetFlatlandVisibility(IsVisible: Bool)
+    /// - Parameter FlatIsVisible: If true, 2D maps are visible. If false, 3D maps are visible.
+    func SetFlatlandVisibility(FlatIsVisible: Bool)
     {
-        NightMaskView.isHidden = !IsVisible
-        WorldViewer.isHidden = !IsVisible
-        GridOverlay.isHidden = !IsVisible
-        ArcLayer.isHidden = !IsVisible
-        HourLayer2D.isHidden = !IsVisible
+        NightMaskView.isHidden = !FlatIsVisible
+        WorldViewer.isHidden = !FlatIsVisible
+        GridOverlay.isHidden = !FlatIsVisible
+        ArcLayer.isHidden = !FlatIsVisible
+        HourLayer2D.isHidden = !FlatIsVisible
         HourLayer2D.backgroundColor = UIColor.clear
         Show2DHours()
-        if !IsVisible
+        if !FlatIsVisible
         {
             SunViewTop?.alpha = 0.0
             SunViewBottom?.alpha = 0.0
+            MainTimeLabelBottom.isHidden = true
+            MainTimeLabelTop.isHidden = false
         }
         else
         {
@@ -45,6 +47,7 @@ extension MainView
         }
         if !Settings.ShowNight()
         {
+            NightMaskView.image = nil
             return
         }
         if let Image = GetNightMask(ForDate: Date())
@@ -232,6 +235,10 @@ extension MainView
     /// with the time label.
     func UpdateSunLocations()
     {
+        if Settings.GetViewType() == .Globe3D
+        {
+            return
+        }
         if Settings.GetImageCenter() == .NorthPole
         {
             SunViewTop.isHidden = true
