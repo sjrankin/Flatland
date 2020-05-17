@@ -69,16 +69,16 @@ class GlobeView: SCNView, GlobeProtocol
         CameraNode.camera = Camera
         CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
         
-        let Light = SCNLight()
-        Light.type = .directional
-        Light.intensity = 800
-        Light.castsShadow = true
-        Light.shadowColor = UIColor.black.withAlphaComponent(0.80)
-        Light.shadowMode = .forward
-        Light.shadowRadius = 10.0
-        Light.color = UIColor.white
+        SunLight = SCNLight()
+        SunLight.type = .directional
+        SunLight.intensity = 800
+        SunLight.castsShadow = true
+        SunLight.shadowColor = UIColor.black.withAlphaComponent(0.80)
+        SunLight.shadowMode = .forward
+        SunLight.shadowRadius = 10.0
+        SunLight.color = UIColor.white
         LightNode = SCNNode()
-        LightNode.light = Light
+        LightNode.light = SunLight
         LightNode.position = SCNVector3(0.0, 0.0, 80.0)
         
         self.scene?.rootNode.addChildNode(CameraNode)
@@ -119,9 +119,15 @@ class GlobeView: SCNView, GlobeProtocol
         }
     }
     
+    var SunLight = SCNLight()
     var CameraNode = SCNNode()
     var LightNode = SCNNode()
     var MoonNode: SCNNode? = nil
+    
+    func SetDisplayLanguage()
+    {
+        
+    }
     
     func SetClockMultiplier(_ Multiplier: Double)
     {
@@ -603,7 +609,7 @@ class GlobeView: SCNView, GlobeProtocol
     
     var NorthPoleFlag: SCNNode? = nil
     var SouthPoleFlag: SCNNode? = nil
-    var ArrowNode: SCNNode? = nil
-    var HomeFlagNode: SCNNode? = nil
+    var HomeNode: SCNNode? = nil
+    var PlottedCities = [SCNNode?]()
 }
 
