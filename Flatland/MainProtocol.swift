@@ -15,4 +15,8 @@ protocol MainProtocol: class
     func SetTexture(_ MapType: MapTypes)
     func ShowLocalData(_ Show: Bool)
     func ShowCities(_ Show: Bool)
+    func SetNightMask()
+    func ShowZoomingStars()
+    func HideZoomingStars()
+    func SetDisplayLanguage()
 }
