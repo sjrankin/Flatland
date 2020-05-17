@@ -68,6 +68,9 @@ class CitySelectorView: UITableViewController, UIPickerViewDelegate, UIPickerVie
             
             case .RelativeFloating:
                 CityTypeSegment.selectedSegmentIndex = 2
+            
+            case .RelativeHeight:
+                CityTypeSegment.selectedSegmentIndex = 3
         }
     }
     
