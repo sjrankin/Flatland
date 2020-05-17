@@ -601,6 +601,63 @@ class Settings
         UserDefaults.standard.set(NewValue.rawValue, forKey: "ShowHomeLocation")
     }
     
+    public static func UseMetropolitanPopulation() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "UseMetroPopulation")
+    }
+    
+    public static func SetUseMetroPopulation(_ NewValue: Bool)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "UseMetroPopulation")
+    }
+    
+    public static func CityListColor(For: CityLists, ReturnDefault: Bool = false) -> UIColor
+    {
+        if ReturnDefault
+        {
+            if let Raw = DefaultCityColors[For]
+            {
+                return UIColor(HexString: Raw)!
+            }
+            else
+            {
+                return UIColor.white
+            }
+        }
+        let ColorName = For.rawValue + "_Color"
+        if let Raw = UserDefaults.standard.string(forKey: ColorName)
+        {
+            if let Color = UIColor(HexString: Raw)
+            {
+                return Color
+            }
+        }
+        if let FinalRaw = DefaultCityColors[For]
+        {
+            UserDefaults.standard.set(FinalRaw, forKey: ColorName)
+            return UIColor(HexString: FinalRaw)!
+        }
+        return UIColor.white
+    }
+    
+    public static func SetCityListColor(For: CityLists, Color: UIColor)
+    {
+        let ColorName = For.rawValue + "_Color"
+        let Final = Color.Hex
+        UserDefaults.standard.set(Final, forKey: ColorName)
+    }
+    
+    static let DefaultCityColors: [CityLists: String] =
+    [
+        .WorldCities: "#ffff00",
+        .AfricanCities: "#0000ff",
+        .AsianCities: "#dd8000",
+        .EuropeanCities: "#ff00ff",
+        .NorthAmericanCities: "#00ff00",
+        .SouthAmericanCities: "#00ffff",
+        .CaptialCities: "#ffd700"
+    ]
+    
     //MARK: - Local settings display.
     
     public static func GetShowLocalData() -> Bool
@@ -706,16 +763,29 @@ enum HourValueTypes: String, CaseIterable
     case RelativeToLocation = "RelativeToLocation"
 }
 
+/// Supported languages for *some* display elements.
 enum DisplayLanguages: String, CaseIterable
 {
+    /// English language elements.
     case English = "English"
+    /// Japanese language elements.
     case Japanese = "日本語"
 }
-
 
 enum HomeLocationViews: String, CaseIterable
 {
     case Hide = "Hide"
     case ShowAsArrow = "Arrow"
     case ShowAsFlag = "Flag"
+}
+
+enum CityLists: String, CaseIterable
+{
+    case WorldCities = "WorldCities"
+    case AfricanCities = "AfricanCities"
+    case AsianCities = "AsianCities"
+    case EuropeanCities = "EuropeanCities"
+    case NorthAmericanCities = "NorthAmericanCities"
+    case SouthAmericanCities = "SouthAmericanCities"
+    case CaptialCities = "CapitalCities"
 }
