@@ -80,9 +80,9 @@ extension GlobeView
             ConeNode.runAction(ColorForever)
         }
         
-        ArrowNode = SCNNode()
-        ArrowNode?.name = "ArrowNode"
-        ArrowNode?.addChildNode(ConeNode)
+        HomeNode = SCNNode()
+        HomeNode?.name = "HomeNode"
+        HomeNode?.addChildNode(ConeNode)
         
         if IsCurrentLocation
         {
@@ -92,16 +92,16 @@ extension GlobeView
             CylinderNode.geometry?.firstMaterial?.specular.contents = UIColor.white
             CylinderNode.castsShadow = true
             CylinderNode.position = SCNVector3(0.0, -0.3, 0.0)
-            ArrowNode?.addChildNode(CylinderNode)
+            HomeNode?.addChildNode(CylinderNode)
         }
         
-        ArrowNode?.position = SCNVector3(X, Y, Z)
+        HomeNode?.position = SCNVector3(X, Y, Z)
         
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
-        ArrowNode?.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        HomeNode?.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
         
-        ToSurface.addChildNode(ArrowNode!)
+        ToSurface.addChildNode(HomeNode!)
     }
     
     /// Plot user locations as inverted cones.
@@ -113,14 +113,14 @@ extension GlobeView
     /// - Parameter WithColor: Ignored if `IsCurrentLocation` is true. Otherwise, this is the color of
     ///                        the arrow head shape.
     func PlotUserLocation1(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
-                          WithColor: UIColor = UIColor.magenta)
+                           WithColor: UIColor = UIColor.magenta)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
         let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
         let ConeNode = SCNNode(geometry: Cone)
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = UIColor.white
-            ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
+        ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
         ConeNode.castsShadow = true
         ConeNode.position = SCNVector3(X, Y, Z)
         let YRotation = Latitude + 90.0
@@ -132,7 +132,7 @@ extension GlobeView
     func PlotUserLocation2(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
                            WithColor: UIColor = UIColor.magenta)
     {
-             let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
         
         let Sphere = SCNSphere(radius: 0.2)
         let SphereNode = SCNNode(geometry: Sphere)
@@ -192,19 +192,20 @@ extension GlobeView
         FlagFaceNode.geometry?.firstMaterial?.lightingModel = .lambert
         FlagFaceNode.eulerAngles = SCNVector3(180.0.Radians, 90.0.Radians, 0.0)
         
-        HomeFlagNode = SCNNode()
-        HomeFlagNode?.castsShadow = true
-        HomeFlagNode?.addChildNode(PoleNode)
-        HomeFlagNode?.addChildNode(FlagFaceNode)
-        HomeFlagNode?.addChildNode(FlagInteriorNode)
+        HomeNode = SCNNode()
+        HomeNode?.castsShadow = true
+        HomeNode?.addChildNode(PoleNode)
+        HomeNode?.addChildNode(FlagFaceNode)
+        HomeNode?.addChildNode(FlagInteriorNode)
         
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
-        HomeFlagNode?.position = SCNVector3(X, Y, Z)
+        HomeNode?.position = SCNVector3(X, Y, Z)
         
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
-        HomeFlagNode?.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        ToSurface.addChildNode(HomeFlagNode!)
+        HomeNode?.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        HomeNode?.name = "HomeNode"
+        ToSurface.addChildNode(HomeNode!)
     }
     
     /// Plot a city on the 3D sphere. A sphere is set on the surface of the Earth.
@@ -225,11 +226,14 @@ extension GlobeView
         let CityShape = SCNSphere(radius: CitySize)
         let CityNode = SCNNode(geometry: CityShape)
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
-        CityNode.geometry?.firstMaterial?.emission.contents = UIImage(named: "CitySphereTexture")
+        //        CityNode.geometry?.firstMaterial?.emission.contents = UIImage(named: "CitySphereTexture")
         CityNode.castsShadow = true
+        SunLight.intensity = 800
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(10 - (CitySize / 2)))
         CityNode.position = SCNVector3(X, Y, Z)
+        CityNode.name = "CityNode"
         ToSurface.addChildNode(CityNode)
+        PlottedCities.append(CityNode)
     }
     
     /// Plot a city on the 3D sphere. The city display is a float ball whose radius is relative to
@@ -273,6 +277,7 @@ extension GlobeView
         CylinderNode.geometry?.firstMaterial?.diffuse.contents = UIColor.magenta
         CylinderNode.geometry?.firstMaterial?.specular.contents = UIColor.white
         CylinderNode.castsShadow = true
+        SunLight.intensity = 800
         CylinderNode.position = SCNVector3(0.0, 0.0, 0.0)
         SphereNode.position = SCNVector3(0.0, -(CylinderLength - CitySize), 0.0)
         
@@ -285,8 +290,61 @@ extension GlobeView
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        FinalNode.name = "CityNode"
         
         ToSurface.addChildNode(FinalNode)
+        PlottedCities.append(FinalNode)
+    }
+    
+    /// Plot a city on the 3D sphere. A box is placed on the surface of the Earth.
+    /// - Parameter Latitude: The latitude of the city.
+    /// - Parameter Longitude: The longitude of the city.
+    /// - Parameter ToSurface: The surface that defines the globe.
+    /// - Parameter WithColor: The color of the city shape.
+    /// - Parameter RelativeSize: The relative size of the city.
+    /// - Parameter LargestSize: The largest permitted.
+    /// - Parameter IsBox: If true, the shape of the city is based on `SCNBox`. If false, the shape
+    ///                    is based on `SCNCylinder`.
+    func PlotCity3(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+                   WithColor: UIColor = UIColor.red, RelativeSize: Double = 1.0,
+                   LargestSize: Double = 1.0, IsBox: Bool = true)
+    {
+        var CitySize = CGFloat(RelativeSize * LargestSize)
+        if CitySize < 0.33
+        {
+            CitySize = 0.33
+        }
+        var HDim = CitySize * 0.1
+        if HDim < 0.25
+        {
+            HDim = 0.25
+        }
+        var CityNode = SCNNode()
+        if IsBox
+        {
+        let CityShape = SCNBox(width: HDim, height: CitySize, length: HDim, chamferRadius: 0.02)
+         CityNode = SCNNode(geometry: CityShape)
+        }
+        else
+        {
+            let CityShape = SCNCylinder(radius: HDim / 2.0, height: CitySize)
+            CityNode = SCNNode(geometry: CityShape)
+        }
+        CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        CityNode.geometry?.firstMaterial?.specular.contents = UIColor.white
+        CityNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
+        CityNode.castsShadow = true
+        CityNode.geometry?.firstMaterial?.roughness.contents = NSNumber(value: 0.7)
+        CityNode.geometry?.firstMaterial?.metalness.contents = NSNumber(value: 1.0)
+        SunLight.intensity = 1200
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + Double(CitySize / 2.0))
+        CityNode.position = SCNVector3(X, Y, Z)
+        CityNode.name = "CityNode"
+        let YRotation = Latitude + 90.0
+        let XRotation = Longitude + 180.0
+        CityNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        ToSurface.addChildNode(CityNode)
+        PlottedCities.append(CityNode)
     }
     
     /// Plot cities and locations on the Earth.
@@ -295,90 +353,8 @@ extension GlobeView
     func PlotLocations(On: SCNNode, WithRadius: CGFloat)
     {
         PlotPolarFlags(Settings.ShowPolarFlags())
-        //                PlotPolarFlags(On: On, With: 10.0)
-        
-        #if false
-        let CityList = Cities()
-        var TestCities = CityList.TopNCities(N: 50, UseMetroPopulation: true)
-        
-        let UserLocations = Settings.GetLocations()
-        for (_, Location, Name, Color) in UserLocations
-        {
-            let UserCity = City(Continent: "NoName", Country: "No Name", Name: Name, Population: nil,
-                                MetroPopulation: nil, Latitude: Location.Latitude, Longitude: Location.Longitude)
-            UserCity.CityColor = Color
-            UserCity.IsUserCity = true
-            TestCities.append(UserCity)
-        }
-        #endif
-        
-        #if true
         PlotHomeLocation()
-        #else
-        if let LocalLongitude = Settings.GetLocalLongitude()
-        {
-            if let LocalLatitude = Settings.GetLocalLatitude()
-            {
-                switch Settings.ShowHomeLocation()
-                {
-                    case .Hide:
-                        break
-                    
-                    case .ShowAsArrow:
-                        PlotArrow(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: 10.0,
-                                  ToSurface: On, IsCurrentLocation: true)
-                    
-                    case .ShowAsFlag:
-                        PlotHomeFlag(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: 10.0,
-                                     ToSurface: On, EmissiveColor: UIColor.orange)
-                }
-            }
-        }
-        #endif
-        
-        #if true
         PlotCities()
-        #else
-        //let CitySize: CGFloat = 0.15
-        let (Max, Min) = Cities.GetPopulationsIn(CityList: TestCities, UseMetroPopulation: true)
-        for City in TestCities
-        {
-            if City.IsUserCity
-            {
-                PlotArrow(Latitude: City.Latitude, Longitude: City.Longitude, Radius: 10.0, ToSurface: On,
-                          IsCurrentLocation: false, WithColor: City.CityColor)
-            }
-            else
-            {
-                var RelativeSize: Double = 1.0
-                if let ThePopulation = GetCityPopulation(From: City)
-                {
-                    RelativeSize = Double(ThePopulation) / Double(Max)
-                }
-                else
-                {
-                    RelativeSize = Double(Min) / Double(Max)
-                }
-                switch Settings.CityDisplayType()
-                {
-                    case .UniformEmbedded:
-                        PlotCity1(Latitude: City.Latitude, Longitude: City.Longitude, Radius: 10.0,
-                                  ToSurface: On, WithColor: City.CityColor, RelativeSize: 1.0,
-                                  LargestSize: 0.15)
-                    
-                    case .RelativeEmbedded:
-                        PlotCity1(Latitude: City.Latitude, Longitude: City.Longitude, Radius: 10.0,
-                                  ToSurface: On, WithColor: City.CityColor, RelativeSize: RelativeSize,
-                                  LargestSize: 0.35)
-                    
-                    case .RelativeFloating:
-                        PlotCity2(Latitude: City.Latitude, Longitude: City.Longitude, Radius: 10.0,
-                                  ToSurface: On, WithColor: City.CityColor, RelativeSize: RelativeSize,
-                                  RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0)
-                }
-            }
-        }
-        #endif
     }
     
     /// Plot cities on the globe.
@@ -392,39 +368,41 @@ extension GlobeView
     /// - Parameter Radius: The radius of the node on which to plot cities.
     func PlotCities(On Surface: SCNNode, Radius: Double)
     {
+        for AlreadyPlotted in PlottedCities
+        {
+            AlreadyPlotted!.removeFromParentNode()
+        }
+        PlottedCities.removeAll()
+        
         let CityList = Cities()
         var CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)
         
         if Settings.ShowUserLocations()
         {
-        let UserLocations = Settings.GetLocations()
-        for (_, Location, Name, Color) in UserLocations
-        {
-            let UserCity = City(Continent: "NoName", Country: "No Name", Name: Name, Population: nil,
-                                MetroPopulation: nil, Latitude: Location.Latitude, Longitude: Location.Longitude)
-            UserCity.CityColor = Color
-            UserCity.IsUserCity = true
-            CitiesToPlot.append(UserCity)
-        }
+            let UserLocations = Settings.GetLocations()
+            for (_, Location, Name, Color) in UserLocations
+            {
+                let UserCity = City(Continent: "NoName", Country: "No Name", Name: Name, Population: nil,
+                                    MetroPopulation: nil, Latitude: Location.Latitude, Longitude: Location.Longitude)
+                UserCity.CityColor = Color
+                UserCity.IsUserCity = true
+                CitiesToPlot.append(UserCity)
+            }
         }
         
-        let (Max, Min) = Cities.GetPopulationsIn(CityList: CitiesToPlot, UseMetroPopulation: true)
+        let (Max, Min) = Cities.GetPopulationsIn(CityList: CitiesToPlot,
+                                                 UseMetroPopulation: Settings.UseMetropolitanPopulation())
         for City in CitiesToPlot
         {
             if City.IsUserCity
             {
-                #if true
                 PlotUserLocation1(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius, ToSurface: Surface,
                                   WithColor: City.CityColor)
-                #else
-                PlotArrow(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius, ToSurface: Surface,
-                          IsCurrentLocation: false, WithColor: City.CityColor)
-                #endif
             }
             else
             {
                 var RelativeSize: Double = 1.0
-                if let ThePopulation = GetCityPopulation(From: City)
+                if let ThePopulation = GetCityPopulation2(From: City)
                 {
                     RelativeSize = Double(ThePopulation) / Double(Max)
                 }
@@ -449,6 +427,11 @@ extension GlobeView
                         PlotCity2(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                   ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
                                   RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0)
+                    
+                    case .RelativeHeight:
+                        PlotCity3(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                  ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                  LargestSize: 2.0, IsBox: true)
                 }
             }
         }
@@ -457,8 +440,6 @@ extension GlobeView
     /// Plot the home location. Intended for use by external callers.
     func PlotHomeLocation()
     {
-        HomeFlagNode?.removeFromParentNode()
-        HomeFlagNode = nil
         PlotHomeLocation(On: EarthNode!, Radius: 10.0)
     }
     
@@ -468,6 +449,9 @@ extension GlobeView
     /// - Parameter Radius: The radius of the attachment node.
     func PlotHomeLocation(On Surface: SCNNode, Radius: Double)
     {
+        HomeNode?.removeFromParentNode()
+        HomeNode = nil
+        
         if let LocalLongitude = Settings.GetLocalLongitude()
         {
             if let LocalLatitude = Settings.GetLocalLatitude()
@@ -475,16 +459,13 @@ extension GlobeView
                 switch Settings.ShowHomeLocation()
                 {
                     case .Hide:
-                        print("Hiding home location")
                         break
                     
                     case .ShowAsArrow:
-                        print("Home as arrow")
                         PlotArrow(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                   ToSurface: Surface, IsCurrentLocation: true)
                     
                     case .ShowAsFlag:
-                        print("Home as flag")
                         PlotHomeFlag(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                      ToSurface: Surface, EmissiveColor: UIColor.orange)
                 }
@@ -528,12 +509,15 @@ extension GlobeView
         Surface.addChildNode(SouthPoleFlag!)
     }
     
+    /// Create a flag shape for either the north or south pole.
+    /// - Parameter NorthPole: If true, the North Pole flag is created. If false, the South Pole
+    ///                        flat is created.
+    /// - Returns: `SCNNode` with the proper shapes and textures and oriented correctly for the globe.
     func MakeFlag(NorthPole: Bool) -> SCNNode
     {
         let Pole = SCNCylinder(radius: 0.04, height: 2.5)
         let PoleNode = SCNNode(geometry: Pole)
         PoleNode.geometry?.firstMaterial?.diffuse.contents = UIColor.brown
-        //PoleNode.geometry?.firstMaterial?.specular.contents = UIColor.white
         
         let FlagFace = SCNBox(width: 0.04, height: 0.6, length: 1.2, chamferRadius: 0.0)
         let FlagFaceNode = SCNNode(geometry: FlagFace)
@@ -579,6 +563,31 @@ extension GlobeView
         return nil
     }
     
+    func GetCityPopulation2(From: City) -> Int?
+    {
+        if Settings.UseMetropolitanPopulation()
+        {
+            if let Metro = From.MetropolitanPopulation
+            {
+                return Metro
+            }
+            if let CityPop = From.Population
+            {
+                return CityPop
+            }
+            return nil
+        }
+        if let CityPop = From.Population
+        {
+            return CityPop
+        }
+        if let Metro = From.MetropolitanPopulation
+        {
+            return Metro
+        }
+        return nil
+    }
+    
     /// Convert the passed latitude and longitude values into a 3D coordinate that can be plotted
     /// on a sphere.
     /// - Note: See [How to map latitude and logitude to a 3D sphere](https://stackoverflow.com/questions/36369734/how-to-map-latitude-and-longitude-to-a-3d-sphere)
@@ -597,10 +606,15 @@ extension GlobeView
     }
 }
 
-
+/// Ways to display cities.
 enum CityDisplayTypes: String, CaseIterable
 {
+    /// Each city is a uniform size and embedded in the parent surface.
     case UniformEmbedded = "Flush spheres, uniform size"
+    /// Each city is sized relative to its population and is embedded in the parent surface.
     case RelativeEmbedded = "Flush spheres, relative size"
+    /// Each city floats above the parent surface and is sized relative to its population.
     case RelativeFloating = "Floating spheres, relative size"
+    /// Each city is a box with height determined by relative population.
+    case RelativeHeight = "Box, relative height"
 }
