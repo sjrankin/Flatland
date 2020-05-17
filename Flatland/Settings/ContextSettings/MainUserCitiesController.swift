@@ -91,15 +91,12 @@ class MainUserCitiesController: UITableViewController, ChildClosed
             switch Segment.selectedSegmentIndex
             {
                 case 0:
-                    print("As arrow")
                     Settings.SetShowHomeLocation(.ShowAsArrow)
                 
                 case 1:
-                    print("As flag")
                     Settings.SetShowHomeLocation(.ShowAsFlag)
                 
                 case 2:
-                    print("As nothing")
                     Settings.SetShowHomeLocation(.Hide)
                 
                 default:
