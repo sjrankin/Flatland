@@ -72,6 +72,12 @@
 		1757986624555900001980EE /* EarthTopoGlowingEdges1NorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1757986324555900001980EE /* EarthTopoGlowingEdges1NorthCenter.png */; };
 		1757986724555900001980EE /* EarthTopoGlowingEdges1SouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1757986424555900001980EE /* EarthTopoGlowingEdges1SouthCenter.png */; };
 		1757986824555900001980EE /* EarthTopoGlowingEdges1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1757986524555900001980EE /* EarthTopoGlowingEdges1.png */; };
+		175ADF5B2470E72A009A6F0E /* MapSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175ADF5A2470E72A009A6F0E /* MapSettingsView.swift */; };
+		175ADF5D2470EC00009A6F0E /* GridSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175ADF5C2470EC00009A6F0E /* GridSettingsView.swift */; };
+		175ADF5F24711B9A009A6F0E /* CityColorSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175ADF5E24711B9A009A6F0E /* CityColorSelector.swift */; };
+		175ADF6124711C3D009A6F0E /* ColorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175ADF6024711C3D009A6F0E /* ColorList.swift */; };
+		175ADF6324712147009A6F0E /* CityColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175ADF6224712147009A6F0E /* CityColorCell.swift */; };
+		175ADF6524715972009A6F0E /* MainOtherSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175ADF6424715972009A6F0E /* MainOtherSettings.swift */; };
 		17633B56243858BB0021600D /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17633B55243858BB0021600D /* LocationCell.swift */; };
 		176DC96C2438380300830DB1 /* LocationEditedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */; };
 		176DC96E2438390100830DB1 /* EditLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96D2438390100830DB1 /* EditLocation.swift */; };
@@ -248,6 +254,12 @@
 		1757986324555900001980EE /* EarthTopoGlowingEdges1NorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EarthTopoGlowingEdges1NorthCenter.png; sourceTree = "<group>"; };
 		1757986424555900001980EE /* EarthTopoGlowingEdges1SouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EarthTopoGlowingEdges1SouthCenter.png; sourceTree = "<group>"; };
 		1757986524555900001980EE /* EarthTopoGlowingEdges1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EarthTopoGlowingEdges1.png; sourceTree = "<group>"; };
+		175ADF5A2470E72A009A6F0E /* MapSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsView.swift; sourceTree = "<group>"; };
+		175ADF5C2470EC00009A6F0E /* GridSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSettingsView.swift; sourceTree = "<group>"; };
+		175ADF5E24711B9A009A6F0E /* CityColorSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorSelector.swift; sourceTree = "<group>"; };
+		175ADF6024711C3D009A6F0E /* ColorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorList.swift; sourceTree = "<group>"; };
+		175ADF6224712147009A6F0E /* CityColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorCell.swift; sourceTree = "<group>"; };
+		175ADF6424715972009A6F0E /* MainOtherSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainOtherSettings.swift; sourceTree = "<group>"; };
 		17633B55243858BB0021600D /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditedProtocol.swift; sourceTree = "<group>"; };
 		176DC96D2438390100830DB1 /* EditLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocation.swift; sourceTree = "<group>"; };
@@ -448,6 +460,7 @@
 				173A9260242F24D700363576 /* SunGenerator.swift */,
 				17ADB45D243D651A002E5F88 /* Extensions.swift */,
 				17C80C1A2454247A00E27112 /* FileIO.swift */,
+				175ADF6024711C3D009A6F0E /* ColorList.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -622,6 +635,9 @@
 			children = (
 				1733B80F246A85BE00D1A15F /* GeneralSettingsController.swift */,
 				1733B811246A860C00D1A15F /* MainSettingsMenuController.swift */,
+				175ADF5E24711B9A009A6F0E /* CityColorSelector.swift */,
+				175ADF6224712147009A6F0E /* CityColorCell.swift */,
+				175ADF5C2470EC00009A6F0E /* GridSettingsView.swift */,
 				1714A65C246E882D00A83A03 /* CityListSelector.swift */,
 				1714A65E246E89A800A83A03 /* CityViewController.swift */,
 				17F4DC7D246FFC5100AE6151 /* CitiesAndLocationsController.swift */,
@@ -630,6 +646,8 @@
 				1714A662246E8DCC00A83A03 /* UserLocationSettingController.swift */,
 				1714A664246EB0F000A83A03 /* AddEditCity.swift */,
 				1788AD18246FB1550031CB9E /* LocationFlags.swift */,
+				175ADF5A2470E72A009A6F0E /* MapSettingsView.swift */,
+				175ADF6424715972009A6F0E /* MainOtherSettings.swift */,
 			);
 			path = ContextSettings;
 			sourceTree = "<group>";
@@ -872,12 +890,14 @@
 				1714A65F246E89A800A83A03 /* CityViewController.swift in Sources */,
 				1733B812246A860C00D1A15F /* MainSettingsMenuController.swift in Sources */,
 				17BE6883242CC349009861E1 /* SettingsProtocol.swift in Sources */,
+				175ADF6524715972009A6F0E /* MainOtherSettings.swift in Sources */,
 				1789A3E9244EDCFC007E3526 /* DebugController.swift in Sources */,
 				17BE686C242C7A99009861E1 /* MainView.swift in Sources */,
 				17E180F5242F62F700310896 /* City.swift in Sources */,
 				1714A665246EB0F000A83A03 /* AddEditCity.swift in Sources */,
 				17633B56243858BB0021600D /* LocationCell.swift in Sources */,
 				1733B814246A94FC00D1A15F /* SmallVersion.swift in Sources */,
+				175ADF5B2470E72A009A6F0E /* MapSettingsView.swift in Sources */,
 				17C80C1B2454247A00E27112 /* FileIO.swift in Sources */,
 				173409AD246D069300E15563 /* +MenuHandler.swift in Sources */,
 				1720DD82245FDECD00C1E719 /* VersionTitleCell.swift in Sources */,
@@ -892,10 +912,14 @@
 				17865A6824499D8000DEED75 /* GlobeView.swift in Sources */,
 				1792BD8624305173006ABD02 /* Utility.swift in Sources */,
 				17F147B6246929A600713220 /* GlobeProtocol.swift in Sources */,
+				175ADF5D2470EC00009A6F0E /* GridSettingsView.swift in Sources */,
+				175ADF6324712147009A6F0E /* CityColorCell.swift in Sources */,
+				175ADF5F24711B9A009A6F0E /* CityColorSelector.swift in Sources */,
 				1714A661246E8C4A00A83A03 /* MainUserCitiesController.swift in Sources */,
 				1789A3EB244EDDCB007E3526 /* DebugNavigationViewer.swift in Sources */,
 				17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */,
 				176DC96E2438390100830DB1 /* EditLocation.swift in Sources */,
+				175ADF6124711C3D009A6F0E /* ColorList.swift in Sources */,
 				17BE6868242C7A99009861E1 /* AppDelegate.swift in Sources */,
 				1792BD8024304EA7006ABD02 /* Solar.swift in Sources */,
 				1792BD9424306EC5006ABD02 /* CitiesData.swift in Sources */,
@@ -1075,6 +1099,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
 				INFOPLIST_FILE = Flatland/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1095,6 +1120,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
 				INFOPLIST_FILE = Flatland/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
