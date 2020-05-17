@@ -41,8 +41,6 @@ class MainSettingsMenuController: UITableViewController, ChildClosed
         {
             MapViewSegment.selectedSegmentIndex = 2
         }
-        ShowLocalDataSwitch.isOn = Settings.GetShowLocalData()
-        ShowCitiesSwitch.isOn = Settings.ShowCities()
     }
     
     override func viewWillDisappear(_ animated: Bool)
@@ -102,15 +100,7 @@ class MainSettingsMenuController: UITableViewController, ChildClosed
         }
     }
     
-    @IBAction func HandleShowLocalDataChanged(_ sender: Any)
-    {
-        if let Switch = sender as? UISwitch
-        {
-            Settings.SetShowLocalData(Switch.isOn)
-            MainObject?.ShowLocalData(Switch.isOn)
-        }
-    }
-    
+
     
     @IBSegueAction func InstantiateLocationsController(_ coder: NSCoder) -> CitiesAndLocationsController?
     {
@@ -127,18 +117,17 @@ class MainSettingsMenuController: UITableViewController, ChildClosed
         return Controller
     }
     
+    @IBSegueAction func InstantiateOtherSettings(_ coder: NSCoder) -> MainOtherSettings?
+    {
+        let Controller = MainOtherSettings(coder: coder)
+        Controller?.MainObject = MainObject
+        Controller?.ParentDelegate = self
+        return Controller
+    }
+    
     @IBAction func HandleDoneButtonPressed(_ sender: Any)
     {
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func HandleShowCitiesChanged(_ sender: Any)
-    {
-        if let Switch = sender as? UISwitch
-        {
-            Settings.SetShowCities(Switch.isOn)
-            MainObject?.ShowCities(Switch.isOn)
-        }
     }
     
     func ChildWindowClosed(_ Dirty: Bool)
@@ -146,8 +135,14 @@ class MainSettingsMenuController: UITableViewController, ChildClosed
         
     }
     
-    @IBOutlet weak var ShowCitiesSwitch: UISwitch!
-    @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
+    @IBSegueAction func InstantiateMapSettings(_ coder: NSCoder) -> MapSettingsView?
+    {
+        let Controller = MapSettingsView(coder: coder)
+        Controller?.ParentDelegate = self
+        Controller?.MainObject = MainObject
+        return Controller
+    }
+    
     @IBOutlet weak var DoneButton: UIBarButtonItem!
     @IBOutlet weak var HourTypeSegment: UISegmentedControl!
     @IBOutlet weak var MapViewSegment: UISegmentedControl!
