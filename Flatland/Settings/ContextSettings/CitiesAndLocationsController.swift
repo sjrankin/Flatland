@@ -17,6 +17,7 @@ class CitiesAndLocationsController: UITableViewController, ChildClosed
     override func viewDidLoad()
     {
         super.viewDidLoad()
+                ShowCitiesSwitch.isOn = Settings.ShowCities()
     }
     
     override func viewWillDisappear(_ animated: Bool)
@@ -52,4 +53,15 @@ class CitiesAndLocationsController: UITableViewController, ChildClosed
     func ChildWindowClosed(_ Dirty: Bool)
     {
     }
+    
+    @IBAction func HandleShowCitiesChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetShowCities(Switch.isOn)
+            MainObject?.ShowCities(Switch.isOn)
+        }
+    }
+    
+        @IBOutlet weak var ShowCitiesSwitch: UISwitch!
 }
