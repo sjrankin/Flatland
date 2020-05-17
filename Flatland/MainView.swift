@@ -38,7 +38,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         {
             WorldViewer3D.Hide()
             StarFieldView.Hide()
-            SetFlatlandVisibility(IsVisible: true)
+            SetFlatlandVisibility(FlatIsVisible: true)
             let PoleIndex = Settings.GetImageCenter() == .NorthPole ? 0 : 1
             ViewTypeSegment.selectedSegmentIndex = PoleIndex
         }
@@ -49,7 +49,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
             {
                 StarFieldView.Show()
             }
-            SetFlatlandVisibility(IsVisible: false)
+            SetFlatlandVisibility(FlatIsVisible: false)
             ViewTypeSegment.selectedSegmentIndex = 2
         }
         
@@ -72,7 +72,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         //        let ContextMenu = UIContextMenuInteraction(delegate: self)
         //        TopView.addInteraction(ContextMenu)
         
-        #if false
+        #if true
         let Rotation = CABasicAnimation(keyPath: "transform.rotation.z")
         Rotation.delegate = self
         Rotation.fromValue = NSNumber(floatLiteral: 0.0)
@@ -99,6 +99,9 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         #endif
     }
 
+    /// Checks the status of thermal pressure and displays an "icon" to let the user know how hot
+    /// the device is without the user having to touch it.
+    /// - Note: Intended for use only when the `#DEBUG` flag is true.
     @objc func ThermalChecker()
     {
         #if DEBUG
@@ -321,9 +324,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
                 StarFieldView.Hide()
             }
         }
-        
-        //WorldViewer3D.SetMoonlight(Show: Settings.GetShowMoonlight())
-        //WorldViewer3D.SetLineLayer()
     }
     
     var InitialSunPrint: UUID? = nil
@@ -541,6 +541,8 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         return CityTestList
     }
     
+    /// Changes the view type.
+    /// - Parameter NewType: The new view type.
     func HandleNewViewType(NewType: MapViewTypes)
     {
         switch NewType
@@ -550,7 +552,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
                 Settings.SetViewType(.FlatMap)
                 WorldViewer3D.Hide()
                 StarFieldView.Hide()
-                SetFlatlandVisibility(IsVisible: true)
+                SetFlatlandVisibility(FlatIsVisible: true)
                 SetNightMask()
                 SettingsDone()
             
@@ -559,7 +561,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
                 Settings.SetViewType(.FlatMap)
                 WorldViewer3D.Hide()
                 StarFieldView.Hide()
-                SetFlatlandVisibility(IsVisible: true)
+                SetFlatlandVisibility(FlatIsVisible: true)
                 SetNightMask()
                 SettingsDone()
             
@@ -570,12 +572,22 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
                 {
                     StarFieldView.Show()
                 }
-                SetFlatlandVisibility(IsVisible: false)
+                SetFlatlandVisibility(FlatIsVisible: false)
                 PleaseWait
                     {
                         WorldViewer3D.AddEarth()
             }
         }
+    }
+    
+    func ShowZoomingStars()
+    {
+        StarFieldView.Show()
+    }
+    
+    func HideZoomingStars()
+    {
+        StarFieldView.Hide()
     }
     
     @IBAction func HandleViewTypeChanged(_ sender: Any)
@@ -585,35 +597,13 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
             switch Segment.selectedSegmentIndex
             {
                 case 0:
-                    Settings.SetImageCenter(.NorthPole)
-                    Settings.SetViewType(.FlatMap)
-                    WorldViewer3D.Hide()
-                    StarFieldView.Hide()
-                    SetFlatlandVisibility(IsVisible: true)
-                    SetNightMask()
-                    SettingsDone()
+                    HandleNewViewType(NewType: .NorthCentered)
                 
                 case 1:
-                    Settings.SetImageCenter(.SouthPole)
-                    Settings.SetViewType(.FlatMap)
-                    WorldViewer3D.Hide()
-                    StarFieldView.Hide()
-                    SetFlatlandVisibility(IsVisible: true)
-                    SetNightMask()
-                    SettingsDone()
+                    HandleNewViewType(NewType: .SouthCentered)
                 
                 case 2:
-                    Settings.SetViewType(.Globe3D)
-                    WorldViewer3D.Show()
-                    if Settings.ShowStars()
-                    {
-                        StarFieldView.Show()
-                    }
-                    SetFlatlandVisibility(IsVisible: false)
-                    PleaseWait
-                        {
-                            WorldViewer3D.AddEarth()
-                }
+                    HandleNewViewType(NewType: .Globe3D)
                 
                 default:
                     break
@@ -783,7 +773,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
                 {
                     StarFieldView.Show()
                 }
-                SetFlatlandVisibility(IsVisible: false)
+                SetFlatlandVisibility(FlatIsVisible: false)
                 PleaseWait
                     {
                         WorldViewer3D.AddEarth()
@@ -795,14 +785,14 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
                     case .NorthPole:
                         WorldViewer3D.Hide()
                         StarFieldView.Hide()
-                        SetFlatlandVisibility(IsVisible: true)
+                        SetFlatlandVisibility(FlatIsVisible: true)
                         SetNightMask()
                         SettingsDone()
                     
                     case .SouthPole:
                         WorldViewer3D.Hide()
                         StarFieldView.Hide()
-                        SetFlatlandVisibility(IsVisible: true)
+                        SetFlatlandVisibility(FlatIsVisible: true)
                         SetNightMask()
                         SettingsDone()
             }
@@ -836,6 +826,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
     }
     
     func ShowCities(_ Show: Bool)
+    {
+        
+    }
+    
+    func SetDisplayLanguage()
     {
         
     }
