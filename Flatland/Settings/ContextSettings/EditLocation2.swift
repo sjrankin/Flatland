@@ -76,10 +76,12 @@ class EditLocation2: UITableViewController, ChildClosed,
             if IsEditing
             {
                 LocationDelegate?.UpdatedLocation(ID: LocationID, Coordinates: Location, Name: LocationName, Color: LocationColor)
+                MainObject?.GlobeObject()?.PlotCities()
             }
             else
             {
                 LocationDelegate?.AddedLocation(Coordinates: Location, Name: LocationName, Color: LocationColor)
+                                MainObject?.GlobeObject()?.PlotCities()
             }
         }
         super.viewWillDisappear(animated)
@@ -117,6 +119,7 @@ class EditLocation2: UITableViewController, ChildClosed,
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
     {
         LocationColor = CityColorList[row].Color
+        IsDirty = true
     }
     
     @IBAction func NameFinishedEditing(_ sender: Any)
@@ -130,6 +133,7 @@ class EditLocation2: UITableViewController, ChildClosed,
                     Value = "unnamed"
                 }
                 LocationName = Value.trimmingCharacters(in: CharacterSet.whitespaces)
+                IsDirty = true
             }
         }
     }
@@ -188,6 +192,7 @@ class EditLocation2: UITableViewController, ChildClosed,
             {
                 TextBox.text = "\(Value)"
             }
+            IsDirty = true
             Location.Latitude = Value
         }
     }
@@ -202,6 +207,7 @@ class EditLocation2: UITableViewController, ChildClosed,
             {
                 TextBox.text = "\(Value)"
             }
+            IsDirty = true
             Location.Longitude = Value
         }
     }
