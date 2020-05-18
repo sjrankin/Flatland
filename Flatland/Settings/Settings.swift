@@ -61,42 +61,7 @@ class Settings
             var Item = ID.uuidString + ","
             Item.append("\(Location.Latitude),\(Location.Longitude),")
             Item.append("\(Name),")
-            var ColorName = ""
-            switch Color
-            {
-                case UIColor.black:
-                    ColorName = "Black"
-                
-                case UIColor.white:
-                    ColorName = "White"
-                
-                case UIColor.cyan:
-                    ColorName = "Cyan"
-                
-                case UIColor.magenta:
-                    ColorName = "Magenta"
-                
-                case UIColor.yellow:
-                    ColorName = "Yellow"
-                
-                case UIColor.red:
-                    ColorName = "Red"
-                
-                case UIColor.green:
-                    ColorName = "Green"
-                
-                case UIColor.blue:
-                    ColorName = "Blue"
-                
-                case UIColor.orange:
-                    ColorName = "Orange"
-                
-                case UIColor.systemPink:
-                    ColorName = "Pink"
-                
-                default:
-                    ColorName = "Red"
-            }
+            let ColorName = Color.Hex
             Item.append("\(ColorName);")
             LocationList.append(Item)
         }
@@ -138,35 +103,15 @@ class Settings
                                 Name = Part
                             
                             case 4:
-                                switch Part
+                                if let ProcessedColor = UIColor(HexString: Part)
                                 {
-                                    case "Red":
-                                        Color = UIColor.red
-                                    
-                                    case "Green":
-                                        Color = UIColor.green
-                                    
-                                    case "Blue":
-                                        Color = UIColor.blue
-                                    
-                                    case "Cyan":
-                                        Color = UIColor.cyan
-                                    
-                                    case "Magenta":
-                                        Color = UIColor.magenta
-                                    
-                                    case "Yellow":
-                                        Color = UIColor.yellow
-                                    
-                                    case "Orange":
-                                        Color = UIColor.orange
-                                    
-                                    case "Pink":
-                                        Color = UIColor.systemPink
-                                    
-                                    default:
-                                        Color = UIColor.red
-                            }
+                                    Color = ProcessedColor
+                                }
+                                else
+                                {
+                                    Color = UIColor.red
+                                }
+                                
                             default:
                                 break
                         }
