@@ -406,27 +406,53 @@ class Cities
     
     /// Returns a color for the passed city based on the continent of the city.
     /// - Parameter SomeCity: The city whose continent-based color is returned.
-    public static func ColorForCity(_ SomeCity: City) -> UIColor
+    /// - Parameter OverrideType: If this value is not `.None`, continental colors are returned. Otherwise,
+    ///                           the type of color specified by this parameter is returned.
+    public static func ColorForCity(_ SomeCity: City, OverrideType: CityColorOverrides = .None) -> UIColor
     {
-        switch SomeCity.Continent
+        switch OverrideType
         {
-            case .Africa:
-                return UIColor.systemGreen
+            case .None:
+                switch SomeCity.Continent
+                {
+                    case .Africa:
+                        return Settings.CityListColor(For: .AfricanCities)
+                    
+                    case .Asia:
+                        return Settings.CityListColor(For: .AsianCities)
+                    
+                    case .Europe:
+                        return Settings.CityListColor(For: .EuropeanCities)
+                    
+                    case .NorthAmerica:
+                        return Settings.CityListColor(For: .NorthAmericanCities)
+                    
+                    case .SouthAmerica:
+                        return Settings.CityListColor(For: .SouthAmericanCities)
+                    
+                    case .NoName:
+                        return UIColor.white
+            }
             
-            case .Asia:
-                return UIColor.systemTeal
+            case .CapitalCities:
+                return Settings.CityListColor(For: .CaptialCities)
             
-            case .Europe:
-                return UIColor.systemIndigo
-            
-            case .NorthAmerica:
-                return UIColor.systemBlue
-            
-            case .SouthAmerica:
-                return UIColor.systemOrange
-            
-            case .NoName:
-                return UIColor.white
+            case .WorldCities:
+                return Settings.CityListColor(For: .WorldCities)
         }
+        
     }
+}
+
+/// City color overrides. Used to return non-continental colors from `ColorForCity`.
+enum CityColorOverrides: String, CaseIterable
+{
+    /// No override - use the continental color specified by the city's continent.
+    case None = "None"
+    
+    /// Return the world cities color.
+    case WorldCities = "WorldCities"
+    
+    /// Return the captial cities color.
+    case CapitalCities = "CapitalCities"
 }
