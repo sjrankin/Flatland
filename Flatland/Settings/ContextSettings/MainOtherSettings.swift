@@ -20,7 +20,7 @@ class MainOtherSettings: UITableViewController, ChildClosed,
     {
         super.viewDidLoad()
         LanguagePicker.layer.borderColor = UIColor.black.cgColor
-                ShowLocalDataSwitch.isOn = Settings.GetShowLocalData()
+        ShowLocalDataSwitch.isOn = Settings.GetShowLocalData()
         let Index = Settings.GetDisplayLanguage() == .English ? 0 : 1
         LanguagePicker.selectRow(Index, inComponent: 0, animated: true)
     }
@@ -74,5 +74,5 @@ class MainOtherSettings: UITableViewController, ChildClosed,
     }
     
     @IBOutlet weak var LanguagePicker: UIPickerView!
-        @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
+    @IBOutlet weak var ShowLocalDataSwitch: UISwitch!
 }
