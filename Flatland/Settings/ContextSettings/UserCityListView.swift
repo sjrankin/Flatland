@@ -36,6 +36,11 @@ class UserCityListView: UIViewController, ChildClosed, LocationEdited,
     
     override func viewWillDisappear(_ animated: Bool)
     {
+        Settings.SetLocations(UserLocations)
+        if IsDirty
+        {
+            MainObject?.GlobeObject()?.PlotCities()
+        }
         ParentDelegate?.ChildWindowClosed(IsDirty)
         super.viewWillDisappear(animated)
     }
@@ -79,6 +84,7 @@ class UserCityListView: UIViewController, ChildClosed, LocationEdited,
     {
         if editingStyle == .delete
         {
+            IsDirty = true
             UserLocations.remove(at: indexPath.row)
             UserCityTable.reloadData()
         }
@@ -137,6 +143,7 @@ class UserCityListView: UIViewController, ChildClosed, LocationEdited,
             {
                 UserLocations.remove(at: Index.row)
                 UserCityTable.reloadData()
+                IsDirty = true
             }
         }
     }
@@ -157,6 +164,7 @@ class UserCityListView: UIViewController, ChildClosed, LocationEdited,
     {
         UserLocations.append((ID: UUID(), Coordinates: Coordinates, Name: Name, Color: Color))
         UserCityTable.reloadData()
+        IsDirty = true
     }
     
     func GetLocation(ID: inout UUID, Coordinates: inout GeoPoint2, Name: inout String,
