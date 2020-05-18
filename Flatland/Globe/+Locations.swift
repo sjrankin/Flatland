@@ -127,6 +127,7 @@ extension GlobeView
         let XRotation = Longitude + 180.0
         ConeNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
         ToSurface.addChildNode(ConeNode)
+        PlottedCities.append(ConeNode)
     }
     
     func PlotUserLocation2(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
@@ -153,6 +154,7 @@ extension GlobeView
         let XRotation = Longitude + 180.0
         UserNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
         ToSurface.addChildNode(UserNode)
+        PlottedCities.append(UserNode)
     }
     
     /// Plot a location using a home flag.
