@@ -38,6 +38,16 @@ class ColorList
         MetaColor("Ajiiro", UIColor(HexString: "#ebf6f7")!),
     ]
     
+    public static func SimpleColorList() -> [(Name: String, Color: UIColor)]
+    {
+        var Results = [(Name: String, Color: UIColor)]()
+        for SomeColor in Colors
+        {
+            Results.append((SomeColor.Name, SomeColor.Color))
+        }
+        return Results
+    }
+    
     public static func MetaColorFrom(_ Raw: String) -> MetaColor?
     {
         guard let RawColor = UIColor(HexString: Raw) else
