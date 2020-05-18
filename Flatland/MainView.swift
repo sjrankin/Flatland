@@ -97,7 +97,12 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         #else
         TemperatureStatus.isHidden = true
         #endif
+        
+        HeritageList = LoadWorldHeritageSites()
+        print("\((HeritageList?.Sites.count)!) heritage sites read")
     }
+    
+    var HeritageList: WorldHeritageSites? = nil
 
     /// Checks the status of thermal pressure and displays an "icon" to let the user know how hot
     /// the device is without the user having to touch it.
