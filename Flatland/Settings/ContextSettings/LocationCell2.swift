@@ -27,13 +27,14 @@ class LocationCell2: UITableViewCell
     
     func InitializeUI()
     {
-        Name = UILabel(frame: CGRect(x: 10, y: 2, width: 200, height: 30))
+        Name = UILabel(frame: CGRect(x: 10, y: 2, width: 220, height: 30))
         Name?.font = UIFont.boldSystemFont(ofSize: 20.0)
         self.contentView.addSubview(Name!)
         Where = UILabel(frame: CGRect(x: 10, y: 42, width: 300, height: 30))
-        Where?.font = UIFont.monospacedSystemFont(ofSize: 16.0, weight: UIFont.Weight.medium)
+        Where?.font = UIFont.monospacedSystemFont(ofSize: 16.0,
+                                                  weight: UIFont.Weight.medium)
         self.contentView.addSubview(Where!)
-        ColorSwatch = UIView(frame: CGRect(x: 220, y: 5, width: 100, height: 30))
+        ColorSwatch = UIView(frame: CGRect(x: 240, y: 5, width: 60, height: 30))
         ColorSwatch?.layer.borderColor = UIColor.black.cgColor
         ColorSwatch?.layer.borderWidth = 0.5
         ColorSwatch?.layer.cornerRadius = 5.0
@@ -50,12 +51,6 @@ class LocationCell2: UITableViewCell
         let EW = Location.Longitude < 0.0 ? "W" : "E"
         let NS = Location.Latitude < 0.0 ? "S" : "N"
         self.Where?.text = "\(Location.Latitude.RoundedTo(4))° \(NS), \(Location.Longitude.RoundedTo(4))° \(EW)"
-        let NewX = ColorSwatch!.frame.origin.x//TableWidth - (ColorSwatch!.frame.width + 95)
-        let NewFrame = CGRect(x: NewX,
-                              y: ColorSwatch!.frame.origin.y,
-                              width: ColorSwatch!.frame.size.width,
-                              height: ColorSwatch!.frame.size.height)
-        ColorSwatch?.frame = NewFrame
         ColorSwatch?.backgroundColor = Color
     }
 }
