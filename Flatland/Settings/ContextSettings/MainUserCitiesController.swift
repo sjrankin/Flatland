@@ -84,6 +84,14 @@ class MainUserCitiesController: UITableViewController, ChildClosed
         return Controller
     }
     
+    @IBSegueAction func InstantiateUserCityListEditor(_ coder: NSCoder) -> UserCityListView?
+    {
+        let Controller = UserCityListView(coder: coder)
+        Controller?.ParentDelegate = self
+        Controller?.MainObject = MainObject
+        return Controller
+    }
+    
     @IBAction func HandleHomeLocationStyleChanged(_ sender: Any)
     {
         if let Segment = sender as? UISegmentedControl
