@@ -242,12 +242,12 @@ class ColorView: UIView
     
     func Initialize(WithFrame: CGRect)
     {
-        ColorSwatch = UIView(frame: CGRect(x: 10, y: 2, width: 60, height: 26))
+        ColorSwatch = UIView(frame: CGRect(x: 0, y: 2, width: 30, height: 26))
         ColorSwatch?.layer.borderColor = UIColor.black.cgColor
         ColorSwatch?.layer.borderWidth = 0.5
         ColorSwatch?.layer.cornerRadius = 5.0
         self.addSubview(ColorSwatch!)
-        ColorName = UILabel(frame: CGRect(x: 110, y: 6, width: 100, height: 20))
+        ColorName = UILabel(frame: CGRect(x: 40, y: 6, width: 100, height: 20))
         self.addSubview(ColorName!)
     }
     
