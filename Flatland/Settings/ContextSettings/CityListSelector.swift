@@ -104,20 +104,6 @@ class CityListSelectorView: UITableViewController, ChildClosed
         }
     }
     
-    @IBSegueAction func InstantiateEditCity(_ coder: NSCoder) -> AddEditCity?
-    {
-        let Controller = AddEditCity(coder: coder)
-        Controller?.ParentDelegate = self
-        return Controller
-    }
-    
-    @IBSegueAction func InstantiateAddCity(_ coder: NSCoder) -> AddEditCity?
-    {
-        let Controller = AddEditCity(coder: coder)
-        Controller?.ParentDelegate = self
-        return Controller
-    }
-    
     @IBOutlet weak var ShowWorldCitiesSwitch: UISwitch!
     @IBOutlet weak var ShowAfricanCitiesSwitch: UISwitch!
     @IBOutlet weak var ShowAsianCitiesSwitch: UISwitch!
