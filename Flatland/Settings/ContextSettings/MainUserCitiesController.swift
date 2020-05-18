@@ -25,7 +25,7 @@ class MainUserCitiesController: UITableViewController, ChildClosed
         }
         else
         {
-            UserLocationSetLabel.text = "set"
+            UserLocationSetLabel.text = "is set"
         }
         switch Settings.ShowHomeLocation()
         {
