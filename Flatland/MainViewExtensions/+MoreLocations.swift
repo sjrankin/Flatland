@@ -8,108 +8,94 @@
 
 import Foundation
 import UIKit
+import SQLite3
 
 extension MainView
 {
-    func LoadWorldHeritageSites() -> WorldHeritageSites?
+    /// Initialize the world heritage site database.
+    /// - Warning: A fatal error is generated on error.
+    func InitializeWorldHeritageSites()
     {
-        #if true
-        if let FileURL = Bundle.main.url(forResource: "WorldHeritageSites2019", withExtension: "json")
+        FileIO.InstallDatabase()
+        if let UnescoURL = FileIO.GetDatabaseURL()
         {
-            print("\(FileURL.path)")
-            do
+            if sqlite3_open_v2(UnescoURL.path, &UnescoHandle,
+                               SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
             {
-                let RawData = try Data(contentsOf: FileURL)
-                let Decoder = JSONDecoder()
-                let Sites = try Decoder.decode(WorldHeritageSites.self, from: RawData)
-                return Sites
-            }
-            catch
-            {
-                fatalError("\(error.localizedDescription)")
+                fatalError("Error opening \(UnescoURL.path), \(String(cString: sqlite3_errmsg(UnescoHandle!)))")
             }
         }
-        return nil
-        #else
-        if let FileURL = Bundle.main.url(forResource: "WorldHeritageSites2019", withExtension: "json")
+        else
         {
-            do
+            fatalError("Error getting URL for Unesco database.")
+        }
+    }
+    
+    /// Return the number of Unesco world heritage sites in the database.
+    /// - Returns: Number of world heritage sites in the database.
+    func SiteCount() -> Int
+    {
+        let GetCount = "SELECT COUNT(*) FROM Sites"
+        var CountQuery: OpaquePointer? = nil
+        if sqlite3_prepare(UnescoHandle, GetCount, -1, &CountQuery, nil) == SQLITE_OK
+        {
+            while sqlite3_step(CountQuery) == SQLITE_ROW
             {
-                let RawData = try Data(contentsOf: FileURL)
-                let Decoder = JSONDecoder()
-                let HeritageSites = try Decoder.decode(WorldHeritageSites.self, from: RawData)
-                return HeritageSites
-            }
-            catch
-            {
-                fatalError("Error loading world heritage sites: \(error.localizedDescription)")
+                let Count = sqlite3_column_int(CountQuery, 0)
+                return Int(Count)
             }
         }
-        print("Error finding WorldHeritageSites2019.json in bundle.")
-        return nil
-        #endif
+        print("Error returned when preparing \"\(GetCount)\"")
+        return 0
     }
-}
-
-#if true
-struct WorldHeritageSite: Codable {
-    let uid, id: Int
-    let name: String
-    let dateInscribed: Int
-    let longitude, latitude, hectares: Double
-    let category, categoryShort, countries: String
     
-    enum CodingKeys: String, CodingKey {
-        case uid = "UID"
-        case id = "ID"
-        case name = "Name"
-        case dateInscribed = "DateInscribed"
-        case longitude = "Longitude"
-        case latitude = "Latitude"
-        case hectares = "Hectares"
-        case category = "Category"
-        case categoryShort = "CategoryShort"
-        case countries = "Countries"
-    }
-}
-
-typealias WorldHeritageSites = [WorldHeritageSite]
-#else
-struct WorldHeritageSites: Decodable
-{
-    var Sites: [WorldHeritageSite]
-    
-    enum CodingKeys: String, CodingKey
+    /// Return all Unesco world heritage site information.
+    /// - Returns: Array of world heritage sites.
+    func GetAllSites() -> [WorldHeritageSite]
     {
-        case Sites = "Sites"
+        var Results = [WorldHeritageSite]()
+        let GetQuery = "SELECT * FROM Sites"
+        let QueryHandle = SetupQuery(DB: UnescoHandle, Query: GetQuery)
+        while (sqlite3_step(QueryHandle) == SQLITE_ROW)
+        {
+            let UID = Int(sqlite3_column_int(QueryHandle, 0))
+            let ID = Int(sqlite3_column_int(QueryHandle, 1))
+            let Name = String(cString: sqlite3_column_text(QueryHandle, 2))
+            let Year = Int(sqlite3_column_int(QueryHandle, 3))
+            let Longitude = Double(sqlite3_column_double(QueryHandle, 4))
+            let Latitude = Double(sqlite3_column_double(QueryHandle, 5))
+            let Hectares = Double(sqlite3_column_double(QueryHandle, 6))
+            let Category = String(cString: sqlite3_column_text(QueryHandle, 7))
+            let ShortCategory = String(cString: sqlite3_column_text(QueryHandle, 8))
+            let Countries = String(cString: sqlite3_column_text(QueryHandle, 9))
+            let Site = WorldHeritageSite(UID, ID, Name, Year, Latitude, Longitude, Hectares,
+                                         Category, ShortCategory, Countries)
+            Results.append(Site)
+        }
+        return Results
     }
-}
-
-struct WorldHeritageSite: Decodable
-{
-    var UID: Int
-    var ID: Int
-    var Name: String
-    var DateInscribed: Int
-    var Longitude: Double
-    var Latitude: Double
-    var Hectares: Double
-    var Category: String
-    var CategoryShort: String
-    var Countries: String
     
-    enum CodingKeys: String, CodingKey
+    /// Set up a query in to the database.
+    /// - Parameter DB: The handle of the database for the query.
+    /// - Parameter Query: The query string.
+    /// - Returns: Handle for the query. Valid only for the same database the query was generated for.
+    private func SetupQuery(DB: OpaquePointer?, Query: String) -> OpaquePointer?
     {
-        case UID = "UID"
-        case ID = "ID"
-        case Name = "Name"
-        case DateInscribed = "DateInscribed"
-        case Longitude = "Longitude"
-        case Latitude = "Latitude"
-        case Hectares = "Hectares"
-        case Category = "Category"
-        case CategoryShort = "CategoryShort"
-        case Countries = "Countries"
+        if DB == nil
+        {
+            return nil
+        }
+        if Query.isEmpty
+        {
+            return nil
+        }
+        var QueryHandle: OpaquePointer? = nil
+        if sqlite3_prepare(DB, Query, -1, &QueryHandle, nil) != SQLITE_OK
+        {
+            let LastSQLErrorMessage = String(cString: sqlite3_errmsg(DB))
+            print("Error preparing query \"\(Query)\": \(LastSQLErrorMessage)")
+            return nil
+        }
+        return QueryHandle
     }
 }
-#endif
