@@ -2306,8 +2306,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Freeze date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kFz-NF-3dY">
-                                                    <rect key="frame" x="20" y="11" width="102" height="22"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Freeze date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kFz-NF-3dY">
+                                                    <rect key="frame" x="20" y="11" width="90.5" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -2348,10 +2348,50 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="utB-vN-oeH">
-                                        <rect key="frame" x="0.0" y="443" width="712" height="43.5"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Debug Data" id="d8d-kh-fQq">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="Je3-iA-oVL">
+                                        <rect key="frame" x="0.0" y="499" width="712" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="utB-vN-oeH" id="cDj-vW-mBI">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Je3-iA-oVL" id="ZSQ-ha-gPv">
+                                            <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J2i-56-fyW">
+                                                    <rect key="frame" x="20" y="5" width="159" height="34"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <state key="normal" title="Add User Locations"/>
+                                                    <connections>
+                                                        <action selector="HandleAddDebugUserLocations:" destination="jfq-lW-E0R" eventType="primaryActionTriggered" id="orb-iU-Cdf"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SA7-Vf-krS">
+                                                    <rect key="frame" x="393" y="11" width="299" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="299" id="iL9-nv-Nft"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="J2i-56-fyW" firstAttribute="leading" secondItem="ZSQ-ha-gPv" secondAttribute="leadingMargin" id="BGU-Ez-oMu"/>
+                                                <constraint firstItem="J2i-56-fyW" firstAttribute="centerY" secondItem="ZSQ-ha-gPv" secondAttribute="centerY" id="Mh5-8O-4M1"/>
+                                                <constraint firstItem="SA7-Vf-krS" firstAttribute="top" secondItem="ZSQ-ha-gPv" secondAttribute="topMargin" id="Myw-kW-9Ue"/>
+                                                <constraint firstItem="SA7-Vf-krS" firstAttribute="centerY" secondItem="J2i-56-fyW" secondAttribute="centerY" id="P3A-MS-Mbt"/>
+                                                <constraint firstItem="J2i-56-fyW" firstAttribute="top" secondItem="ZSQ-ha-gPv" secondAttribute="topMargin" constant="-6" id="dFu-8Y-chQ"/>
+                                                <constraint firstItem="SA7-Vf-krS" firstAttribute="baseline" secondItem="J2i-56-fyW" secondAttribute="firstBaseline" constant="1" id="h0t-dO-hpn"/>
+                                                <constraint firstItem="SA7-Vf-krS" firstAttribute="trailing" secondItem="ZSQ-ha-gPv" secondAttribute="trailingMargin" id="hpS-bs-Z0S"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="7Kq-bz-bHY">
+                                        <rect key="frame" x="0.0" y="542.5" width="712" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7Kq-bz-bHY" id="ysT-0o-ioc">
                                             <rect key="frame" x="0.0" y="0.0" width="712" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
@@ -2375,6 +2415,7 @@
                         <outlet property="FreezeDateSwitch" destination="ocj-kz-8cj" id="Dhi-4o-HrE"/>
                         <outlet property="FreezeTimeSwitch" destination="jhQ-gT-ElW" id="ryF-Xl-hB6"/>
                         <outlet property="FrozenDatePicker" destination="9LL-UK-9eO" id="3mI-g3-f3L"/>
+                        <outlet property="LocationStatusLabel" destination="SA7-Vf-krS" id="Bg8-Ug-3KG"/>
                         <outlet property="TimeMultiplier" destination="OTK-oS-Jhg" id="1IR-tT-j6Q"/>
                     </connections>
                 </tableViewController>
