@@ -717,11 +717,17 @@ enum DisplayLanguages: String, CaseIterable
     case Japanese = "日本語"
 }
 
+/// Ways to view the home location.
 enum HomeLocationViews: String, CaseIterable
 {
+    /// Hide the home location even if the location is available.
     case Hide = "Hide"
+    /// Use a 3D arrow to show the location.
     case ShowAsArrow = "Arrow"
+    /// Use a flag to show the location.
     case ShowAsFlag = "Flag"
+    /// Use a pulsating sphere to show the location.
+    case Pulsate = "Pulsate"
 }
 
 enum CityLists: String, CaseIterable
