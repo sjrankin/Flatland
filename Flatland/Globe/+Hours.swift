@@ -246,10 +246,6 @@ extension GlobeView
                 let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
                 HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
                 
-                HourTextNode.geometry?.firstMaterial?.metalness.contents = NSNumber(value: 1.0)
-                HourTextNode.geometry?.firstMaterial?.roughness.contents = NSNumber(value: 0.6)
-                HourTextNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
-                
                 Node.addChildNode(HourTextNode)
                 TotalLabelWidth = TotalLabelWidth + (CGFloat(CharWidth) + PreviousEnding)
             }
