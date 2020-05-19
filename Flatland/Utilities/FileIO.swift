@@ -15,6 +15,58 @@ import Photos
 /// Class to help with file I/O operations.
 class FileIO
 {
+    public static let DatabaseDirectory = "/Database"
+    
+    /// Make sure the Unesco world heritage site database is installed.
+    /// - Warning: Fatal errors will be generated on file errors.
+    public static func InstallDatabase()
+    {
+        var DBPath: URL!
+        if !DirectoryExists(DatabaseDirectory)
+        {
+            do
+            {
+                DBPath = GetDocumentDirectory()?.appendingPathComponent(DatabaseDirectory)
+                try FileManager.default.createDirectory(atPath: DBPath!.path, withIntermediateDirectories: true,
+                                                        attributes: nil)
+            }
+            catch
+            {
+                fatalError("Error creating database directory \"\(DatabaseDirectory)\"")
+            }
+        }
+        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/UnescoSites.db")
+        if FileManager.default.fileExists(atPath: LookForExisting.path)
+        {
+            return
+        }
+        if let Source = Bundle.main.path(forResource: "UnescoSites", ofType: "db")
+        {
+            let SourceURL = URL(fileURLWithPath: Source)
+            let DestDir = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/UnescoSites.db")
+            do
+            {
+                try FileManager.default.copyItem(at: SourceURL, to: DestDir)
+            }
+            catch
+            {
+                fatalError("Error copying database. \(error.localizedDescription)")
+            }
+        }
+        else
+        {
+            fatalError("Did not find UnescoSites.db in bundle.")
+        }
+    }
+    
+    /// Returns the URL for the Unesco database.
+    /// - Returns: URL of the Unesco database on success, nil if not found.
+    public static func GetDatabaseURL() -> URL?
+    {
+        let DBURL = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/UnescoSites.db")
+        return DBURL
+    }
+    
     /// Initialize the directory structure. If the structure already exists, remove any existing files that are no longer needed.
     public static func InitializeDirectory()
     {
