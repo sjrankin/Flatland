@@ -87,6 +87,13 @@
 		177348C5244192F90024590F /* TimeZoneTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177348C4244192F90024590F /* TimeZoneTable.swift */; };
 		177A40412473A46900001739 /* UnescoSites.db in Resources */ = {isa = PBXBuildFile; fileRef = 177A40402473A46900001739 /* UnescoSites.db */; };
 		177A40432473A4EA00001739 /* WorldHeritageSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177A40422473A4EA00001739 /* WorldHeritageSite.swift */; };
+		177A40452473C55C00001739 /* +GridLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177A40442473C55C00001739 /* +GridLines.swift */; };
+		177A40492473D0F800001739 /* MODISNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 177A40462473D0F700001739 /* MODISNorthCenter.png */; };
+		177A404A2473D0F800001739 /* MODIS.png in Resources */ = {isa = PBXBuildFile; fileRef = 177A40472473D0F800001739 /* MODIS.png */; };
+		177A404B2473D0F800001739 /* MODISSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 177A40482473D0F800001739 /* MODISSouthCenter.png */; };
+		177A404F2473D13300001739 /* TimeZone4NorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 177A404C2473D13300001739 /* TimeZone4NorthCenter.png */; };
+		177A40502473D13300001739 /* TimeZone4.png in Resources */ = {isa = PBXBuildFile; fileRef = 177A404D2473D13300001739 /* TimeZone4.png */; };
+		177A40512473D13300001739 /* TimeZone4SouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 177A404E2473D13300001739 /* TimeZone4SouthCenter.png */; };
 		17865A6824499D8000DEED75 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17865A6724499D8000DEED75 /* GlobeView.swift */; };
 		1788AD19246FB1550031CB9E /* LocationFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1788AD18246FB1550031CB9E /* LocationFlags.swift */; };
 		1788AD1B246FC4050031CB9E /* MainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1788AD1A246FC4050031CB9E /* MainProtocol.swift */; };
@@ -274,6 +281,13 @@
 		177348C4244192F90024590F /* TimeZoneTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZoneTable.swift; sourceTree = "<group>"; };
 		177A40402473A46900001739 /* UnescoSites.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnescoSites.db; sourceTree = "<group>"; };
 		177A40422473A4EA00001739 /* WorldHeritageSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSite.swift; sourceTree = "<group>"; };
+		177A40442473C55C00001739 /* +GridLines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+GridLines.swift"; sourceTree = "<group>"; };
+		177A40462473D0F700001739 /* MODISNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MODISNorthCenter.png; sourceTree = "<group>"; };
+		177A40472473D0F800001739 /* MODIS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MODIS.png; sourceTree = "<group>"; };
+		177A40482473D0F800001739 /* MODISSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MODISSouthCenter.png; sourceTree = "<group>"; };
+		177A404C2473D13300001739 /* TimeZone4NorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TimeZone4NorthCenter.png; sourceTree = "<group>"; };
+		177A404D2473D13300001739 /* TimeZone4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TimeZone4.png; sourceTree = "<group>"; };
+		177A404E2473D13300001739 /* TimeZone4SouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TimeZone4SouthCenter.png; sourceTree = "<group>"; };
 		17865A6724499D8000DEED75 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
 		1788AD18246FB1550031CB9E /* LocationFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFlags.swift; sourceTree = "<group>"; };
 		1788AD1A246FC4050031CB9E /* MainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProtocol.swift; sourceTree = "<group>"; };
@@ -602,6 +616,12 @@
 				1733B806246A57FA00D1A15F /* PaperTimeZonesNorthCenter.png */,
 				1733B807246A57FB00D1A15F /* PaperTimeZonesSouthCenter.png */,
 				178E1CE2246FD69A00DFE656 /* TransparentOceanMap.png */,
+				177A40472473D0F800001739 /* MODIS.png */,
+				177A40462473D0F700001739 /* MODISNorthCenter.png */,
+				177A40482473D0F800001739 /* MODISSouthCenter.png */,
+				177A404D2473D13300001739 /* TimeZone4.png */,
+				177A404C2473D13300001739 /* TimeZone4NorthCenter.png */,
+				177A404E2473D13300001739 /* TimeZone4SouthCenter.png */,
 				177A40402473A46900001739 /* UnescoSites.db */,
 				17BE6865242C7A99009861E1 /* Products */,
 			);
@@ -690,6 +710,7 @@
 			isa = PBXGroup;
 			children = (
 				17865A6724499D8000DEED75 /* GlobeView.swift */,
+				177A40442473C55C00001739 /* +GridLines.swift */,
 				17F147B5246929A600713220 /* GlobeProtocol.swift */,
 				17F082F42459594000AB6460 /* +Locations.swift */,
 				17F082F2245954A800AB6460 /* +Hours.swift */,
@@ -776,6 +797,7 @@
 				17F147C124694A1B00713220 /* SimplePoliticalWorldMap.png in Resources */,
 				17C80C172454234000E27112 /* WorldVoronoiSouthCenter.png in Resources */,
 				175798562455533B001980EE /* WorldWarhol.png in Resources */,
+				177A40512473D13300001739 /* TimeZone4SouthCenter.png in Resources */,
 				17AE7F44245D8E290011160F /* Jupiter.png in Resources */,
 				17C80C182454234000E27112 /* WorldVoronoi.png in Resources */,
 				17C80C192454234000E27112 /* WorldVoronoiNorthCenter.png in Resources */,
@@ -784,8 +806,10 @@
 				17C80C0C2454228E00E27112 /* WorldInkColor.png in Resources */,
 				17C80C0D2454228E00E27112 /* WorldInkColorSouthCenter.png in Resources */,
 				1757986624555900001980EE /* EarthTopoGlowingEdges1NorthCenter.png in Resources */,
+				177A40492473D0F800001739 /* MODISNorthCenter.png in Resources */,
 				17C80C052454223900E27112 /* WorldPolygonizeSouthCenter.png in Resources */,
 				17C80C062454223900E27112 /* WorldPolygonizeNorthCenter.png in Resources */,
+				177A404B2473D0F800001739 /* MODISSouthCenter.png in Resources */,
 				17F0830F2459728900AB6460 /* OnlyPlates2NorthCenter.png in Resources */,
 				1733B7F8246A573A00D1A15F /* TimeZoneMap3.png in Resources */,
 				1733B7FC246A574500D1A15F /* SurrealTimeZoneSouthCenter.png in Resources */,
@@ -826,6 +850,8 @@
 				1788EF69245EE35B00881BA8 /* WorldStainedGlass1SouthCenter.png in Resources */,
 				1788EF5D245EE1D000881BA8 /* WorldSquareLevelsNorthCenter.png in Resources */,
 				17F0830E2459728900AB6460 /* OnlyPlates2.png in Resources */,
+				177A404F2473D13300001739 /* TimeZone4NorthCenter.png in Resources */,
+				177A40502473D13300001739 /* TimeZone4.png in Resources */,
 				1717F4DE2457D73400C7F263 /* TychoSkyNorthCenter.png in Resources */,
 				17C80BF52454057F00E27112 /* WorldNormalizedTilesSouthCenter.png in Resources */,
 				1788EF68245EE35B00881BA8 /* WorldStainedGlass1.png in Resources */,
@@ -859,6 +885,7 @@
 				17D16E10246002A200CA04F4 /* TychoConstellationsSouthCenter.png in Resources */,
 				1717F4E52457D75600C7F263 /* NASAStarMapInvertedNorthCenter.png in Resources */,
 				17D16E0F246002A200CA04F4 /* TychoConstellationsNorthCenter.png in Resources */,
+				177A404A2473D0F800001739 /* MODIS.png in Resources */,
 				178E1CE3246FD69A00DFE656 /* TransparentOceanMap.png in Resources */,
 				1733B7F7246A573A00D1A15F /* TimeZoneMap3SouthCenter.png in Resources */,
 				17BE686F242C7A99009861E1 /* Main.storyboard in Resources */,
@@ -934,6 +961,7 @@
 				175ADF5D2470EC00009A6F0E /* GridSettingsView.swift in Sources */,
 				175ADF6324712147009A6F0E /* CityColorCell.swift in Sources */,
 				175ADF5F24711B9A009A6F0E /* CityColorSelector.swift in Sources */,
+				177A40452473C55C00001739 /* +GridLines.swift in Sources */,
 				1714A661246E8C4A00A83A03 /* MainUserCitiesController.swift in Sources */,
 				1789A3EB244EDDCB007E3526 /* DebugNavigationViewer.swift in Sources */,
 				17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */,
