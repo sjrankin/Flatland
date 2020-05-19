@@ -96,11 +96,11 @@ class MapManager
                 return [.Standard, .Simple, .SimpleBorders1, .SimpleBorders2, .Continents]
             
             case .Physical:
-                return [.Blueprint, .DarkBlueMarble, .Topographical1, .Topographical2, .SurrealTopographic,
+                return [.BlueMarble, .MODIS, .DarkBlueMarble, .Topographical1, .Topographical2, .SurrealTopographic,
                         .OnlyTectonic, .TectonicOverlay, .StaticAerosol, .Normalized]
             
             case .TimeZone:
-                return [.TimeZoneMap1, .ColorfulTimeZones, .HatchedTimeZones, .PaperTimeZones,
+                return [.TimeZoneMap1, .ColorfulTimeZones, .TimeZone4, .HatchedTimeZones, .PaperTimeZones,
                         .SurrealTimeZone]
             
             case .Political:
