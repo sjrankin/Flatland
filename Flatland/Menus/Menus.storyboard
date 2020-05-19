@@ -1810,8 +1810,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="350" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show your cities and locations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f92-me-VBB">
-                                                    <rect key="frame" x="16" y="11" width="232" height="22"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show your locations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f92-me-VBB">
+                                                    <rect key="frame" x="16" y="11" width="154" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1840,8 +1840,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="323" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit your city list" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ost-Nx-wnP">
-                                                    <rect key="frame" x="16" y="11" width="126" height="22"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit your location list" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ost-Nx-wnP">
+                                                    <rect key="frame" x="16" y="11" width="159" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1890,42 +1890,52 @@
                                             <segue destination="xLs-BU-hX3" kind="show" destinationCreationSelector="InstantiateUserLocation:" id="qDX-4n-crS"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="87" id="cRR-jM-hBr">
-                                        <rect key="frame" x="0.0" y="158.5" width="350" height="87"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="128" id="SVq-Ly-23e">
+                                        <rect key="frame" x="0.0" y="158.5" width="350" height="128"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cRR-jM-hBr" id="OPE-CP-aeV">
-                                            <rect key="frame" x="0.0" y="0.0" width="350" height="87"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SVq-Ly-23e" id="8Fs-AI-Plk">
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home location style" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UkD-HL-ra0">
-                                                    <rect key="frame" x="16" y="11" width="152" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home style" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N9P-tV-h4M">
+                                                    <rect key="frame" x="16" y="11" width="87" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="87" id="OJG-6Z-PqE"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="930-X8-3DY">
-                                                    <rect key="frame" x="17" y="40" width="229" height="32"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <segments>
-                                                        <segment title="Arrow"/>
-                                                        <segment title="Flag"/>
-                                                        <segment title="None"/>
-                                                    </segments>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sGr-jW-BhT">
+                                                    <rect key="frame" x="111" y="11" width="223" height="106"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                            <real key="value" value="0.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                     <connections>
-                                                        <action selector="HandleHomeLocationStyleChanged:" destination="tfb-xm-zUo" eventType="primaryActionTriggered" id="yO2-v1-Mhg"/>
+                                                        <outlet property="dataSource" destination="tfb-xm-zUo" id="3ZF-oa-g9b"/>
+                                                        <outlet property="delegate" destination="tfb-xm-zUo" id="oJX-4w-Ipg"/>
                                                     </connections>
-                                                </segmentedControl>
+                                                </pickerView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="UkD-HL-ra0" firstAttribute="leading" secondItem="OPE-CP-aeV" secondAttribute="leadingMargin" id="1Br-eF-gDV"/>
-                                                <constraint firstItem="UkD-HL-ra0" firstAttribute="top" secondItem="OPE-CP-aeV" secondAttribute="topMargin" id="xAY-fx-vTb"/>
+                                                <constraint firstItem="sGr-jW-BhT" firstAttribute="bottom" secondItem="8Fs-AI-Plk" secondAttribute="bottomMargin" id="BzJ-X5-vpH"/>
+                                                <constraint firstItem="sGr-jW-BhT" firstAttribute="trailing" secondItem="8Fs-AI-Plk" secondAttribute="trailingMargin" id="Dau-Fz-EPu"/>
+                                                <constraint firstItem="sGr-jW-BhT" firstAttribute="leading" secondItem="N9P-tV-h4M" secondAttribute="trailing" constant="8" id="LFI-6A-zCB"/>
+                                                <constraint firstItem="N9P-tV-h4M" firstAttribute="top" secondItem="sGr-jW-BhT" secondAttribute="top" id="RL6-Jb-LSe"/>
+                                                <constraint firstItem="N9P-tV-h4M" firstAttribute="leading" secondItem="8Fs-AI-Plk" secondAttribute="leadingMargin" id="Ys2-3j-QKb"/>
+                                                <constraint firstItem="N9P-tV-h4M" firstAttribute="top" secondItem="8Fs-AI-Plk" secondAttribute="topMargin" id="jAD-hn-7mo"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="SVq-Ly-23e">
-                                        <rect key="frame" x="0.0" y="245.5" width="350" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="t54-9w-gmR">
+                                        <rect key="frame" x="0.0" y="286.5" width="350" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SVq-Ly-23e" id="8Fs-AI-Plk">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="t54-9w-gmR" id="3gc-Cy-3bG">
                                             <rect key="frame" x="0.0" y="0.0" width="350" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
@@ -1940,14 +1950,14 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Your Locations" id="90O-gU-YQ2"/>
                     <connections>
-                        <outlet property="HomeStyleSegment" destination="930-X8-3DY" id="9IR-Sp-2Ff"/>
+                        <outlet property="HomeStylePicker" destination="sGr-jW-BhT" id="WVp-Nl-z4i"/>
                         <outlet property="ShowUserCitiesSwitch" destination="Pw4-7S-dTi" id="TqS-nG-wTm"/>
                         <outlet property="UserLocationSetLabel" destination="feO-Es-m6J" id="dFi-t1-u8X"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GNd-gz-khl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1209" y="737"/>
+            <point key="canvasLocation" x="1208.59375" y="736.5234375"/>
         </scene>
         <!--Your City List-->
         <scene sceneID="eYO-Ma-rdt">
