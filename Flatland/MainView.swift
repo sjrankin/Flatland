@@ -98,12 +98,10 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         TemperatureStatus.isHidden = true
         #endif
         
-        HeritageList = LoadWorldHeritageSites()
-        print("\((HeritageList?.count)!) heritage sites read")
+        InitializeWorldHeritageSites()
+        let AllSites = GetAllSites()
     }
     
-    var HeritageList: WorldHeritageSites? = nil
-
     /// Checks the status of thermal pressure and displays an "icon" to let the user know how hot
     /// the device is without the user having to touch it.
     /// - Note: Intended for use only when the `#DEBUG` flag is true.
@@ -137,7 +135,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
                                completion: nil)
             
             default:
-            break
+                break
         }
         #endif
     }
@@ -803,7 +801,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
             }
             
             default:
-            break
+                break
         }
     }
     
@@ -822,11 +820,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         LocalDataTimer = nil
         if Show
         {
-        LocalDataTimer = Timer.scheduledTimer(timeInterval: 1.0,
-                                              target: self,
-                                              selector: #selector(UpdateLocalData),
-                                              userInfo: nil,
-                                              repeats: true)
+            LocalDataTimer = Timer.scheduledTimer(timeInterval: 1.0,
+                                                  target: self,
+                                                  selector: #selector(UpdateLocalData),
+                                                  userInfo: nil,
+                                                  repeats: true)
         }
     }
     
@@ -839,6 +837,11 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
     {
         
     }
+    
+    // MARK: - Variables for extensions.
+    
+    var UnescoURL: URL? = nil
+    var UnescoHandle: OpaquePointer? = nil
     
     // MARK: - Interface builder outlets.
     
