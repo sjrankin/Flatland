@@ -514,6 +514,7 @@ class GlobeView: SCNView, GlobeProtocol
     var NorthPoleFlag: SCNNode? = nil
     var SouthPoleFlag: SCNNode? = nil
     var HomeNode: SCNNode? = nil
+    var HomeNodeHalo: SCNNode? = nil
     var PlottedCities = [SCNNode?]()
 }
 
