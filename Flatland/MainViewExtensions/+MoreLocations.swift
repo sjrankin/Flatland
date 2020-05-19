@@ -13,6 +13,24 @@ extension MainView
 {
     func LoadWorldHeritageSites() -> WorldHeritageSites?
     {
+        #if true
+        if let FileURL = Bundle.main.url(forResource: "WorldHeritageSites2019", withExtension: "json")
+        {
+            print("\(FileURL.path)")
+            do
+            {
+                let RawData = try Data(contentsOf: FileURL)
+                let Decoder = JSONDecoder()
+                let Sites = try Decoder.decode(WorldHeritageSites.self, from: RawData)
+                return Sites
+            }
+            catch
+            {
+                fatalError("\(error.localizedDescription)")
+            }
+        }
+        return nil
+        #else
         if let FileURL = Bundle.main.url(forResource: "WorldHeritageSites2019", withExtension: "json")
         {
             do
@@ -29,9 +47,34 @@ extension MainView
         }
         print("Error finding WorldHeritageSites2019.json in bundle.")
         return nil
+        #endif
     }
 }
 
+#if true
+struct WorldHeritageSite: Codable {
+    let uid, id: Int
+    let name: String
+    let dateInscribed: Int
+    let longitude, latitude, hectares: Double
+    let category, categoryShort, countries: String
+    
+    enum CodingKeys: String, CodingKey {
+        case uid = "UID"
+        case id = "ID"
+        case name = "Name"
+        case dateInscribed = "DateInscribed"
+        case longitude = "Longitude"
+        case latitude = "Latitude"
+        case hectares = "Hectares"
+        case category = "Category"
+        case categoryShort = "CategoryShort"
+        case countries = "Countries"
+    }
+}
+
+typealias WorldHeritageSites = [WorldHeritageSite]
+#else
 struct WorldHeritageSites: Decodable
 {
     var Sites: [WorldHeritageSite]
@@ -69,3 +112,4 @@ struct WorldHeritageSite: Decodable
         case Countries = "Countries"
     }
 }
+#endif
