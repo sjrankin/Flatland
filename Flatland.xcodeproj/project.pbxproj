@@ -85,8 +85,9 @@
 		176DC96C2438380300830DB1 /* LocationEditedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */; };
 		176DC96E2438390100830DB1 /* EditLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176DC96D2438390100830DB1 /* EditLocation.swift */; };
 		177348C5244192F90024590F /* TimeZoneTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177348C4244192F90024590F /* TimeZoneTable.swift */; };
+		177A40412473A46900001739 /* UnescoSites.db in Resources */ = {isa = PBXBuildFile; fileRef = 177A40402473A46900001739 /* UnescoSites.db */; };
+		177A40432473A4EA00001739 /* WorldHeritageSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177A40422473A4EA00001739 /* WorldHeritageSite.swift */; };
 		17865A6824499D8000DEED75 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17865A6724499D8000DEED75 /* GlobeView.swift */; };
-		178785972472BED600C70C99 /* WorldHeritageSites2019.json in Resources */ = {isa = PBXBuildFile; fileRef = 178785962472BED500C70C99 /* WorldHeritageSites2019.json */; };
 		1788AD19246FB1550031CB9E /* LocationFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1788AD18246FB1550031CB9E /* LocationFlags.swift */; };
 		1788AD1B246FC4050031CB9E /* MainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1788AD1A246FC4050031CB9E /* MainProtocol.swift */; };
 		1788EF56245EE18300881BA8 /* WorldSquareSouthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1788EF53245EE18300881BA8 /* WorldSquareSouthCenter.png */; };
@@ -271,8 +272,9 @@
 		176DC96B2438380300830DB1 /* LocationEditedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditedProtocol.swift; sourceTree = "<group>"; };
 		176DC96D2438390100830DB1 /* EditLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocation.swift; sourceTree = "<group>"; };
 		177348C4244192F90024590F /* TimeZoneTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZoneTable.swift; sourceTree = "<group>"; };
+		177A40402473A46900001739 /* UnescoSites.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnescoSites.db; sourceTree = "<group>"; };
+		177A40422473A4EA00001739 /* WorldHeritageSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSite.swift; sourceTree = "<group>"; };
 		17865A6724499D8000DEED75 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
-		178785962472BED500C70C99 /* WorldHeritageSites2019.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WorldHeritageSites2019.json; sourceTree = "<group>"; };
 		1788AD18246FB1550031CB9E /* LocationFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFlags.swift; sourceTree = "<group>"; };
 		1788AD1A246FC4050031CB9E /* MainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProtocol.swift; sourceTree = "<group>"; };
 		1788EF53245EE18300881BA8 /* WorldSquareSouthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WorldSquareSouthCenter.png; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 				17DD58FB244AD57500DCCBF8 /* +ContextMenu.swift */,
 				173409AC246D069300E15563 /* +MenuHandler.swift */,
 				175A600224726F1300CBF2F9 /* +MoreLocations.swift */,
+				177A40422473A4EA00001739 /* WorldHeritageSite.swift */,
 			);
 			path = MainViewExtensions;
 			sourceTree = "<group>";
@@ -599,7 +602,7 @@
 				1733B806246A57FA00D1A15F /* PaperTimeZonesNorthCenter.png */,
 				1733B807246A57FB00D1A15F /* PaperTimeZonesSouthCenter.png */,
 				178E1CE2246FD69A00DFE656 /* TransparentOceanMap.png */,
-				178785962472BED500C70C99 /* WorldHeritageSites2019.json */,
+				177A40402473A46900001739 /* UnescoSites.db */,
 				17BE6865242C7A99009861E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -818,6 +821,7 @@
 				17AE7F43245D8E290011160F /* JupiterSouthCenter.png in Resources */,
 				17F0830324595ACA00AB6460 /* ColorTectonicsNorthCenterOverlay.png in Resources */,
 				1733B808246A57FB00D1A15F /* PaperTimeZones.png in Resources */,
+				177A40412473A46900001739 /* UnescoSites.db in Resources */,
 				1717F4E42457D75600C7F263 /* NASAStarMapInvertedSouthCenter.png in Resources */,
 				1788EF69245EE35B00881BA8 /* WorldStainedGlass1SouthCenter.png in Resources */,
 				1788EF5D245EE1D000881BA8 /* WorldSquareLevelsNorthCenter.png in Resources */,
@@ -835,7 +839,6 @@
 				1733B804246A57AB00D1A15F /* HatchedTimeZones.png in Resources */,
 				17F0830D2459728900AB6460 /* OnlyPlates2SouthCenter.png in Resources */,
 				17AC32AE244D3CF800CDA5F3 /* Keypad.storyboard in Resources */,
-				178785972472BED600C70C99 /* WorldHeritageSites2019.json in Resources */,
 				1788EF75245EEA7700881BA8 /* WorldASCIIArt.png in Resources */,
 				1788EF64245EE2F100881BA8 /* WorldGlowingCoastsSouthCenter.png in Resources */,
 				1757985B245557DA001980EE /* WorldSpotColorSouthCenter.png in Resources */,
@@ -897,6 +900,7 @@
 				1792BD8224304F1A006ABD02 /* Geometry.swift in Sources */,
 				17D314D8245BD6AF001E8353 /* +FlatView.swift in Sources */,
 				1714A65D246E882D00A83A03 /* CityListSelector.swift in Sources */,
+				177A40432473A4EA00001739 /* WorldHeritageSite.swift in Sources */,
 				1792BD882430529C006ABD02 /* TimeHelper.swift in Sources */,
 				17E180F8242F646700310896 /* Cities.swift in Sources */,
 				1733B80E246A7EF300D1A15F /* MapMenu.swift in Sources */,
