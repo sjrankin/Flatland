@@ -104,6 +104,44 @@ extension GlobeView
         ToSurface.addChildNode(HomeNode!)
     }
     
+    /// Plot the home location as a pulsating sphere.
+    /// - Parameter Latitude: The latitude of the arrow.
+    /// - Parameter Longitude: The longitude of the arrow.
+    /// - Parameter Radius: The radius of the Earth. (The arrow is plotted above the radius by a
+    ///                     constant to ensure the entire arrow is visible.)
+    /// - Parameter ToSurface: The surface node where the arrow will be added.
+    /// - Parameter WithColor: The color of the sphere.
+    func PlotPulsatingHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+                           WithColor: UIColor = UIColor.magenta)
+    {
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
+        
+        let Sphere = SCNSphere(radius: 0.4)
+        
+        HomeNode = SCNNode(geometry: Sphere)
+        HomeNode?.geometry?.firstMaterial?.diffuse.contents = WithColor
+        HomeNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
+        HomeNode?.castsShadow = true
+        HomeNode?.position = SCNVector3(X, Y, Z)
+        
+        let PulseOut = SCNAction.scale(to: 0.75, duration: 1.0)
+        let PulseIn = SCNAction.scale(to: 0.4, duration: 1.0)
+        let PulseSequence = SCNAction.sequence([PulseOut, PulseIn])
+        let Forever = SCNAction.repeatForever(PulseSequence)
+        HomeNode?.runAction(Forever)
+        
+        ToSurface.addChildNode(HomeNode!)
+        
+        let SphereHalo = SCNSphere(radius: 0.40)
+        HomeNodeHalo = SCNNode(geometry: SphereHalo)
+        HomeNodeHalo?.geometry?.firstMaterial?.diffuse.contents = UIColor.white.withAlphaComponent(0.1)
+        HomeNodeHalo?.geometry?.firstMaterial?.emission.contents = UIColor.yellow.withAlphaComponent(0.1)
+        HomeNodeHalo?.position = SCNVector3(X, Y, Z)
+        HomeNodeHalo?.castsShadow = false
+        
+        ToSurface.addChildNode(HomeNodeHalo!)
+    }
+    
     /// Plot user locations as inverted cones.
     /// - Parameter Latitude: The latitude of the arrow.
     /// - Parameter Longitude: The longitude of the arrow.
@@ -453,6 +491,8 @@ extension GlobeView
     {
         HomeNode?.removeFromParentNode()
         HomeNode = nil
+        HomeNodeHalo?.removeFromParentNode()
+        HomeNodeHalo = nil
         
         if let LocalLongitude = Settings.GetLocalLongitude()
         {
@@ -470,6 +510,10 @@ extension GlobeView
                     case .ShowAsFlag:
                         PlotHomeFlag(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                      ToSurface: Surface, EmissiveColor: UIColor.orange)
+                    
+                    case .Pulsate:
+                        PlotPulsatingHome(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
+                                          ToSurface: Surface, WithColor: UIColor.systemTeal)
                 }
             }
         }
