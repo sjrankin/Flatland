@@ -9,7 +9,8 @@
 import Foundation
 import UIKit
 
-class MainUserCitiesController: UITableViewController, ChildClosed
+class MainUserCitiesController: UITableViewController, ChildClosed,
+    UIPickerViewDelegate, UIPickerViewDataSource
 {
     public weak var MainObject: MainProtocol? = nil
     public weak var ParentDelegate: ChildClosed? = nil
@@ -27,18 +28,24 @@ class MainUserCitiesController: UITableViewController, ChildClosed
         {
             UserLocationSetLabel.text = "is set"
         }
-        switch Settings.ShowHomeLocation()
+        HomeStylePicker.layer.borderColor = UIColor.black.cgColor
+        let CurrentStyle = Settings.ShowHomeLocation()
+        var CurrentIndex = 0
+        var Index = 0
+        for SomeStyle in HomeLocationViews.allCases
         {
-            case .ShowAsArrow:
-                HomeStyleSegment.selectedSegmentIndex = 0
-            
-            case .ShowAsFlag:
-                HomeStyleSegment.selectedSegmentIndex = 1
-            
-            case .Hide:
-                HomeStyleSegment.selectedSegmentIndex = 2
+            HomeStyles.append(SomeStyle.rawValue)
+            if SomeStyle == CurrentStyle
+            {
+                CurrentIndex = Index
+            }
+            Index = Index + 1
         }
+        HomeStylePicker.reloadAllComponents()
+        HomeStylePicker.selectRow(CurrentIndex, inComponent: 0, animated: true)
     }
+    
+    var HomeStyles = [String]()
     
     override func viewWillDisappear(_ animated: Bool)
     {
@@ -92,30 +99,32 @@ class MainUserCitiesController: UITableViewController, ChildClosed
         return Controller
     }
     
-    @IBAction func HandleHomeLocationStyleChanged(_ sender: Any)
+    func numberOfComponents(in pickerView: UIPickerView) -> Int
     {
-        if let Segment = sender as? UISegmentedControl
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
+    {
+        return HomeStyles.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+    {
+        if let FinalStyle = HomeLocationViews(rawValue: HomeStyles[row])
         {
-            switch Segment.selectedSegmentIndex
-            {
-                case 0:
-                    Settings.SetShowHomeLocation(.ShowAsArrow)
-                
-                case 1:
-                    Settings.SetShowHomeLocation(.ShowAsFlag)
-                
-                case 2:
-                    Settings.SetShowHomeLocation(.Hide)
-                
-                default:
-                    break
-            }
+            Settings.SetShowHomeLocation(FinalStyle)
             IsDirty = true
             MainObject?.GlobeObject()?.PlotHomeLocation()
         }
     }
     
-    @IBOutlet weak var HomeStyleSegment: UISegmentedControl!
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+    {
+        return HomeStyles[row]
+    }
+    
+    @IBOutlet weak var HomeStylePicker: UIPickerView!
     @IBOutlet weak var UserLocationSetLabel: UILabel!
     @IBOutlet weak var ShowUserCitiesSwitch: UISwitch!
 }
