@@ -106,6 +106,8 @@ class MapList
             MapItem(.ColorfulTimeZones, true, "TimeZoneMap3.png", "TimeZoneMap3NorthCenter.png", "TimeZoneMap3SouthCenter.png"),
             MapItem(.SimplePoliticalMap1, true, "SimplePoliticalWorldMap.png", "SimplePoliticalWorldMapNorthCenter.png", "SimplePoliticalWorldMapSouthCenter.png"),
             MapItem(.TransparentOcean, true, "TransparentOceanMap.png", "SimplePoliticalWorldMapNorthCenter.png", "SimplePoliticalWorldMapSouthCenter.png"),
+            MapItem(.MODIS, true, "MODIS.png", "MODISNorthCenter.png", "MODISSouthCenter.png"),
+            MapItem(.TimeZone4, true, "TimeZone4.png", "TimeZone4NorthCenter.png", "TimeZone4SouthCenter.png"),
     ]
 }
 
@@ -187,4 +189,6 @@ enum MapTypes: String, CaseIterable
     case PaperTimeZones = "Paper Time Zone Map"
     case SimplePoliticalMap1 = "Simple Political Map 1"
     case TransparentOcean = "Transparent Ocean"
+    case MODIS = "MODIS"
+    case TimeZone4 = "Time Zone Map 4"
 }
