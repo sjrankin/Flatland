@@ -99,7 +99,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         #endif
         
         HeritageList = LoadWorldHeritageSites()
-        print("\((HeritageList?.Sites.count)!) heritage sites read")
+        print("\((HeritageList?.count)!) heritage sites read")
     }
     
     var HeritageList: WorldHeritageSites? = nil
