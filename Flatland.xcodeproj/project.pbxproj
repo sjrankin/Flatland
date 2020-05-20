@@ -25,6 +25,8 @@
 		1717F4EA2457D77400C7F263 /* BubbleWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4E72457D77400C7F263 /* BubbleWorld.png */; };
 		1717F4EB2457D77400C7F263 /* BubbleWorldNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1717F4E82457D77400C7F263 /* BubbleWorldNorthCenter.png */; };
 		1717F4EE2457F69B00C7F263 /* SCNStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717F4ED2457F69B00C7F263 /* SCNStar.swift */; };
+		171F86972474FA210031CCE7 /* WorldHeritageSiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171F86962474FA210031CCE7 /* WorldHeritageSiteView.swift */; };
+		171F8699247547140031CCE7 /* WorldHeritageSiteView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171F8698247547140031CCE7 /* WorldHeritageSiteView2.swift */; };
 		1720DD72245FBAFA00C1E719 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720DD71245FBAFA00C1E719 /* AboutView.swift */; };
 		1720DD74245FBB9D00C1E719 /* Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720DD73245FBB9C00C1E719 /* Versioning.swift */; };
 		1720DD77245FCF2100C1E719 /* ChildClosedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720DD76245FCF2100C1E719 /* ChildClosedProtocol.swift */; };
@@ -219,6 +221,8 @@
 		1717F4E72457D77400C7F263 /* BubbleWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BubbleWorld.png; sourceTree = "<group>"; };
 		1717F4E82457D77400C7F263 /* BubbleWorldNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BubbleWorldNorthCenter.png; sourceTree = "<group>"; };
 		1717F4ED2457F69B00C7F263 /* SCNStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNStar.swift; sourceTree = "<group>"; };
+		171F86962474FA210031CCE7 /* WorldHeritageSiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSiteView.swift; sourceTree = "<group>"; };
+		171F8698247547140031CCE7 /* WorldHeritageSiteView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSiteView2.swift; sourceTree = "<group>"; };
 		1720DD71245FBAFA00C1E719 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		1720DD73245FBB9C00C1E719 /* Versioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Versioning.swift; sourceTree = "<group>"; };
 		1720DD76245FCF2100C1E719 /* ChildClosedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildClosedProtocol.swift; sourceTree = "<group>"; };
@@ -672,6 +676,8 @@
 				175ADF6224712147009A6F0E /* CityColorCell.swift */,
 				175ADF5C2470EC00009A6F0E /* GridSettingsView.swift */,
 				1714A65C246E882D00A83A03 /* CityListSelector.swift */,
+				171F86962474FA210031CCE7 /* WorldHeritageSiteView.swift */,
+				171F8698247547140031CCE7 /* WorldHeritageSiteView2.swift */,
 				1714A65E246E89A800A83A03 /* CityViewController.swift */,
 				17F4DC7D246FFC5100AE6151 /* CitiesAndLocationsController.swift */,
 				1714A660246E8C4A00A83A03 /* MainUserCitiesController.swift */,
@@ -963,6 +969,7 @@
 				175ADF5F24711B9A009A6F0E /* CityColorSelector.swift in Sources */,
 				177A40452473C55C00001739 /* +GridLines.swift in Sources */,
 				1714A661246E8C4A00A83A03 /* MainUserCitiesController.swift in Sources */,
+				171F8699247547140031CCE7 /* WorldHeritageSiteView2.swift in Sources */,
 				1789A3EB244EDDCB007E3526 /* DebugNavigationViewer.swift in Sources */,
 				17EF546E2439921B005B036C /* +DrawGrid.swift in Sources */,
 				176DC96E2438390100830DB1 /* EditLocation.swift in Sources */,
@@ -972,6 +979,7 @@
 				1792BD9424306EC5006ABD02 /* CitiesData.swift in Sources */,
 				172BC97A24568CD2001CEACB /* MapList.swift in Sources */,
 				1792BD8424304FBE006ABD02 /* GeoPoint2.swift in Sources */,
+				171F86972474FA210031CCE7 /* WorldHeritageSiteView.swift in Sources */,
 				17DD58FC244AD57500DCCBF8 /* +ContextMenu.swift in Sources */,
 				17BE687F242CA831009861E1 /* ProgramSettings.swift in Sources */,
 				1746C17E242DB6E000A479DE /* LocationEditor.swift in Sources */,
