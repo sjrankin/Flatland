@@ -388,6 +388,7 @@
                         <outlet property="LocalSecondsLabel" destination="x8q-ie-x7l" id="8kj-8y-B6a"/>
                         <outlet property="LocalSunriseLabel" destination="Vrd-8t-RBp" id="YbK-hw-5Dn"/>
                         <outlet property="LocalSunsetLabel" destination="nP0-zH-B4P" id="9CC-3b-MOq"/>
+                        <outlet property="MainDebugButton" destination="fkZ-wJ-IXP" id="vhV-fE-Z6P"/>
                         <outlet property="MainTimeLabelBottom" destination="7vk-gF-Mzg" id="P1o-fs-0x4"/>
                         <outlet property="MainTimeLabelTop" destination="Pia-TU-9Wx" id="Yk8-EI-O8A"/>
                         <outlet property="NightMaskView" destination="Ctd-gQ-xK7" id="ywc-vh-dTc"/>
