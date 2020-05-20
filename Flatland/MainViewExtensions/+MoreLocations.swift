@@ -14,15 +14,20 @@ extension MainView
 {
     /// Initialize the world heritage site database.
     /// - Warning: A fatal error is generated on error.
-    func InitializeWorldHeritageSites()
+    public static func InitializeWorldHeritageSites()
     {
+        if UnescoInitialized
+        {
+            return
+        }
+        UnescoInitialized = true
         FileIO.InstallDatabase()
         if let UnescoURL = FileIO.GetDatabaseURL()
         {
-            if sqlite3_open_v2(UnescoURL.path, &UnescoHandle,
+            if sqlite3_open_v2(UnescoURL.path, &MainView.UnescoHandle,
                                SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
             {
-                fatalError("Error opening \(UnescoURL.path), \(String(cString: sqlite3_errmsg(UnescoHandle!)))")
+                fatalError("Error opening \(UnescoURL.path), \(String(cString: sqlite3_errmsg(MainView.UnescoHandle!)))")
             }
         }
         else
@@ -37,7 +42,7 @@ extension MainView
     {
         let GetCount = "SELECT COUNT(*) FROM Sites"
         var CountQuery: OpaquePointer? = nil
-        if sqlite3_prepare(UnescoHandle, GetCount, -1, &CountQuery, nil) == SQLITE_OK
+        if sqlite3_prepare(MainView.UnescoHandle, GetCount, -1, &CountQuery, nil) == SQLITE_OK
         {
             while sqlite3_step(CountQuery) == SQLITE_ROW
             {
@@ -52,6 +57,11 @@ extension MainView
     /// Return all Unesco world heritage site information.
     /// - Returns: Array of world heritage sites.
     func GetAllSites() -> [WorldHeritageSite]
+    {
+        return MainView.GetAllSites()
+    }
+    
+    public static func GetAllSites() -> [WorldHeritageSite]
     {
         var Results = [WorldHeritageSite]()
         let GetQuery = "SELECT * FROM Sites"
@@ -72,6 +82,7 @@ extension MainView
                                          Category, ShortCategory, Countries)
             Results.append(Site)
         }
+        MainView.LastReadList = Results
         return Results
     }
     
@@ -79,7 +90,7 @@ extension MainView
     /// - Parameter DB: The handle of the database for the query.
     /// - Parameter Query: The query string.
     /// - Returns: Handle for the query. Valid only for the same database the query was generated for.
-    private func SetupQuery(DB: OpaquePointer?, Query: String) -> OpaquePointer?
+    private static func SetupQuery(DB: OpaquePointer?, Query: String) -> OpaquePointer?
     {
         if DB == nil
         {
@@ -98,4 +109,196 @@ extension MainView
         }
         return QueryHandle
     }
+    
+    private static var LastReadList = [WorldHeritageSite]()
+    
+    public static func GetLastReadList() -> [WorldHeritageSite]
+    {
+        return LastReadList
+    }
+    
+    /// Returns a list of all unique county names in the passed set of world heritage sites.
+    /// - Parameter FromSites: List of world heritage sites.
+    /// - Returns: Array of unique country names derived from the passed list of sites.
+    public static func WorldHeritageCountryList(_ FromSites: [WorldHeritageSite]) -> [String]
+    {
+        var CountrySet = Set<String>()
+        for Site in FromSites
+        {
+            CountrySet.insert(Site.Countries)
+        }
+        return Array(CountrySet).sorted()
+    }
+    
+    /// Returns a list of all unique inscription years in the passed set of world heritage sites.
+    /// - Parameter FromSites: List of world heritage sites.
+    /// - Returns: Array of unique inscription years derived from the passed list of sites.
+    public static func WorldHeritageInscriptionDates(_ FromSites: [WorldHeritageSite]) -> [Int]
+    {
+        var YearSet = Set<Int>()
+        for Site in FromSites
+        {
+            YearSet.insert(Site.DateInscribed)
+        }
+        return Array(YearSet).sorted()
+    }
+    
+    /// Filter a set of World Heritage Sites by country.
+    /// - Parameter Sites: The set of World Heritage Sites to filter.
+    /// - Parameter ByCountry: The country to return. Case senstive. If empty, all countries are returned.
+    /// - Returns: List of World Heritage Sites filtered by the supplied parameters.
+    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite], ByCountry: String) -> [WorldHeritageSite]
+    {
+        if ByCountry.isEmpty
+        {
+            return Sites
+        }
+        var Results = [WorldHeritageSite]()
+        for Site in Sites
+        {
+            if Site.Countries == ByCountry
+            {
+                Results.append(Site)
+            }
+        }
+        return Results
+    }
+    
+    /// Filter a set of World Heritage Sites by date inscribed.
+    /// - Parameter Sites: The set of World Heritage Sites to filter.
+    /// - Parameter ByYear: The year to filter by. If nil, all World Heritage Sites are returned.
+    /// - Parameter YearFilter: How to use `ByYear` when filtering sites.
+    /// - Returns: List of World Heritage Sites filtered by the supplied parameters.
+    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite], ByYear: Int? = nil,
+                                                YearFilter: YearFilters) -> [WorldHeritageSite]
+    {
+        if let Year = ByYear
+        {
+        var Results = [WorldHeritageSite]()
+        for Site in Sites
+        {
+            switch YearFilter
+            {
+                case .Only:
+                    if Site.DateInscribed == Year
+                    {
+                        Results.append(Site)
+                }
+                
+                case .UpTo:
+                    if Site.DateInscribed <= Year
+                    {
+                        Results.append(Site)
+                }
+                
+                case .After:
+                    if Site.DateInscribed >= Year
+                    {
+                        Results.append(Site)
+                }
+                
+                case .All:
+                    Results.append(Site)
+            }
+        }
+        return Results
+        }
+        else
+        {
+            return Sites
+        }
+    }
+    
+    /// Filter a set of World Heritage Sites by site type.
+    /// - Parameter Sites: The set of World Heritage Sites to filter.
+    /// - Parameter ByType: The type of stie to return.
+    /// - Returns: List of World Heritage Sites filtered by the supplied parameters.
+    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite], ByType: SiteTypeFilters) -> [WorldHeritageSite]
+    {
+        var Results = [WorldHeritageSite]()
+        for Site in Sites
+        {
+            switch ByType
+            {
+                case .Both:
+                    if Site.Category == "Mixed"
+                    {
+                        Results.append(Site)
+                }
+                
+                case .Cultural:
+                    if Site.Category == "Cultural"
+                    {
+                        Results.append(Site)
+                }
+                
+                case .Natural:
+                    if Site.Category == "Natural"
+                    {
+                        Results.append(Site)
+                }
+                
+                case .Either:
+                    Results.append(Site)
+            }
+        }
+        return Results
+    }
+    
+    /// Apply multiple filters to the source list of World Heritage Sites.
+    /// - Note: Filters are applied in this order:
+    ///        1 Site type.
+    ///        2 Site country.
+    ///        3 Site inscribed year.
+    /// - Parameter Sites: Source list to filter.
+    /// - Parameter ByType: The type of site to return.
+    /// - Parameter ByCountry: The country of the site.
+    /// - Parameter ByYear: The year the site was inscribed.
+    /// - Parameter WithYearFilter: How to filter the year.
+    /// - Returns: List of sites that meet all passed criteria.
+    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite],
+                                                ByType: SiteTypeFilters,
+                                                ByCountry: String,
+                                                ByYear: Int?,
+                                                WithYearFilter: YearFilters) -> [WorldHeritageSite]
+    {
+        var Results = [WorldHeritageSite]()
+        Results = FilterWorldHeritageSites(Sites, ByType: ByType)
+        Results = FilterWorldHeritageSites(Results, ByCountry: ByCountry)
+        Results = FilterWorldHeritageSites(Results, ByYear: ByYear, YearFilter: WithYearFilter)
+        return Results
+    }
+    
+    /// Applies all currently saved World Heritage Site filters to the passed list of World Heritage
+    /// Sites and returns the result.
+    /// - Parameter Sites: The list of World Heritage Sites to filter.
+    /// - Returns: Filtered result.
+    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite]) -> [WorldHeritageSite]
+    {
+        let SiteType = Settings.GetWorldHeritageSiteTypeFilter()
+        let SiteCountry = Settings.GetWorldHeritageSiteCountry()
+        let SiteYear = Settings.GetWorldHeritageSiteInscribedYear()
+        let SiteYearFilter = Settings.GetWorldHeritageSiteInscribedYearFilter()
+        return FilterWorldHeritageSites(Sites,
+                                        ByType: SiteType,
+                                        ByCountry: SiteCountry,
+                                        ByYear: SiteYear,
+                                        WithYearFilter: SiteYearFilter)
+    }
+}
+
+enum YearFilters: String, CaseIterable
+{
+    case All = "All"
+    case Only = "Only"
+    case UpTo = "Up To"
+    case After = "After"
+}
+
+enum SiteTypeFilters: String, CaseIterable
+{
+    case Natural = "Natural"
+    case Cultural = "Cultural"
+    case Both = "Both"
+    case Either = "Either"
 }
