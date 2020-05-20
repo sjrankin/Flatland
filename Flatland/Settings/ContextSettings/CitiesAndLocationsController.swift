@@ -50,6 +50,14 @@ class CitiesAndLocationsController: UITableViewController, ChildClosed
         return Controller
     }
     
+    @IBSegueAction func InstantiateWorldHeritageSiteViewer(_ coder: NSCoder) -> WorldHeritageSiteView2?
+    {
+        let Controller = WorldHeritageSiteView2(coder: coder)
+        Controller?.MainObject = MainObject
+        Controller?.ParentDelegate = self
+        return Controller
+    }
+    
     func ChildWindowClosed(_ Dirty: Bool)
     {
     }
