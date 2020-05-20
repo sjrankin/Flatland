@@ -516,5 +516,6 @@ class GlobeView: SCNView, GlobeProtocol
     var HomeNode: SCNNode? = nil
     var HomeNodeHalo: SCNNode? = nil
     var PlottedCities = [SCNNode?]()
+    var WHSNodeList = [SCNNode?]()
 }
 
