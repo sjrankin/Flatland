@@ -603,6 +603,92 @@ class Settings
         .CaptialCities: "#ffd700"
     ]
     
+    public static func GetWorldHeritageSiteInscribedYear() -> Int?
+    {
+        if let SomeYear = UserDefaults.standard.string(forKey: "WorldHeritageSiteInscribedYearFilter")
+        {
+            if SomeYear.isEmpty
+            {
+                return nil
+            }
+            if let TheYear = Int(SomeYear)
+            {
+                return TheYear
+            }
+        }
+        return nil
+    }
+    
+    public static func SetWorldHeritageSiteInscribedYear(_ NewYear: Int?)
+    {
+        if let Year = NewYear
+        {
+            UserDefaults.standard.set("\(Year)", forKey: "WorldHeritageSiteInscribedYearFilter")
+        }
+        else
+        {
+            UserDefaults.standard.set("", forKey: "WorldHeritageSiteInscribedYearFilter")
+        }
+    }
+    
+    public static func GetWorldHeritageSiteInscribedYearFilter() -> YearFilters
+    {
+        if let Value = UserDefaults.standard.string(forKey: "WorldHeritageSiteInscribedYearFilterType")
+        {
+            if let Final = YearFilters(rawValue: Value)
+            {
+                return Final
+            }
+        }
+        return .All
+    }
+    
+    public static func SetWorldHeritageSiteInscribedYearFilter(_ NewValue: YearFilters)
+    {
+        UserDefaults.standard.set(NewValue.rawValue, forKey: "WorldHeritageSiteInscribedYearFilterType")
+    }
+    
+    public static func GetWorldHeritageSiteTypeFilter() -> SiteTypeFilters
+    {
+        if let Value = UserDefaults.standard.string(forKey: "WorldHeritageSiteTypeFilter")
+        {
+            if let Final = SiteTypeFilters(rawValue: Value)
+            {
+                return Final
+            }
+        }
+        return .Either
+    }
+    
+    public static func SetWorldHeritageSiteTypeFilter(_ NewValue: SiteTypeFilters)
+    {
+        UserDefaults.standard.set(NewValue.rawValue, forKey: "WorldHeritageSiteTypeFilter")
+    }
+    
+    public static func ShowWorldHeritageSites() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ShowWorldHeritageSites")
+    }
+    
+    public static func SetShowWorldHeritageSites(_ NewValue: Bool)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "ShowWorldHeritageSites")
+    }
+    
+    public static func GetWorldHeritageSiteCountry() -> String
+    {
+        if let Country = UserDefaults.standard.string(forKey: "WorldHeritageSiteCountry")
+        {
+            return Country
+        }
+        return ""
+    }
+    
+    public static func SetWorldHeritageSiteCountry(_ NewValue: String)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "WorldHeritageSiteCountry")
+    }
+    
     //MARK: - Local settings display.
     
     public static func GetShowLocalData() -> Bool
