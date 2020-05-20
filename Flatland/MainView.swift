@@ -84,6 +84,14 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         #endif
         
         #if DEBUG
+        MainDebugButton.isHidden = false
+        MainDebugButton.isUserInteractionEnabled = true
+        #else
+        MainDebugButton.isHidden = true
+        MainDebugButton.isUserInteractionEnabled = false
+        #endif
+        
+        #if DEBUG
         ElapsedRuntime.isHidden = false
         ElapsedRuntime.font = UIFont.monospacedSystemFont(ofSize: 18.0, weight: .semibold)
         ElapsedRuntime.textColor = UIColor.white
@@ -97,9 +105,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         #else
         TemperatureStatus.isHidden = true
         #endif
-        
-        InitializeWorldHeritageSites()
-        let AllSites = GetAllSites()
     }
     
     /// Checks the status of thermal pressure and displays an "icon" to let the user know how hot
@@ -838,13 +843,25 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         
     }
     
+    func GetWorldHeritageSites() -> [WorldHeritageSite]
+    {
+        if WorldHeritageSites == nil
+        {
+            return []
+        }
+        return WorldHeritageSites!
+    }
+    
     // MARK: - Variables for extensions.
     
     var UnescoURL: URL? = nil
-    var UnescoHandle: OpaquePointer? = nil
+    static var UnescoInitialized = false
+    static var UnescoHandle: OpaquePointer? = nil
+    var WorldHeritageSites: [WorldHeritageSite]? = nil
     
     // MARK: - Interface builder outlets.
     
+    @IBOutlet weak var MainDebugButton: UIButton!
     @IBOutlet weak var TemperatureStatus: UIButton!
     @IBOutlet weak var ElapsedRuntime: UILabel!
     @IBOutlet weak var NightMaskView: UIImageView!
