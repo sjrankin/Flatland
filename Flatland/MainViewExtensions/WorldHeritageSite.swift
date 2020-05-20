@@ -9,8 +9,10 @@
 import Foundation
 import UIKit
 
+/// Encapsulates a single world heritage site.
 class WorldHeritageSite
 {
+    /// Initializer.
     init(_ UID: Int, _ ID: Int, _ Name: String, _ Year: Int, _ Latitude: Double,
          _ Longitude: Double, _ Hectares: Double, _ Category: String,
          _ ShortCategory: String, _ Countries: String)
