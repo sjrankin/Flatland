@@ -395,6 +395,7 @@ extension GlobeView
         PlotPolarFlags(Settings.ShowPolarFlags())
         PlotHomeLocation()
         PlotCities()
+        PlotWorldHeritageSites()
     }
     
     /// Plot cities on the globe.
@@ -590,6 +591,83 @@ extension GlobeView
         FlagNode.addChildNode(PoleNode)
         FlagNode.addChildNode(FlagFaceNode)
         return FlagNode
+    }
+    
+    /// Plot World Heritage Sites. Which sites (and whether they are plotted or not) are determined
+    /// by user settings.
+    /// - Note: There are a lot of World Heritage Sites so plotting all of them can adversely affect
+    ///         performance.
+    func PlotWorldHeritageSites()
+    {
+        for Node in WHSNodeList
+        {
+            Node?.removeFromParentNode()
+        }
+        WHSNodeList.removeAll()
+        if Settings.ShowWorldHeritageSites()
+        {
+            let TypeFilter = Settings.GetWorldHeritageSiteTypeFilter()
+            MainView.InitializeWorldHeritageSites()
+            let Sites = MainView.GetAllSites()
+            var FinalList = [WorldHeritageSite]()
+            for Site in Sites
+            {
+                switch TypeFilter
+                {
+                    case .Either:
+                        FinalList.append(Site)
+                    
+                    case .Both:
+                        if Site.Category == "Mixed"
+                        {
+                            FinalList.append(Site)
+                        }
+                    
+                    case .Natural:
+                        if Site.Category == "Natural"
+                        {
+                            FinalList.append(Site)
+                    }
+                    
+                    case .Cultural:
+                        if Site.Category == "Cultural"
+                        {
+                            FinalList.append(Site)
+                    }
+                }
+            }
+            for Site in FinalList
+            {
+                let (X, Y, Z) = ToECEF(Site.Latitude, Site.Longitude, Radius: 10.0)
+                let StarShape = SCNStar.Geometry(VertexCount: 7, Height: 0.2, Base: 0.1, ZHeight: 0.1)
+                let StarNode = SCNNode(geometry: StarShape)
+                StarNode.scale = SCNVector3(0.55, 0.55, 0.55)
+                WHSNodeList.append(StarNode)
+                var NodeColor = UIColor.black
+                switch Site.Category
+                {
+                    case "Mixed":
+                        NodeColor = UIColor.magenta
+                    
+                    case "Natural":
+                        NodeColor = UIColor.green
+                    
+                    case "Cultural":
+                        NodeColor = UIColor.red
+                    
+                    default:
+                        NodeColor = UIColor.white
+                }
+                StarNode.geometry?.firstMaterial?.diffuse.contents = NodeColor
+                StarNode.geometry?.firstMaterial?.specular.contents = UIColor.white
+                StarNode.castsShadow = true
+                StarNode.position = SCNVector3(X, Y, Z)
+                let YRotation = Site.Latitude
+                let XRotation = Site.Longitude + 180.0
+                StarNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+                EarthNode!.addChildNode(StarNode)
+            }
+        }
     }
     
     /// Returns the largest of the city population or the metropolitan population from the passed city.
