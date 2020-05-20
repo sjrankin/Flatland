@@ -19,4 +19,5 @@ protocol MainProtocol: class
     func ShowZoomingStars()
     func HideZoomingStars()
     func SetDisplayLanguage()
+    func GetWorldHeritageSites() -> [WorldHeritageSite]
 }
