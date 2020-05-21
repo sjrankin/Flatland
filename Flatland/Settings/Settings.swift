@@ -19,6 +19,8 @@ class Settings
             return
         }
         UserDefaults.standard.set("WasInitialized", forKey: "Initialized")
+        SetResetHoursPeriodcially(true)
+        SetHourResetDuration(60.0 * 60.0)
         SetShowNight(true)
         SetTimeLabel(.UTC)
         SetImageCenter(.NorthPole)
@@ -125,6 +127,28 @@ class Settings
             return []
         }
         return Results
+    }
+    
+    // MARK: - Control settings.
+    
+    public static func GetHourResetDuration() -> Double
+    {
+        return UserDefaults.standard.double(forKey: "HourResetDuration")
+    }
+    
+    public static func SetHourResetDuration(_ NewValue: Double)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "HourResetDuration")
+    }
+    
+    public static func ResetHoursPeriodically() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "ResetHoursPeriodically")
+    }
+    
+    public static func SetResetHoursPeriodcially(_ NewValue: Bool)
+    {
+        UserDefaults.standard.set(NewValue, forKey: "ResetHoursPeriodically")
     }
     
     // MARK: - General view settings.
@@ -323,16 +347,6 @@ class Settings
         UserDefaults.standard.set(NewType.rawValue, forKey: "CityDisplayType")
     }
     
-    public static func ShowPolarFlags() -> Bool
-    {
-        return UserDefaults.standard.bool(forKey: "ShowPolarFlags")
-    }
-    
-    public static func SetShowPolarFlags(_ NewValue: Bool)
-    {
-        UserDefaults.standard.set(NewValue, forKey: "ShowPolarFlags")
-    }
-    
     // MARK: - Flat map-related settings.
     
     public static func ShowNight() -> Bool
@@ -435,6 +449,23 @@ class Settings
     public static func SetMinorGridLineGap(_ Gap: Double)
     {
         UserDefaults.standard.set(Gap, forKey: "MinorGridLineGap")
+    }
+    
+    public static func GetPolarShape() -> PolarShapes
+    {
+        if let Raw = UserDefaults.standard.string(forKey: "PolarShape")
+        {
+            if let Final = PolarShapes(rawValue: Raw)
+            {
+                return Final
+            }
+        }
+        return .None
+    }
+    
+    public static func SetPolarShape(_ NewShape: PolarShapes)
+    {
+        UserDefaults.standard.set(NewShape.rawValue, forKey: "PolarShape")
     }
     
     // MARK: - City/location-related settings.
@@ -825,4 +856,11 @@ enum CityLists: String, CaseIterable
     case NorthAmericanCities = "NorthAmericanCities"
     case SouthAmericanCities = "SouthAmericanCities"
     case CaptialCities = "CapitalCities"
+}
+
+enum PolarShapes: String, CaseIterable
+{
+    case Flag = "Flag"
+    case Pole = "Pole"
+    case None = "None"
 }
