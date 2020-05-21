@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class LocationFlags: UITableViewController
+class LocationFlags: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource
 {
     public weak var MainObject: MainProtocol? = nil
     public weak var ParentDelegate: ChildClosed? = nil
@@ -18,8 +18,25 @@ class LocationFlags: UITableViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        PolarFlagsSwitch.isOn = Settings.ShowPolarFlags()
+        for SomeShape in PolarShapes.allCases
+        {
+            PolarShapeList.append(SomeShape.rawValue)
+        }
+        PolarShapePicker.reloadAllComponents()
+        let Current = Settings.GetPolarShape()
+        var Index = 0
+        for ShapeName in PolarShapeList
+        {
+            if ShapeName == Current.rawValue
+            {
+                PolarShapePicker.selectRow(Index, inComponent: 0, animated: true)
+                break
+            }
+            Index = Index + 1
+        }
     }
+    
+    var PolarShapeList = [String]()
     
     override func viewWillDisappear(_ animated: Bool)
     {
@@ -27,15 +44,31 @@ class LocationFlags: UITableViewController
         super.viewWillDisappear(animated)
     }
     
-    @IBAction func HandlePolarFlagsChanged(_ sender: Any)
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
     {
-        if let Switch = sender as? UISwitch
+        let Raw = PolarShapeList[row]
+        if let Final = PolarShapes(rawValue: Raw)
         {
-            Settings.SetShowPolarFlags(Switch.isOn)
+        Settings.SetPolarShape(Final)
             IsDirty = true
-            MainObject?.GlobeObject()?.PlotPolarFlags(Switch.isOn)
+            MainObject?.GlobeObject()?.PlotPolarShape()
         }
     }
     
-    @IBOutlet weak var PolarFlagsSwitch: UISwitch!
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+    {
+        return PolarShapeList[row]
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int
+    {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
+    {
+        return PolarShapeList.count
+    }
+    
+    @IBOutlet weak var PolarShapePicker: UIPickerView!
 }
