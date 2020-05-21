@@ -392,7 +392,7 @@ extension GlobeView
     /// - Parameter WithRadius: The radius of there Earth sphere node.
     func PlotLocations(On: SCNNode, WithRadius: CGFloat)
     {
-        PlotPolarFlags(Settings.ShowPolarFlags())
+        PlotPolarShape()
         PlotHomeLocation()
         PlotCities()
         PlotWorldHeritageSites()
@@ -521,23 +521,26 @@ extension GlobeView
     }
     
     /// Plot polar flags. Intended to be used by callers outside of `GlobeView`.
-    /// - Parameter: Show: If true, polar flags are shown. If false they are hidden.
-    func PlotPolarFlags(_ Show: Bool)
+    func PlotPolarShape()
     {
-        if Show
+        NorthPoleFlag?.removeFromParentNode()
+        NorthPoleFlag = nil
+        SouthPoleFlag?.removeFromParentNode()
+        SouthPoleFlag = nil
+        NorthPolePole?.removeFromParentNode()
+        NorthPolePole = nil
+        SouthPolePole?.removeFromParentNode()
+        SouthPolePole = nil
+        switch Settings.GetPolarShape()
         {
-            NorthPoleFlag?.removeFromParentNode()
-            NorthPoleFlag = nil
-            SouthPoleFlag?.removeFromParentNode()
-            SouthPoleFlag = nil
-            PlotPolarFlags(On: EarthNode!, With: 10.0)
-        }
-        else
-        {
-            NorthPoleFlag?.removeFromParentNode()
-            NorthPoleFlag = nil
-            SouthPoleFlag?.removeFromParentNode()
-            SouthPoleFlag = nil
+            case .Pole:
+                PlotPolarPoles(On: EarthNode!, With: 10.0)
+            
+            case .Flag:
+                PlotPolarFlags(On: EarthNode!, With: 10.0)
+            
+            case .None:
+                return
         }
     }
     
@@ -554,6 +557,48 @@ extension GlobeView
         SouthPoleFlag?.position = SCNVector3(SouthX, SouthY, SouthZ)
         Surface.addChildNode(NorthPoleFlag!)
         Surface.addChildNode(SouthPoleFlag!)
+    }
+    
+    /// Plot festive poles on the north and south poles.
+    /// - Parameter On: The parent surface where the flags will be plotted.
+    /// - Parameter With: The radius of the surface.
+    func PlotPolarPoles(On Surface: SCNNode, With Radius: CGFloat)
+    {
+        let (NorthX, NorthY, NorthZ) = ToECEF(90.0, 0.0, Radius: Double(Radius))
+        let (SouthX, SouthY, SouthZ) = ToECEF(-90.0, 0.0, Radius: Double(Radius))
+        NorthPolePole = MakePole(NorthPole: true)
+        SouthPolePole = MakePole(NorthPole: false)
+        NorthPolePole?.position = SCNVector3(NorthX, NorthY, NorthZ)
+        SouthPolePole?.position = SCNVector3(SouthX, SouthY, SouthZ)
+        Surface.addChildNode(NorthPolePole!)
+        Surface.addChildNode(SouthPolePole!)
+    }
+    
+    /// Create a pole shape for the north or south pole.
+    /// - Parameter NorthPole: Determines if the pole is for the North or South Pole.
+    /// - Returns: Node with the pole shape.
+    func MakePole(NorthPole: Bool) -> SCNNode
+    {
+        let Pole = SCNCylinder(radius: 0.25, height: 2.5)
+        let PoleNode = SCNNode(geometry: Pole)
+        PoleNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "PolarTexture")
+        let PoleYOffset = NorthPole ? 0.5 : -0.5
+        PoleNode.position = SCNVector3(0.0, PoleYOffset, 0.0)
+        
+        let Sphere = SCNSphere(radius: 0.5)
+        let SphereNode = SCNNode(geometry: Sphere)
+        let YOffset = NorthPole ? 2.1 : -2.1
+        SphereNode.position = SCNVector3(0.0, YOffset, 0.0)
+        SphereNode.geometry?.firstMaterial?.diffuse.contents = UIColor(HexString: "#ffd700")
+        SphereNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
+        SphereNode.geometry?.firstMaterial?.metalness.contents = 1.0
+        SphereNode.geometry?.firstMaterial?.roughness.contents = 0.6
+        
+        let FinalNode = SCNNode()
+        FinalNode.addChildNode(SphereNode)
+        FinalNode.addChildNode(PoleNode)
+        FinalNode.castsShadow = true
+        return FinalNode
     }
     
     /// Create a flag shape for either the north or south pole.
