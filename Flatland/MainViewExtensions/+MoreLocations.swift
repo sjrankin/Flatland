@@ -61,6 +61,8 @@ extension MainView
         return MainView.GetAllSites()
     }
     
+    /// Return all Unesco world heritage site information.
+    /// - Returns: Array of world heritage sites.
     public static func GetAllSites() -> [WorldHeritageSite]
     {
         var Results = [WorldHeritageSite]()
@@ -112,6 +114,8 @@ extension MainView
     
     private static var LastReadList = [WorldHeritageSite]()
     
+    /// Returns the last read set of World Heritage Sites.
+    /// - Returns: Array of World Heritage Sites.
     public static func GetLastReadList() -> [WorldHeritageSite]
     {
         return LastReadList
