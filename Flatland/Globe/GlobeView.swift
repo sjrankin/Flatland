@@ -88,6 +88,29 @@ class GlobeView: SCNView, GlobeProtocol
         AddEarth()
         StartClock()
         UpdateEarthView()
+        SetHourResetTimer()
+    }
+    
+    func SetHourResetTimer()
+    {
+        if Settings.ResetHoursPeriodically()
+        {
+            var Duration = Settings.GetHourResetDuration()
+            if Duration == 0.0
+            {
+                Settings.SetHourResetDuration(60.0 * 60.0)
+                Duration = 60.0 * 60.0
+            }
+            ResetTimer = Timer.scheduledTimer(timeInterval: Duration, target: self, selector: #selector(ResetHours),
+                                              userInfo: nil, repeats: true)
+        }
+    }
+    
+    var ResetTimer: Timer? = nil
+    
+    @objc func ResetHours()
+    {
+        
     }
     
     /// Show or hide the moonlight node.
@@ -275,6 +298,7 @@ class GlobeView: SCNView, GlobeProtocol
         SeaSphere.segmentCount = 100
         //let LineSphere = SCNSphere(radius: 10.2)
         //LineSphere.segmentCount = 100
+        let ShadeSphere = SCNSphere(radius: 10.02)
         
         let MapType = Settings.GetGlobeMapType()
         var BaseMap: UIImage? = nil
@@ -508,11 +532,13 @@ class GlobeView: SCNView, GlobeProtocol
     
     /// List of hours in Japanese Kanji.
     let JapaneseHours = ["〇", "一", "二", "三", "四", "五", "六", "七", "八", "九",
-                         "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八",
-                         "十九", "二十", "二十一", "二十二", "二十三", "二十四"]
+                         "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七",
+                         "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四"]
     
     var NorthPoleFlag: SCNNode? = nil
     var SouthPoleFlag: SCNNode? = nil
+    var NorthPolePole: SCNNode? = nil
+    var SouthPolePole: SCNNode? = nil
     var HomeNode: SCNNode? = nil
     var HomeNodeHalo: SCNNode? = nil
     var PlottedCities = [SCNNode?]()
