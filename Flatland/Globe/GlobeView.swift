@@ -300,9 +300,6 @@ class GlobeView: SCNView, GlobeProtocol
         EarthSphere.segmentCount = 100
         let SeaSphere = SCNSphere(radius: 10)
         SeaSphere.segmentCount = 100
-        //let LineSphere = SCNSphere(radius: 10.2)
-        //LineSphere.segmentCount = 100
-        let ShadeSphere = SCNSphere(radius: 10.02)
         
         let MapType = Settings.GetGlobeMapType()
         var BaseMap: UIImage? = nil
@@ -332,6 +329,13 @@ class GlobeView: SCNView, GlobeProtocol
         //Precondition the surfaces.
         switch MapType
         {
+            case .Debug3:
+            SeaNode = SCNNode(geometry: SeaSphere)
+            SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+            SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.systemTeal
+            SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
+            EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
+            
             case .TectonicOverlay:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -409,7 +413,7 @@ class GlobeView: SCNView, GlobeProtocol
         PlotLocations(On: EarthNode!, WithRadius: 10)
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
-                                      .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1]
+                                      .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug3]
         self.prepare([EarthNode!, SeaNode!/*, LineNode!*/], completionHandler:
             {
                 success in
