@@ -12,4 +12,5 @@ import UIKit
 class DebugNavigationViewer: UINavigationController
 {
     weak var Delegate: SettingsProtocol? = nil
+    weak var MainObject: MainProtocol? = nil
 }
