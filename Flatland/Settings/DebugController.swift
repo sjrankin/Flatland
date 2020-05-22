@@ -12,6 +12,7 @@ import UIKit
 class DebugController: UITableViewController
 {
     public weak var SettingsDelegate: SettingsProtocol? = nil
+    public weak var MainObject: MainProtocol? = nil
     
     override func viewDidLoad()
     {
@@ -20,16 +21,35 @@ class DebugController: UITableViewController
         {
             SettingsDelegate = Parent.Delegate
         }
-        if SettingsDelegate == nil
-        {
-            print("No delegate")
-        }
         FreezeTimeSwitch.isOn = false
         TimeMultiplier.selectedSegmentIndex = 0
         FrozenDatePicker.date = Date()
         FreezeDateSwitch.isOn = false
         LocationStatusLabel.text = ""
+        HourRefreshSwitch.isOn = Settings.ResetHoursPeriodically()
+        let RawDuration = Int(Settings.GetHourResetDuration())
+        if let Index = HourRefreshMap[RawDuration]
+        {
+            HourRefreshSegment.selectedSegmentIndex = Index
+        }
+        else
+        {
+            HourRefreshSegment.selectedSegmentIndex = 3
+            Settings.SetHourResetDuration(60.0)
+        }
     }
+    
+    let HourRefreshMap =
+    [
+        5: 0,
+        10: 1,
+        30: 2,
+        60: 3,
+        600: 4,
+        1800: 5,
+        3600: 6,
+        7200: 7
+    ]
     
     @IBAction func HandleFreezeTimeChanged(_ sender: Any)
     {
@@ -141,6 +161,34 @@ class DebugController: UITableViewController
     let BaikonurID = UUID(uuidString: "62bc6f0b-96ca-4e18-86b0-1135cb15cbaf")!
     let SharkBayID = UUID(uuidString: "253fd68c-bad7-43a1-bc34-fd720ff44821")!
     
+    @IBAction func HandleHourRefreshDurationChanged(_ sender: Any)
+    {
+        if let Segment = sender as? UISegmentedControl
+        {
+            let Index = Segment.selectedSegmentIndex
+            for (Seconds, SecondIndex) in HourRefreshMap
+            {
+                if Index == SecondIndex
+                {
+                    Settings.SetHourResetDuration(Double(Seconds))
+                    MainObject?.GlobeObject()?.SetHourResetTimer()
+                    return
+                }
+            }
+        }
+    }
+    
+    @IBAction func HandleRefreshHourChanged(_ sender: Any)
+    {
+        if let Switch = sender as? UISwitch
+        {
+            Settings.SetResetHoursPeriodcially(Switch.isOn)
+            MainObject?.GlobeObject()?.SetHourResetTimer()
+        }
+    }
+    
+    @IBOutlet weak var HourRefreshSegment: UISegmentedControl!
+    @IBOutlet weak var HourRefreshSwitch: UISwitch!
     @IBOutlet weak var LocationStatusLabel: UILabel!
     @IBOutlet weak var FreezeDateSwitch: UISwitch!
     @IBOutlet weak var FrozenDatePicker: UIDatePicker!
