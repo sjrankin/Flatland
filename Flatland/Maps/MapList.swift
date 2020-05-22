@@ -108,6 +108,9 @@ class MapList
             MapItem(.TransparentOcean, true, "TransparentOceanMap.png", "SimplePoliticalWorldMapNorthCenter.png", "SimplePoliticalWorldMapSouthCenter.png"),
             MapItem(.MODIS, true, "MODIS.png", "MODISNorthCenter.png", "MODISSouthCenter.png"),
             MapItem(.TimeZone4, true, "TimeZone4.png", "TimeZone4NorthCenter.png", "TimeZone4SouthCenter.png"),
+            MapItem(.Debug1, true, "BlackWhiteHarlequin.png", "BlackWhiteHarlequinNorth.png", "BlackWhiteHarlequinSouth.png"),
+            MapItem(.Debug2, true, "BWSimpleTimeZones.png", "BWSimpleRoundTimeZones.png", "BWSimpleRoundTimeZones.png"),
+            MapItem(.Debug3, true, "HarlequinMap.png", "BlackWhiteHarlequinNorth.png", "BlackWhiteHarlequinSouth.png"),
     ]
 }
 
@@ -191,4 +194,7 @@ enum MapTypes: String, CaseIterable
     case TransparentOcean = "Transparent Ocean"
     case MODIS = "MODIS"
     case TimeZone4 = "Time Zone Map 4"
+    case Debug1 = "Harlequin Black and White"
+    case Debug2 = "Vertical Time Zones"
+    case Debug3 = "Harlequin Black with Color"
 }
