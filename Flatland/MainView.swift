@@ -619,19 +619,27 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         }
     }
     
-    /// Instantiate the settings controller.
-    @IBSegueAction func InstantiateSettingsNavigator(_ coder: NSCoder) -> SettingsNavigationViewer?
+    @IBAction func HandleDebugButtonPressed(_ sender: Any)
     {
-        let Controller = SettingsNavigationViewer(coder: coder)
-        Controller?.Delegate = self
-        return Controller
-    }
-    
-    @IBSegueAction func InstantiateDebugNavigator(_ coder: NSCoder) -> DebugNavigationViewer?
-    {
-        let Controller = DebugNavigationViewer(coder: coder)
-        Controller?.Delegate = self
-        return Controller
+        let Storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let Controller = Storyboard.instantiateViewController(identifier: "DebugDialogRoot") as? DebugNavigationViewer
+        {
+            Controller.MainObject = self
+            if let DebugSettingDialog = Controller.topViewController as? DebugController
+            {
+                DebugSettingDialog.MainObject = self
+            }
+            if let PresentingController = Controller.presentationController
+            {
+                PresentingController.delegate = self
+            }
+            self.present(Controller, animated: true, completion: nil)
+            if let PopView = Controller.popoverPresentationController
+            {
+                PopView.sourceView = MainDebugButton
+                PopView.sourceRect = MainDebugButton.bounds
+            }
+        }
     }
     
     func PleaseWait(_ Status: ViewStatuses)
