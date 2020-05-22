@@ -259,7 +259,7 @@ extension GlobeView
             let LastAngle = CGFloat(Angle).Radians
             let FinalX = CGFloat(0) * cos(LastAngle)
             let FinalZ = CGFloat(0) * sin(LastAngle)
-            let YOffset = (LabelHeight * 0.07) / 8.0
+            let YOffset = -(LabelHeight * 0.07) / 8.0
             LabelNode.position = SCNVector3(FinalX, YOffset, FinalZ)
             Node.addChildNode(LabelNode)
             
