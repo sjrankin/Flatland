@@ -21,10 +21,6 @@ class ProgramSettings: UITableViewController, UIPickerViewDelegate, UIPickerView
         {
             Delegate = Parent.Delegate
         }
-        if Delegate == nil
-        {
-            print("No delegate")
-        }
         switch Settings.GetTimeLabel()
         {
             case .None:
