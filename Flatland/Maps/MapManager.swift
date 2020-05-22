@@ -128,6 +128,10 @@ class MapManager
             
             case .Silly:
                 return [.House, .Tigger]
+            
+            case .Debug:
+                return [.Debug1, .Debug2, .Debug3]
+
         }
     }
     
@@ -170,6 +174,10 @@ enum MapCategories: String, CaseIterable
     case Dithered = "Dithered"
     /// Silly maps.
     case Silly = "Silly"
+    #if DEBUG
+    /// Debug maps.
+    case Debug = "Debug"
+    #endif
 }
 
 /// Determines whether the north pole or the south pole is at the center of the world image.
