@@ -176,10 +176,10 @@ extension GlobeView
         switch Settings.GetDisplayLanguage()
         {
             case .English:
-            return "\(Number)"
+                return "\(Number)"
             
             case .Japanese:
-            return JapaneseHours[Number]
+                return JapaneseHours[Number]
         }
     }
     
@@ -201,6 +201,7 @@ extension GlobeView
         Node.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
         Node.geometry?.firstMaterial?.specular.contents = UIColor.clear
         Node.name = "Hour Node"
+        let Circumference = CGFloat(Radius) * CGFloat.pi * 2.0
         
         let StartAngle = 0
         var Angle = StartAngle
@@ -209,12 +210,14 @@ extension GlobeView
             var WorkingAngle: CGFloat = CGFloat(Angle) + RadialOffset
             var PreviousEnding: CGFloat = 0.0
             var TotalLabelWidth: CGFloat = 0.0
+            var LabelHeight: CGFloat = 0.0
+            let LabelNode = SCNNode()
+            let VerticalOffset: CGFloat = 0.8
+            let SpecularColor = UIColor.white
             for (_, Letter) in Label.enumerated()
             {
                 let Radians = WorkingAngle.Radians
                 let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
-                let SpecularColor = UIColor.white
-                let VerticalOffset: CGFloat = 0.8
                 HourText.font = UIFont(name: "Avenir-Heavy", size: 20.0)
                 var CharWidth: Float = 0
                 if Letter == " "
@@ -234,6 +237,11 @@ extension GlobeView
                 {
                     PreviousEnding = CGFloat(6.0)
                 }
+                let DeltaHeight = abs(HourText.boundingBox.max.y - HourText.boundingBox.min.y)
+                if CGFloat(DeltaHeight) > LabelHeight
+                {
+                    LabelHeight = CGFloat(DeltaHeight)
+                }
                 WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
                 HourText.firstMaterial?.diffuse.contents = LetterColor
                 HourText.firstMaterial?.specular.contents = SpecularColor
@@ -243,13 +251,18 @@ extension GlobeView
                 let HourTextNode = SCNNode(geometry: HourText)
                 HourTextNode.scale = SCNVector3(0.07, 0.07, 0.07)
                 HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
-                let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
+                let HourRotation = (90.0 - Double(WorkingAngle)).Radians
                 HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
-                
-                Node.addChildNode(HourTextNode)
+                LabelNode.addChildNode(HourTextNode)
                 TotalLabelWidth = TotalLabelWidth + (CGFloat(CharWidth) + PreviousEnding)
             }
-            print("Width of \(Label) is \(TotalLabelWidth)")
+            let LastAngle = CGFloat(Angle).Radians
+            let FinalX = CGFloat(0) * cos(LastAngle)
+            let FinalZ = CGFloat(0) * sin(LastAngle)
+            let YOffset = (LabelHeight * 0.07) / 8.0
+            LabelNode.position = SCNVector3(FinalX, YOffset, FinalZ)
+            Node.addChildNode(LabelNode)
+            
             //Adjust the angle by one hour.
             Angle = Angle + 15
         }
