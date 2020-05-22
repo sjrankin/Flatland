@@ -91,8 +91,11 @@ class GlobeView: SCNView, GlobeProtocol
         SetHourResetTimer()
     }
     
+    /// Set the hour reset timer.
     func SetHourResetTimer()
     {
+        ResetTimer?.invalidate()
+        ResetTimer = nil
         if Settings.ResetHoursPeriodically()
         {
             var Duration = Settings.GetHourResetDuration()
@@ -108,9 +111,10 @@ class GlobeView: SCNView, GlobeProtocol
     
     var ResetTimer: Timer? = nil
     
+    /// Handle resetting the hour display.
     @objc func ResetHours()
     {
-        
+        UpdateHourLabels(With: Settings.GetHourValueType())
     }
     
     /// Show or hide the moonlight node.
@@ -126,7 +130,7 @@ class GlobeView: SCNView, GlobeProtocol
             MoonLight.castsShadow = true
             MoonLight.shadowColor = UIColor.black.withAlphaComponent(0.80)
             MoonLight.shadowMode = .forward
-            MoonLight.shadowRadius = 10.0
+            MoonLight.shadowRadius = 2.0
             MoonLight.color = UIColor.cyan
             MoonNode = SCNNode()
             MoonNode?.light = MoonLight
