@@ -120,6 +120,9 @@
 		1789A3E9244EDCFC007E3526 /* DebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1789A3E8244EDCFC007E3526 /* DebugController.swift */; };
 		1789A3EB244EDDCB007E3526 /* DebugNavigationViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1789A3EA244EDDCB007E3526 /* DebugNavigationViewer.swift */; };
 		178E1CE3246FD69A00DFE656 /* TransparentOceanMap.png in Resources */ = {isa = PBXBuildFile; fileRef = 178E1CE2246FD69A00DFE656 /* TransparentOceanMap.png */; };
+		1790704D2478E29E00CA4878 /* BWCheckerboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 1790704B2478E29D00CA4878 /* BWCheckerboard.png */; };
+		1790704E2478E29E00CA4878 /* BWCheckerboardRound.png in Resources */ = {isa = PBXBuildFile; fileRef = 1790704C2478E29D00CA4878 /* BWCheckerboardRound.png */; };
+		179070502478E33B00CA4878 /* BlackClearCheckerboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 1790704F2478E33A00CA4878 /* BlackClearCheckerboard.png */; };
 		17915A7A2477F41B009DEEF2 /* BlackWhiteHarlequinNorth.png in Resources */ = {isa = PBXBuildFile; fileRef = 17915A772477F41A009DEEF2 /* BlackWhiteHarlequinNorth.png */; };
 		17915A7B2477F41B009DEEF2 /* BlackWhiteHarlequinSouth.png in Resources */ = {isa = PBXBuildFile; fileRef = 17915A782477F41A009DEEF2 /* BlackWhiteHarlequinSouth.png */; };
 		17915A7C2477F41B009DEEF2 /* BlackWhiteHarlequin.png in Resources */ = {isa = PBXBuildFile; fileRef = 17915A792477F41B009DEEF2 /* BlackWhiteHarlequin.png */; };
@@ -324,6 +327,9 @@
 		1789A3E8244EDCFC007E3526 /* DebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugController.swift; sourceTree = "<group>"; };
 		1789A3EA244EDDCB007E3526 /* DebugNavigationViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugNavigationViewer.swift; sourceTree = "<group>"; };
 		178E1CE2246FD69A00DFE656 /* TransparentOceanMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TransparentOceanMap.png; sourceTree = "<group>"; };
+		1790704B2478E29D00CA4878 /* BWCheckerboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BWCheckerboard.png; sourceTree = "<group>"; };
+		1790704C2478E29D00CA4878 /* BWCheckerboardRound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BWCheckerboardRound.png; sourceTree = "<group>"; };
+		1790704F2478E33A00CA4878 /* BlackClearCheckerboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackClearCheckerboard.png; sourceTree = "<group>"; };
 		17915A772477F41A009DEEF2 /* BlackWhiteHarlequinNorth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackWhiteHarlequinNorth.png; sourceTree = "<group>"; };
 		17915A782477F41A009DEEF2 /* BlackWhiteHarlequinSouth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackWhiteHarlequinSouth.png; sourceTree = "<group>"; };
 		17915A792477F41B009DEEF2 /* BlackWhiteHarlequin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackWhiteHarlequin.png; sourceTree = "<group>"; };
@@ -650,6 +656,9 @@
 				17915A842477F507009DEEF2 /* HarlequinMap.png */,
 				17915A852477F507009DEEF2 /* HarlequinMapNorth.png */,
 				17915A832477F507009DEEF2 /* HarlequinMapSouth.png */,
+				1790704B2478E29D00CA4878 /* BWCheckerboard.png */,
+				1790704C2478E29D00CA4878 /* BWCheckerboardRound.png */,
+				1790704F2478E33A00CA4878 /* BlackClearCheckerboard.png */,
 				177A40402473A46900001739 /* UnescoSites.db */,
 				17BE6865242C7A99009861E1 /* Products */,
 			);
@@ -889,6 +898,7 @@
 				1717F4DE2457D73400C7F263 /* TychoSkyNorthCenter.png in Resources */,
 				17C80BF52454057F00E27112 /* WorldNormalizedTilesSouthCenter.png in Resources */,
 				1788EF68245EE35B00881BA8 /* WorldStainedGlass1.png in Resources */,
+				179070502478E33B00CA4878 /* BlackClearCheckerboard.png in Resources */,
 				1788EF6E245EE7CF00881BA8 /* PaperWorld.png in Resources */,
 				17BE6871242C7A9C009861E1 /* Assets.xcassets in Resources */,
 				1788EF58245EE18300881BA8 /* WorldSquareNorthCenter.png in Resources */,
@@ -910,6 +920,7 @@
 				17E8CD782467BA9900BA4574 /* WhiteBlackSouthCenter.png in Resources */,
 				1788EF62245EE2F100881BA8 /* WorldGlowingCoasts.png in Resources */,
 				1757986224555840001980EE /* WorldUkiyoe1NorthCenter.png in Resources */,
+				1790704D2478E29E00CA4878 /* BWCheckerboard.png in Resources */,
 				1733B803246A57AB00D1A15F /* HatchedTimeZoneSouthCenter.png in Resources */,
 				17915A7A2477F41B009DEEF2 /* BlackWhiteHarlequinNorth.png in Resources */,
 				1788EF70245EE7CF00881BA8 /* PaperWorldSouthCenter.png in Resources */,
@@ -920,6 +931,7 @@
 				17915A882477F507009DEEF2 /* HarlequinMapNorth.png in Resources */,
 				1757985C245557DA001980EE /* WorldSpotColor.png in Resources */,
 				17D16E10246002A200CA04F4 /* TychoConstellationsSouthCenter.png in Resources */,
+				1790704E2478E29E00CA4878 /* BWCheckerboardRound.png in Resources */,
 				1717F4E52457D75600C7F263 /* NASAStarMapInvertedNorthCenter.png in Resources */,
 				17D16E0F246002A200CA04F4 /* TychoConstellationsNorthCenter.png in Resources */,
 				177A404A2473D0F800001739 /* MODIS.png in Resources */,
