@@ -1484,16 +1484,29 @@
                                     <action selector="HandleDetailsPressed:" destination="nXC-PB-nWe" eventType="primaryActionTriggered" id="PGO-2d-W8B"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XfW-8f-DRn">
+                                <rect key="frame" x="702" y="20" width="46" height="46"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="cube" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30" scale="large" weight="bold"/>
+                                </state>
+                                <connections>
+                                    <action selector="HandleEarthTypeChanged:" destination="nXC-PB-nWe" eventType="primaryActionTriggered" id="uu3-jK-We8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="XfW-8f-DRn" firstAttribute="top" secondItem="dj6-P5-ogn" secondAttribute="top" id="6Ue-3Y-FqI"/>
                             <constraint firstItem="ePU-za-2Mq" firstAttribute="trailing" secondItem="TfU-5V-X6u" secondAttribute="trailing" id="Cgd-jo-axg"/>
                             <constraint firstItem="ePU-za-2Mq" firstAttribute="leading" secondItem="TfU-5V-X6u" secondAttribute="leading" id="Mmu-mJ-99B"/>
                             <constraint firstItem="ePU-za-2Mq" firstAttribute="top" secondItem="TfU-5V-X6u" secondAttribute="top" id="VtP-fM-PLP"/>
                             <constraint firstItem="dj6-P5-ogn" firstAttribute="top" secondItem="TfU-5V-X6u" secondAttribute="top" constant="20" id="Xgj-Vz-mbv"/>
                             <constraint firstItem="doH-DL-9m4" firstAttribute="leading" secondItem="dj6-P5-ogn" secondAttribute="leading" id="dGL-vC-MvA"/>
+                            <constraint firstItem="XfW-8f-DRn" firstAttribute="centerY" secondItem="dj6-P5-ogn" secondAttribute="centerY" id="f6t-tB-huj"/>
                             <constraint firstItem="ePU-za-2Mq" firstAttribute="bottom" secondItem="TfU-5V-X6u" secondAttribute="bottom" id="k9I-Hr-shF"/>
                             <constraint firstItem="dj6-P5-ogn" firstAttribute="leading" secondItem="KcK-Ok-Z2j" secondAttribute="leadingMargin" id="kWc-XN-IWt"/>
+                            <constraint firstItem="XfW-8f-DRn" firstAttribute="trailing" secondItem="KcK-Ok-Z2j" secondAttribute="trailingMargin" id="wiS-Qb-vi1"/>
                             <constraint firstItem="TfU-5V-X6u" firstAttribute="bottom" secondItem="doH-DL-9m4" secondAttribute="bottom" constant="13" id="wwH-Kr-nRM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TfU-5V-X6u"/>
@@ -1502,6 +1515,7 @@
                     <connections>
                         <outlet property="AboutWorld" destination="ePU-za-2Mq" id="Evd-5b-cE6"/>
                         <outlet property="DetailsButton" destination="doH-DL-9m4" id="jSP-j8-3iq"/>
+                        <outlet property="EarthTypeButton" destination="XfW-8f-DRn" id="mGs-6g-K5M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fAS-xY-gtC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2237,7 +2251,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jhQ-gT-ElW">
-                                                    <rect key="frame" x="643" y="6" width="51" height="32"/>
+                                                    <rect key="frame" x="699" y="6" width="51" height="32"/>
                                                     <connections>
                                                         <action selector="HandleFreezeTimeChanged:" destination="jfq-lW-E0R" eventType="primaryActionTriggered" id="mYh-0x-zP5"/>
                                                     </connections>
@@ -2314,7 +2328,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ocj-kz-8cj">
-                                                    <rect key="frame" x="643" y="6" width="51" height="32"/>
+                                                    <rect key="frame" x="699" y="6" width="51" height="32"/>
                                                     <connections>
                                                         <action selector="HandleDateFrozen:" destination="jfq-lW-E0R" eventType="primaryActionTriggered" id="zjZ-Xx-Lzy"/>
                                                     </connections>
@@ -2338,7 +2352,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="9LL-UK-9eO">
-                                                    <rect key="frame" x="20" y="11" width="672" height="163"/>
+                                                    <rect key="frame" x="20" y="11" width="728" height="163"/>
                                                 </datePicker>
                                             </subviews>
                                             <constraints>
@@ -2369,7 +2383,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SA7-Vf-krS">
-                                                    <rect key="frame" x="393" y="11" width="299" height="22"/>
+                                                    <rect key="frame" x="449" y="11" width="299" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="299" id="iL9-nv-Nft"/>
                                                     </constraints>
@@ -2407,7 +2421,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uj8-fA-b1l">
-                                                    <rect key="frame" x="643" y="6" width="51" height="32"/>
+                                                    <rect key="frame" x="699" y="6" width="51" height="32"/>
                                                     <connections>
                                                         <action selector="HandleRefreshHourChanged:" destination="jfq-lW-E0R" eventType="primaryActionTriggered" id="fPq-gH-T6a"/>
                                                     </connections>
@@ -2440,7 +2454,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="BoX-J8-NzH">
-                                                    <rect key="frame" x="20" y="40" width="672" height="31"/>
+                                                    <rect key="frame" x="20" y="40" width="728" height="31"/>
                                                     <segments>
                                                         <segment title="5"/>
                                                         <segment title="10"/>
@@ -2550,6 +2564,7 @@
         <image name="ant.circle" catalog="system" width="128" height="121"/>
         <image name="circle" catalog="system" width="128" height="121"/>
         <image name="clock" catalog="system" width="128" height="121"/>
+        <image name="cube" catalog="system" width="128" height="124"/>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="globe" catalog="system" width="128" height="121"/>
         <image name="n.circle" catalog="system" width="128" height="121"/>
