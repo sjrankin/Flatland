@@ -14,10 +14,27 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
 {
     public weak var ClosedDelegate: ChildClosed? = nil
     
+    var ShowSphericalEarth = true
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         DrawAboutGlobe()
+    }
+    
+    @IBAction func HandleEarthTypeChanged(_ sender: Any)
+    {
+
+        if ShowSphericalEarth
+        {
+            EarthTypeButton.setImage(UIImage(systemName: "globe"), for: .normal)
+        }
+        else
+        {
+            EarthTypeButton.setImage(UIImage(systemName: "cube"), for: .normal)
+        }
+                        ShowSphericalEarth = !ShowSphericalEarth
+        DrawWorld()
     }
     
     @IBAction func HandleCloseButtonPressed(_ sender: Any)
@@ -142,6 +159,25 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
     
     func DrawWorld()
     {
+        if ShowSphericalEarth
+        {
+            DrawGlobeWorld()
+        }
+        else
+        {
+            DrawCubicWorld()
+        }
+    }
+    
+    func DrawGlobeWorld()
+    {
+        EarthNode?.removeAllActions()
+        EarthNode?.removeFromParentNode()
+        EarthNode = nil
+        SystemNode?.removeAllActions()
+        SystemNode?.removeFromParentNode()
+        SystemNode = nil
+        
         let Surface = SCNSphere(radius: 10.0)
         Surface.segmentCount = 100
         let BaseMap = UIImage(named: "AboutMap")
@@ -166,6 +202,50 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         let Declination = Sun.Declination(For: Date())
         SystemNode!.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
         AddAboutText()
+    }
+    
+    /// Draws a cubical Earth for no other reason than being silly.
+    func DrawAboutCube()
+    {
+        EarthNode?.removeAllActions()
+        EarthNode?.removeFromParentNode()
+        SystemNode?.removeAllActions()
+        SystemNode?.removeFromParentNode()
+        
+        let EarthCube = SCNBox(width: 10.0, height: 10.0, length: 10.0, chamferRadius: 0.5)
+        EarthNode = SCNNode(geometry: EarthCube)
+        
+        EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
+        EarthNode?.geometry?.materials.removeAll()
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.nx)!)
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.pz)!)
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.px)!)
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.nz)!)
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.ny, Rotated: 270.0)!)
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.py, Rotated: 90.0)!)
+        
+        EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
+        EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
+        
+        let Declination = Sun.Declination(For: Date())
+        SystemNode = SCNNode()
+        SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+        
+        AboutWorld.prepare([EarthNode!], completionHandler:
+            {
+                success in
+                if success
+                {
+                    self.SystemNode?.addChildNode(self.EarthNode!)
+                    self.AboutWorld.scene?.rootNode.addChildNode(self.SystemNode!)
+                }
+        }
+        )
+    }
+    
+    func DrawCubicWorld()
+    {
+        DrawAboutCube()
     }
     
     func AddAboutText()
@@ -266,6 +346,7 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         return Node
     }
     
+    @IBOutlet weak var EarthTypeButton: UIButton!
     @IBOutlet weak var DetailsButton: UIButton!
     @IBOutlet weak var AboutWorld: SCNView!
 }
