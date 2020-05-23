@@ -329,12 +329,19 @@ class GlobeView: SCNView, GlobeProtocol
         //Precondition the surfaces.
         switch MapType
         {
-            case .Debug3:
+            case .Debug2:
             SeaNode = SCNNode(geometry: SeaSphere)
             SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
             SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.systemTeal
             SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
             EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
+            
+            case .Debug5:
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.systemYellow
+                SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
+                EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
             
             case .TectonicOverlay:
                 SeaNode = SCNNode(geometry: SeaSphere)
@@ -398,22 +405,11 @@ class GlobeView: SCNView, GlobeProtocol
                 SeaNode = SCNNode()
         }
         
-        //UpdateSurfaceTransparency()
-        
-        #if false
-        LineNode = SCNNode(geometry: LineSphere)
-        LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        let Maroon = UIColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
-        let GridLines = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
-        LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLines
-        LineNode?.geometry?.firstMaterial?.emission.contents = Maroon
-        LineNode?.castsShadow = false
-        #endif
-        
         PlotLocations(On: EarthNode!, WithRadius: 10)
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
-                                      .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug3]
+                                      .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug2,
+                                      .Debug5]
         self.prepare([EarthNode!, SeaNode!/*, LineNode!*/], completionHandler:
             {
                 success in
@@ -424,7 +420,6 @@ class GlobeView: SCNView, GlobeProtocol
                     {
                         self.SystemNode?.addChildNode(self.SeaNode!)
                     }
-                    //self.SystemNode?.addChildNode(self.LineNode!)
                     self.scene?.rootNode.addChildNode(self.SystemNode!)
                 }
         }
