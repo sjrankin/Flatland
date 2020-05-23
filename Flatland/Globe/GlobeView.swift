@@ -193,6 +193,9 @@ class GlobeView: SCNView, GlobeProtocol
     
     var ClockMultiplier: Double = 1.0
     
+    /// Called periodically to update the rotation of the Earth. Regardless of the frequency of
+    /// being called, the Earth will always be updated to the correct position when called. However,
+    /// if this function is called too infrequently, the Earth will show jerky motion as it rotates.
     @objc func UpdateEarthView()
     {
         if IgnoreClock
@@ -233,14 +236,14 @@ class GlobeView: SCNView, GlobeProtocol
         UpdateEarth(With: PrettyPercent)
     }
     
+    /// Update the rotation of the Earth.
+    /// - Parameter With: The percent time of day it is. Determines the rotation position of the Earth
+    ///                   and supporting 3D nodes.
     func UpdateEarth(With Percent: Double)
     {
         let Degrees = 180.0 - (360.0) * Percent
         let Radians = Degrees.Radians
         let Rotate = SCNAction.rotateTo(x: 0.0, y: CGFloat(-Radians), z: 0.0, duration: 1.0)
-        #if false
-        SystemNode?.runAction(Rotate)
-        #else
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
         LineNode?.runAction(Rotate)
@@ -248,7 +251,6 @@ class GlobeView: SCNView, GlobeProtocol
         {
             HourNode?.runAction(Rotate)
         }
-        #endif
     }
     
     var IgnoreClock = false
@@ -257,6 +259,7 @@ class GlobeView: SCNView, GlobeProtocol
     /// - Parameter FastAnimated: Used for debugging.
     func AddEarth(FastAnimate: Bool = false)
     {
+        print("Earth added.")
         if Settings.GetViewType() == .CubicWorld
         {
             ShowCubicEarth()
@@ -330,11 +333,11 @@ class GlobeView: SCNView, GlobeProtocol
         switch MapType
         {
             case .Debug2:
-            SeaNode = SCNNode(geometry: SeaSphere)
-            SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
-            SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.systemTeal
-            SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
-            EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.systemTeal
+                SeaNode?.geometry?.firstMaterial?.specular.contents = UIColor.white
+                EarthNode?.geometry?.firstMaterial?.specular.contents = UIColor.clear
             
             case .Debug5:
                 SeaNode = SCNNode(geometry: SeaSphere)
@@ -410,7 +413,7 @@ class GlobeView: SCNView, GlobeProtocol
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug2,
                                       .Debug5]
-        self.prepare([EarthNode!, SeaNode!/*, LineNode!*/], completionHandler:
+        self.prepare([EarthNode!, SeaNode!], completionHandler:
             {
                 success in
                 if success
@@ -442,7 +445,11 @@ class GlobeView: SCNView, GlobeProtocol
     
     var PreviousHourType: HourValueTypes = .None
     
-    func SetLineLayer()
+    /// Draws or removes the layer that displays the set of lines (eg, longitudinal and latitudinal and
+    /// other) the user selects.
+    /// - Parameter Radius: The radius of the sphere holding the lines. Default is `10.2` which is
+    ///                     slightly over the Earth.
+    func SetLineLayer(Radius: CGFloat = 10.2)
     {
         LineNode?.removeFromParentNode()
         LineNode = nil
@@ -450,18 +457,20 @@ class GlobeView: SCNView, GlobeProtocol
         {
             return
         }
-        let LineSphere = SCNSphere(radius: 10.2)
+        let LineSphere = SCNSphere(radius: Radius)
         LineSphere.segmentCount = 100
         LineNode = SCNNode(geometry: LineSphere)
         LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
         let Maroon = UIColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
         let GridLines = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
         LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLines
-        LineNode?.geometry?.firstMaterial?.emission.contents = Maroon
+        //LineNode?.geometry?.firstMaterial?.emission.contents = Maroon
         LineNode?.castsShadow = false
         SystemNode?.addChildNode(self.LineNode!)
     }
     
+    /// Determines if the user selected any global lines to be visible.
+    /// - Returns: True if any lines are visible, false if not.
     func HasVisibleLines() -> Bool
     {
         if Settings.ShowEquator()
@@ -527,7 +536,7 @@ class GlobeView: SCNView, GlobeProtocol
     
     func PlotSatellite(Satellite: Satellites, At: GeoPoint2)
     {
-        let SatelliteAltitude = 10.01 * (At.Altitude / 6378.1)
+        let SatelliteAltitude = 10.5 * (At.Altitude / 6378.1)
         let (X, Y, Z) = ToECEF(At.Latitude, At.Longitude, Radius: SatelliteAltitude)
     }
     
