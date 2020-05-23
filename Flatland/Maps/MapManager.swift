@@ -130,7 +130,7 @@ class MapManager
                 return [.House, .Tigger]
             
             case .Debug:
-                return [.Debug1, .Debug2, .Debug3]
+                return [.Debug1, .Debug3, .Debug2, .Debug4, .Debug5]
 
         }
     }
