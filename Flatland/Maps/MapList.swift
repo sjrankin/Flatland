@@ -111,6 +111,8 @@ class MapList
             MapItem(.Debug1, true, "BlackWhiteHarlequin.png", "BlackWhiteHarlequinNorth.png", "BlackWhiteHarlequinSouth.png"),
             MapItem(.Debug2, true, "BWSimpleTimeZones.png", "BWSimpleRoundTimeZones.png", "BWSimpleRoundTimeZones.png"),
             MapItem(.Debug3, true, "HarlequinMap.png", "BlackWhiteHarlequinNorth.png", "BlackWhiteHarlequinSouth.png"),
+            MapItem(.Debug4, true, "BWCheckerboard.png", "BWCheckerboardRound.png", "BWCheckerboardRound.png"),
+            MapItem(.Debug5, true, "BlackClearCheckerboard.png", "BWCheckerboardRound.png", "BWCheckerboardRound.png"),
     ]
 }
 
@@ -195,6 +197,8 @@ enum MapTypes: String, CaseIterable
     case MODIS = "MODIS"
     case TimeZone4 = "Time Zone Map 4"
     case Debug1 = "Harlequin Black and White"
-    case Debug2 = "Vertical Time Zones"
-    case Debug3 = "Harlequin Black with Color"
+    case Debug3 = "Vertical Time Zones"
+    case Debug2 = "Harlequin Black with Color"
+    case Debug4 = "Black White Checkerboard"
+    case Debug5 = "Black Color Checkerboard"
 }
