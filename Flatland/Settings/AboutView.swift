@@ -24,7 +24,7 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
     
     @IBAction func HandleEarthTypeChanged(_ sender: Any)
     {
-
+        
         if ShowSphericalEarth
         {
             EarthTypeButton.setImage(UIImage(systemName: "globe"), for: .normal)
@@ -33,7 +33,7 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         {
             EarthTypeButton.setImage(UIImage(systemName: "cube"), for: .normal)
         }
-                        ShowSphericalEarth = !ShowSphericalEarth
+        ShowSphericalEarth = !ShowSphericalEarth
         DrawWorld()
     }
     
@@ -68,6 +68,7 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         return UIModalPresentationStyle.none
     }
     
+    /// Initialize the 3D view and show the appropriate Earth.
     func DrawAboutGlobe()
     {
         AboutWorld.allowsCameraControl = true
@@ -157,6 +158,7 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         EarthNode?.runAction(Rotate)
     }
     
+    /// Draw the world. Depending on the user, draw a spherical or cubical world.
     func DrawWorld()
     {
         if ShowSphericalEarth
@@ -165,10 +167,11 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         }
         else
         {
-            DrawCubicWorld()
+            DrawAboutCube()
         }
     }
     
+    /// Draw a spherical world.
     func DrawGlobeWorld()
     {
         EarthNode?.removeAllActions()
@@ -243,11 +246,7 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
         )
     }
     
-    func DrawCubicWorld()
-    {
-        DrawAboutCube()
-    }
-    
+    /// Draw the version string that orbits the Earth.
     func AddAboutText()
     {
         var Words = [String]()
