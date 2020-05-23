@@ -126,6 +126,13 @@ class SunGenerator
     func SunImage(WithStrength: Float? = nil, LinearStrength: Bool? = nil, UseColor: UIColor? = nil,
                   WithRadius: Float? = nil) -> UIImage
     {
+        #if targetEnvironment(simulator)
+        //This is needed due to a simulator bug that crashes when retrieving the results from
+        //the sunbeamsGenerator filter.
+        var SunImage = UIImage(named: "SunPlaceHolder")
+        SunImage = Utility.ResizeImage(Image: SunImage!, Longest: 100)
+        return SunImage!
+        #else
         let Sunbeams = CIFilter.sunbeamsGenerator()
         Sunbeams.setDefaults()
         Sunbeams.center = CGPoint(x: 100, y: 100)
@@ -195,6 +202,7 @@ class SunGenerator
             }
         }
         fatalError("Error creating sunbeams.")
+        #endif
     }
     
     /// Holds the final striation value when `LinearStrength` is used. Provided for debug purposes.
