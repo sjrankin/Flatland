@@ -19,31 +19,35 @@ extension GlobeView
     /// - Parameter With: The hour type to display.
     func UpdateHourLabels(With: HourValueTypes)
     {
+        HourNode?.removeAllActions()
+        HourNode?.removeFromParentNode()
+        HourNode = nil
         switch With
         {
             case .None:
-                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
-                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
+//                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
+//                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
+            break
             
             case .Solar:
-                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
-                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
+//                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
+//                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 HourNode = DrawHourLabels(Radius: 11.1)
                 let Declination = Sun.Declination(For: Date())
                 HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
                 self.scene?.rootNode.addChildNode(HourNode!)
             
             case .RelativeToNoon:
-                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
-                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
+//                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
+//                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 HourNode = DrawHourLabels(Radius: 11.1)
                 let Declination = Sun.Declination(For: Date())
                 HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
                 self.scene?.rootNode.addChildNode(HourNode!)
             
             case .RelativeToLocation:
-                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
-                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
+//                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
+//                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 HourNode = DrawHourLabels(Radius: 11.1)
                 SystemNode?.addChildNode(HourNode!)
         }
@@ -58,6 +62,7 @@ extension GlobeView
     ///            `.RelativeToLocation` is selected but no local information is available.
     func DrawHourLabels(Radius: Double) -> SCNNode?
     {
+        print("Draw hour labels")
         switch Settings.GetHourValueType()
         {
             case .None:
@@ -195,13 +200,14 @@ extension GlobeView
     func PlotHourLabels(Radius: Double, Labels: [String], LetterColor: UIColor = UIColor.systemYellow,
                         RadialOffset: CGFloat = 0.0) -> SCNNode
     {
+        print("Plotting hours")
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
         let Node = SCNNode(geometry: NodeShape)
         Node.position = SCNVector3(0.0, 0.0, 0.0)
         Node.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
         Node.geometry?.firstMaterial?.specular.contents = UIColor.clear
         Node.name = "Hour Node"
-        let Circumference = CGFloat(Radius) * CGFloat.pi * 2.0
+        //let Circumference = CGFloat(Radius) * CGFloat.pi * 2.0
         
         let StartAngle = 0
         var Angle = StartAngle
@@ -245,7 +251,7 @@ extension GlobeView
                 WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
                 HourText.firstMaterial?.diffuse.contents = LetterColor
                 HourText.firstMaterial?.specular.contents = SpecularColor
-                HourText.flatness = 0.1
+                HourText.flatness = 0.2
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
                 let HourTextNode = SCNNode(geometry: HourText)
