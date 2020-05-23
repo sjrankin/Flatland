@@ -134,8 +134,8 @@ extension GlobeView
         
         let SphereHalo = SCNSphere(radius: 0.40)
         HomeNodeHalo = SCNNode(geometry: SphereHalo)
-        HomeNodeHalo?.geometry?.firstMaterial?.diffuse.contents = UIColor.white.withAlphaComponent(0.1)
-        HomeNodeHalo?.geometry?.firstMaterial?.emission.contents = UIColor.yellow.withAlphaComponent(0.1)
+        HomeNodeHalo?.geometry?.firstMaterial?.diffuse.contents = UIColor.white.withAlphaComponent(0.2)
+        HomeNodeHalo?.geometry?.firstMaterial?.emission.contents = UIColor.yellow.withAlphaComponent(0.2)
         HomeNodeHalo?.position = SCNVector3(X, Y, Z)
         HomeNodeHalo?.castsShadow = false
         
@@ -514,7 +514,7 @@ extension GlobeView
                     
                     case .Pulsate:
                         PlotPulsatingHome(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
-                                          ToSurface: Surface, WithColor: UIColor.systemTeal)
+                                          ToSurface: Surface, WithColor: UIColor.systemBlue)
                 }
             }
         }
