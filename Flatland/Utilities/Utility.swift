@@ -915,4 +915,26 @@ class Utility
         }
         return nil
     }
+    
+    /// Resizes a UIImage such that the longest dimension of the returned image is `Longest`.
+    /// - Parameter Image: The image to resize.
+    /// - Parameter Longest: The new longest dimension.
+    /// - Returns: Resized image. If the longest dimension of the original image is less than `Longest`, the
+    ///            original image is returned unchanged.
+    public static func ResizeImage(Image: UIImage, Longest: CGFloat) -> UIImage
+    {
+        let ImageMax = max(Image.size.width, Image.size.height)
+        let Ratio = Longest / ImageMax
+        if Ratio >= 1.0
+        {
+            return Image
+        }
+        let NewSize = CGSize(width: Image.size.width * Ratio, height: Image.size.height * Ratio)
+        let Rect = CGRect(x: 0, y: 0, width: NewSize.width, height: NewSize.height)
+        UIGraphicsBeginImageContextWithOptions(NewSize, false, 1.0)
+        Image.draw(in: Rect)
+        let NewImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return NewImage!
+    }
 }
