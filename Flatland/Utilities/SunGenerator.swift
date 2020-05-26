@@ -126,6 +126,16 @@ class SunGenerator
     func SunImage(WithStrength: Float? = nil, LinearStrength: Bool? = nil, UseColor: UIColor? = nil,
                   WithRadius: Float? = nil) -> UIImage
     {
+        let SunName = Settings.GetImageCenter() == .NorthPole ? "SunY" : "SunX"
+        var SunImage = UIImage(named: SunName)
+        SunImage = Utility.ResizeImage(Image: SunImage!, Longest: 100)
+        #if false
+        VariableView?.layer.shadowOffset = .zero
+        VariableView?.layer.shadowColor = UIColor.yellow.cgColor
+        VariableView?.layer.shadowRadius = 20.0
+        VariableView?.layer.shadowOpacity = 1.0
+        #endif
+        return SunImage!
         #if targetEnvironment(simulator)
         //This is needed due to a simulator bug that crashes when retrieving the results from
         //the sunbeamsGenerator filter.
