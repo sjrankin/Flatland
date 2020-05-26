@@ -72,7 +72,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         //        let ContextMenu = UIContextMenuInteraction(delegate: self)
         //        TopView.addInteraction(ContextMenu)
         
-        #if true
+        #if false
         let Rotation = CABasicAnimation(keyPath: "transform.rotation.z")
         Rotation.delegate = self
         Rotation.fromValue = NSNumber(floatLiteral: 0.0)
