@@ -19,7 +19,6 @@ extension MainView
         NightMaskView.isHidden = !FlatIsVisible
         WorldViewer.isHidden = !FlatIsVisible
         GridOverlay.isHidden = !FlatIsVisible
-        ArcLayer.isHidden = !FlatIsVisible
         HourLayer2D.isHidden = !FlatIsVisible
         HourLayer2D.backgroundColor = UIColor.clear
         Show2DHours()
@@ -78,6 +77,12 @@ extension MainView
     func GetNightMask(ForDate: Date) -> UIImage?
     {
         let ImageName = MakeNightMaskName(From: ForDate)
+        #if false
+        if let CachedMask = NightMaskCache[ImageName]
+        {
+            return CachedMask
+        }
+        #endif
         var MaskAlpha = Settings.NightMaskAlpha()
         if MaskAlpha == 0.0
         {
@@ -86,9 +91,11 @@ extension MainView
         }
         let MaskImage = UIImage(named: ImageName)!
         let Final = MaskImage.Alpha(CGFloat(MaskAlpha))
+        NightMaskCache[ImageName] = Final
         return Final
     }
     
+    /// Show hours for the 2D view. The hour style is determined by user settings.
     func Show2DHours()
     {
         if Settings.GetViewType() == .Globe3D || Settings.GetViewType() == .CubicWorld
@@ -522,6 +529,7 @@ extension MainView
         return CGPoint(x: X, y: Y)
     }
     
+    /// Hide cities by removing the city layer.
     func HideCities()
     {
         if CityLayer != nil
