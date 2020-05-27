@@ -128,11 +128,12 @@ class AboutView: UIViewController, UIPopoverPresentationControllerDelegate
     
     func StartEarthClock()
     {
-        let _ = Timer.scheduledTimer(timeInterval: 1.0,
-                                     target: self,
-                                     selector: #selector(UpdateAboutEarth),
-                                     userInfo: nil,
-                                     repeats: true)
+        let SomeTimer = Timer.scheduledTimer(timeInterval: 1.0,
+                                             target: self,
+                                             selector: #selector(UpdateAboutEarth),
+                                             userInfo: nil,
+                                             repeats: true)
+        SomeTimer.tolerance = 0.1
     }
     
     @objc func UpdateAboutEarth()
