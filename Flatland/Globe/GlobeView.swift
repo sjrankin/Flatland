@@ -172,6 +172,8 @@ class GlobeView: SCNView, GlobeProtocol
     {
         EarthClock = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateEarthView),
                                           userInfo: nil, repeats: true)
+        EarthClock?.tolerance = 0.1
+        RunLoop.current.add(EarthClock!, forMode: .common)
     }
     
     var EarthClock: Timer? = nil
