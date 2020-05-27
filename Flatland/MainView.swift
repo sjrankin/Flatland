@@ -22,6 +22,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        Thread.current.name = "Main UI Thread"
         Settings.Initialize()
         FileIO.InitializeDirectory()
         
@@ -53,9 +54,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
             ViewTypeSegment.selectedSegmentIndex = 2
         }
         
-        DataStack.layer.borderColor = UIColor.white.cgColor
-        ArcLayer.backgroundColor = UIColor.clear
-        ArcLayer.layer.zPosition = 50000
         TopView.backgroundColor = UIColor.black
         SettingsDone()
         TopSun?.VariableSunImage(Using: SunViewTop, Interval: 0.1)
@@ -68,9 +66,9 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
                                               selector: #selector(UpdateLocalData),
                                               userInfo: nil,
                                               repeats: true)
-        
-        //        let ContextMenu = UIContextMenuInteraction(delegate: self)
-        //        TopView.addInteraction(ContextMenu)
+        //https://www.raywenderlich.com/113835-ios-timer-tutorial
+        RunLoop.current.add(LocalDataTimer!, forMode: .common)
+        LocalDataTimer?.tolerance = 0.1
         
         #if false
         let Rotation = CABasicAnimation(keyPath: "transform.rotation.z")
@@ -95,13 +93,17 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         ElapsedRuntime.isHidden = false
         ElapsedRuntime.font = UIFont.monospacedSystemFont(ofSize: 18.0, weight: .semibold)
         ElapsedRuntime.textColor = UIColor.white
-        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateElapsedTime), userInfo: nil, repeats: true)
+        let ETimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateElapsedTime), userInfo: nil, repeats: true)
+        RunLoop.current.add(ETimer, forMode: .common)
+        ETimer.tolerance = 0.1
         #else
         ElapsedRuntime.isHidden = true
         #endif
         
         #if DEBUG
-        let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ThermalChecker), userInfo: nil, repeats: true)
+        TemperatureStatus.isHidden = false
+        let TempTimer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(ThermalChecker), userInfo: nil, repeats: true)
+        TempTimer.tolerance = 0.5
         #else
         TemperatureStatus.isHidden = true
         #endif
@@ -157,6 +159,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         ElapsedRuntime.text = "\(FinalHours)\(FinalMinutes):\(FinalSeconds)"
     }
     
+    /// Given the darkness of the app, have the status bar in a lighter color.
     override var preferredStatusBarStyle: UIStatusBarStyle
     {
         return .lightContent
@@ -316,6 +319,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
         
         let CenterPole = Settings.GetImageCenter()
         var ProvisionalImage = UIImage()
+        print("Getting map image")
         ProvisionalImage = MapManager.ImageFor(MapType: Settings.GetFlatlandMapType(), ViewType: .FlatMap, ImageCenter: CenterPole)!
         WorldViewer.image = ProvisionalImage
         
@@ -866,6 +870,7 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
     static var UnescoInitialized = false
     static var UnescoHandle: OpaquePointer? = nil
     var WorldHeritageSites: [WorldHeritageSite]? = nil
+    var NightMaskCache = [String: UIImage]()
     
     // MARK: - Interface builder outlets.
     
@@ -884,7 +889,6 @@ class MainView: UIViewController, CAAnimationDelegate, SettingsProtocol, MainPro
     @IBOutlet weak var LocalSecondsLabel: UILabel!
     @IBOutlet weak var NoonTimezoneLabel: UILabel!
     @IBOutlet weak var DataStack: UIStackView!
-    @IBOutlet weak var ArcLayer: UIView!
     @IBOutlet weak var SettingsButton: UIButton!
     @IBOutlet weak var GridOverlay: UIView!
     @IBOutlet weak var SunViewTop: UIImageView!
