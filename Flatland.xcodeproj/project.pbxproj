@@ -140,7 +140,6 @@
 		1792BD8A2430540A006ABD02 /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD892430540A006ABD02 /* Miscellaneous.swift */; };
 		1792BD9424306EC5006ABD02 /* CitiesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792BD9324306EC5006ABD02 /* CitiesData.swift */; };
 		17AC32AE244D3CF800CDA5F3 /* Keypad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17AC32AD244D3CF800CDA5F3 /* Keypad.storyboard */; };
-		17ADB45C243D636E002E5F88 /* +ArcLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ADB45B243D636E002E5F88 /* +ArcLayer.swift */; };
 		17ADB45E243D651A002E5F88 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ADB45D243D651A002E5F88 /* Extensions.swift */; };
 		17AE7F3E245D03120011160F /* SolarCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AE7F3D245D03120011160F /* SolarCalculator.swift */; };
 		17AE7F42245D8E290011160F /* JupiterNorthCenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 17AE7F3F245D8E270011160F /* JupiterNorthCenter.png */; };
@@ -347,7 +346,6 @@
 		1792BD892430540A006ABD02 /* Miscellaneous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Miscellaneous.swift; sourceTree = "<group>"; };
 		1792BD9324306EC5006ABD02 /* CitiesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesData.swift; sourceTree = "<group>"; };
 		17AC32AD244D3CF800CDA5F3 /* Keypad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Keypad.storyboard; sourceTree = "<group>"; };
-		17ADB45B243D636E002E5F88 /* +ArcLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ArcLayer.swift"; sourceTree = "<group>"; };
 		17ADB45D243D651A002E5F88 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		17AE7F3D245D03120011160F /* SolarCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarCalculator.swift; sourceTree = "<group>"; };
 		17AE7F3F245D8E270011160F /* JupiterNorthCenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = JupiterNorthCenter.png; sourceTree = "<group>"; };
@@ -495,7 +493,6 @@
 			isa = PBXGroup;
 			children = (
 				17EF546D2439921B005B036C /* +DrawGrid.swift */,
-				17ADB45B243D636E002E5F88 /* +ArcLayer.swift */,
 				17DD58FB244AD57500DCCBF8 /* +ContextMenu.swift */,
 				173409AC246D069300E15563 /* +MenuHandler.swift */,
 				175A600224726F1300CBF2F9 /* +MoreLocations.swift */,
@@ -999,7 +996,6 @@
 				175A5FFD24722A9F00CBF2F9 /* LocationCell2.swift in Sources */,
 				17026472244C202F00DEE96A /* MapManager.swift in Sources */,
 				173A9263242F32E100363576 /* SingleTask.swift in Sources */,
-				17ADB45C243D636E002E5F88 /* +ArcLayer.swift in Sources */,
 				17D825112448547D00323C1D /* MapSettings.swift in Sources */,
 				175A5FFF24722D6B00CBF2F9 /* EditLocation2.swift in Sources */,
 				1717F4EE2457F69B00C7F263 /* SCNStar.swift in Sources */,
