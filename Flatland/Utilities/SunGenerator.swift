@@ -137,6 +137,7 @@ class SunGenerator
         #endif
         return SunImage!
         #if targetEnvironment(simulator)
+        /*
         //This is needed due to a simulator bug that crashes when retrieving the results from
         //the sunbeamsGenerator filter.
         var SunImage = UIImage(named: "SunPlaceHolder")
@@ -212,6 +213,7 @@ class SunGenerator
             }
         }
         fatalError("Error creating sunbeams.")
+         */
         #endif
     }
     
